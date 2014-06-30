@@ -1,6 +1,5 @@
 (add-to-list 'load-path "~/.emacs.d/")
 
-<<<<<<< HEAD
 ;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
  (set-frame-parameter (selected-frame) 'alpha '(85 50))
  (add-to-list 'default-frame-alist '(alpha 85 50))
@@ -20,8 +19,6 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-=======
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
 (setq auto-save-default nil) ; Don't want any auto saving
@@ -31,19 +28,12 @@
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-<<<<<<< HEAD
 (scroll-bar-mode -1)
-=======
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
 
 (add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
 
 (setq org-todo-keywords
-<<<<<<< HEAD
 '((sequence "TODO" "FEEDBACK" "VERIFY" "FREEZING" "|" "DONE" "DELEGATED")))
-=======
-'((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
 
 (require 'linum+)
 (setq linum-format "%d ")
@@ -98,41 +88,22 @@
 
 (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
-<<<<<<< HEAD
-=======
-(require 'sr-speedbar)
-(global-set-key (kbd "<f2>") 'sr-speedbar-toggle)
-
-(require 'bs)
-(setq bs-configurations
-'(("files" "^\\*scratch\\*" nil nil bs-visits-non-file bs-sort-buffer-interns-are-last)))
-
-(global-set-key (kbd "<f1>") 'bs-show)
-
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes") 
 (load-theme 'spolsky t)
 
 ;; Interactively Do Things (highly recommended, but not strictly required)
        (require 'ido)
        (ido-mode t)
-<<<<<<< HEAD
 
-=======
-     
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
        ;; Rinari
        (add-to-list 'load-path "~/.emacs.d/rinari")
        (require 'rinari)
 
 ;;; This was installed by package-install.el. ;;; Move this code earlier if you want to reference packages in your .emacs. (when (load (expand-file-name "~/.emacs.d/elpa/package.el")) (package-initialize)) 
-<<<<<<< HEAD
 ;; use more repositories for elpa (setq package-archives '(("elpa" . "http://tromey.com/elpa/") ("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-select-keys nil) 
-=======
 
 ;; use more repositories for elpa (setq package-archives '(("elpa" . "http://tromey.com/elpa/") ("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/")))
->>>>>>> 58a6a76032836e82a5f72d1f889e91ce1b7b04ee
