@@ -56,10 +56,10 @@
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete-1.3.1/dict")
 
+;; =========================== Keybinding  ==================================
+
 (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
 (require 'ergoemacs-mode)
-
-;; =========================== Keybinding  ==================================
 
 (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
