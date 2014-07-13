@@ -1,8 +1,10 @@
+;; =========================== Interface  ==================================
+
 (add-to-list 'load-path "~/.emacs.d/")
 
 ;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
- (set-frame-parameter (selected-frame) 'alpha '(85 50))
- (add-to-list 'default-frame-alist '(alpha 85 50))
+(set-frame-parameter (selected-frame) 'alpha '(85 50))
+(add-to-list 'default-frame-alist '(alpha 85 50))
 
 (setq file-name-coding-system 'utf-8) 
 (fset 'yes-or-no-p 'y-or-n-p) 
@@ -13,11 +15,6 @@
 
 (custom-set-variables
  '(initial-frame-alist (quote ((fullscreen . maximized)))))
-
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -30,10 +27,16 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes") 
+(load-theme 'spolsky t)
 
+;; =========================== Org mode  ==================================
+
+(add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
 (setq org-todo-keywords
 '((sequence "TODO" "FEEDBACK" "VERIFY" "FREEZING" "|" "DONE" "DELEGATED")))
+
+;; =========================== Features  ==================================
 
 (require 'linum+)
 (setq linum-format "%d ")
@@ -43,6 +46,11 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
 (add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
 (require 'auto-complete-config)
 (ac-config-default)
@@ -50,6 +58,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
 (require 'ergoemacs-mode)
+
+;; =========================== Keybinding  ==================================
 
 (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
@@ -74,6 +84,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; =========================== Snippets  ==================================
+
 (add-to-list 'load-path
               "~/.emacs.d/yasnippet")
 (require 'yasnippet)
@@ -88,22 +100,49 @@
 
 (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes") 
-(load-theme 'spolsky t)
+
+;; =========================== Packages  ==================================
+
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil 'noerror)
+ (with-current-buffer
+     (url-retrieve-synchronously
+      "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+   (goto-char (point-max))
+   (eval-print-last-sexp)))
+(setq el-get-sources '(multiple-cursors json scss-mode coffee-mode web-mode auto-complete-css))
+
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+(el-get 'sync)
+
+;; =========================== Rails  ==================================
 
 ;; Interactively Do Things (highly recommended, but not strictly required)
-       (require 'ido)
-       (ido-mode t)
+(require 'ido)
+(ido-mode t)
 
-       ;; Rinari
-       (add-to-list 'load-path "~/.emacs.d/rinari")
-       (require 'rinari)
+;; Rinari
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
 
-;;; This was installed by package-install.el. ;;; Move this code earlier if you want to reference packages in your .emacs. (when (load (expand-file-name "~/.emacs.d/elpa/package.el")) (package-initialize)) 
-;; use more repositories for elpa (setq package-archives '(("elpa" . "http://tromey.com/elpa/") ("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/")))
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.eco\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jst\\.eco\\'" . web-mode))
 
-(require 'epa-file)
-(epa-file-enable)
-(setq epa-file-select-keys nil) 
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist
+            '("\\.coffee$" . rinari-minor-mode)
+            '("\\.coffee$" . coffee-mode)
+            )
 
-;; use more repositories for elpa (setq package-archives '(("elpa" . "http://tromey.com/elpa/") ("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/")))
+(eval-after-load "coffee-mode"
+ '(progn
+    (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
+    (define-key coffee-mode-map (kbd "C-j") 'coffee-newline-and-indent)))
+
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
+;; ====================== To be continued... ==========================
+
