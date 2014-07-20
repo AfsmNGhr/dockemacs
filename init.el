@@ -2,19 +2,47 @@
 
 (add-to-list 'load-path "~/.emacs.d/")
 
-;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
-(set-frame-parameter (selected-frame) 'alpha '(85 50))
-(add-to-list 'default-frame-alist '(alpha 85 50))
+;; ;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
+;; (set-frame-parameter (selected-frame) 'alpha '(90 50))
+;; (add-to-list 'default-frame-alist '(alpha 90 50))
 
 (setq file-name-coding-system 'utf-8) 
 (fset 'yes-or-no-p 'y-or-n-p) 
 (setq display-time-interval 1)
-(setq display-time-format "%H:%M:%S")
+(setq display-time-format "%H:%M")
 (display-time-mode)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
+(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
+
+(setq ascii-logo "")
 
 (custom-set-variables
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
+ '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
+ '(ergoemacs-keyboard-layout "us")
+ '(ergoemacs-mode-used "5.13.12-3")
+ '(ergoemacs-smart-paste nil)
+ '(ergoemacs-theme 1)
+ '(ergoemacs-use-menus t)
+ '(gnutls-min-prime-bits 1024)
+ '(initial-buffer-choice t)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(initial-scratch-message (concat "" ascii-logo "")))
+
+(defun toggle-fullscreen (&optional f)
+ii  (interactive)
+  (let ((current-value (frame-parameter nil 'fullscreen)))
+    (set-frame-parameter nil 'fullscreen
+      (if (equal 'fullboth current-value)
+        (if (boundp 'old-fullscreen) old-fullscreen nil)
+        (progn (setq old-fullscreen current-value)
+          'fullboth)))))
+(global-set-key [s-f1] 'toggle-fullscreen)
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -34,7 +62,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
 (setq org-todo-keywords
-'((sequence "TODO" "FEEDBACK" "VERIFY" "FREEZING" "|" "DONE" "DELEGATED")))
+'((sequence "TODO" "|" "DONE" "|" "FEEDBACK" "VERIFY" "FREEZING" )))
 
 ;; =========================== Features  ==================================
 
@@ -51,10 +79,21 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-(add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete-1.3.1/dict")
+(add-to-list 'load-path "~/.emacs.d/multiple-cursors")
+(require 'multiple-cursors)
+(global-set-key (kbd "C-x C-m") 'mc/edit-lines)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+
+(require 'autopair)
+(autopair-global-mode) ;; enable autopair in all buffers
+
+;; =========================== Commands  ==================================
+
+(require 'smex)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; =========================== Keybinding  ==================================
 
@@ -65,18 +104,6 @@
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 (ergoemacs-mode 1)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
- '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
- '(ergoemacs-keyboard-layout "us")
- '(ergoemacs-mode-used "5.13.12-3")
- '(ergoemacs-smart-paste nil)
- '(ergoemacs-theme nil)
- '(ergoemacs-use-menus t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -88,6 +115,7 @@
 
 (add-to-list 'load-path
               "~/.emacs.d/yasnippet")
+
 (require 'yasnippet)
 (yas-global-mode 1)
 
@@ -100,49 +128,99 @@
 
 (yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 
-
-;; =========================== Packages  ==================================
-
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(unless (require 'el-get nil 'noerror)
- (with-current-buffer
-     (url-retrieve-synchronously
-      "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-   (goto-char (point-max))
-   (eval-print-last-sexp)))
-(setq el-get-sources '(multiple-cursors json scss-mode coffee-mode web-mode auto-complete-css))
-
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
-
 ;; =========================== Rails  ==================================
+
+(require 'rvm)
+(rvm-use-default)
+
+(add-to-list 'load-path "~/.emacs.d/robe")
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+
+(add-to-list 'load-path "~/.emacs.d/enhanced-ruby-mode") ; must be added after any path containing old ruby-mode
+(autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+(add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+
+(setq enh-ruby-program "~/.rvm/rubies/ruby-2.1.2/bin/ruby") 
+
+;; =========================== Rinary  ==================================
 
 ;; Interactively Do Things (highly recommended, but not strictly required)
 (require 'ido)
 (ido-mode t)
 
-;; Rinari
 (add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
+(global-rinari-mode)
 
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.eco\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jst\\.eco\\'" . web-mode))
+(setf
+ my-rinari-jump-schema
+ '((my-stylesheet "y" ((t . "app/assets/stylesheets/.*")) nil)
+   (my-javascript "j" ((t . "app/assets/javascripts/.*")) nil)
+   (my-spine-application "a" ((t . "app/assets/javascripts/app/.*\\.js\\.coffee")) nil)
+   (my-spine-lib "l" ((t . "app/assets/javascripts/app/lib/.*")) nil)
+   (my-spine-model "m" ((t . "app/assets/javascripts/app/models/.*")) nil)
+   (my-spine-view "v" ((t . "app/assets/javascripts/app/views/.*")) nil)
+   (my-soine-index "r" ((t . "app/assets/javascripts/app/.*")) nil)
+))
 
+(rinari-apply-jump-schema my-rinari-jump-schema)
+
+(define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
+(define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
+(define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
+(define-key rinari-minor-mode-map (kbd "C-c o") 'rinari-find-configuration)
+(define-key rinari-minor-mode-map (kbd "C-c a") 'rinari-find-application)
+(define-key rinari-minor-mode-map (kbd "C-c e") 'rinari-find-environment)
+(define-key rinari-minor-mode-map (kbd "C-c h") 'rinari-find-helper)
+(define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
+(define-key rinari-minor-mode-map (kbd "C-c i") 'rinari-find-migration)
+(define-key rinari-minor-mode-map (kbd "C-c l") 'rinari-find-lib)
+;; (define-key rinari-minor-mode-map (kbd "C-c r") 'rinari-find-my-request-rspec)
+;; (define-key rinari-minor-mode-map (kbd "C-c t") 'rinari-find-my-rspec)
+;; (define-key rinari-minor-mode-map (kbd "C-c f") 'rinari-find-my-fabrication) 
+(define-key rinari-minor-mode-map (kbd "C-c y") 'rinari-find-my-stylesheet)
+;; (define-key rinari-minor-mode-map (kbd "C-c d") 'rinari-find-my-decorator)
+(define-key rinari-minor-mode-map (kbd "C-c j") 'rinari-find-my-javascript)
+(define-key rinari-minor-mode-map (kbd "C-c C-c a") 'rinari-find-my-spine-application)
+(define-key rinari-minor-mode-map (kbd "C-c C-c m") 'rinari-find-my-spine-model)
+(define-key rinari-minor-mode-map (kbd "C-c C-c r") 'rinari-find-my-spine-index)
+(define-key rinari-minor-mode-map (kbd "C-c C-c v") 'rinari-find-my-spine-view)
+(define-key rinari-minor-mode-map (kbd "C-c C-c l") 'rinari-find-my-spine-lib)
+(define-key rinari-minor-mode-map (kbd "C-l x") 'rinari-extract-partial)
+(define-key rinari-minor-mode-map (kbd "C-l c") 'rinari-console)
+(define-key rinari-minor-mode-map (kbd "C-l s") 'rinari-web-server)
+(define-key rinari-minor-mode-map (kbd "C-l r") 'rinari-web-server-restart)
+(define-key rinari-minor-mode-map (kbd "C-l p") 'rinari-cap)
+
+(defun my-find-gemfile ()
+  (interactive)
+  (find-file (concat (rinari-root) "Gemfile")))
+(define-key rinari-minor-mode-map (kbd "C-c g") 'my-find-gemfile)
+
+;; =========================== Templates...  ==================================
+
+(require 'slim-mode)
+(require 'json-mode)
+
+(add-to-list 'load-path "~/.emacs.d/js2-mode")
+(require 'js2-mode)
+
+(add-to-list 'load-path "~/.emacs.d/coffee-mode")
 (require 'coffee-mode)
 (add-to-list 'auto-mode-alist
             '("\\.coffee$" . rinari-minor-mode)
-            '("\\.coffee$" . coffee-mode)
-            )
+            '("\\.coffee$" . coffee-mode))
 
 (eval-after-load "coffee-mode"
  '(progn
     (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
     (define-key coffee-mode-map (kbd "C-j") 'coffee-newline-and-indent)))
 
-(autoload 'scss-mode "scss-mode")
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(add-to-list 'load-path "~/.emacs.d/rhtml")
+(require 'rhtml-mode)
+(add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
 
 ;; ====================== To be continued... ==========================
 
