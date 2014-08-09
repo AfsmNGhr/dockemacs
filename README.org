@@ -13,17 +13,17 @@
 - IDO
 - Multiple cursors
 - Autopair
-**** Commands
+***** Commands
 - Smex
-**** Remote
+***** Remote
 - Tramp
-**** GPG
+***** GPG
 - Epa-file
-**** Bookmark
+***** Bookmark
 - Bookmark
-**** Snippets 
+***** Snippets 
 - Yasnippet
-**** Rails 
+***** Rails 
 - Rvm
 - Rinari
 - Robe
