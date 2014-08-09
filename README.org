@@ -1,7 +1,7 @@
 *** My emacs config
 **** Customize interface
 - STE themes
-- Logo (working)
+- Logo (in working)
 - Time
 - Maximazed on start
 - Delete bars (menu, scroll, tools)
@@ -11,11 +11,16 @@
 **** Features
 - Linum+
 - IDO
-- Recentf
 - Multiple cursors
 - Autopair
 **** Commands
 - Smex
+**** Remote
+- Tramp
+**** GPG
+- Epa-file
+**** Bookmark
+- Bookmark
 **** Snippets 
 - Yasnippet
 **** Rails 
@@ -25,7 +30,6 @@
 - Enh-ruby-mode
 ***** Templates
 - Slim-mode 
-- Json-mode
 - Coffee-mode
 - Rtml-mode
 - Js2-mode
