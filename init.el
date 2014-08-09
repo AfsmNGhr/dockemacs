@@ -15,13 +15,13 @@
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
 
-(setq ascii-logo "")
+(setq ascii-logo " ")
 
 (custom-set-variables
 '(gnutls-min-prime-bits 1024)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(initial-scratch-message (concat "" ascii-logo "")))
+ '(initial-scratch-message (concat "/n" ascii-logo "/n")))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -48,7 +48,12 @@
 (add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
 (setq org-todo-keywords
 '((sequence "TODO" "|" "DONE" "|" "FEEDBACK" "VERIFY" "FREEZING" )))
- (setq epa-file-cache-passphrase-for-symmetric-encryption t) 
+
+;; =========================== GPG ... ==================================
+
+(require 'epa-file)
+(epa-file-enable)
+(setq epa-file-cache-passphrase-for-symmetric-encryption t) 
 
 ;; =========================== Features  ==================================
 
@@ -129,16 +134,9 @@
 
 ;; =========================== Bookmark  ==================================
 
-(add-to-list 'load-path "~/.emacs.d/breadcrumb")
-(require 'breadcrumb)
-
-;; (global-set-key (kbd "M-c")         'bc-set)           
-;; (global-set-key (kbd "menu-u")              'bc-previous)      
-;; (global-set-key (kbd "menu-o")        'bc-next)           
-;; (global-set-key (kbd "menu-u")            'bc-local-previous) 
-;; (global-set-key (kbd "menu-l")         'bc-local-next)     
-;; (global-set-key (kbd "C-menu")       'bc-goto-current)  
-;; (global-set-key (kbd "s-SPC")   'bc-list) 
+(global-set-key (kbd "`")         'bookmark-jump)           
+(global-set-key (kbd "C-x v")         'bookmark-set)
+(global-set-key (kbd "s-SPC")         'bookmark-save)
 
 ;; =========================== Snippets  ==================================
 
@@ -253,4 +251,3 @@
 (add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
 
 ;; ====================== To be continued... ==========================
-
