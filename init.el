@@ -6,22 +6,41 @@
 ;; (set-frame-parameter (selected-frame) 'alpha '(90 50))
 ;; (add-to-list 'default-frame-alist '(alpha 90 50))
 
-(setq file-name-coding-system 'utf-8) 
-(fset 'yes-or-no-p 'y-or-n-p) 
+(setq file-name-coding-system 'utf-8)
+(fset 'yes-or-no-p 'y-or-n-p)
 (setq display-time-interval 1)
 (setq display-time-format "%H:%M")
 (display-time-mode)
 (setq-default tab-width 2)
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
-
-(setq ascii-logo " ")
+(setq inhibit-startup-message t)
 
 (custom-set-variables
-'(gnutls-min-prime-bits 1024)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(delete-selection-mode t)
+ '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
+ '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
+ '(ergoemacs-keyboard-layout "us")
+ '(ergoemacs-smart-paste nil)
+ '(ergoemacs-use-menus t)
+ '(global-whitespace-mode t)
+ '(gnutls-min-prime-bits 1024)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(initial-scratch-message (concat "/n" ascii-logo "/n")))
+ '(initial-scratch-message ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with [Ctrl+O],
+;; then enter the text in that file's own buffer.")
+ '(org-CUA-compatible nil)
+ '(recentf-menu-before nil)
+ '(recentf-mode t)
+ '(reverse-input-method russian-computer)
+ '(shift-select-mode nil)
+ '(smex-prompt-string "[Alt+A] ")
+ '(whitespace-style (quote (face lines-tail))))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -34,7 +53,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes") 
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky t)
 
 ;; =========================== Remote ==================================
@@ -42,6 +61,11 @@
 (require 'tramp)
 (setq-default tramp-persistency-file-name nil)
 (setq-default tramp-default-method "sshx")
+(tramp-set-completion-function "ssh"
+                               '((tramp-parse-sconfig "/etc/ssh_config")
+                                 (tramp-parse-sconfig "~/.ssh/config")))
+(tramp-parse-shostkeys "/etc/ssh2/hostkeys/*")
+(tramp-parse-shostkeys "~/.ssh2/hostkeys/*")
 
 ;; =========================== Org mode  ==================================
 
@@ -53,7 +77,7 @@
 
 (require 'epa-file)
 (epa-file-enable)
-(setq epa-file-cache-passphrase-for-symmetric-encryption t) 
+(setq epa-file-cache-passphrase-for-symmetric-encryption t)
 
 ;; =========================== Features  ==================================
 
@@ -90,20 +114,12 @@
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 (ergoemacs-mode 1)
 
-(custom-set-variables
- '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
- '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
- '(ergoemacs-keyboard-layout "us")
- '(ergoemacs-smart-paste nil)
- '(ergoemacs-use-menus t)
- )
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."
@@ -134,7 +150,7 @@
 
 ;; =========================== Bookmark  ==================================
 
-(global-set-key (kbd "`")         'bookmark-jump)           
+(global-set-key (kbd "`")         'bookmark-jump)
 (global-set-key (kbd "C-x v")         'bookmark-set)
 (global-set-key (kbd "s-SPC")         'bookmark-save)
 
@@ -167,12 +183,12 @@
 (add-hook 'ruby-mode-hook 'robe-mode)
 (add-hook 'robe-mode-hook 'ac-robe-setup)
 
-(add-to-list 'load-path "~/.emacs.d/enhanced-ruby-mode") ; must be added after any path containing old ruby-mode
+(add-to-list 'load-path "~/.emacs.d/enhanced-ruby-mode")
 (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
 (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
-(setq enh-ruby-program "~/.rvm/rubies/ruby-1.9.3-p547/bin/ruby") 
+(setq enh-ruby-program "~/.rvm/rubies/ruby-1.9.3-p547/bin/ruby")
 
 ;; =========================== Rinary  ==================================
 
@@ -209,7 +225,7 @@
 (define-key rinari-minor-mode-map (kbd "C-c l") 'rinari-find-lib)
 (define-key rinari-minor-mode-map (kbd "C-c r") 'rinari-find-my-request-rspec)
 (define-key rinari-minor-mode-map (kbd "C-c t") 'rinari-find-my-rspec)
-(define-key rinari-minor-mode-map (kbd "C-c f") 'rinari-find-my-fabrication) 
+(define-key rinari-minor-mode-map (kbd "C-c f") 'rinari-find-my-fabrication)
 (define-key rinari-minor-mode-map (kbd "C-c y") 'rinari-find-my-stylesheet)
 (define-key rinari-minor-mode-map (kbd "C-c d") 'rinari-find-my-decorator)
 (define-key rinari-minor-mode-map (kbd "C-c j") 'rinari-find-my-javascript)
