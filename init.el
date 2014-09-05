@@ -17,10 +17,6 @@
 (setq inhibit-startup-message t)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
@@ -31,16 +27,14 @@
  '(gnutls-min-prime-bits 1024)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(initial-scratch-message ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
-;; If you want to create a file, visit that file with [Ctrl+O],
-;; then enter the text in that file's own buffer.")
+ '(initial-scratch-message " ")
  '(org-CUA-compatible nil)
- '(recentf-menu-before nil)
- '(recentf-mode t)
- '(reverse-input-method russian-computer)
  '(shift-select-mode nil)
- '(smex-prompt-string "[Alt+A] ")
+ '(smex-prompt-string "[Alt+A]")
  '(whitespace-style (quote (face lines-tail))))
+
+(custom-set-faces
+ '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -114,13 +108,6 @@
 (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 (ergoemacs-mode 1)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
-
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."
   (interactive
@@ -138,15 +125,18 @@
                       (cadr map) (char-to-string to) 1)))
           (when (and (characterp from) (characterp to))
             (dolist (mod modifiers)
-              (define-key local-function-key-map
+              (define-key (if mod input-decode-map local-function-key-map)
                 (vector (append mod (list from)))
                 (vector (append mod (list to)))))))))
     (when input-method
       (activate-input-method current))))
 
+
 (defadvice read-passwd (around my-read-passwd act)
   (let ((local-function-key-map nil))
     ad-do-it))
+
+(reverse-input-method 'russian-computer)
 
 ;; =========================== Bookmark  ==================================
 
@@ -209,6 +199,29 @@
    (my-spine-model "m" ((t . "app/assets/javascripts/app/models/.*")) nil)
    (my-spine-view "v" ((t . "app/assets/javascripts/app/views/.*")) nil)
    (my-soine-index "r" ((t . "app/assets/javascripts/app/.*")) nil)
+
+(my-fabrication "f" ((t . "spec/fabricators/.*")) nil)
+   (my-rspec
+    "t"
+    (("app/models/\\1.rb"                      . "spec/models/\\1_spec.rb")
+     ("app/controllers/\\1.rb"                 . "spec/controllers/\\1_spec.rb")
+     ("app/views/\\1\\..*"                     . "spec/views/\\1_spec.rb")
+     ("lib/\\1.rb"                             . "spec/libs/\\1_spec.rb")
+     ("db/migrate/.*_create_\\1.rb"            . "spec/models/\\1_spec.rb")
+     ("config/routes.rb"                       . "spec/routing/.*\\.rb")
+     (t                                        . "spec/.*\\.rb"))
+    t)
+
+(my-decorator
+    "d"
+    (("app/models/\\1.rb"                      . "app/decorators/\\1_decorator.rb")
+     ("app/controllers/\\1.rb"                 . "app/decorators/\\1_decorator.rb")
+     ("app/views/\\1\\..*"                     . "app/decorators/\\1_decorator.rb")
+     ("db/migrate/.*_create_\\1.rb"            . "app/decorators/\\1_decorator.rb")
+     (t                                        . "app/decorators/.*\\.rb"))
+    t)
+
+   (my-request-rspec "r" ((t . "spec/requests/.*")) nil)
 ))
 
 (rinari-apply-jump-schema my-rinari-jump-schema)
