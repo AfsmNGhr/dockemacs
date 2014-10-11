@@ -1,7 +1,6 @@
 *** My emacs config
 **** Customize interface
 - STE themes
-- Logo (in working)
 - Time
 - Maximazed on start
 - Delete bars (menu, scroll, tools)
@@ -13,24 +12,28 @@
 - IDO
 - Multiple cursors
 - Autopair
-***** Commands
+- Autocompete
 - Smex
-***** Remote
 - Tramp
-***** GPG
 - Epa-file
-***** Bookmark
 - Bookmark
-***** Snippets 
 - Yasnippet
-***** Rails 
+- El-get
+- Sudo (in progress)
+***** Ruby 
 - Rvm
 - Rinari
 - Robe
-- Enh-ruby-mode
+- Ruby-mode
+- Rubocop
+***** JS
+- Emacs.js
 ***** Templates
+- Css-mode
+- Sass-mode
+- Scss-mode
+- Rainbow-mode
 - Slim-mode 
 - Coffee-mode
 - Rtml-mode
-- Js2-mode
 **** To be continued... 

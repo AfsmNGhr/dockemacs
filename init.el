@@ -17,10 +17,6 @@
 (setq inhibit-startup-message t)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
@@ -37,10 +33,6 @@
  '(whitespace-style (quote (face lines-tail))))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (setq make-backup-files nil) ; Don't want any backup files
@@ -103,14 +95,6 @@
 (require 'ido-hacks)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
-
-;; (add-to-list 'load-path "~/emacs.d/flx")
-;; (require 'flx-ido)
-;; (ido-mode 1)
-;; (ido-everywhere 1)
-;; (flx-ido-mode 1)
-;; ;; disable ido faces to see flx highlights.
-;; (setq ido-use-faces nil)
 
 (add-to-list 'load-path "~/.emacs.d/multiple-cursors")
 (require 'multiple-cursors)
@@ -234,81 +218,63 @@ buffer is not visiting a file."
 
 ;; =========================== Packages  ==================================
 
-;; (require 'package)
-;; (add-to-list 'package-archives
-;;              '("marmalade" . "http://marmalade-repo.org/packages/") t)
-;; (package-initialize)
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
 
-;; (add-to-list 'load-path "~/.emacs.d/el-get")
+(add-to-list 'load-path "~/.emacs.d/el-get")
 
-;; (unless (require 'el-get nil 'noerror)
-;;   (with-current-buffer
-;;       (url-retrieve-synchronously
-;;        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-;;     (goto-char (point-max))
-;;     (eval-print-last-sexp)))
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 
-;; (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/recipes")
-;; (el-get 'sync)
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/recipes")
+(el-get 'sync)
 
-;; =========================== Rails  ==================================
+;; =========================== Ruby  ==================================
 
 (require 'rvm)
 (rvm-use-default)
 
-(add-to-list 'load-path "~/.emacs.d/enhanced-ruby-mode")
-(autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+(require 'flymake)
 
-(setq enh-ruby-program "~/.rvm/rubies/ruby-1.9.3-p547/bin/ruby")
+;; I don't like the default colors :)
+(set-face-background 'flymake-errline "red4")
+(set-face-background 'flymake-warnline "dark slate blue")
 
-;; =========================== Ruby  ====================================
+;; Invoke ruby with '-c' to get syntax checking
+(defun flymake-ruby-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+	 (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "ruby" (list "-c" local-file))))
 
-;; (require 'flymake)
+(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
 
-;; ;; I don't like the default colors :)
-;; (set-face-background 'flymake-errline "red4")
-;; (set-face-background 'flymake-warnline "dark slate blue")
+(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
-;; ;; Invoke ruby with '-c' to get syntax checking
-;; (defun flymake-ruby-init ()
-;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-;;                        'flymake-create-temp-inplace))
-;; 	 (local-file  (file-relative-name
-;;                        temp-file
-;;                        (file-name-directory buffer-file-name))))
-;;     (list "ruby" (list "-c" local-file))))
+(add-hook 'ruby-mode-hook
+          '(lambda ()
 
-;; (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-;; (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-
-;; (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
-
-;; (add-hook 'ruby-mode-hook
-;;           '(lambda ()
-
-;; 	     ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
-;; 	     (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
-;; 		 (flymake-mode))
-;; 	     ))
-
-;; (add-hook 'web-mode-hook
-;;           (lambda () (flyspell-prog-mode)))
-;; ;; flyspell mode breaks auto-complete mode without this.
-;; (ac-flyspell-workaround)
+	     ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
+	     (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+		 (flymake-mode))
+	     ))
 
 (require 'flyspell)
 (setq flyspell-issue-message-flg nil)
 (add-hook 'enh-ruby-mode-hook
           (lambda () (flyspell-prog-mode)))
 
-(add-hook 'ruby-mode-hook 'projectile-mode)
-(setq projectile-enable-caching t)
-
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
-(global-flyspell-mode)
 
 (require-package 'ruby-mode)
 (require-package 'ruby-hash-syntax)
@@ -317,33 +283,66 @@ buffer is not visiting a file."
                "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
                "\\.gemspec\\'" "Gemfile\\'")
 
-;; (add-to-list 'load-path "~/.emacs.d/robe")
-;; (require-package 'robe)
-;; ; для работы с rvm
-;; (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-;;    (rvm-activate-corresponding-ruby))
+(require-package 'robe)
+(add-hook 'ruby-mode-hook 'robe-mode)
+; для работы с rvm
+(defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+   (rvm-activate-corresponding-ruby))
 
-;; (after-load 'ruby-mode
-;;   (add-hook 'ruby-mode-hook 'robe-mode))
-;; (after-load 'robe
-;;   (add-hook 'robe-mode-hook 'ac-robe-setup))
-;;   (add-hook 'robe-mode-hook
-;;             (lambda ()
-;;               (add-to-list 'ac-sources 'ac-source-robe)
-;;               (set-auto-complete-as-completion-at-point-function)))
+(after-load 'robe
+  (add-hook 'robe-mode-hook 'ac-robe-setup))
+  (add-hook 'robe-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-robe)
+              (set-auto-complete-as-completion-at-point-function)))
 
-;; (setq rsense-home "$RSENSE_HOME")
-;; (add-to-list 'load-path (concat rsense-home "/etc"))
-;; (require 'rsense)
+;; =========================== JS  ==================================
 
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (local-set-key (kbd "C-c c") 'ac-complete-rsense)))
+(add-to-list 'load-path "~/.emacs.d/emacs.js")
+defconst +home-dir+ "~/.emacs")
+(defconst +emacs-dir+ (concat +home-dir+ "/emacs.js"))
+(defconst +emacs-profiles-dir+ (concat +emacs-dir+ "/profiles"))
+(defconst +emacs-lib-dir+ (concat +emacs-dir+ "/libs"))
+(defconst +emacs-conf-dir+ (concat +emacs-dir+ "/config"))
+(defconst +emacs-tmp-dir+ (concat +emacs-dir+ "/tmp"))
 
-;; (add-hook 'ruby-mode-hook
-;;          (lambda ()
-;;            (add-to-list 'ac-sources 'ac-source-rsense-method)
-;;            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
+;; new projects will be created under this directory
+(defconst +dev-dir+ (concat +home-dir+ "/dev"))
+
+(defun add-load-path (p)
+  (add-to-list 'load-path (concat +emacs-dir+ "/" p)))
+
+(defun add-lib-path (p)
+  (add-to-list 'load-path (concat +emacs-lib-dir+ "/" p)))
+
+(defun load-conf-file (f)
+  (load-file (concat +emacs-conf-dir+ "/" f ".el")))
+
+(defun load-lib-file (f)
+  (load-file (concat +emacs-lib-dir+ "/" f)))
+
+(defun load-profile (p)
+  (load-file (concat +emacs-profiles-dir+ "/" p ".el")))
+
+(defun load-customizations ()
+  (let ((filename (concat +emacs-dir+ "/custom.el")))
+    (if (file-readable-p filename)
+        (load-file filename))))
+
+(add-load-path "")
+(add-load-path "lib")
+
+(load-profile "default")
+(load-profile "js")
+(load-profile "coffee")
+(load-profile "golang")
+(load-profile "clojure")
+
+(load-customizations)
+
+;;(add-to-list 'command-switch-alist '("clojure" . (lambda (n) (load-profile "clojure"))))
+(add-to-list 'command-switch-alist '("ruby" . (lambda (n) (load-profile "ruby"))))
+;;(add-to-list 'command-switch-alist '("android" . (lambda (n) (load-profile "android"))))
 
 ;; =========================== Rinary  ==================================
 
@@ -425,13 +424,15 @@ buffer is not visiting a file."
 
 ;; =========================== Templates...  ==================================
 
-(autoload 'scss-mode "scss-mode")
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (require 'css-mode)
 (require 'sass-mode)
+(require 'scss-mode)
+(setq exec-path (cons (expand-file-name "~/.rvm/gems/ruby-1.9.3-p547/bin") exec-path))
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
 (require 'rainbow-mode)
-(global-rainbow-mode)
+(global-rainbow-mode 1)
 
 (require 'slim-mode)
 
