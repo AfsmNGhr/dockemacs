@@ -1,6 +1,6 @@
 ;; =========================== Interface  ==================================
 
-(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d")
 
 ;; ;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
 ;; (set-frame-parameter (selected-frame) 'alpha '(90 50))
@@ -17,6 +17,10 @@
 (setq inhibit-startup-message t)
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
@@ -24,61 +28,82 @@
  '(ergoemacs-smart-paste nil)
  '(ergoemacs-use-menus t)
  '(global-whitespace-mode t)
- '(gnutls-min-prime-bits 1024)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(initial-scratch-message nil)
  '(org-CUA-compatible nil)
+ '(org-replace-disputed-keys nil)
  '(shift-select-mode nil)
- '(smex-prompt-string "[Alt+A]")
+ '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
 (setq auto-save-default nil) ; Don't want any auto saving
 
+(delete-selection-mode t)
+(transient-mark-mode t)
+(setq x-select-enable-clipboard t)
+
 (setq show-paren-style 'expression)
 (show-paren-mode 1)
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+(when window-system
+  (setq frame-title-format '(buffer-file-name "%f" ("%b"))))
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spolsky t)
+(if window-system
+    (load-theme 'spolsky t)
+  (load-theme 'wombat t))
 
 ;; =========================== Remote ==================================
 
 (require 'tramp)
 (setq-default tramp-persistency-file-name nil)
-(setq-default tramp-default-method "sshx")
+(setq-default tramp-default-method "ssh2")
 (tramp-set-completion-function "ssh"
                                '((tramp-parse-sconfig "/etc/ssh_config")
                                  (tramp-parse-sconfig "~/.ssh/config")))
-(tramp-parse-shostkeys "/etc/ssh2/hostkeys/*")
-(tramp-parse-shostkeys "~/.ssh2/hostkeys/*")
+(setq password-cache-expiry nil)
+(setq tramp-debug-buffer t)
+(setq tramp-verbose 10)
 
 ;; =========================== Browser ==================================
 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "firefox-nightly")
-(global-set-key (kbd "C-x g") 'ergoemacs-lookup-google) 
+(global-set-key (kbd "C-x q") 'ergoemacs-lookup-google) 
 
-;; =========================== Org mode  ==================================
+;; =========================== Org mode ==================================
 
 (add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
-(setq org-todo-keywords
-'((sequence "TODO" "|" "DONE" "|" "FEEDBACK" "VERIFY" "FREEZING" )))
+(setq org-log-done t
+      org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
+      org-todo-keyword-faces '(("INPROGRESS" . (:foreground "DodgerBlue2" :weight bold))))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (flyspell-mode)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (writegood-mode)))
 
-;; =========================== GPG ... ==================================
+;; =========================== GPG ==================================
 
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-cache-passphrase-for-symmetric-encryption t)
 
-;; =========================== Features  ==================================
+;; =========================== Features ==================================.
 
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'auto-complete-config)
@@ -108,50 +133,35 @@
 
 ;; =========================== Sudo  ======================================
 
-(defun sudo-before-save-hook ()
-  (set (make-local-variable 'sudo:file) (buffer-file-name))
-  (when sudo:file
-    (unless(file-writable-p sudo:file)
-      (set (make-local-variable 'sudo:old-owner-uid) (nth 2 (file-attributes sudo:file)))
-      (when (numberp sudo:old-owner-uid)
-	(unless (= (user-uid) sudo:old-owner-uid)
-	  (when (y-or-n-p
-		 (format "File %s is owned by %s, save it with sudo? "
-			 (file-name-nondirectory sudo:file)
-			 (user-login-name sudo:old-owner-uid)))
-	    (sudo-chown-file (int-to-string (user-uid)) (sudo-quoting sudo:file))
-	    (add-hook 'after-save-hook
-		      (lambda ()
-			(sudo-chown-file (int-to-string sudo:old-owner-uid)
-					 (sudo-quoting sudo:file))
-			(if sudo-clear-password-always
-			    (sudo-kill-password-timeout)))
-		      nil   ;; not append
-		      t	    ;; buffer local hook
-		      )))))))
-
-(add-hook 'before-save-hook 'sudo-before-save-hook)
-
-(defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
-
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+;;(defun sudo-edit-current-file ()
+;; (interactive)
+;; (let ((my-file-name) ; fill this with the file to open
+;;       (position))    ; if the file is already open save position
+;;   (if (equal major-mode 'dired-mode) ; test if we are in dired-mode 
+;;       (progn
+;;         (setq my-file-name (dired-get-file-for-visit))
+;;         (find-alternate-file (prepare-tramp-sudo-string my-file-name)))
+;;     (setq my-file-name (buffer-file-name); hopefully anything else is an already opened file
+;;           position (point));
+;;     (find-alternate-file (prepare-tramp-sudo-string my-file-name))
+;;     (goto-char position))))
 
 
-(defadvice ido-find-file (after find-file-sudo activate)
-  "Find file as root if necessary."
-  (unless (and buffer-file-name
-               (file-writable-p buffer-file-name))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+;;(defun prepare-tramp-sudo-string (tempfile)
+;; (if (file-remote-p tempfile)
+;;     (let ((vec (tramp-dissect-file-name tempfile)))
 
-(global-set-key (kbd "C-x w") 'sudo-edit)
+;;       (tramp-make-tramp-file-name
+;;        "sudo"
+;;        (tramp-file-name-user nil)
+;;        (tramp-file-name-host vec)
+;;        (tramp-file-name-localname vec)
+;;        (format "ssh:%s@%s|"
+;;                (tramp-file-name-user vec)
+;;                (tramp-file-name-host vec))))
+;;   (concat "/sudo:root@localhost:" tempfile)))
+
+;;(define-key dired-mode-map [s-return] 'sudo-edit-current-file)
 
 ;; =========================== Commands  ==================================
 
@@ -186,9 +196,8 @@ buffer is not visiting a file."
               (define-key (if mod input-decode-map local-function-key-map)
                 (vector (append mod (list from)))
                 (vector (append mod (list to)))))))))
-    (when input-method
+    (when input-method 
       (activate-input-method current))))
-
 
 (defadvice read-passwd (around my-read-passwd act)
   (let ((local-function-key-map nil))
@@ -223,17 +232,17 @@ buffer is not visiting a file."
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/el-get")
+ (add-to-list 'load-path "~/.emacs.d/el-get")
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+ (unless (require 'el-get nil 'noerror)
+   (with-current-buffer
+       (url-retrieve-synchronously
+        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+     (goto-char (point-max))
+     (eval-print-last-sexp)))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/recipes")
-(el-get 'sync)
+ (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/recipes")
+ (el-get 'sync)
 
 ;; =========================== Ruby  ==================================
 
@@ -248,12 +257,12 @@ buffer is not visiting a file."
 
 ;; Invoke ruby with '-c' to get syntax checking
 (defun flymake-ruby-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
+ (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                      'flymake-create-temp-inplace))
 	 (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "ruby" (list "-c" local-file))))
+                      temp-file
+                      (file-name-directory buffer-file-name))))
+   (list "ruby" (list "-c" local-file))))
 
 (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
 (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
@@ -261,7 +270,7 @@ buffer is not visiting a file."
 (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
 (add-hook 'ruby-mode-hook
-          '(lambda ()
+         '(lambda ()
 
 	     ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
 	     (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
@@ -270,79 +279,41 @@ buffer is not visiting a file."
 
 (require 'flyspell)
 (setq flyspell-issue-message-flg nil)
-(add-hook 'enh-ruby-mode-hook
+(add-hook 'ruby-mode-hook
           (lambda () (flyspell-prog-mode)))
 
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
 
-(require-package 'ruby-mode)
-(require-package 'ruby-hash-syntax)
-(add-auto-mode 'ruby-mode
-               "Rakefile\\'" "\\.rake\\'" "\\.rxml\\'"
-               "\\.rjs\\'" "\\.irbrc\\'" "\\.pryrc\\'" "\\.builder\\'" "\\.ru\\'"
-               "\\.gemspec\\'" "Gemfile\\'")
-
-(require-package 'robe)
+(require 'ruby-mode)
+(require 'ruby-hash-syntax)
+(require 'robe)
 (add-hook 'ruby-mode-hook 'robe-mode)
-; для работы с rvm
+;; for work with rvm
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
    (rvm-activate-corresponding-ruby))
 
-(after-load 'robe
-  (add-hook 'robe-mode-hook 'ac-robe-setup))
-  (add-hook 'robe-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-robe)
-              (set-auto-complete-as-completion-at-point-function)))
+ (add-hook 'robe-mode-hook 'ac-robe-setup)
+ (add-hook 'robe-mode-hook
+           (lambda ()
+             (add-to-list 'ac-sources 'ac-source-robe)
+             (set-auto-complete-as-completion-at-point-function)))
+
+(setq rsense-home "$RSENSE_HOME")
+(add-to-list 'load-path (concat rsense-home "/opt/rsense-0.3"))
+(require 'rsense)
+
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c C-c") 'rsense-complete)))
 
 ;; =========================== JS  ==================================
 
-(add-to-list 'load-path "~/.emacs.d/emacs.js")
-defconst +home-dir+ "~/.emacs")
-(defconst +emacs-dir+ (concat +home-dir+ "/emacs.js"))
-(defconst +emacs-profiles-dir+ (concat +emacs-dir+ "/profiles"))
-(defconst +emacs-lib-dir+ (concat +emacs-dir+ "/libs"))
-(defconst +emacs-conf-dir+ (concat +emacs-dir+ "/config"))
-(defconst +emacs-tmp-dir+ (concat +emacs-dir+ "/tmp"))
+(defun js-custom ()
+  "js-mode-hook"
+  (setq js-indent-level 2))
 
-;; new projects will be created under this directory
-(defconst +dev-dir+ (concat +home-dir+ "/dev"))
-
-(defun add-load-path (p)
-  (add-to-list 'load-path (concat +emacs-dir+ "/" p)))
-
-(defun add-lib-path (p)
-  (add-to-list 'load-path (concat +emacs-lib-dir+ "/" p)))
-
-(defun load-conf-file (f)
-  (load-file (concat +emacs-conf-dir+ "/" f ".el")))
-
-(defun load-lib-file (f)
-  (load-file (concat +emacs-lib-dir+ "/" f)))
-
-(defun load-profile (p)
-  (load-file (concat +emacs-profiles-dir+ "/" p ".el")))
-
-(defun load-customizations ()
-  (let ((filename (concat +emacs-dir+ "/custom.el")))
-    (if (file-readable-p filename)
-        (load-file filename))))
-
-(add-load-path "")
-(add-load-path "lib")
-
-(load-profile "default")
-(load-profile "js")
-(load-profile "coffee")
-(load-profile "golang")
-(load-profile "clojure")
-
-(load-customizations)
-
-;;(add-to-list 'command-switch-alist '("clojure" . (lambda (n) (load-profile "clojure"))))
-(add-to-list 'command-switch-alist '("ruby" . (lambda (n) (load-profile "ruby"))))
-;;(add-to-list 'command-switch-alist '("android" . (lambda (n) (load-profile "android"))))
+(add-hook 'js-mode-hook 'js-custom)
 
 ;; =========================== Rinary  ==================================
 
@@ -427,12 +398,7 @@ defconst +home-dir+ "~/.emacs")
 (require 'css-mode)
 (require 'sass-mode)
 (require 'scss-mode)
-(setq exec-path (cons (expand-file-name "~/.rvm/gems/ruby-1.9.3-p547/bin") exec-path))
-(autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-
-(require 'rainbow-mode)
-(global-rainbow-mode 1)
 
 (require 'slim-mode)
 
@@ -440,6 +406,13 @@ defconst +home-dir+ "~/.emacs")
 (add-to-list 'auto-mode-alist
             '("\\.coffee$" . rinari-minor-mode)
             '("\\.coffee$" . coffee-mode))
+
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (make-local-variable 'tab-width)
+  (set 'tab-width 2))
+
+(add-hook 'coffee-mode-hook 'coffee-custom)
 
 (eval-after-load "coffee-mode"
  '(progn
