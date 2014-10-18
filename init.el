@@ -21,20 +21,33 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("5b6a7f2a00275a5589b14fa23ff1699785d9f7c1722ee9f79ec1b7de92fa0935" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
  '(ergoemacs-keyboard-layout "us")
  '(ergoemacs-smart-paste nil)
  '(ergoemacs-use-menus t)
+ '(fringe-mode 0 nil (fringe))
  '(global-whitespace-mode t)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
  '(org-CUA-compatible nil)
+ '(org-insert-labeled-timestamps-at-point nil)
+ '(org-log-into-drawer "LOG:")
+ '(org-log-note-clock-out t)
+ '(org-log-redeadline (quote note))
+ '(org-log-refile (quote note))
  '(org-replace-disputed-keys nil)
+ '(org-timer-display nil)
+ '(org-use-effective-time nil)
+ '(recentf-menu-before nil)
+ '(recentf-mode t)
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
+ '(tool-bar-mode nil)
+ '(tool-bar-position (quote bottom))
  '(whitespace-style (quote (face lines-tail))))
 
 (custom-set-faces
@@ -62,9 +75,7 @@
   (setq frame-title-format '(buffer-file-name "%f" ("%b"))))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(if window-system
-    (load-theme 'spolsky t)
-  (load-theme 'wombat t))
+(load-theme 'spolsky)
 
 ;; =========================== Remote ==================================
 
@@ -97,6 +108,16 @@
           (lambda ()
             (writegood-mode)))
 
+(eval-after-load "org"
+  '(progn
+     (define-prefix-command 'org-todo-state-map)
+
+     (define-key org-mode-map "\C-cx" 'org-todo-state-map)
+     (define-key org-todo-state-map "d"
+       '(lambda nil (interactive) (org-todo "DONE")))
+     (define-key org-todo-state-map "i"
+       '(lambda nil (interactive) (org-todo "INPROGRESS")))))
+
 ;; =========================== GPG ==================================
 
 (require 'epa-file)
@@ -111,7 +132,12 @@
 (ac-config-default)
 (setq ac-auto-show-menu 0.5)
 (setq ac-menu-height 20)
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
+; Start auto-completion after 2 characters of a word
+(setq ac-auto-start 2)
+; case sensitivity is important when finding matches
+(setq ac-ignore-case nil)
 
 (require 'linum+)
 (setq linum-format "%d ")
@@ -217,7 +243,10 @@
               "~/.emacs.d/yasnippet")
 
 (require 'yasnippet)
+(yas/initialize)
 (yas-global-mode 1)
+;; Let's have snippets in the auto-complete dropdown
+(add-to-list 'ac-sources 'ac-source-yasnippet)
 
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
@@ -299,13 +328,38 @@
              (add-to-list 'ac-sources 'ac-source-robe)
              (set-auto-complete-as-completion-at-point-function)))
 
+(setq ruby-program-name "~/.rvm/rubies/ruby-1.9.3-p547/bin/irb --inf-ruby-mode")
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                     interpreter-mode-alist))
+; set to load inf-ruby and set inf-ruby key definition in ruby-mode.
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (inf-ruby-keys)
+         ))
+
+(define-key ruby-mode-map "\C-m" 'newline-and-indent)
+
+;; =========================== Rcodetools  ==================================
+
+(add-to-list 'load-path "~/.rvm/gems/ruby-1.9.3-p547/gems/rcodetools-0.8.5.0")
+(require 'rcodetools)
+(require 'anything-rcodetools)
+;; (require 'icicles-rcodetools)
+(require 'auto-complete-ruby)
+
+;; =========================== Rsense ==================================
+
 (setq rsense-home "$RSENSE_HOME")
 (add-to-list 'load-path (concat rsense-home "/opt/rsense-0.3"))
 (require 'rsense)
-
 (add-hook 'ruby-mode-hook
           (lambda ()
-            (local-set-key (kbd "C-c C-c") 'rsense-complete)))
+            (add-to-list 'ac-sources 'ac-source-rsense-method)
+            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
 ;; =========================== JS  ==================================
 

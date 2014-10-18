@@ -14,25 +14,29 @@
 - Autopair
 - Autocompete
 - Smex
-- Tramp
+- Reverse input
+- Tramp (???)
 - Epa-file
 - Bookmark
 - Yasnippet
 - El-get
-- Sudo (in progress)
+- Flyspell with aspell
+- Flymake (???) 
+- Sudo (???)
 ***** Ruby 
 - Rvm
 - Rinari
 - Robe
 - Ruby-mode
+- Rcodetools
+- Rsense
 - Rubocop
 ***** JS
-- Emacs.js
+- Custom tab-width
 ***** Templates
 - Css-mode
 - Sass-mode
 - Scss-mode
-- Rainbow-mode
 - Slim-mode 
 - Coffee-mode
 - Rtml-mode
