@@ -34,20 +34,12 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
  '(org-CUA-compatible nil)
- '(org-insert-labeled-timestamps-at-point nil)
- '(org-log-into-drawer "LOG:")
- '(org-log-note-clock-out t)
- '(org-log-redeadline (quote note))
- '(org-log-refile (quote note))
- '(org-replace-disputed-keys nil)
  '(org-timer-display nil)
  '(org-use-effective-time nil)
  '(recentf-menu-before nil)
  '(recentf-mode t)
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
- '(tool-bar-mode nil)
- '(tool-bar-position (quote bottom))
  '(whitespace-style (quote (face lines-tail))))
 
 (custom-set-faces
@@ -104,9 +96,6 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (flyspell-mode)))
-(add-hook 'org-mode-hook
-          (lambda ()
-            (writegood-mode)))
 
 (eval-after-load "org"
   '(progn
@@ -243,7 +232,6 @@
               "~/.emacs.d/yasnippet")
 
 (require 'yasnippet)
-(yas/initialize)
 (yas-global-mode 1)
 ;; Let's have snippets in the auto-complete dropdown
 (add-to-list 'ac-sources 'ac-source-yasnippet)
