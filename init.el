@@ -35,19 +35,6 @@
  '(org-replace-disputed-keys nil)
  '(org-timer-display nil)
  '(org-use-effective-time nil)
- '(safe-local-variable-values
-   (quote
-    ((eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
-           (add-hook
-            (quote write-contents-functions)
-            (lambda nil
-              (delete-trailing-whitespace)
-              nil))
-           (require
-            (quote whitespace))
-           "Sometimes the mode needs to be toggled off and on."
-           (whitespace-mode 1))
-     (whitespace-line-column . 80))))
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
