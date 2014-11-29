@@ -10,7 +10,6 @@
 (setq display-time-format "%H:%M")
 (display-time-mode)
 (setq-default tab-width 2)
-(setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
 (setq inhibit-startup-message t)
 
@@ -30,6 +29,7 @@
  '(ergoemacs-use-menus t)
  '(fringe-mode 0 nil (fringe))
  '(global-whitespace-mode t)
+ '(icicle-key-complete-keys-for-minibuffer nil)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
@@ -39,29 +39,33 @@
  '(org-use-effective-time nil)
  '(recentf-menu-before nil)
  '(recentf-mode t)
+ '(safe-local-variable-values
+   (quote
+    ((eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
+           (add-hook
+            (quote write-contents-functions)
+            (lambda nil
+              (delete-trailing-whitespace)
+              nil))
+           (require
+            (quote whitespace))
+           "Sometimes the mode needs to be toggled off and on."
+           (whitespace-mode 1))
+     (whitespace-line-column . 80))))
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
-
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(icicle-multi-command-completion ((t (:foreground "#0000D53CD53C"))))
- '(icicle-mustmatch-completion ((t (:box (:line-width -2 :color "dodger blue")))))
  '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
 (setq auto-save-default nil) ; Don't want any auto saving
-
-(delete-selection-mode t)
-(transient-mark-mode t)
-(setq x-select-enable-clipboard t)
 
 (setq show-paren-style 'expression)
 (show-paren-mode 1)
@@ -69,23 +73,43 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(when window-system
-  (setq frame-title-format '(buffer-file-name "%f" ("%b"))))
-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky)
 
 ;; =========================== Remote ==================================
 
-(require 'tramp)
-(setq-default tramp-persistency-file-name nil)
-(setq-default tramp-default-method "ssh2")
-(tramp-set-completion-function "ssh"
-                               '((tramp-parse-sconfig "/etc/ssh_config")
-                                 (tramp-parse-sconfig "~/.ssh/config")))
-(setq password-cache-expiry nil)
-(setq tramp-debug-buffer t)
-(setq tramp-verbose 10)
+;; (condition-case nil
+;;     (require 'tramp)
+;;   (setq tramp-default-method "scp")
+;;   (error (message "** could not load tramp")))
+
+;; (setq-default tramp-persistency-file-name nil)
+;; (tramp-set-completion-function "ssh"
+;;                                '((tramp-parse-sconfig "/etc/ssh_config")
+;;                                  (tramp-parse-sconfig "~/.ssh/config")))
+;; (setq password-cache-expiry nil)
+;; (setq tramp-debug-buffer t)
+;; (setq tramp-verbose 10)
+
+;;(defun ssh-refresh ()
+;;  "Reset the environment variable SSH_AUTH_SOCK"
+;;  (interactive)
+;;  (let (ssh-auth-sock-old (getenv "SSH_AUTH_SOCK"))
+;;    (setenv "SSH_AUTH_SOCK"
+;;            (car (split-string
+;;                  (shell-command-to-string
+;;                  (if (eq system-type 'darwin)
+;; "ls -t $(find /tmp/* -user $USER -name Listeners 2> /dev/null)"
+;; "ls -t $(find /tmp/ssh-* -user $USER -name 'agent.*' 2> /dev/null)"
+;; )))))
+;;    (message
+;;     (format "SSH_AUTH_SOCK %s --> %s"
+;;             ssh-auth-sock-old (getenv "SSH_AUTH_SOCK")))))
+
+;; =========================== Scrum ==================================
+
+;;(require 'scrum)
+;;(require 'gnuplot)
 
 ;; =========================== Browser ==================================
 
@@ -186,7 +210,7 @@
 
 ;; =========================== Commands  ==================================
 
-(require 'smex)
+ (require 'smex)
 
 ;; =========================== Keybinding  ==================================
 
@@ -255,50 +279,10 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
- (add-to-list 'load-path "~/.emacs.d/el-get")
-
- (unless (require 'el-get nil 'noerror)
-   (with-current-buffer
-       (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-     (goto-char (point-max))
-     (eval-print-last-sexp)))
-
- (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get/recipes")
- (el-get 'sync)
-
 ;; =========================== Ruby  ==================================
 
 (require 'rvm)
 (rvm-use-default)
-
-(require 'flymake)
-
-;; I don't like the default colors :)
-(set-face-background 'flymake-errline "red4")
-(set-face-background 'flymake-warnline "dark slate blue")
-
-;; Invoke ruby with '-c' to get syntax checking
-(defun flymake-ruby-init ()
- (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                      'flymake-create-temp-inplace))
-	 (local-file  (file-relative-name
-                      temp-file
-                      (file-name-directory buffer-file-name))))
-   (list "ruby" (list "-c" local-file))))
-
-(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
-
-(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
-
-(add-hook 'ruby-mode-hook
-         '(lambda ()
-
-	     ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
-	     (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
-		 (flymake-mode))
-	     ))
 
 (require 'flyspell)
 (setq flyspell-issue-message-flg nil)
@@ -308,45 +292,15 @@
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
 
+(add-to-list 'load-path "~/.emacs.d/robe")
 (require 'ruby-mode)
-(require 'ruby-hash-syntax)
+(require 'inf-ruby)
 (require 'robe)
 (add-hook 'ruby-mode-hook 'robe-mode)
-;; for work with rvm
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-   (rvm-activate-corresponding-ruby))
-
- (add-hook 'robe-mode-hook 'ac-robe-setup)
- (add-hook 'robe-mode-hook
-           (lambda ()
-             (add-to-list 'ac-sources 'ac-source-robe)
-             (set-auto-complete-as-completion-at-point-function)))
-
-(setq ruby-program-name "~/.rvm/rubies/ruby-1.9.3-p547/bin/irb --inf-ruby-mode")
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-                     interpreter-mode-alist))
-; set to load inf-ruby and set inf-ruby key definition in ruby-mode.
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (inf-ruby-keys)
-         ))
-
-(define-key ruby-mode-map "\C-m" 'newline-and-indent)
-
-;; =========================== Rcodetools  ==================================
-
-(add-to-list 'load-path "~/.rvm/gems/ruby-1.9.3-p547/gems/rcodetools-0.8.5.0")
-(add-to-list 'load-path "~/.emacs.d/icicles")
-(require 'icicles)
-(require 'rcodetools)
-(require 'anything-rcodetools)
-(require 'icicles-rcodetools)
-(require 'auto-complete-ruby)
-(icy-mode 1)
+  (rvm-activate-corresponding-ruby))
 
 ;; =========================== Rsense ==================================
 
@@ -357,37 +311,6 @@
           (lambda ()
             (add-to-list 'ac-sources 'ac-source-rsense-method)
             (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-
-;; =========================== JS  ==================================
-
-(defun js-custom ()
-  "js-mode-hook"
-  (setq js-indent-level 2))
-(add-hook 'js-mode-hook 'js-custom)
-
-;; (require 'flymake-cursor)
-;; (require 'flymake-jslint)
-;; ;; Make sure we can find the lintnode executable
-;; (setq lintnode-location "~/.npm/lintnode")
-;; ;; JSLint can be... opinionated
-;; (setq lintnode-jslint-excludes (list 'nomen 'undef 'plusplus 'onevar 'white))
-;; ;; Start the server when we first open a js file and start checking
-;; (add-hook 'js-mode-hook
-;;           (lambda ()
-;;             (lintnode-hook)))
-
-;; (require 'js-comint)
-;; ;; Use node as our repl
-;; (setq inferior-js-program-command "node")
-;; (setq inferior-js-mode-hook
-;;       (lambda ()
-;;         ;; We like nice colors
-;;         ;; (ansi-color-for-comint-mode-on)
-;;         ;; Deal with some prompt nonsense
-;;         (add-to-list 'comint-preoutput-filter-functions
-;;                      (lambda (output)
-;;                        (replace-regexp-in-string ".*1G\.\.\..*5G" "..."
-;;                      (replace-regexp-in-string ".*1G.*3G" "&gt;" output))))
 
 ;; =========================== Rinary  ==================================
 
@@ -469,24 +392,11 @@
 
 ;; =========================== Templates...  ==================================
 
-(require 'css-mode)
-(require 'sass-mode)
-(require 'scss-mode)
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-
 (require 'slim-mode)
-
 (require 'coffee-mode)
 (add-to-list 'auto-mode-alist
             '("\\.coffee$" . rinari-minor-mode)
             '("\\.coffee$" . coffee-mode))
-
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (make-local-variable 'tab-width)
-  (set 'tab-width 2))
-
-(add-hook 'coffee-mode-hook 'coffee-custom)
 
 (eval-after-load "coffee-mode"
  '(progn
