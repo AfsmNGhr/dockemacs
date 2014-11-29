@@ -27,9 +27,7 @@
  '(ergoemacs-keyboard-layout "us")
  '(ergoemacs-smart-paste nil)
  '(ergoemacs-use-menus t)
- '(fringe-mode 0 nil (fringe))
  '(global-whitespace-mode t)
- '(icicle-key-complete-keys-for-minibuffer nil)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
@@ -37,8 +35,6 @@
  '(org-replace-disputed-keys nil)
  '(org-timer-display nil)
  '(org-use-effective-time nil)
- '(recentf-menu-before nil)
- '(recentf-mode t)
  '(safe-local-variable-values
    (quote
     ((eval ignore-errors "Write-contents-functions is a buffer-local alternative to before-save-hook"
@@ -55,6 +51,9 @@
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
+
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
