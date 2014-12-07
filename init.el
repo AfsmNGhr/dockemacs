@@ -62,47 +62,6 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky)
 
-;; =========================== Remote ==================================
-
-;; (condition-case nil
-;;     (require 'tramp)
-;;   (setq tramp-default-method "scp")
-;;   (error (message "** could not load tramp")))
-
-;; (setq-default tramp-persistency-file-name nil)
-;; (tramp-set-completion-function "ssh"
-;;                                '((tramp-parse-sconfig "/etc/ssh_config")
-;;                                  (tramp-parse-sconfig "~/.ssh/config")))
-;; (setq password-cache-expiry nil)
-;; (setq tramp-debug-buffer t)
-;; (setq tramp-verbose 10)
-
-;;(defun ssh-refresh ()
-;;  "Reset the environment variable SSH_AUTH_SOCK"
-;;  (interactive)
-;;  (let (ssh-auth-sock-old (getenv "SSH_AUTH_SOCK"))
-;;    (setenv "SSH_AUTH_SOCK"
-;;            (car (split-string
-;;                  (shell-command-to-string
-;;                  (if (eq system-type 'darwin)
-;; "ls -t $(find /tmp/* -user $USER -name Listeners 2> /dev/null)"
-;; "ls -t $(find /tmp/ssh-* -user $USER -name 'agent.*' 2> /dev/null)"
-;; )))))
-;;    (message
-;;     (format "SSH_AUTH_SOCK %s --> %s"
-;;             ssh-auth-sock-old (getenv "SSH_AUTH_SOCK")))))
-
-;; =========================== Scrum ==================================
-
-;;(require 'scrum)
-;;(require 'gnuplot)
-
-;; =========================== Browser ==================================
-
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox-nightly")
-(global-set-key (kbd "C-x q") 'ergoemacs-lookup-google)
-
 ;; =========================== Org mode ==================================
 
 (add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
@@ -135,8 +94,6 @@
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
-(setq ac-auto-show-menu 0.5)
-(setq ac-menu-height 20)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
 ; Start auto-completion after 2 characters of a word
