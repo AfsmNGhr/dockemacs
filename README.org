@@ -15,29 +15,17 @@
 - Autocompete
 - Smex
 - Reverse input
-- Tramp (???)
-- Epa-file
 - Bookmark
 - Yasnippet
-- El-get
 - Flyspell with aspell
-- Flymake (???) 
-- Sudo (???)
-***** Ruby 
+***** Ruby
 - Rvm
 - Rinari
 - Robe
 - Ruby-mode
-- Rcodetools
 - Rsense
-- Rubocop
-***** JS
-- Custom tab-width
 ***** Templates
-- Css-mode
-- Sass-mode
-- Scss-mode
-- Slim-mode 
+- Slim-mode
 - Coffee-mode
 - Rtml-mode
-**** To be continued... 
+**** To be continued...

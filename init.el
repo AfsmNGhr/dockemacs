@@ -11,7 +11,6 @@
 (display-time-mode)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
-(setq inhibit-startup-message t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -21,33 +20,17 @@
  '(custom-safe-themes
    (quote
     ("5b6a7f2a00275a5589b14fa23ff1699785d9f7c1722ee9f79ec1b7de92fa0935" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
- '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
  '(ergoemacs-keyboard-layout "us")
- '(ergoemacs-smart-paste nil)
  '(ergoemacs-use-menus t)
  '(global-whitespace-mode t)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(initial-scratch-message nil)
- '(org-CUA-compatible nil)
- '(org-replace-disputed-keys nil)
- '(org-timer-display nil)
- '(org-use-effective-time nil)
- '(shift-select-mode nil)
- '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
 
 (add-hook 'before-save-hook
           'delete-trailing-whitespace)
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(whitespace-empty ((t (:background "VioletRed1" :foreground "DeepPink4")))))
 
 (setq make-backup-files nil) ; Don't want any backup files
 (setq auto-save-list-file-name nil) ; Don't want any .saves files
@@ -118,42 +101,6 @@
 
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
-
-;; =========================== Sudo  ======================================
-
-;;(defun sudo-edit-current-file ()
-;; (interactive)
-;; (let ((my-file-name) ; fill this with the file to open
-;;       (position))    ; if the file is already open save position
-;;   (if (equal major-mode 'dired-mode) ; test if we are in dired-mode
-;;       (progn
-;;         (setq my-file-name (dired-get-file-for-visit))
-;;         (find-alternate-file (prepare-tramp-sudo-string my-file-name)))
-;;     (setq my-file-name (buffer-file-name); hopefully anything else is an already opened file
-;;           position (point));
-;;     (find-alternate-file (prepare-tramp-sudo-string my-file-name))
-;;     (goto-char position))))
-
-
-;;(defun prepare-tramp-sudo-string (tempfile)
-;; (if (file-remote-p tempfile)
-;;     (let ((vec (tramp-dissect-file-name tempfile)))
-
-;;       (tramp-make-tramp-file-name
-;;        "sudo"
-;;        (tramp-file-name-user nil)
-;;        (tramp-file-name-host vec)
-;;        (tramp-file-name-localname vec)
-;;        (format "ssh:%s@%s|"
-;;                (tramp-file-name-user vec)
-;;                (tramp-file-name-host vec))))
-;;   (concat "/sudo:root@localhost:" tempfile)))
-
-;;(define-key dired-mode-map [s-return] 'sudo-edit-current-file)
-
-;; =========================== Commands  ==================================
-
- (require 'smex)
 
 ;; =========================== Keybinding  ==================================
 
