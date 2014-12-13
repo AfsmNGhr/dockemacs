@@ -17,9 +17,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cua-delete-selection nil)
  '(custom-safe-themes
    (quote
-    ("5b6a7f2a00275a5589b14fa23ff1699785d9f7c1722ee9f79ec1b7de92fa0935" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
+    ("5b6a7f2a00275a5589b14fa23ff1699785d9f7c1722ee9f79ec1b7de92fa0935"
+     "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
+ '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
  '(ergoemacs-keyboard-layout "us")
@@ -27,14 +30,26 @@
  '(global-whitespace-mode t)
  '(initial-buffer-choice t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(initial-scratch-message
+   ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with [Ctrl+O],
+;; then enter the text in that file's own buffer.")
+ '(org-CUA-compatible t)
+ '(org-replace-disputed-keys nil)
+ '(org-special-ctrl-a/e t)
+ '(org-support-shift-select t)
+ '(recentf-menu-before "Close")
+ '(recentf-mode t)
+ '(scroll-error-top-bottom t)
+ '(set-mark-command-repeat-pop t)
  '(whitespace-style (quote (face lines-tail))))
 
 (add-hook 'before-save-hook
           'delete-trailing-whitespace)
 
-(setq make-backup-files nil) ; Don't want any backup files
-(setq auto-save-list-file-name nil) ; Don't want any .saves files
-(setq auto-save-default nil) ; Don't want any auto saving
+(setq make-backup-files nil)
+(setq auto-save-list-file-name nil)
+(setq auto-save-default nil)
 
 (setq show-paren-style 'expression)
 (show-paren-mode 1)
@@ -58,7 +73,6 @@
 (eval-after-load "org"
   '(progn
      (define-prefix-command 'org-todo-state-map)
-
      (define-key org-mode-map "\C-cx" 'org-todo-state-map)
      (define-key org-todo-state-map "d"
        '(lambda nil (interactive) (org-todo "DONE")))
@@ -79,9 +93,7 @@
 (ac-config-default)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
-; Start auto-completion after 2 characters of a word
 (setq ac-auto-start 2)
-; case sensitivity is important when finding matches
 (setq ac-ignore-case nil)
 
 (require 'linum+)
@@ -100,15 +112,15 @@
 (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
 
 (require 'autopair)
-(autopair-global-mode) ;; enable autopair in all buffers
+(autopair-global-mode)
 
 ;; =========================== Keybinding  ==================================
 
 (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
-(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
-(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+(setq ergoemacs-theme nil)
+(setq ergoemacs-keyboard-layout "us")
 (ergoemacs-mode 1)
 
 (defun reverse-input-method (input-method)
@@ -153,13 +165,11 @@
 
 (require 'yasnippet)
 (yas-global-mode 1)
-;; Let's have snippets in the auto-complete dropdown
 (add-to-list 'ac-sources 'ac-source-yasnippet)
-
 (setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                 ;; personal snippets
-        "~/.emacs.d/some/collection/"           ;; foo-mode and bar-mode snippet collection
-        "~/.emacs.d/yasnippet/yasmate/snippets" ;; the yasmate collection
+      '("~/.emacs.d/snippets"
+        "~/.emacs.d/some/collection/"
+        "~/.emacs.d/yasnippet/yasmate/snippets"
         "~/.emacs.d/yasnippet/snippets"))
 
 ;; =========================== Packages  ==================================
@@ -204,7 +214,6 @@
 
 ;; =========================== Rinary  ==================================
 
-;; Interactively Do Things (highly recommended, but not strictly required)
 (require 'ido)
 (ido-mode t)
 
