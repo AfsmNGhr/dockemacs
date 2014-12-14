@@ -11,14 +11,21 @@
 (setq ac-ignore-case nil)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features")
-
 (require 'linum+)
 (setq linum-format "%d ")
 (global-linum-mode 1)
 
+(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
+
+(require 'flx-ido)
 (require 'ido-hacks)
-(ido-mode t)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+(setq gc-cons-threshold 20000000)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors")
 

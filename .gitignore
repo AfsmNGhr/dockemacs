@@ -218,5 +218,5 @@ pip-log.txt
 el-get/
 plugins/
 bookmarks
-ac-comphist.dat
+*.dat
 *.elc
