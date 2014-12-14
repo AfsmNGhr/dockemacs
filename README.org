@@ -3,7 +3,7 @@
 - STE themes
 - Time
 - Maximazed on start
-- Delete bars (menu, scroll, tools)
+- Delete bars (menu, scroll, tools and etc)
 **** Keybinding
 - Ergoemacs
 - Custom rinari keys
@@ -16,6 +16,7 @@
 - Smex
 - Reverse input
 - Bookmark
+- Git-gutter
 - Yasnippet
 - Flyspell with aspell
 ***** Ruby
