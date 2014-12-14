@@ -40,12 +40,20 @@
 (setq make-backup-files nil)
 (setq auto-save-list-file-name nil)
 (setq auto-save-default nil)
-
 (setq show-paren-style 'expression)
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 (show-paren-mode 1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(column-number-mode -1)
+(line-number-mode -1)
+(size-indication-mode -1)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky)

@@ -22,7 +22,6 @@
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
 (setq ido-enable-flex-matching t)
 (setq ido-use-faces nil)
 (setq gc-cons-threshold 20000000)
@@ -45,6 +44,17 @@
 
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
+
+(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter-fringe")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/fringe-helper.el")
+
+(require 'fringe-helper)
+(require 'git-gutter-fringe)
+(global-git-gutter-mode +1)
+(set-face-foreground 'git-gutter-fr:modified "Violet red")
+(set-face-foreground 'git-gutter-fr:added    "DodgerBlue2")
+(set-face-foreground 'git-gutter-fr:deleted  "firebrick2")
 
 ;; ================================ Bookmark ===================================
 
