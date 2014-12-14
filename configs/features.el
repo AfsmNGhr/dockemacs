@@ -39,4 +39,15 @@
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
 
+;; ================================ Bookmark ===================================
+
+(global-set-key (kbd "C-x r b")
+    (lambda ()
+      (interactive)
+      (bookmark-jump
+       (ido-completing-read "Jump to bookmark: " (bookmark-all-names)))))
+
+(global-set-key (kbd "C-x v")         'bookmark-set)
+(global-set-key (kbd "s-SPC")         'bookmark-save)
+
 ;; ========================= To be continued... ================================

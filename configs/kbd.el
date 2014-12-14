@@ -38,10 +38,4 @@
 
 (reverse-input-method 'russian-computer)
 
-;; ================================ Bookmark ===================================
-
-(global-set-key (kbd "`")         'bookmark-jump)
-(global-set-key (kbd "C-x v")         'bookmark-set)
-(global-set-key (kbd "s-SPC")         'bookmark-save)
-
 ;; ========================= To be continued... ================================

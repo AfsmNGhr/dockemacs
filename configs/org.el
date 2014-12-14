@@ -10,11 +10,11 @@
           (lambda ()
             (flyspell-mode)))
 
-(eval-after-load "org"
- '(progn
-    (define-prefix-command 'org-todo-state-map)
-    (define-key org-mode-map "\C-cx" 'org-todo-state-map)
-    (define-key org-todo-state-map "d"
-      '(lambda nil (interactive) (org-todo "DONE")))
-    (define-key org-todo-state-map "i"
-      '(lambda nil (interactive) (org-todo "INPROGRESS")))))
+;;(eval-after-load "org"
+;; '(progn
+;;    (define-prefix-command 'org-todo-state-map)
+;;    (define-key org-mode-map "\C-cx" 'org-todo-state-map)
+;;    (define-key org-todo-state-map "d"
+;;      '(lambda nil (interactive) (org-todo "DONE")))
+;;    (define-key org-todo-state-map "i"
+;;      '(lambda nil (interactive) (org-todo "INPROGRESS")))))

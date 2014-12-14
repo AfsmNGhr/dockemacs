@@ -219,3 +219,4 @@ el-get/
 plugins/
 bookmarks
 ac-comphist.dat
+*.elc
