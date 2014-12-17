@@ -3,7 +3,7 @@
 (require 'ido)
 (ido-mode t)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/rinari")
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rinari")
 (require 'rinari)
 (global-rinari-mode)
 
