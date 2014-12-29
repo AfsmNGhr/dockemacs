@@ -1,7 +1,7 @@
 ;; ================================== Server ===================================
 
-(if (locate-library "ediff-trees")
-    (autoload 'ediff-trees "ediff-trees" "Start an tree ediff" t))
+;; (if (locate-library "ediff-trees")
+;;     (autoload 'ediff-trees "ediff-trees" "Start an tree ediff" t))
 
 (defun autocompile nil
   "compile itself if ~/.emacs.d/init.el"

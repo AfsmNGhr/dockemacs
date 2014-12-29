@@ -37,15 +37,10 @@
 (add-hook 'before-save-hook
           'delete-trailing-whitespace)
 
-(setq make-backup-files nil)
-(setq auto-save-list-file-name nil)
-(setq auto-save-default nil)
+(setq make-backup-files -1)
+(setq auto-save-list-file-name -1)
+(setq auto-save-default -1)
 (setq show-paren-style 'expression)
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 (show-paren-mode 1)
 (menu-bar-mode -1)

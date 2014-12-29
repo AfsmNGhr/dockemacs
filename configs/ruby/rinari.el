@@ -15,7 +15,7 @@
    (my-spine-lib "l" ((t . "app/assets/javascripts/app/lib/.*")) nil)
    (my-spine-model "m" ((t . "app/assets/javascripts/app/models/.*")) nil)
    (my-spine-view "v" ((t . "app/assets/javascripts/app/views/.*")) nil)
-   (my-soine-index "r" ((t . "app/assets/javascripts/app/.*")) nil)
+   (my-spine-index "r" ((t . "app/assets/javascripts/app/.*")) nil)
 
 (my-fabrication "f" ((t . "spec/fabricators/.*")) nil)
    (my-rspec

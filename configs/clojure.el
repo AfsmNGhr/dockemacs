@@ -1,10 +1,13 @@
 ;; =============================== Clojure =====================================
 
-;; (add-to-list 'load-path "~/.emacs.d/plugins/clojure/clojure-mode")
-;; (require 'clojure-mode)
+(add-to-list 'load-path "~/.emacs.d/plugins/clojure/clojure-mode")
+(require 'clojure-mode)
 
-;; (add-to-list 'load-path "~/.emacs.d/plugins/clojure/rainbow-delimiters")
-;; (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+(add-to-list 'load-path "~/.emacs.d/plugins/clojure/rainbow-delimiters")
+(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/clojure")
+(add-hook 'clojure-mode-hook 'inf-clojure-minor-mode)
 
 ;; (add-to-list 'load-path "~/.emacs.d/plugins/clojure/cider")
 ;; (require 'cider-mode)

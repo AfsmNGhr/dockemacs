@@ -15,6 +15,10 @@
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
   (rvm-activate-corresponding-ruby))
 
+;; (add-to-list 'load-path "~/.emacs.d/plugins/ruby/rubocop-emacs")
+;; (require 'rubocop)
+;; (add-hook 'ruby-mode-hook 'rubocop-mode)
+
 ;; ============================= Rsense ========================================
 
 (setq rsense-home "$RSENSE_HOME")
