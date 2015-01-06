@@ -37,9 +37,9 @@
 (add-hook 'before-save-hook
           'delete-trailing-whitespace)
 
-(setq make-backup-files -1)
-(setq auto-save-list-file-name -1)
-(setq auto-save-default -1)
+(setq make-backup-files nil)
+(setq auto-save-list-file-name nil)
+(setq auto-save-default nil)
 (setq show-paren-style 'expression)
 
 (show-paren-mode 1)

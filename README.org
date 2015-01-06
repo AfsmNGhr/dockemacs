@@ -25,6 +25,7 @@
 - Robe
 - Ruby-mode
 - Rsense
+- Rubocop
 ***** Templates
 - Slim-mode
 - Coffee-mode

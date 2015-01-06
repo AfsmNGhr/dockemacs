@@ -220,3 +220,5 @@ plugins/
 bookmarks
 *.dat
 *.elc
+ido.last
+recentf
