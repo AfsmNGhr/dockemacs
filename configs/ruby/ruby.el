@@ -3,8 +3,12 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/ruby/robe")
 (add-to-list 'load-path "~/.emacs.d/plugins/ruby")
 
+;; ================================== Rvm ======================================
+
 (require 'rvm)
 (rvm-use-default)
+
+;; ================================== Robe =====================================
 
 (require 'ruby-mode)
 (require 'inf-ruby)
@@ -14,6 +18,8 @@
 
 (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
   (rvm-activate-corresponding-ruby))
+
+;; ================================= Rubocop ===================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/ruby/dash.el")
 (require 'dash)

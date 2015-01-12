@@ -110,6 +110,8 @@
 (ac-config-default)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
+(setq ac-auto-start 2)
+(setq ac-ignore-case nil)
 
 ;; ================================= Smex ======================================
 
@@ -189,8 +191,6 @@
 
 (require 'flyspell)
 (setq flyspell-issue-message-flg nil)
-(add-hook 'ruby-mode-hook
-          (lambda () (flyspell-prog-mode)))
 
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")

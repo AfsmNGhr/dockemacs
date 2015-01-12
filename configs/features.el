@@ -7,6 +7,10 @@
 (ac-config-default)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
+(setq ac-auto-start 2)
+(setq ac-ignore-case nil)
+
+;; ================================== Linum+ ===================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features")
 (require 'linum+)
@@ -14,6 +18,8 @@
 (global-linum-mode 1)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
+
+;; ================================== IDO ======================================
 
 (require 'flx-ido)
 (require 'ido-hacks)
@@ -24,6 +30,8 @@
 (setq ido-use-faces t)
 (setq gc-cons-threshold 20000000)
 
+;; =========================== Multiple-cursors ================================
+
 (add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors")
 
 (require 'multiple-cursors)
@@ -32,16 +40,20 @@
 (global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
 
+;; ================================ Autopair ===================================
+
 (require 'autopair)
 (autopair-global-mode)
 
+;; ================================ Flyspell ===================================
+
 (require 'flyspell)
 (setq flyspell-issue-message-flg nil)
-(add-hook 'ruby-mode-hook
-          (lambda () (flyspell-prog-mode)))
 
 (setq-default ispell-program-name "aspell")
 (setq ispell-local-dictionary "russian")
+
+;; ============================== Git-gutter ===================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter-fringe")
 (add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
