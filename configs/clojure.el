@@ -4,11 +4,11 @@
 (require 'clojure-mode)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/clojure/rainbow-delimiters")
-(autoload 'rainbow-delimiters)
+(require 'rainbow-delimiters)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/clojure")
-(autoload 'inf-clojure-minor-mode)
+(require 'inf-clojure)
 (add-hook 'clojure-mode-hook 'inf-clojure-minor-mode)
 
 ;; (add-to-list 'load-path "~/.emacs.d/plugins/clojure/cider")

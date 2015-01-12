@@ -1,16 +1,13 @@
 ;; ================================== Server ===================================
 
-;; (if (locate-library "ediff-trees")
-;;     (autoload 'ediff-trees "ediff-trees" "Start an tree ediff" t))
-
-(defun autocompile nil
-  "compile itself if ~/.emacs.d/init.el"
+(defun byte-compile-current-buffer ()
+  "`byte-compile' current buffer if it's emacs-lisp-mode
+   and compiled file exists."
   (interactive)
-  (require 'bytecomp)
-  (let ((dotemacs (expand-file-name "~/.emacs.d/init.el")))
-    (if (string= (buffer-file-name) (file-chase-links dotemacs))
-        (byte-compile-file dotemacs))))
+  (when (and (eq major-mode 'emacs-lisp-mode)
+             (file-exists-p (byte-compile-dest-file buffer-file-name)))
+    (byte-compile-file buffer-file-name)))
 
-(add-hook 'after-save-hook 'autocompile)
+(add-hook 'after-save-hook 'byte-compile-current-buffer)
 
 ;; ========================= To be continued... ================================

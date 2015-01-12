@@ -1,33 +1,282 @@
 *** My emacs config
 **** Customize interface
 - STE themes
+#+begin_src elisp
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'spolsky)
+#+end_src
 - Time
+#+begin_src elisp
+(setq display-time-interval 1)
+(setq display-time-format "%H:%M")
+(display-time-mode)
+#+end_src
 - Maximazed on start
 - Delete bars (menu, scroll, tools and etc)
+#+begin_src elisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(column-number-mode -1)
+(line-number-mode -1)
+(size-indication-mode -1)
+#+end_src
 **** Keybinding
 - Ergoemacs
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/kbd/ergoemacs-mode")
+(require 'ergoemacs-mode)
+
+(setq ergoemacs-theme nil)
+(setq ergoemacs-keyboard-layout "us")
+(ergoemacs-mode 1)
+#+end_src
 - Custom rinari keys
+#+begin_src elisp
+(define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
+(define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
+(define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
+(define-key rinari-minor-mode-map (kbd "C-c o") 'rinari-find-configuration)
+(define-key rinari-minor-mode-map (kbd "C-c a") 'rinari-find-application)
+(define-key rinari-minor-mode-map (kbd "C-c e") 'rinari-find-environment)
+(define-key rinari-minor-mode-map (kbd "C-c h") 'rinari-find-helper)
+(define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
+(define-key rinari-minor-mode-map (kbd "C-c i") 'rinari-find-migration)
+(define-key rinari-minor-mode-map (kbd "C-c l") 'rinari-find-lib)
+(define-key rinari-minor-mode-map (kbd "C-c r") 'rinari-find-my-request-rspec)
+(define-key rinari-minor-mode-map (kbd "C-c t") 'rinari-find-my-rspec)
+(define-key rinari-minor-mode-map (kbd "C-c f") 'rinari-find-my-fabrication)
+(define-key rinari-minor-mode-map (kbd "C-c y") 'rinari-find-my-stylesheet)
+(define-key rinari-minor-mode-map (kbd "C-c d") 'rinari-find-my-decorator)
+(define-key rinari-minor-mode-map (kbd "C-c j") 'rinari-find-my-javascript)
+(define-key rinari-minor-mode-map (kbd "C-c C-c a") 'rinari-find-my-spine-application)
+(define-key rinari-minor-mode-map (kbd "C-c C-c m") 'rinari-find-my-spine-model)
+(define-key rinari-minor-mode-map (kbd "C-c C-c r") 'rinari-find-my-spine-index)
+(define-key rinari-minor-mode-map (kbd "C-c C-c v") 'rinari-find-my-spine-view)
+(define-key rinari-minor-mode-map (kbd "C-c C-c l") 'rinari-find-my-spine-lib)
+(define-key rinari-minor-mode-map (kbd "C-l x") 'rinari-extract-partial)
+(define-key rinari-minor-mode-map (kbd "C-l c") 'rinari-console)
+(define-key rinari-minor-mode-map (kbd "C-l s") 'rinari-web-server)
+(define-key rinari-minor-mode-map (kbd "C-l r") 'rinari-web-server-restart)
+(define-key rinari-minor-mode-map (kbd "C-l p") 'rinari-cap)
+
+(defun my-find-gemfile ()
+  (interactive)
+  (find-file (concat (rinari-root) "Gemfile")))
+(define-key rinari-minor-mode-map (kbd "C-c g") 'my-find-gemfile)
+#+end_src
 **** Features
 - Linum+
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/features")
+(require 'linum+)
+(setq linum-format "%d ")
+(global-linum-mode 1)
+#+end_src
 - IDO
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
+
+(require 'flx-ido)
+(require 'ido-hacks)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces t)
+(setq gc-cons-threshold 20000000)
+#+end_src
 - Multiple cursors
+#+begin_src elisp
+(require 'multiple-cursors)
+(global-set-key (kbd "C-x C-m") 'mc/edit-lines)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+#+end_src
 - Autopair
+#+begin_src elisp
+(require 'autopair)
+(autopair-global-mode)
+#+end_src
 - Autocompete
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
+
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/features/auto-complete/ac-dict")
+(ac-config-default)
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
+(global-auto-complete-mode 1)
+#+end_src
 - Smex
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/commands")
+(require 'smex)
+(smex-initialize)
+(smex-auto-update 600)
+#+end_src
 - Reverse input
+#+begin_src elisp
+(defun reverse-input-method (input-method)
+  "Build the reverse mapping of single letters from INPUT-METHOD."
+  (interactive
+   (list (read-input-method-name "Use input method (default current): ")))
+  (if (and input-method (symbolp input-method))
+      (setq input-method (symbol-name input-method)))
+  (let ((current current-input-method)
+        (modifiers '(nil (control) (meta) (control meta))))
+    (when input-method
+      (activate-input-method input-method))
+    (when (and current-input-method quail-keyboard-layout)
+      (dolist (map (cdr (quail-map)))
+        (let* ((to (car map))
+               (from (quail-get-translation
+                      (cadr map) (char-to-string to) 1)))
+          (when (and (characterp from) (characterp to))
+            (dolist (mod modifiers)
+              (define-key (if mod input-decode-map local-function-key-map)
+                (vector (append mod (list from)))
+                (vector (append mod (list to)))))))))
+    (when input-method
+      (activate-input-method current))))
+
+(defadvice read-passwd (around my-read-passwd act)
+  (let ((local-function-key-map nil))
+    ad-do-it))
+
+(reverse-input-method 'russian-computer
+#+end_src
 - Bookmark
+#+begin_src elisp
+(global-set-key (kbd "C-x r b")
+    (lambda ()
+      (interactive)
+      (bookmark-jump
+       (ido-completing-read "Jump to bookmark: " (bookmark-all-names)))))
+
+(global-set-key (kbd "C-x v")         'bookmark-set)
+(global-set-key (kbd "s-SPC")         'bookmark-save)
+#+end_src
 - Git-gutter
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter-fringe")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/fringe-helper.el")
+
+(require 'fringe-helper)
+(require 'git-gutter-fringe)
+(global-git-gutter-mode +1)
+(set-face-foreground 'git-gutter-fr:modified "Violet red")
+(set-face-foreground 'git-gutter-fr:added    "DodgerBlue2")
+(set-face-foreground 'git-gutter-fr:deleted  "firebrick2")
+#+end_src
 - Yasnippet
+#+begin_src elisp
+(add-to-list 'load-path
+              "~/.emacs.d/plugins/snippets/yasnippet")
+
+(require 'yasnippet)
+(yas-global-mode 1)
+(add-to-list 'ac-sources 'ac-source-yasnippet)
+(setq yas-snippet-dirs
+       '("~/.emacs.d/plugins/snippets/yasnippet/yasmate/snippets"
+         "~/.emacs.d/plugins/snippets/yasnippet/snippets"))
+#+end_src
 - Flyspell with aspell
+#+begin_src elisp
+(require 'flyspell)
+(setq flyspell-issue-message-flg nil)
+(add-hook 'ruby-mode-hook
+          (lambda () (flyspell-prog-mode)))
+
+(setq-default ispell-program-name "aspell")
+(setq ispell-local-dictionary "russian")
+#+end_src
 ***** Ruby
 - Rvm
+#+begin_src elisp
+(require 'rvm)
+(rvm-use-default)
+#+end_src
 - Rinari
+#+begin_src elisp
+(require 'ido)
+(ido-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rinari")
+(require 'rinari)
+(global-rinari-mode)
+#+end_src
 - Robe
-- Ruby-mode
+#+begin_src elisp
+(require 'ruby-mode)
+(require 'inf-ruby)
+(require 'robe)
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+
+(defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+  (rvm-activate-corresponding-ruby))
+#+end_src
 - Rsense
+#+begin_src elisp
+(setq rsense-home "$RSENSE_HOME")
+(add-to-list 'load-path (concat rsense-home "/opt/rsense-0.3"))
+(require 'rsense)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-rsense-method)
+            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
+#+end_src
 - Rubocop
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby/dash.el")
+(require 'dash)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rubocop-emacs")
+(require 'rubocop)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
+#+end_src
 ***** Templates
 - Slim-mode
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/templates")
+(autoload 'slim-mode "slim" "slim major mode" t)
+#+end_src
 - Coffee-mode
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/js")
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist
+            '("\\.coffee$" . rinari-minor-mode)
+            '("\\.coffee$" . coffee-mode))
+
+(eval-after-load "coffee-mode"
+ '(progn
+    (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
+    (define-key coffee-mode-map (kbd "C-j") 'coffee-newline-and-indent)))
+
+(add-to-list 'load-path "~/.emacs.d/plugins/js/ac-coffee")
+(require 'ac-coffee)
+#+end_src
 - Rtml-mode
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/plugins/templates/rhtml")
+(autoload 'rhtml-mode "rhtml" "rhtml major mode" t)
+(add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
+#+end_src
+***** Server
+- Compile elisp
+#+begin_src elisp
+(defun byte-compile-current-buffer ()
+  "`byte-compile' current buffer if it's emacs-lisp-mode
+   and compiled file exists."
+  (interactive)
+  (when (and (eq major-mode 'emacs-lisp-mode)
+             (file-exists-p (byte-compile-dest-file buffer-file-name)))
+    (byte-compile-file buffer-file-name)))
+
+(add-hook 'after-save-hook 'byte-compile-current-buffer
+#+end_src
 **** To be continued...

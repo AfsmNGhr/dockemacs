@@ -7,7 +7,7 @@
 (setq ergoemacs-keyboard-layout "us")
 (ergoemacs-mode 1)
 
-;; ======================== Reverse-input-mode =================================
+;; ======================== Reverse-input-method ===============================
 
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."

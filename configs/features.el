@@ -7,8 +7,6 @@
 (ac-config-default)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
-(setq ac-auto-start 2)
-(setq ac-ignore-case nil)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features")
 (require 'linum+)
@@ -23,7 +21,7 @@
 (ido-everywhere 1)
 (flx-ido-mode 1)
 (setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(setq ido-use-faces t)
 (setq gc-cons-threshold 20000000)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors")
