@@ -3,35 +3,40 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/org/org-mode/contrib/lisp" t)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
-(setq org-log-done t
-      org-todo-keywords
+(setq org-todo-keywords
       '((sequence "TODO" "INPROGRESS" "DONE"))
       org-todo-keyword-faces
       '(("INPROGRESS" . (:foreground "DodgerBlue2" :weight bold))))
 
 (add-hook 'org-mode-hook
-          (lambda ()
-            (flyspell-mode)))
+  (lambda ()
+    (flyspell-mode)))
 
-(eval-after-load "org"
-  '(progn
-     (define-prefix-command 'org-todo-keys)
-     (define-key org-mode-map "\C-cx" 'org-todo-keys)
-     (define-key org-todo-keys "t"
-       '(lambda nil (interactive) (org-todo "TODO")))
-     (define-key org-todo-keys "d"
-       '(lambda nil (interactive) (org-todo "DONE")))
-     (define-key org-todo-keys "i"
-       '(lambda nil (interactive) (org-todo "INPROGRESS")))))
+(define-prefix-command 'org-todo-keys)
+(define-key org-mode-map "\C-cx" 'org-todo-keys)
+(define-key org-todo-keys "t"
+  '(lambda () (interactive) (org-todo "TODO")))
+(define-key org-todo-keys "d"
+  '(lambda () (interactive) (org-todo "DONE")))
+(define-key org-todo-keys "i"
+  '(lambda () (interactive) (org-todo "INPROGRESS")))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((gnuplot . t)))
 
+;; ================================ Flyspell ===================================
+
+(require 'flyspell)
+(setq flyspell-issue-message-flg nil)
+
+(setq-default ispell-program-name "aspell")
+(setq ispell-local-dictionary "russian")
+
 ;; ================================= Scrum =====================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/org")
-(autoload 'scrum-update-all "org" "org major mode" t)
+(require 'scrum)
 
 ;; =============================== Gnuplot =====================================
 

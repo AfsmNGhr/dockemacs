@@ -45,14 +45,6 @@
 (require 'autopair)
 (autopair-global-mode)
 
-;; ================================ Flyspell ===================================
-
-(require 'flyspell)
-(setq flyspell-issue-message-flg nil)
-
-(setq-default ispell-program-name "aspell")
-(setq ispell-local-dictionary "russian")
-
 ;; ============================== Git-gutter ===================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter-fringe")
