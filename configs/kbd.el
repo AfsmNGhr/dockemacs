@@ -9,6 +9,8 @@
 
 ;; ======================== Reverse-input-method ===============================
 
+(require 'cl-lib)
+
 (defun reverse-input-method (input-method)
     "Build the reverse mapping of single letters from INPUT-METHOD."
     (interactive
@@ -32,16 +34,16 @@
       (when input-method
         (activate-input-method current))))
 
-(defun my/-is-interactive-frame-available ()
+(defun is-interactive-frame-available ()
   (and (not noninteractive)
        (not (and (daemonp)
                  (null (cdr (frame-list)))
                  (eq (selected-frame) terminal-frame)))))
 
-(defmacro* my/-exec-after-interactive-frame-available
+(defmacro* exec-after-interactive-frame-available
     ((&rest captures) &rest body)
   (declare (indent defun))
-  `(if (my/-is-interactive-frame-available)
+  `(if (is-interactive-frame-available)
        (progn ,@body)
      (lexical-let (,@(mapcar #'(lambda (c) (list c c)) captures))
        (add-hook 'after-make-frame-functions
@@ -49,7 +51,7 @@
                      (with-selected-frame frame
                        ,@body))))))
 
-(my/-exec-after-interactive-frame-available ()
+(exec-after-interactive-frame-available ()
    (reverse-input-method "russian-computer")
    (setq read-passwd-map
          (let ((map read-passwd-map))
