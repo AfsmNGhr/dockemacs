@@ -66,6 +66,8 @@
       (bookmark-jump
        (ido-completing-read "Jump to bookmark: " (bookmark-all-names)))))
 
+(setq bookmark-save-flag t)
+
 (global-set-key (kbd "C-x v")         'bookmark-set)
 (global-set-key (kbd "s-SPC")         'bookmark-save)
 

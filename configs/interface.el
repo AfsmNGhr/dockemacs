@@ -34,13 +34,15 @@
 ;; then enter the text in that file's own buffer.")
  '(whitespace-style (quote (face lines-tail))))
 
-(add-hook 'before-save-hook
-          'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(setq make-backup-files nil)
-(setq auto-save-list-file-name nil)
-(setq auto-save-default nil)
-(setq show-paren-style 'expression)
+(setq make-backup-files nil
+      auto-save-list-file-name nil
+      auto-save-default nil
+      show-paren-style 'expression
+      word-wrap t
+      search-highlight t
+      query-replace-highlight t)
 
 (show-paren-mode 1)
 (menu-bar-mode -1)
@@ -49,6 +51,7 @@
 (column-number-mode -1)
 (line-number-mode -1)
 (size-indication-mode -1)
+(global-visual-line-mode t)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky)
