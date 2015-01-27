@@ -28,14 +28,4 @@
 (require 'rubocop)
 (add-hook 'ruby-mode-hook 'rubocop-mode)
 
-;; ============================= Rsense ========================================
-
-(setq rsense-home "$RSENSE_HOME")
-(add-to-list 'load-path (concat rsense-home "/opt/rsense-0.3"))
-(require 'rsense)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (add-to-list 'ac-sources 'ac-source-rsense-method)
-            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-
 ;; ========================= To be continued... ================================
