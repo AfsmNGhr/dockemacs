@@ -16,8 +16,8 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message
    ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
-;; If you want to create a file, visit that file with [Ctrl+O],
-;; then enter the text in that file's own buffer.")
+    ;; If you want to create a file, visit that file with [Ctrl+O],
+    ;; then enter the text in that file's own buffer.")
  '(org-CUA-compatible nil)
  '(recentf-mode t)
  '(shift-select-mode nil)
