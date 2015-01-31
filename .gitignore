@@ -222,3 +222,4 @@ bookmarks
 *.elc
 ido.last
 recentf
+tramp

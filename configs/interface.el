@@ -4,11 +4,7 @@
 ;; (set-frame-parameter (selected-frame) 'alpha '(90 50))
 ;; (add-to-list 'default-frame-alist '(alpha 90 50))
 
-(setq file-name-coding-system 'utf-8)
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq display-time-interval 1)
-(setq display-time-format "%H:%M")
-(display-time-mode)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
@@ -34,16 +30,21 @@
 ;; then enter the text in that file's own buffer.")
  '(whitespace-style (quote (face lines-tail))))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(require 'whitespace)
 
-(setq make-backup-files nil
+(setq file-name-coding-system 'utf-8
+      display-time-interval 1
+      display-time-format "%H:%M"
+      make-backup-files nil
       auto-save-list-file-name nil
       auto-save-default nil
       show-paren-style 'expression
       word-wrap t
       search-highlight t
-      query-replace-highlight t)
+      query-replace-highlight t
+      whitespace-style '(face lines-tail))
 
+(display-time-mode)
 (show-paren-mode 1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -52,6 +53,8 @@
 (line-number-mode -1)
 (size-indication-mode -1)
 (global-visual-line-mode t)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'spolsky)
