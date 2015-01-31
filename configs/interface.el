@@ -9,10 +9,6 @@
 (setq-default indent-tabs-mode nil)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
     ("5b6a7f2a00275a5589b14fa23ff1699785d9f7c1722ee9f79ec1b7de92fa0935"
@@ -26,23 +22,20 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message
    ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
-;; If you want to create a file, visit that file with [Ctrl+O],
-;; then enter the text in that file's own buffer.")
+    ;; If you want to create a file, visit that file with [Ctrl+O],
+    ;; then enter the text in that file's own buffer.")
  '(whitespace-style (quote (face lines-tail))))
-
-(require 'whitespace)
 
 (setq file-name-coding-system 'utf-8
       display-time-interval 1
       display-time-format "%H:%M"
-      make-backup-files nil
-      auto-save-list-file-name nil
-      auto-save-default nil
+      make-backup-files -1
+      auto-save-list-file-name -1
+      auto-save-default -1
       show-paren-style 'expression
       word-wrap t
       search-highlight t
-      query-replace-highlight t
-      whitespace-style '(face lines-tail))
+      query-replace-highlight t)
 
 (display-time-mode)
 (show-paren-mode 1)
