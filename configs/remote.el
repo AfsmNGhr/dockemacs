@@ -3,7 +3,7 @@
 (require 'tramp)
 
 (setq-default tramp-persistency-file-name nil)
-(setq-default tramp-default-method "sshx")
+(setq-default tramp-default-method "scp")
 (tramp-set-completion-function "ssh"
                                '((tramp-parse-sconfig "/etc/ssh_config")
                                  (tramp-parse-sconfig "~/.ssh/config")))

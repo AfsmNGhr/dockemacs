@@ -3,7 +3,8 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
 
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/features/auto-complete/ac-dict")
+(add-to-list 'ac-dictionary-directories
+             "~/.emacs.d/plugins/features/auto-complete/ac-dict")
 (ac-config-default)
 (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
@@ -17,10 +18,27 @@
 (setq linum-format "%d ")
 (global-linum-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
+(eval-after-load 'linum
+  '(progn
+     (defface linum-leading-zero
+       `((t :inherit 'linum
+            :foreground ,(face-attribute 'linum :background nil t)))
+       "Face for displaying leading zeroes for line numbers in display margin."
+       :group 'linum)
+
+     (defun linum-format-func (line)
+       (let ((w (length
+                 (number-to-string (count-lines (point-min) (point-max))))))
+         (concat
+          (propertize (make-string (- w (length (number-to-string line))) ?0)
+                      'face 'linum-leading-zero)
+          (propertize (number-to-string line) 'face 'linum))))
+
+     (setq linum-format 'linum-format-func)))
 
 ;; ================================== IDO ======================================
 
+(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
 (require 'flx-ido)
 (require 'ido-hacks)
 (ido-mode 1)
@@ -42,8 +60,7 @@
 
 ;; ================================ Autopair ===================================
 
-(require 'autopair)
-(autopair-global-mode)
+(electric-pair-mode 1)
 
 ;; ============================== Git-gutter ===================================
 
@@ -60,6 +77,7 @@
 
 ;; ================================ Bookmark ===================================
 
+(require 'bookmark)
 (global-set-key (kbd "C-x r b")
     (lambda ()
       (interactive)
