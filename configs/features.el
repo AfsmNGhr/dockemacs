@@ -6,47 +6,32 @@
 (add-to-list 'ac-dictionary-directories
              "~/.emacs.d/plugins/features/auto-complete/ac-dict")
 (ac-config-default)
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
-(setq ac-auto-start 2)
-(setq ac-ignore-case nil)
+
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
+              ac-auto-start 2
+              ac-ignore-case nil)
 
 ;; ================================== Linum+ ===================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features")
 (require 'linum+)
-(setq linum-format "%d ")
+(setq linum-format " %i ")
 (global-linum-mode 1)
-
-(eval-after-load 'linum
-  '(progn
-     (defface linum-leading-zero
-       `((t :inherit 'linum
-            :foreground ,(face-attribute 'linum :background nil t)))
-       "Face for displaying leading zeroes for line numbers in display margin."
-       :group 'linum)
-
-     (defun linum-format-func (line)
-       (let ((w (length
-                 (number-to-string (count-lines (point-min) (point-max))))))
-         (concat
-          (propertize (make-string (- w (length (number-to-string line))) ?0)
-                      'face 'linum-leading-zero)
-          (propertize (number-to-string line) 'face 'linum))))
-
-     (setq linum-format 'linum-format-func)))
 
 ;; ================================== IDO ======================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
+
 (require 'flx-ido)
 (require 'ido-hacks)
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces t)
-(setq gc-cons-threshold 20000000)
+
+(setq ido-enable-flex-matching t
+      ido-use-faces t
+      gc-cons-threshold 20000000)
 
 ;; =========================== Multiple-cursors ================================
 
