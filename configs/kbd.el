@@ -3,8 +3,8 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/kbd/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
-(setq ergoemacs-theme nil)
-(setq ergoemacs-keyboard-layout "us")
+(setq ergoemacs-theme nil
+      ergoemacs-keyboard-layout "us")
 (ergoemacs-mode 1)
 
 ;; ======================== Reverse-input-method ===============================

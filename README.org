@@ -8,8 +8,8 @@
 
 ;; ================================== Time =====================================
 
-(setq display-time-interval 1)
-(setq display-time-format "%H:%M")
+(setq display-time-interval 1
+      display-time-format "%H:%M")
 (display-time-mode)
 
 ;; =============================== Delete bars =================================
@@ -28,8 +28,8 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/kbd/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
-(setq ergoemacs-theme nil)
-(setq ergoemacs-keyboard-layout "us")
+(setq ergoemacs-theme nil
+      ergoemacs-keyboard-layout "us")
 (ergoemacs-mode 1)
 
 ;; ================================== Rinari keys ==============================
@@ -72,7 +72,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features")
 (require 'linum+)
-(setq linum-format "%d ")
+(setq linum-format " %i ")
 (global-linum-mode 1)
 
 ;; ================================== IDO ======================================
@@ -84,9 +84,10 @@
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces t)
-(setq gc-cons-threshold 20000000)
+
+(setq ido-enable-flex-matching t
+      ido-use-faces t
+      gc-cons-threshold 20000000)
 
 ;; =========================== Multiple-cursors ================================
 
@@ -98,20 +99,21 @@
 
 ;; ================================ Autopair ===================================
 
-(require 'autopair)
-(autopair-global-mode)
+(electric-pair-mode 1)
 
 ;; =============================== Autocomplete ================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
 
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/features/auto-complete/ac-dict")
+(add-to-list 'ac-dictionary-directories
+             "~/.emacs.d/plugins/features/auto-complete/ac-dict")
 (ac-config-default)
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
 (global-auto-complete-mode 1)
-(setq ac-auto-start 2)
-(setq ac-ignore-case nil)
+
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
+              ac-auto-start 2
+              ac-ignore-case nil)
 
 ;; ================================= Smex ======================================
 
@@ -173,6 +175,7 @@
 
 ;; ================================ Bookmark ===================================
 
+(require 'bookmark)
 (global-set-key (kbd "C-x r b")
     (lambda ()
       (interactive)
@@ -208,14 +211,6 @@
 (setq yas-snippet-dirs
        '("~/.emacs.d/plugins/snippets/yasnippet/yasmate/snippets"
          "~/.emacs.d/plugins/snippets/yasnippet/snippets"))
-
-;; ================================ Flyspell ===================================
-
-(require 'flyspell)
-(setq flyspell-issue-message-flg nil)
-
-(setq-default ispell-program-name "aspell")
-(setq ispell-local-dictionary "russian")
 #+end_src
 **** Ruby
 #+begin_src elisp
@@ -276,7 +271,7 @@
 (autoload 'rhtml-mode "rhtml" "rhtml major mode" t)
 (add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
 #+end_src
-**** Server
+**** Hooks
 #+begin_src elisp
 ;; =========================== Compile elisp ===================================
 
@@ -289,5 +284,47 @@
     (byte-compile-file buffer-file-name)))
 
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
+
+;; ============================== Org-mode =====================================
+
+(defun my-org-hook ()
+    "my hook for `org-mode'."
+  (interactive)
+  (load "~/.emacs.d/configs/hooks/org.el"))
+
+(add-hook 'org-mode-hook 'my-org-hook)
+
+;; =============================== Js-mode =====================================
+
+(defun my-js-hook ()
+    "my hook for `js-mode'."
+  (interactive)
+  (load "~/.emacs.d/configs/hooks/js.el"))
+
+(add-hook 'js-mode-hook 'my-js-hook)
+
+;; ============================== Lisp-mode ====================================
+
+(defun my-lisp-hook ()
+    "my hook for `lisp-mode'."
+  (interactive)
+  (load "~/.emacs.d/configs/hooks/lisp/cl.el")
+  (load "~/.emacs.d/configs/hooks/lisp/clojure.el"))
+
+(add-hook 'lisp-mode-hook 'my-lisp-hook)
+
+;; ============================== Ruby-mode ====================================
+
+(defun my-ruby-hook ()
+    "my hook for `ruby-mode'."
+  (interactive)
+  (load "~/.emacs.d/configs/hooks/ruby/ruby.el")
+  (load "~/.emacs.d/configs/hooks/ruby/rinari.el"))
+
+(add-hook 'ruby-mode-hook 'my-ruby-hook)
+
+;; ============================= Before-save ===================================
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+end_src
 **** To be continued...
