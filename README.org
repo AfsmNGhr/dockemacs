@@ -20,9 +20,9 @@
 (add-hook 'after-make-frame-functions 'my/enabling-theme)
 #+end_src
 ***** Spolsky
-[[file:/image/spolsky-theme.png][Spolsky]]
+![[file:/image/spolsky-theme.png][Spolsky]]
 ***** Spolsky-term
-[[file:/image/spolsky-term-theme.png][Spolsky-term]]
+![[file:/image/spolsky-term-theme.png][Spolsky-term]]
 #+begin_src elisp
 ;; ================================== Time =====================================
 
