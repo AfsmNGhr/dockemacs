@@ -42,6 +42,7 @@
 ;; =============================== Theme =======================================
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
 (if (daemonp)
     (progn
       (load-theme 'spolsky t t)

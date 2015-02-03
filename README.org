@@ -205,10 +205,14 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
 
 (require 'git-gutter)
+(git-gutter:linum-setup)
 (global-git-gutter-mode +1)
+
+(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
+
 (set-face-foreground 'git-gutter:modified "Violet red")
-(set-face-foreground 'git-gutter:added    "DodgerBlue2")
-(set-face-foreground 'git-gutter:deleted  "firebrick2")
+(set-face-foreground 'git-gutter:added "DodgerBlue2")
+(set-face-foreground 'git-gutter:deleted "firebrick2")
 
 ;; =============================== Yasnippet ===================================
 
