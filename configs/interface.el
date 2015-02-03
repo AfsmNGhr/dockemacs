@@ -39,17 +39,22 @@
 (delete-selection-mode t)
 (global-whitespace-mode t)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spolsky t t)
-(load-theme 'spolsky-term t t)
+;; =============================== Theme =======================================
 
-(defun my/loading-theme (frame)
-  "loading the current frame depending on the frame type"
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(if (daemonp)
+    (progn
+      (load-theme 'spolsky t t)
+      (load-theme 'spolsky-term t t))
+  (load-theme 'spolsky t))
+
+(defun my/enabling-theme (frame)
+  "enabling theme the current frame depending on the frame type"
   (with-selected-frame frame
     (if (window-system)
         (enable-theme 'spolsky)
       (enable-theme 'spolsky-term))))
 
-(add-hook 'after-make-frame-functions 'my/loading-theme)
+(add-hook 'after-make-frame-functions 'my/enabling-theme)
 
 ;; ========================= To be continued... ================================
