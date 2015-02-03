@@ -1,5 +1,5 @@
 *** My emacs config
-**** Customize interface
+**** Customize interface & [[file:/themes.md][Themes]]
 #+begin_src elisp
 ;; ================================== Theme ====================================
 
@@ -18,9 +18,7 @@
       (enable-theme 'spolsky-term))))
 
 (add-hook 'after-make-frame-functions 'my/enabling-theme)
-#+end_src
-[[file:/themes.md][Themes]]
-#+begin_src elisp
+
 ;; ================================== Time =====================================
 
 (setq display-time-interval 1
