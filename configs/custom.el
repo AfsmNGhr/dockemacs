@@ -4,9 +4,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("d04011e4bce7c1f6fef1ee123d5dc3417c54ac5bfe9dc9e93cbbb670c96c072a" default)))
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
