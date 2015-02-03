@@ -14,9 +14,9 @@
               file-name-coding-system 'utf-8
               display-time-interval 1
               display-time-format "%H:%M"
-              make-backup-files -1
-              auto-save-list-file-name -1
-              auto-save-default -1
+              make-backup-files nil
+              auto-save-list-file-name nil
+              auto-save-default nil
               show-paren-style 'expression
               word-wrap t
               search-highlight t
@@ -40,8 +40,16 @@
 (global-whitespace-mode t)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(if (window-system)
-    (load-theme 'spolsky t)
-  (load-theme 'spolsky-term t))
+(load-theme 'spolsky t t)
+(load-theme 'spolsky-term t t)
+
+(defun my/loading-theme (frame)
+  "loading the current frame depending on the frame type"
+  (with-selected-frame frame
+    (if (window-system)
+        (enable-theme 'spolsky)
+      (enable-theme 'spolsky-term))))
+
+(add-hook 'after-make-frame-functions 'my/loading-theme)
 
 ;; ========================= To be continued... ================================

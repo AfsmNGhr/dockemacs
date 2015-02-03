@@ -6,8 +6,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("d04011e4bce7c1f6fef1ee123d5dc3417c54ac5bfe9dc9e93cbbb670c96c072a"
-     "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
+    ("d04011e4bce7c1f6fef1ee123d5dc3417c54ac5bfe9dc9e93cbbb670c96c072a" default)))
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
@@ -16,14 +15,13 @@
  '(global-linum-mode t)
  '(global-whitespace-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(initial-scratch-message
-   ";; This buffer is for notes you don't want to save, and for Lisp evaluation.
-    ;; If you want to create a file, visit that file with [Ctrl+O],
-    ;; then enter the text in that file's own buffer.")
+ '(initial-scratch-message nil)
  '(org-CUA-compatible nil)
  '(org-replace-disputed-keys nil)
+ '(recentf-menu-before nil)
  '(recentf-mode t)
  '(shift-select-mode nil)
+ '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

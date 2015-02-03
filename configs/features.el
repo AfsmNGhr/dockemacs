@@ -49,16 +49,17 @@
 
 ;; ============================== Git-gutter ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter-fringe")
 (add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
-(add-to-list 'load-path "~/.emacs.d/plugins/features/fringe-helper.el")
 
-(require 'fringe-helper)
-(require 'git-gutter-fringe)
+(require 'git-gutter)
+(git-gutter:linum-setup)
 (global-git-gutter-mode +1)
-(set-face-foreground 'git-gutter-fr:modified "Violet red")
-(set-face-foreground 'git-gutter-fr:added    "DodgerBlue2")
-(set-face-foreground 'git-gutter-fr:deleted  "firebrick2")
+
+(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
+
+(set-face-foreground 'git-gutter:modified "Violet red")
+(set-face-foreground 'git-gutter:added "DodgerBlue2")
+(set-face-foreground 'git-gutter:deleted "firebrick2")
 
 ;; ================================ Bookmark ===================================
 

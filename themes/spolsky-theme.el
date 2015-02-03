@@ -89,6 +89,7 @@
    ;; GUI
    `(fringe ((t (:background, *background*))))
    `(linum ((t (:background, *line-number* :foreground, *line-fg*))))
+   `(whitespace-line ((t (:foreground, *warning*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg*))))
    `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *mode-inactive-fg*))))
