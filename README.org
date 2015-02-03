@@ -4,8 +4,26 @@
 ;; ================================== Theme ====================================
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spolsky)
+(if (daemonp)
+    (progn
+      (load-theme 'spolsky t t)
+      (load-theme 'spolsky-term t t))
+  (load-theme 'spolsky t))
 
+(defun my/enabling-theme (frame)
+  "enabling theme the current frame depending on the frame type"
+  (with-selected-frame frame
+    (if (window-system)
+        (enable-theme 'spolsky)
+      (enable-theme 'spolsky-term))))
+
+(add-hook 'after-make-frame-functions 'my/enabling-theme)
+#+end_src
+***** Spolsky
+[[file:/image/spolsky-theme.png][Spolsky]]
+***** Spolsky-term
+[[file:/image/spolsky-term-theme.png][Spolsky-term]]
+#+begin_src elisp
 ;; ================================== Time =====================================
 
 (setq display-time-interval 1
