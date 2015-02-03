@@ -10,21 +10,20 @@
  '(whitespace-style '(face lines-tail)))
 
 (setq-default tab-width 2
-              indent-tabs-mode nil)
-
-(setq file-name-coding-system 'utf-8
-      display-time-interval 1
-      display-time-format "%H:%M"
-      make-backup-files -1
-      auto-save-list-file-name -1
-      auto-save-default -1
-      show-paren-style 'expression
-      word-wrap t
-      search-highlight t
-      use-dialog-box nil
-      redisplay-dont-pause t
-      ring-bell-function 'ignore
-      query-replace-highlight t)
+              indent-tabs-mode nil
+              file-name-coding-system 'utf-8
+              display-time-interval 1
+              display-time-format "%H:%M"
+              make-backup-files -1
+              auto-save-list-file-name -1
+              auto-save-default -1
+              show-paren-style 'expression
+              word-wrap t
+              search-highlight t
+              use-dialog-box nil
+              redisplay-dont-pause t
+              ring-bell-function 'ignore
+              query-replace-highlight t)
 
 (display-time-mode)
 (show-paren-mode 1)
@@ -41,6 +40,8 @@
 (global-whitespace-mode t)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spolsky t)
+(if (window-system)
+    (load-theme 'spolsky t)
+  (load-theme 'spolsky-term t))
 
 ;; ========================= To be continued... ================================

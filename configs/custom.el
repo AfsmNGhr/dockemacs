@@ -4,7 +4,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes nil)
+ '(custom-safe-themes
+   (quote
+    ("d04011e4bce7c1f6fef1ee123d5dc3417c54ac5bfe9dc9e93cbbb670c96c072a"
+     "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12")))
  '(delete-selection-mode t)
  '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
  '(ergoemacs-handle-ctl-c-or-ctl-x (quote both))
@@ -18,6 +21,7 @@
     ;; If you want to create a file, visit that file with [Ctrl+O],
     ;; then enter the text in that file's own buffer.")
  '(org-CUA-compatible nil)
+ '(org-replace-disputed-keys nil)
  '(recentf-mode t)
  '(shift-select-mode nil)
  '(whitespace-style (quote (face lines-tail))))

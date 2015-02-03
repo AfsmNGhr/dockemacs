@@ -11,22 +11,24 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;; ---------------------------
+;; ----------------------------------------------
 ;;
-;; Spolsky : A dark color theme
+;; Spolsky-term : A dark color theme for terminal
 ;;
-;; ----------------------------
+;; ----------------------------------------------
 
 (unless (>= emacs-major-version 24)
   (error "requires Emacs 24 or later."))
 
-(deftheme spolsky  "A dark color theme for Emacs based on Sublime Text 2")
+(deftheme spolsky-term
+  "A dark color theme for Emacs based on Sublime Text 2.
+   Terminal version")
 
 (custom-theme-set-variables
-  'spolsky
+  'spolsky-term
   '(linum-format " %i "))
 
-(let ((*background*         "#161A1F")
+(let ((*background*         "unspecified-bg")
       (*comments*           "#8C8C8C")
       (*constant*           "#FF80F4")
       (*current-line*       "#151515")
@@ -34,13 +36,15 @@
       (*keywords*           "#F92672")
 
       ;; Sidebar line numbers
-      (*line-number*        "#161A1F")
+      (*line-number*        "unspecified-bg")
       (*line-fg*            "#666")
+
+      (*fringe*             "#555")
 
       (*type-face*          "#66D9EF")
       (*method-declaration* "#A6E22E")
-      (*mode-line-bg*       "#333")
-      (*mode-inactive-bg*   "#222")
+      (*mode-line-bg*       "unspecified-bg")
+      (*mode-inactive-bg*   "unspecified-bg")
       (*mode-line-fg*       "#EEDC82")
       (*mode-inactive-fg*   "#555")
       (*normal*             "#DEDEDE")
@@ -53,7 +57,7 @@
       (*visual-selection*   "#555"))
 
   (custom-theme-set-faces
-   'spolsky
+   'spolsky-term
 
    `(bold ((t (:bold t))))
    `(button ((t (:foreground, *keywords* :underline t))))
@@ -87,14 +91,14 @@
    `(font-lock-warning-face ((t (:foreground, *warning*))))
 
    ;; GUI
-   `(fringe ((t (:background, *background*))))
+   `(fringe ((t (:background, *fringe*))))
    `(linum ((t (:background, *line-number* :foreground, *line-fg*))))
    `(minibuffer-prompt ((t (:foreground, *variable*))))
    `(mode-line ((t (:background, *mode-line-bg* :foreground, *mode-line-fg*))))
    `(mode-line-inactive ((t (:background, *mode-inactive-bg* :foreground, *mode-inactive-fg*))))
    `(cursor ((t (:background, *cursor-underscore*))))
    `(text-cursor ((t (:background, *cursor-underscore*))))
-   `(vertical-border ((t (:foreground, *background*)))) ;; between splits
+   `(vertical-border ((t (:foreground, *fringe*)))) ;; between splits
 
    ;; show-paren
    `(show-paren-mismatch ((t (:background, *warning* :foreground, *normal* :weight bold))))
@@ -112,7 +116,7 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'spolsky)
+(provide-theme 'spolsky-term)
 
 ;; Local Variables:
 ;; no-byte-compile: t

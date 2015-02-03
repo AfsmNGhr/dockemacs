@@ -25,14 +25,6 @@
  'org-babel-load-languages
  '((gnuplot . t)))
 
-;; ================================ Flyspell ===================================
-
-(require 'flyspell)
-(setq flyspell-issue-message-flg nil)
-
-(setq-default ispell-program-name "aspell")
-(setq ispell-local-dictionary "russian")
-
 ;; ================================= Scrum =====================================
 
 (add-to-list 'load-path "~/.emacs.d/plugins/org")
