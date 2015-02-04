@@ -53,8 +53,12 @@
   "enabling theme the current frame depending on the frame type"
   (with-selected-frame frame
     (if (window-system)
-        (enable-theme 'spolsky)
-      (enable-theme 'spolsky-term))))
+        (progn
+          (unless (custom-theme-enabled-p 'spolsky)
+            (enable-theme 'spolsky)))
+      (progn
+        (unless (custom-theme-enabled-p 'spolsky-term)
+          (enable-theme 'spolsky-term))))))
 
 (add-hook 'after-make-frame-functions 'my/enabling-theme)
 

@@ -13,7 +13,7 @@
  '(global-whitespace-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
- '(org-CUA-compatible nil)
+ '(org-CUA-compatible t)
  '(org-replace-disputed-keys nil)
  '(recentf-menu-before nil)
  '(recentf-mode t)
