@@ -14,9 +14,9 @@
               file-name-coding-system 'utf-8
               display-time-interval 1
               display-time-format "%H:%M"
-              make-backup-files -1
-              auto-save-list-file-name -1
-              auto-save-default -1
+              make-backup-files nil
+              auto-save-list-file-name nil
+              auto-save-default nil
               show-paren-style 'expression
               word-wrap t
               search-highlight t
