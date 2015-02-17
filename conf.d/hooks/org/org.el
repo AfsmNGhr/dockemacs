@@ -3,14 +3,12 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/org/org-mode/contrib/lisp" t)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
+(require 'org)
+
 (setq org-todo-keywords
       '((sequence "TODO" "INPROGRESS" "DONE"))
       org-todo-keyword-faces
       '(("INPROGRESS" . (:foreground "DodgerBlue2" :weight bold))))
-
-(add-hook 'org-mode-hook
-  (lambda ()
-    (flyspell-mode)))
 
 (define-prefix-command 'org-todo-keys)
 (define-key org-mode-map "\C-cx" 'org-todo-keys)

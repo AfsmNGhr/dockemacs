@@ -1,16 +1,16 @@
 ;; ================================ Auto-complete ==============================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
+;; (add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
 
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories
-             "~/.emacs.d/plugins/features/auto-complete/ac-dict")
-(ac-config-default)
-(global-auto-complete-mode 1)
+;;(require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories
+;;             "~/.emacs.d/plugins/features/auto-complete/dict")
+;;(ac-config-default)
+;;(global-auto-complete-mode 1)
 
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
-              ac-auto-start 2
-              ac-ignore-case nil)
+;;(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
+;;             ac-auto-start 2
+;;             ac-ignore-case nil)
 
 ;; ================================== Linum+ ===================================
 
@@ -35,7 +35,7 @@
 
 ;; =========================== Multiple-cursors ================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors.el")
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-x C-m") 'mc/edit-lines)

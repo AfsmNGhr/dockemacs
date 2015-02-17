@@ -45,21 +45,23 @@
 
 (if (daemonp)
     (progn
-      (load-theme 'spolsky t t)
+      (load-theme 'spolsky t)
       (load-theme 'spolsky-term t t))
   (load-theme 'spolsky t))
 
-(defun my/enabling-theme (frame)
-  "enabling theme the current frame depending on the frame type"
+(defun my/enable-theme (frame)
+  "enable theme the current frame depending on the frame type"
   (with-selected-frame frame
     (if (window-system)
         (progn
           (unless (custom-theme-enabled-p 'spolsky)
+            (disable-theme 'spolsky-term)
             (enable-theme 'spolsky)))
       (progn
         (unless (custom-theme-enabled-p 'spolsky-term)
+          (disable-theme 'spolsky)
           (enable-theme 'spolsky-term))))))
 
-(add-hook 'after-make-frame-functions 'my/enabling-theme)
+(add-hook 'after-make-frame-functions 'my/enable-theme)
 
 ;; ========================= To be continued... ================================

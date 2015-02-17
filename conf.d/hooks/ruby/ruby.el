@@ -7,6 +7,7 @@
 
 ;; ================================== Rvm ======================================
 
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rvm.el")
 (require 'rvm)
 (rvm-use-default)
 

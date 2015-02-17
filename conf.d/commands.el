@@ -1,6 +1,6 @@
 ;; ==================================== Smex ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/commands")
+(add-to-list 'load-path "~/.emacs.d/plugins/commands/smex")
 (require 'smex)
 (smex-initialize)
 (smex-auto-update 600)

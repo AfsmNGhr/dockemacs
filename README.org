@@ -7,23 +7,24 @@
 
 (if (daemonp)
     (progn
-      (load-theme 'spolsky t t)
+      (load-theme 'spolsky t)
       (load-theme 'spolsky-term t t))
   (load-theme 'spolsky t))
 
-(defun my/enabling-theme (frame)
-  "enabling theme the current frame depending on the frame type"
+(defun my/enable-theme (frame)
+  "enable theme the current frame depending on the frame type"
   (with-selected-frame frame
     (if (window-system)
         (progn
           (unless (custom-theme-enabled-p 'spolsky)
+            (disable-theme 'spolsky-term)
             (enable-theme 'spolsky)))
       (progn
         (unless (custom-theme-enabled-p 'spolsky-term)
+          (disable-theme 'spolsky)
           (enable-theme 'spolsky-term))))))
 
-(add-hook 'after-make-frame-functions 'my/enabling-theme)
-
+(add-hook 'after-make-frame-functions 'my/enable-theme)
 ;; ================================== Time =====================================
 
 (setq display-time-interval 1
@@ -302,48 +303,23 @@
              (file-exists-p (byte-compile-dest-file buffer-file-name)))
     (byte-compile-file buffer-file-name)))
 
+;; ============================== Load hook ====================================
+
+(defun load-hook (path)
+  "Load files in hook directory"
+  (interactive)
+  (let ((hooks "~/.emacs.d/conf.d/hooks/"))
+    (dolist (hook-files
+             (directory-files (concat hooks path) t "\.el$" nil))
+      (load (file-name-sans-extension hook-files) 'noerror))))
+
+;; ================================ Hooks ======================================
+
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
-
-;; ============================== Org-mode =====================================
-
-(defun my-org-hook ()
-    "my hook for `org-mode'."
-  (interactive)
-  (load "~/.emacs.d/configs/hooks/org.el"))
-
-(add-hook 'org-mode-hook 'my-org-hook)
-
-;; =============================== Js-mode =====================================
-
-(defun my-js-hook ()
-    "my hook for `js-mode'."
-  (interactive)
-  (load "~/.emacs.d/configs/hooks/js.el"))
-
-(add-hook 'js-mode-hook 'my-js-hook)
-
-;; ============================== Lisp-mode ====================================
-
-(defun my-lisp-hook ()
-    "my hook for `lisp-mode'."
-  (interactive)
-  (load "~/.emacs.d/configs/hooks/lisp/cl.el")
-  (load "~/.emacs.d/configs/hooks/lisp/clojure.el"))
-
-(add-hook 'lisp-mode-hook 'my-lisp-hook)
-
-;; ============================== Ruby-mode ====================================
-
-(defun my-ruby-hook ()
-    "my hook for `ruby-mode'."
-  (interactive)
-  (load "~/.emacs.d/configs/hooks/ruby/ruby.el")
-  (load "~/.emacs.d/configs/hooks/ruby/rinari.el"))
-
-(add-hook 'ruby-mode-hook 'my-ruby-hook)
-
-;; ============================= Before-save ===================================
-
+(add-hook 'org-mode-hook (lambda () (load-hook "org")))
+(add-hook 'js-mode-hook (lambda () (load-hook "js")))
+(add-hook 'lisp-mode-hook (lambda () (load-hook "lisp")))
+(add-hook 'ruby-mode-hook (lambda () (load-hook "ruby")))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+end_src
 **** To be continued...
