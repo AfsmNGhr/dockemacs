@@ -1,16 +1,19 @@
 ;; ================================ Auto-complete ==============================
 
-;; (add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
+(add-to-list 'load-path "~/.emacs.d/plugins/features/popup-el")
 
-;;(require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories
-;;             "~/.emacs.d/plugins/features/auto-complete/dict")
-;;(ac-config-default)
-;;(global-auto-complete-mode 1)
+(require 'popup)
+(require 'auto-complete-config)
 
-;;(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
-;;             ac-auto-start 2
-;;             ac-ignore-case nil)
+(add-to-list 'ac-dictionary-directories
+            "~/.emacs.d/plugins/features/auto-complete/dict")
+(ac-config-default)
+(global-auto-complete-mode 1)
+
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
+              ac-auto-start 2
+              ac-ignore-case nil)
 
 ;; ================================== Linum+ ===================================
 

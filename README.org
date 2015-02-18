@@ -25,6 +25,7 @@
           (enable-theme 'spolsky-term))))))
 
 (add-hook 'after-make-frame-functions 'my/enable-theme)
+
 ;; ================================== Time =====================================
 
 (setq display-time-interval 1

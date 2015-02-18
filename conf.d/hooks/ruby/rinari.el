@@ -1,9 +1,10 @@
 ;; ==================================== Rinary =================================
 
+(defvar *ruby-path* "~/.emacs.d/plugins/ruby/")
 (require 'ido)
 (ido-mode t)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rinari")
+(add-to-list 'load-path (concat *ruby-path* "rinari"))
 (require 'rinari)
 (global-rinari-mode)
 

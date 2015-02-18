@@ -22,8 +22,6 @@
  '(org-replace-disputed-keys nil)
  '(recentf-menu-before nil)
  '(recentf-mode t)
- '(scroll-error-top-bottom nil)
- '(set-mark-command-repeat-pop nil)
  '(shift-select-mode nil)
  '(smex-prompt-string nil)
  '(whitespace-style (quote (face lines-tail))))
@@ -33,3 +31,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;; ========================= To be continued... ================================
