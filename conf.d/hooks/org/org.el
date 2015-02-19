@@ -1,10 +1,10 @@
 ;; ============================== Org mode =====================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/org/org-mode/contrib/lisp" t)
+(defvar *org-path* "~/.emacs.d/plugins/org/")
+(add-to-list 'load-path (concat *org-path* "org-mode/contrib/lisp") t)
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
 (require 'org)
-
 (setq org-todo-keywords
       '((sequence "TODO" "INPROGRESS" "DONE"))
       org-todo-keyword-faces
@@ -30,9 +30,9 @@
 
 ;; =============================== Gnuplot =====================================
 
-(setq load-path (append (list "~/.emacs.d/plugins/org/gnuplot-mode") load-path))
+(setq load-path (append (list "~/.emacs.d/plugins/org/gnuplot-mode") load-path)
+      auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
 (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
-(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
 
 ;; ========================= To be continued... ================================

@@ -224,3 +224,5 @@ ido.last
 recentf
 tramp
 elpa/
+secrets/
+request/
