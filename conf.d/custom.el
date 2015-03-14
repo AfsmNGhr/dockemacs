@@ -18,6 +18,7 @@
  '(global-whitespace-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message nil)
+ '(linum-format " %i ")
  '(org-CUA-compatible nil)
  '(org-replace-disputed-keys nil)
  '(recentf-menu-before nil)

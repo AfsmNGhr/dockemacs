@@ -16,15 +16,15 @@
 
 ;; ================================ Robe =======================================
 
-(add-to-list 'load-path (concat *ruby-path* "robe"))
-(require 'robe)
+;; (add-to-list 'load-path (concat *ruby-path* "robe"))
+;; (require 'robe)
 
-(add-hook 'ruby-mode-hook 'robe-mode)
-(add-hook 'robe-mode-hook 'ac-robe-setup)
-(add-hook 'robe-mode-hook
-            (lambda ()
-              (add-to-list 'ac-sources 'ac-source-robe)
-              (set-auto-complete-as-completion-at-point-function)))
+;; (add-hook 'ruby-mode-hook 'robe-mode)
+;; (add-hook 'robe-mode-hook 'ac-robe-setup)
+;; (add-hook 'robe-mode-hook
+;;             (lambda ()
+;;               (add-to-list 'ac-sources 'ac-source-robe)
+;;               (set-auto-complete-as-completion-at-point-function)))
 
 ;; ================================= Rubocop ===================================
 
@@ -34,5 +34,13 @@
 (add-to-list 'load-path (concat *ruby-path* "rubocop-emacs"))
 (require 'rubocop)
 (add-hook 'ruby-mode-hook 'rubocop-mode)
+
+;; =================================== Rspec ===================================
+
+(add-to-list 'load-path  (concat *ruby-path* "rspec-mode/"))
+(require 'rspec-mode)
+
+(eval-after-load 'rspec-mode
+  '(rspec-install-snippets))
 
 ;; ========================= To be continued... ================================
