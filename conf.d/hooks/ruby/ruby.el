@@ -5,6 +5,17 @@
 (require 'ruby-mode)
 (require 'inf-ruby)
 
+;; =============================== Files =======================================
+
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+
 ;; ================================== Rvm ======================================
 
 (add-to-list 'load-path (concat *ruby-path* "rvm.el"))
@@ -16,15 +27,15 @@
 
 ;; ================================ Robe =======================================
 
-;; (add-to-list 'load-path (concat *ruby-path* "robe"))
-;; (require 'robe)
+(add-to-list 'load-path (concat *ruby-path* "robe"))
+(require 'robe)
 
-;; (add-hook 'ruby-mode-hook 'robe-mode)
-;; (add-hook 'robe-mode-hook 'ac-robe-setup)
-;; (add-hook 'robe-mode-hook
-;;             (lambda ()
-;;               (add-to-list 'ac-sources 'ac-source-robe)
-;;               (set-auto-complete-as-completion-at-point-function)))
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'robe-mode-hook 'ac-robe-setup)
+(add-hook 'robe-mode-hook
+            (lambda ()
+              (add-to-list 'ac-sources 'ac-source-robe)
+              (set-auto-complete-as-completion-at-point-function)))
 
 ;; ================================= Rubocop ===================================
 
