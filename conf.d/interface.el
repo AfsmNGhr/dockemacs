@@ -23,7 +23,8 @@
               use-dialog-box nil
               redisplay-dont-pause t
               ring-bell-function 'ignore
-              query-replace-highlight t)
+              query-replace-highlight t
+              browse-url-browser-function 'browse-url-firefox)
 
 (display-time-mode)
 (show-paren-mode 1)
@@ -38,6 +39,15 @@
 (global-font-lock-mode t)
 (delete-selection-mode t)
 (global-whitespace-mode t)
+(recentf-mode 1)
+(show-paren-mode 1)
+
+;; =============================== UTF-8 =======================================
+
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(ansi-color-for-comint-mode-on)
 
 ;; =============================== Theme =======================================
 
