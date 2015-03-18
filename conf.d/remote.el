@@ -1,7 +1,6 @@
 ;; ================================ Tramp ======================================
 
 (require 'tramp)
-
 (setq-default tramp-persistency-file-name nil)
 (setq-default tramp-default-method "scp")
 (tramp-set-completion-function "ssh"

@@ -55,7 +55,7 @@
 
 (if (daemonp)
     (progn
-      (load-theme 'spolsky t t)
+      (load-theme 'spolsky t)
       (load-theme 'spolsky-term t t)
   (load-theme 'spolsky t)))
 
@@ -65,12 +65,14 @@
     (if (window-system)
         (progn
           (unless (custom-theme-enabled-p 'spolsky)
-            (disable-theme 'spolsky-term)
-            (enable-theme 'spolsky)))
-      (progn
-        (unless (custom-theme-enabled-p 'spolsky-term)
-          (disable-theme 'spolsky)
-          (enable-theme 'spolsky-term))))))
+            (if (custom-theme-enabled-p 'spolsky-term)
+                (disable-theme 'spolsky-term))
+              (enable-theme 'spolsky)))
+          (progn
+            (unless (custom-theme-enabled-p 'spolsky-term)
+              (if (custom-theme-enabled-p 'spolsky)
+                  (disable-theme 'spolsky))
+                (enable-theme 'spolsky-term))))))
 
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 
