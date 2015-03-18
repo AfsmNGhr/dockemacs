@@ -53,6 +53,7 @@
       my:el-get-packages (append my:el-get-packages
                                  (mapcar #'el-get-source-name el-get-sources)))
 
+(el-get-cleanup my:el-get-packages)
 (el-get 'sync my:el-get-packages)
 
 ;; ========================= To be continued... ================================
