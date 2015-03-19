@@ -378,8 +378,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 #+end_src
-#+begin_src ruby, elisp
-;; ============================= Benchmark =====================================
+**** Benchmark
+#+begin_src clojure
 
 Benchmark results
 
