@@ -2,7 +2,6 @@
 
 (defvar *org-path* "~/.emacs.d/plugins/org/")
 (add-to-list 'load-path (concat *org-path* "org-mode/contrib/lisp") t)
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
 
 (require 'org)
 (setq org-todo-keywords

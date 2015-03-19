@@ -1,13 +1,14 @@
 ;; ================================ Auto-complete ==============================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
-(add-to-list 'load-path "~/.emacs.d/plugins/features/popup-el")
+(defvar features-path "~/.emacs.d/el-get/")
 
+(add-to-list 'load-path (concat features-path "popup"))
+(add-to-list 'load-path (concat features-path "auto-complete"))
 (require 'popup)
 (require 'auto-complete-config)
 
 (add-to-list 'ac-dictionary-directories
-            "~/.emacs.d/plugins/features/auto-complete/dict")
+             (concat features-path "auto-complete/dict"))
 (ac-config-default)
 (global-auto-complete-mode 1)
 
@@ -15,19 +16,29 @@
               ac-auto-start 2
               ac-ignore-case nil)
 
+;; ================================ Snippets  ==================================
+
+(add-to-list 'load-path (concat features-path "yasnippet"))
+(require 'yasnippet)
+
+(yas-global-mode 1)
+(add-to-list 'ac-sources 'ac-source-yasnippet)
+
 ;; ================================== Linum+ ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features")
-(require 'linum+)
+(add-to-list 'load-path (concat features-path "linum-ex"))
+(require 'linum-ex)
+
 (setq linum-format " %i ")
 (global-linum-mode 1)
 
 ;; ================================== IDO ======================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
-
+(add-to-list 'load-path (concat features-path "ido-hacks"))
+(add-to-list 'load-path (concat features-path "flx"))
 (require 'flx-ido)
 (require 'ido-hacks)
+
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
@@ -38,9 +49,9 @@
 
 ;; =========================== Multiple-cursors ================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/multiple-cursors.el")
-
+(add-to-list 'load-path (concat features-path "multiple-cursors"))
 (require 'multiple-cursors)
+
 (global-set-key (kbd "C-x C-m") 'mc/edit-lines)
 (global-set-key (kbd "C-.") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
@@ -52,9 +63,9 @@
 
 ;; ============================== Git-gutter ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
-
+(add-to-list 'load-path (concat features-path "git-gutter"))
 (require 'git-gutter)
+
 (git-gutter:linum-setup)
 (global-git-gutter-mode +1)
 
@@ -77,5 +88,13 @@
 
 (global-set-key (kbd "C-x v")         'bookmark-set)
 (global-set-key (kbd "s-SPC")         'bookmark-save)
+
+;; ==================================== Smex ===================================
+
+(add-to-list 'load-path (concat features-path "smex"))
+(require 'smex)
+
+(smex-initialize)
+(smex-auto-update 600)
 
 ;; ========================= To be continued... ================================

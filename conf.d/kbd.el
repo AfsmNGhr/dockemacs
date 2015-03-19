@@ -1,6 +1,6 @@
 ;; ========================== Ergoemacs-mode ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/kbd/ergoemacs-mode")
+(add-to-list 'load-path "~/.emacs.d/el-get/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
 (setq ergoemacs-theme nil

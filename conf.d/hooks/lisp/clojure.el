@@ -1,20 +1,16 @@
 ;; =============================== Clojure =====================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/clojure/clojure-mode")
+(defvar clj-path "~/.emacs.d/el-get/")
+
+(add-to-list 'load-path (concact clj-path "clojure-mode"))
 (require 'clojure-mode)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/clojure/rainbow-delimiters")
+(add-to-list 'load-path (concact clj-path "rainbow-delimiters"))
 (require 'rainbow-delimiters)
+
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/clojure")
-(require 'inf-clojure)
-(add-hook 'clojure-mode-hook 'inf-clojure-minor-mode)
-
-(add-to-list 'load-path "~/.emacs.d/plugins/ruby/dash.el")
-(require 'dash)
-
-(add-to-list 'load-path "~/.emacs.d/plugins/clojure/cider")
+(add-to-list 'load-path (concact clj-path "cider"))
 (require 'cider-mode)
 
 (add-to-list 'load-path "~/.emacs.d/plugins/clojure/clojure-cookbook")

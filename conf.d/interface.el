@@ -55,7 +55,7 @@
 
 (if (daemonp)
     (progn
-      (load-theme 'spolsky t)
+      (load-theme 'spolsky t t)
       (load-theme 'spolsky-term t t)
   (load-theme 'spolsky t)))
 

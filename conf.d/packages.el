@@ -31,25 +31,38 @@
     (eval-print-last-sexp)))
 
 (setq el-get-recipe-path '("~/.emacs.d/el-get/el-get/recipes/")
-      my:el-get-packages '(;; Ruby ... robe not stable work ...
-                           flymake-ruby rvm dash rubocop rspec-mode rinari
-                           smartparens
+      my:el-get-packages
+      '(
+        ;; benchmark
+        benchmark-init
 
-                           ;; Snippets
-                           yasnippet
+        ;; kbd
+        ergoemacs-mode
 
-                           ;; Features not load all
-                           ;; smex ... not load
-                           ;; Ergoemacs-mode not load
+        ;; Features
+        yasnippet popup auto-complete git-gutter multiple-cursors
+        linum-ex smex flx ido-hacks
 
-                           ;; Templates
-                           slim-mode yaml-mode sass-mode scss-mode css-complete
-                           rhtml-mode
+        ;; Ruby
+        flymake-ruby rvm dash rubocop rspec-mode rinari
+        smartparens
 
-                           ;; JS
-                           js2-mode coffee-mode ac-js2 tern js-comint js3-mode
-                           )
-      el-get-sources '((:name smex ))
+        ;; Org
+        ;; org-mode
+        org2jekyll
+
+        ;; lisp, cl, clj
+        slime clojure-mode rainbow-delimiters cider
+
+        ;; Templates
+        slim-mode yaml-mode sass-mode scss-mode css-complete
+        rhtml-mode
+
+        ;; JS
+        js2-mode coffee-mode ac-js2 tern js-comint js3-mode
+
+        )
+      ;; el-get-sources '((:name smex))
       my:el-get-packages (append my:el-get-packages
                                  (mapcar #'el-get-source-name el-get-sources)))
 
