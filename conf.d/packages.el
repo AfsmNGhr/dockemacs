@@ -56,7 +56,7 @@
 
         ;; Templates
         slim-mode yaml-mode sass-mode scss-mode css-complete
-        rhtml-mode
+        rhtml-mode markdown-mode
 
         ;; JS
         js2-mode coffee-mode ac-js2 tern js-comint js3-mode
