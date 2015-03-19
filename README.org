@@ -377,6 +377,8 @@
 (add-hook 'ruby-mode-hook (lambda () (load-hook "ruby")))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+#+end_src
+#+begin_src ruby, elisp
 ;; ============================= Benchmark =====================================
 
 Benchmark results
@@ -384,11 +386,11 @@ Benchmark results
 ╼►[benchmark-init/root nil 5608ms]
   ├─[quail/cyrillic load 14ms]
   ├─[~/.emacs.d/el-get/yasnippet/snippets/prog-mode/.yas-setup load 1ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/prog-mode/.yas-compiled-snippets load 0ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/emacs-lisp-mode/.yas-setup load 0ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/emacs-lisp-mode/.yas-compiled-snippets load 0ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/lisp-interaction-mode/.yas-setup load 0ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/lisp-interaction-mode/.yas-compiled-snippets load 0ms]
+  ├─[~/../../yasnippet/snippets/prog-mode/.yas-compiled-snippets load 0ms]
+  ├─[~/../../yasnippet/snippets/emacs-lisp-mode/.yas-setup load 0ms]
+  ├─[~/../../yasnippet/snippets/emacs-lisp-mode/.yas-compiled-snippets load 0ms]
+  ├─[~/../../yasnippet/snippets/lisp-interaction-mode/.yas-setup load 0ms]
+  ├─[~/../../../snippets/lisp-interaction-mode/.yas-compiled-snippets load 0ms]
   ├─[default load 2ms]
   ├─[~/.emacs.d/conf.d/templates load 2ms]
   ├─[~/.emacs.d/conf.d/remote load 6ms]
@@ -598,8 +600,8 @@ Benchmark results
   │ │ ├─[flx require 7ms]
   │ │ ╰─[ido require 5ms]
   │ ├─[linum-ex require 1ms]
-  │ ├─[~/.emacs.d/el-get/yasnippet/snippets/fundamental-mode/.yas-setup load 0ms]
-  │ ├─[~/.emacs.d/el-get/yasnippet/snippets/fundamental-mode/.yas-compiled-snippets load 0ms]
+  │ ├─[~/../el-get/yasnippet/snippets/fundamental-mode/.yas-setup load 0ms]
+  │ ├─[~/../../../snippets/fundamental-mode/.yas-compiled-snippets load 0ms]
   │ ├─[yasnippet require 24ms]
   │ │ ├─[help-mode require 2ms]
   │ │ ╰─[cl require 8ms]
