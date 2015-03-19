@@ -380,7 +380,6 @@
 #+end_src
 **** Benchmark
 #+begin_src clojure
-
 Benchmark results
 
 ╼►[benchmark-init/root nil 5608ms]
