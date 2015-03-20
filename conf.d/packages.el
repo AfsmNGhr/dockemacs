@@ -48,8 +48,7 @@
         smartparens
 
         ;; Org
-        ;; org-mode
-        org2jekyll
+        org-mode org2jekyll
 
         ;; lisp, cl, clj
         slime clojure-mode rainbow-delimiters cider
