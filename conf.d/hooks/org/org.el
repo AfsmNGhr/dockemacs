@@ -29,7 +29,7 @@
 
 ;; =============================== Gnuplot =====================================
 
-(setq load-path (append (list "~/.emacs.d/el-get/gnuplot-mode") load-path)
+(setq load-path (concat *org-path* "gnuplot-mode")
       auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
 (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)

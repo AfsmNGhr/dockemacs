@@ -1,7 +1,7 @@
 ;; ============================== Habitrpg =====================================
 
-(defvar *org-path* "~/.emacs.d/plugins/org/")
-(add-to-list 'load-path (concat *org-path* "habitrpg.el"))
+(defvar *org-path* "~/.emacs.d/el-get/")
+(add-to-list 'load-path (concat *org-path* "habitrpg"))
 (require 'habitrpg)
 
 (defun my/habitrpg-add ()
