@@ -32,7 +32,7 @@
         org-mode habitrpg
 
         ;; lisp, cl, clj
-        slime clojure-mode rainbow-delimiters cider
+        slime swank-clojure clojure-mode rainbow-delimiters cider
 
         ;; Templates
         slim-mode yaml-mode sass-mode scss-mode css-complete

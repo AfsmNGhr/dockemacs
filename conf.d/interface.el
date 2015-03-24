@@ -49,6 +49,13 @@
 (prefer-coding-system 'utf-8)
 (ansi-color-for-comint-mode-on)
 
+;; ============================ Delimiters =====================================
+
+(dolist (x '(cl emacs-lisp lisp clojure))
+  (add-hook
+   (intern (concat (symbol-name x) "-mode-hook"))
+       'rainbow-delimiters-mode))
+
 ;; =============================== Theme =======================================
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")

@@ -16,8 +16,8 @@
      (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
      (define-key coffee-mode-map (kbd "C-j") 'coffee-newline-and-indent)))
 
-(add-to-list 'load-path (concat js-path "ac-coffee"))
-(require 'ac-coffee)
+;; (add-to-list 'load-path (concat js-path "ac-coffee"))
+;; (require 'ac-coffee)
 
 ;; ================================= Tern ======================================
 
