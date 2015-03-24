@@ -29,7 +29,7 @@
 ;; ============================= Sass ==========================================
 
 (setq exec-path (cons
-                 (expand-file-name ".rvm/rubies/ruby-2.1.4/bin") exec-path))
+                 (expand-file-name ".rvm/rubies/ruby-2.1-head/bin") exec-path))
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
 ;; ========================= To be continued... ================================
