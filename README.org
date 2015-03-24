@@ -28,7 +28,23 @@
 
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 
-;; ================================= Packages ==================================
+;; ================================== Time =====================================
+
+(setq display-time-interval 1
+      display-time-format "%H:%M")
+(display-time-mode)
+
+;; =============================== Delete bars =================================
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(column-number-mode -1)
+(line-number-mode -1)
+(size-indication-mode -1)
+#+end_src
+**** Packages
+#+begin_src elisp
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
@@ -79,123 +95,19 @@
 (el-get-cleanup my:el-get-packages)
 (el-get 'sync my:el-get-packages)
 
-;; ================================== Time =====================================
-
-(setq display-time-interval 1
-      display-time-format "%H:%M")
-(display-time-mode)
-
-;; =============================== Delete bars =================================
-
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(column-number-mode -1)
-(line-number-mode -1)
-(size-indication-mode -1)
 #+end_src
 **** Keybinding
 #+begin_src elisp
-;; ================================== Ergoemacs ================================
+;; ========================== Ergoemacs-mode ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/kbd/ergoemacs-mode")
+(add-to-list 'load-path "~/.emacs.d/el-get/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
 (setq ergoemacs-theme nil
       ergoemacs-keyboard-layout "us")
 (ergoemacs-mode 1)
 
-;; ================================== Rinari keys ==============================
-
-(define-key rinari-minor-mode-map (kbd "C-c m") 'rinari-find-model)
-(define-key rinari-minor-mode-map (kbd "C-c M") 'rinari-find-mailer)
-(define-key rinari-minor-mode-map (kbd "C-c c") 'rinari-find-controller)
-(define-key rinari-minor-mode-map (kbd "C-c o") 'rinari-find-configuration)
-(define-key rinari-minor-mode-map (kbd "C-c a") 'rinari-find-application)
-(define-key rinari-minor-mode-map (kbd "C-c e") 'rinari-find-environment)
-(define-key rinari-minor-mode-map (kbd "C-c h") 'rinari-find-helper)
-(define-key rinari-minor-mode-map (kbd "C-c v") 'rinari-find-view)
-(define-key rinari-minor-mode-map (kbd "C-c i") 'rinari-find-migration)
-(define-key rinari-minor-mode-map (kbd "C-c l") 'rinari-find-lib)
-(define-key rinari-minor-mode-map (kbd "C-c r") 'rinari-find-my-request-rspec)
-(define-key rinari-minor-mode-map (kbd "C-c t") 'rinari-find-my-rspec)
-(define-key rinari-minor-mode-map (kbd "C-c f") 'rinari-find-my-fabrication)
-(define-key rinari-minor-mode-map (kbd "C-c y") 'rinari-find-my-stylesheet)
-(define-key rinari-minor-mode-map (kbd "C-c d") 'rinari-find-my-decorator)
-(define-key rinari-minor-mode-map (kbd "C-c j") 'rinari-find-my-javascript)
-(define-key rinari-minor-mode-map (kbd "C-c C-c a") 'rinari-find-my-spine-application)
-(define-key rinari-minor-mode-map (kbd "C-c C-c m") 'rinari-find-my-spine-model)
-(define-key rinari-minor-mode-map (kbd "C-c C-c r") 'rinari-find-my-spine-index)
-(define-key rinari-minor-mode-map (kbd "C-c C-c v") 'rinari-find-my-spine-view)
-(define-key rinari-minor-mode-map (kbd "C-c C-c l") 'rinari-find-my-spine-lib)
-(define-key rinari-minor-mode-map (kbd "C-l x") 'rinari-extract-partial)
-(define-key rinari-minor-mode-map (kbd "C-l c") 'rinari-console)
-(define-key rinari-minor-mode-map (kbd "C-l s") 'rinari-web-server)
-(define-key rinari-minor-mode-map (kbd "C-l r") 'rinari-web-server-restart)
-(define-key rinari-minor-mode-map (kbd "C-l p") 'rinari-cap)
-
-(defun my-find-gemfile ()
-  (interactive)
-  (find-file (concat (rinari-root) "Gemfile")))
-(define-key rinari-minor-mode-map (kbd "C-c g") 'my-find-gemfile)
-#+end_src
-**** Features
-#+begin_src elisp
-;; ================================== Linum+ ===================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/features")
-(require 'linum+)
-(setq linum-format " %i ")
-(global-linum-mode 1)
-
-;; ================================== IDO ======================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/features/flx")
-
-(require 'flx-ido)
-(require 'ido-hacks)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-
-(setq ido-enable-flex-matching t
-      ido-use-faces t
-      gc-cons-threshold 20000000)
-
-;; =========================== Multiple-cursors ================================
-
-(require 'multiple-cursors)
-(global-set-key (kbd "C-x C-m") 'mc/edit-lines)
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
-
-;; ================================ Autopair ===================================
-
-(electric-pair-mode 1)
-
-;; =============================== Autocomplete ================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/features/auto-complete")
-
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories
-             "~/.emacs.d/plugins/features/auto-complete/ac-dict")
-(ac-config-default)
-(global-auto-complete-mode 1)
-
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
-              ac-auto-start 2
-              ac-ignore-case nil)
-
-;; ================================= Smex ======================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/commands")
-(require 'smex)
-(smex-initialize)
-(smex-auto-update 600)
-
-;; ======================= Reverse-input-method ================================
+;; ======================== Reverse-input-method ===============================
 
 (defun reverse-input-method (input-method)
     "Build the reverse mapping of single letters from INPUT-METHOD."
@@ -245,6 +157,85 @@
            (define-key map [return] #'exit-minibuffer)
            (define-key map [backspace] #'delete-backward-char)
            map)))
+#+end_src
+**** Features
+#+begin_src elisp
+;; ================================ Auto-complete ==============================
+
+(defvar features-path "~/.emacs.d/el-get/")
+
+(add-to-list 'load-path (concat features-path "popup"))
+(add-to-list 'load-path (concat features-path "auto-complete"))
+(require 'popup)
+(require 'auto-complete-config)
+
+(add-to-list 'ac-dictionary-directories
+             (concat features-path "auto-complete/dict"))
+(ac-config-default)
+(global-auto-complete-mode 1)
+
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
+              ac-auto-start 2
+              ac-ignore-case nil)
+
+;; ================================ Snippets  ==================================
+
+(add-to-list 'load-path (concat features-path "yasnippet"))
+(require 'yasnippet)
+
+(yas-global-mode 1)
+(add-to-list 'ac-sources 'ac-source-yasnippet)
+
+;; ================================== Linum+ ===================================
+
+(add-to-list 'load-path (concat features-path "linum-ex"))
+(require 'linum-ex)
+
+(setq linum-format " %i ")
+(global-linum-mode 1)
+
+;; ================================== IDO ======================================
+
+(add-to-list 'load-path (concat features-path "ido-hacks"))
+(add-to-list 'load-path (concat features-path "flx"))
+(require 'flx-ido)
+(require 'ido-hacks)
+
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+
+(setq ido-enable-flex-matching t
+      ido-use-faces t
+      gc-cons-threshold 20000000)
+
+;; =========================== Multiple-cursors ================================
+
+(add-to-list 'load-path (concat features-path "multiple-cursors"))
+(require 'multiple-cursors)
+
+(global-set-key (kbd "C-x C-m") 'mc/edit-lines)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+
+;; ================================ Autopair ===================================
+
+(electric-pair-mode 1)
+
+;; ============================== Git-gutter ===================================
+
+(add-to-list 'load-path (concat features-path "git-gutter"))
+(require 'git-gutter)
+
+(git-gutter:linum-setup)
+(global-git-gutter-mode +1)
+
+(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
+
+(set-face-foreground 'git-gutter:modified "Violet red")
+(set-face-foreground 'git-gutter:added "DodgerBlue2")
+(set-face-foreground 'git-gutter:deleted "firebrick2")
 
 ;; ================================ Bookmark ===================================
 
@@ -260,90 +251,84 @@
 (global-set-key (kbd "C-x v")         'bookmark-set)
 (global-set-key (kbd "s-SPC")         'bookmark-save)
 
-;; ============================== Git-gutter ===================================
+;; ==================================== Smex ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/features/emacs-git-gutter")
+(add-to-list 'load-path (concat features-path "smex"))
+(require 'smex)
 
-(require 'git-gutter)
-(git-gutter:linum-setup)
-(global-git-gutter-mode +1)
+(smex-initialize)
+(smex-auto-update 600)
 
-(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
-
-(set-face-foreground 'git-gutter:modified "Violet red")
-(set-face-foreground 'git-gutter:added "DodgerBlue2")
-(set-face-foreground 'git-gutter:deleted "firebrick2")
-
-;; =============================== Yasnippet ===================================
-
-(add-to-list 'load-path
-              "~/.emacs.d/plugins/snippets/yasnippet")
-
-(require 'yasnippet)
-(yas-global-mode 1)
-(add-to-list 'ac-sources 'ac-source-yasnippet)
-(setq yas-snippet-dirs
-       '("~/.emacs.d/plugins/snippets/yasnippet/yasmate/snippets"
-         "~/.emacs.d/plugins/snippets/yasnippet/snippets"))
 #+end_src
 **** Ruby
 #+begin_src elisp
+
+(require 'flymake-ruby)
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+
 ;; ================================== Rvm ======================================
 
 (require 'rvm)
 (rvm-use-default)
 
-;; ================================== Rinari ===================================
-
-(require 'ido)
-(ido-mode t)
-
-(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rinari")
-(require 'rinari)
-(global-rinari-mode)
-
-;; ================================== Ruby =====================================
-
-(require 'ruby-mode)
-(require 'inf-ruby)
-
 ;; ================================= Rubocop ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/ruby/dash.el")
 (require 'dash)
-
-(add-to-list 'load-path "~/.emacs.d/plugins/ruby/rubocop-emacs")
 (require 'rubocop)
 (add-hook 'ruby-mode-hook 'rubocop-mode)
+
+;; ============================= Smartparens ===================================
+
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(add-hook 'rhtml-mode-hook 'smartparens-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+               (sp-local-pair "<" ">")
+               (sp-local-pair "<%" "%>"))
+
+;; =================================== Rspec ===================================
+
+(require 'rspec-mode)
+(eval-after-load 'rspec-mode
+  '(rspec-install-snippets))
+
 #+end_src
 **** Templates
 #+begin_src elisp
-;; =============================== Slim-mode ===================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/templates")
-(autoload 'slim-mode "slim" "slim major mode" t)
-
-;; ============================= Coffee-mode ===================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/js")
-(require 'coffee-mode)
-(add-to-list 'auto-mode-alist
-            '("\\.coffee$" . rinari-minor-mode)
-            '("\\.coffee$" . coffee-mode))
-
-(eval-after-load "coffee-mode"
- '(progn
-    (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
-    (define-key coffee-mode-map (kbd "C-j") 'coffee-newline-and-indent)))
-
-(add-to-list 'load-path "~/.emacs.d/plugins/js/ac-coffee")
-(require 'ac-coffee)
-
-;; ============================== Rhtml-mode ===================================
-
-(add-to-list 'load-path "~/.emacs.d/plugins/templates/rhtml")
-(autoload 'rhtml-mode "rhtml" "rhtml major mode" t)
 (add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
+
+;; =============================== Ruby =======================================
+
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+
+;; =============================== JS =========================================
+
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.js.coffee$" . coffee-mode))
+
+;; ============================= Yaml ==========================================
+
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+      '(lambda ()
+         (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+;; ============================= Sass ==========================================
+
+(setq exec-path (cons
+                 (expand-file-name ".rvm/rubies/ruby-2.1-head/bin") exec-path))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
 #+end_src
 **** Hooks
 #+begin_src elisp
