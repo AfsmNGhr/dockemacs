@@ -23,8 +23,7 @@
               use-dialog-box nil
               redisplay-dont-pause t
               ring-bell-function 'ignore
-              query-replace-highlight t
-              browse-url-browser-function 'browse-url-firefox)
+              query-replace-highlight t)
 
 (display-time-mode)
 (show-paren-mode 1)
@@ -54,7 +53,7 @@
 (dolist (x '(cl emacs-lisp lisp clojure))
   (add-hook
    (intern (concat (symbol-name x) "-mode-hook"))
-       #'rainbow-delimiters-mode))
+   #'rainbow-delimiters-mode))
 
 ;; =============================== Theme =======================================
 

@@ -28,6 +28,9 @@
         flymake-ruby rvm dash rubocop rspec-mode rinari
         smartparens
 
+        ;; Php
+        php-mode php-mode-improved mmm-mode
+
         ;; Org
         org-mode habitrpg
 
