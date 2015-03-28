@@ -1,0 +1,7 @@
+(:name scrum
+       :website "https://github.com/ianxm/emacs-scrum"
+       :description "Dynamic scrum report generation for org-mode buffers"
+       :type github
+       :pkgname "ianxm/emacs-scrum"
+       :compile "scrum.el"
+       :submodule nil)

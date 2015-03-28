@@ -32,7 +32,7 @@
         php-mode php-mode-improved mmm-mode
 
         ;; Org
-        org-mode habitrpg
+        org-mode habitrpg scrum
 
         ;; lisp, cl, clj
         slime swank-clojure clojure-mode rainbow-delimiters cider
@@ -49,6 +49,8 @@
       my:el-get-packages (append my:el-get-packages
                                  (mapcar #'el-get-source-name el-get-sources)))
 
+(el-get-bundle scrum)
+(add-to-list 'el-get-recipe-path "~/.emacs.d/recipes")
 (el-get-cleanup my:el-get-packages)
 (el-get 'sync my:el-get-packages)
 

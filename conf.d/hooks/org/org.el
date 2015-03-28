@@ -24,7 +24,7 @@
 
 ;; ================================= Scrum =====================================
 
-(add-to-list 'load-path "~/.emacs.d/plugins/org")
+(setq load-path (concat *org-path* "scrum"))
 (require 'scrum)
 
 ;; =============================== Gnuplot =====================================
