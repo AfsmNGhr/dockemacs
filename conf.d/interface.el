@@ -58,29 +58,28 @@
 ;; =============================== Theme =======================================
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'spolsky-term)
 
-;; (if (daemonp)
-;;     (progn
-;;       (load-theme 'spolsky t t)
-;;       (load-theme 'spolsky-term t t)
-;;   (load-theme 'spolsky t t)))
+ (if (daemonp)
+     (progn
+       (load-theme 'spolsky t t)
+       (load-theme 'spolsky-term t t)
+   (load-theme 'spolsky t t)))
 
-;; (defun my/enable-theme (frame)
-;;   "enable theme the current frame depending on the frame type"
-;;   (with-selected-frame frame
-;;     (if (window-system)
-;;         (progn
-;;           (unless (custom-theme-enabled-p 'spolsky)
-;;             (if (custom-theme-enabled-p 'spolsky-term)
-;;                 (disable-theme 'spolsky-term))
-;;               (enable-theme 'spolsky)))
-;;           (progn
-;;             (unless (custom-theme-enabled-p 'spolsky-term)
-;;               (if (custom-theme-enabled-p 'spolsky)
-;;                   (disable-theme 'spolsky))
-;;                 (enable-theme 'spolsky-term))))))
+ (defun my/enable-theme (frame)
+   "enable theme the current frame depending on the frame type"
+   (with-selected-frame frame
+     (if (window-system)
+         (progn
+           (unless (custom-theme-enabled-p 'spolsky)
+             (if (custom-theme-enabled-p 'spolsky-term)
+                 (disable-theme 'spolsky-term))
+               (enable-theme 'spolsky)))
+           (progn
+             (unless (custom-theme-enabled-p 'spolsky-term)
+               (if (custom-theme-enabled-p 'spolsky)
+                   (disable-theme 'spolsky))
+                 (enable-theme 'spolsky-term))))))
 
-;; (add-hook 'after-make-frame-functions 'my/enable-theme)
+(add-hook 'after-make-frame-functions 'my/enable-theme)
 
 ;; ========================= To be continued... ================================
