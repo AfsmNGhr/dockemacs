@@ -22,11 +22,6 @@
  'org-babel-load-languages
  '((gnuplot . t)))
 
-;; ================================= Scrum =====================================
-
-(setq load-path (concat *org-path* "scrum"))
-(require 'scrum)
-
 ;; =============================== Gnuplot =====================================
 
 (setq load-path (concat *org-path* "gnuplot-mode")
