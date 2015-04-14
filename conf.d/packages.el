@@ -38,7 +38,7 @@
         slime swank-clojure clojure-mode rainbow-delimiters cider
 
         ;; Templates
-        slim-mode yaml-mode sass-mode scss-mode css-complete
+        slim-mode haml-mode yaml-mode sass-mode scss-mode css-complete
         rhtml-mode markdown-mode
 
         ;; JS
