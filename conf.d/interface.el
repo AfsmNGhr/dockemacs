@@ -23,7 +23,6 @@
               use-dialog-box nil
               redisplay-dont-pause t
               ring-bell-function 'ignore
-              x-select-enable-clipboard t
               query-replace-highlight t)
 
 (display-time-mode)
@@ -41,6 +40,7 @@
 (global-whitespace-mode t)
 (recentf-mode 1)
 (show-paren-mode 1)
+(global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
 
 ;; =============================== UTF-8 =======================================
 

@@ -1,12 +1,6 @@
 ;; ==================================== Rinary =================================
 
-(require 'ido)
 (ido-mode t)
-
-(defvar ruby-path "~/.emacs.d/el-get/")
-
-(add-to-list (concat ruby-path "rinari"))
-(require 'rinari)
 (global-rinari-mode)
 
 (setf
