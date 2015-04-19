@@ -55,6 +55,7 @@
 (define-key rinari-minor-mode-map (kbd "C-c y") 'rinari-find-my-stylesheet)
 (define-key rinari-minor-mode-map (kbd "C-c d") 'rinari-find-my-decorator)
 (define-key rinari-minor-mode-map (kbd "C-c j") 'rinari-find-my-javascript)
+(define-key rinari-minor-mode-map (kbd "C-c s") 'rinari-rgrep)
 (define-key rinari-minor-mode-map (kbd "C-c C-c a") 'rinari-find-my-spine-application)
 (define-key rinari-minor-mode-map (kbd "C-c C-c m") 'rinari-find-my-spine-model)
 (define-key rinari-minor-mode-map (kbd "C-c C-c r") 'rinari-find-my-spine-index)
