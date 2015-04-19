@@ -25,7 +25,7 @@
 (add-hook 'js-mode-hook (lambda () (load-hook "js")))
 (add-hook 'lisp-mode-hook (lambda () (load-hook "lisp")))
 (add-hook 'ruby-mode-hook (lambda () (load-hook "ruby")))
-(add-hook 'ruby-mode-hook (lambda () (load-hook "php")))
+(add-hook 'php-mode-hook (lambda () (load-hook "php")))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; ========================= To be continued... ================================
