@@ -15,14 +15,26 @@
  '(global-linum-mode t)
  '(global-whitespace-mode t)
  '(initial-frame-alist '((fullscreen . maximized)))
- '(initial-scratch-message nil)
+ '(initial-scratch-message
+   #(";; This buffer is for notes you don't want to save, and for Lisp evaluation.\n;; If you want to create a file, visit that file with Ctrl+O,\n;; then enter the text in that file's own buffer." 131 135
+     (face ergoemacs-pretty-key)
+     136 137
+     (face ergoemacs-pretty-key)))
  '(linum-format " %i ")
  '(org-CUA-compatible nil)
  '(org-replace-disputed-keys nil)
- '(recentf-menu-before nil)
+ '(org-special-ctrl-a/e t)
+ '(org-support-shift-select t)
+ '(recentf-menu-before "Close")
  '(recentf-mode t)
- '(shift-select-mode nil)
- '(smex-prompt-string nil)
+ '(scroll-error-top-bottom t)
+ '(set-mark-command-repeat-pop t)
+ '(shift-select-mode t)
+ '(smex-prompt-string
+   #("Alt+A " 0 3
+     (face ergoemacs-pretty-key)
+     4 5
+     (face ergoemacs-pretty-key)))
  '(whitespace-style '(face lines-tail)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

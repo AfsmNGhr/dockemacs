@@ -28,8 +28,8 @@
 (display-time-mode)
 (show-paren-mode 1)
 (menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+(if tool-bar-mode
+    (tool-bar-mode -1))
 (column-number-mode -1)
 (blink-cursor-mode -1)
 (line-number-mode -1)

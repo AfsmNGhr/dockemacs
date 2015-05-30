@@ -1,11 +1,8 @@
 ;; ========================== Ergoemacs-mode ===================================
 
-(add-to-list 'load-path "~/.emacs.d/el-get/ergoemacs-mode")
-(require 'ergoemacs-mode)
-
-(setq ergoemacs-theme nil
-      ergoemacs-keyboard-layout "us")
-(ergoemacs-mode 1)
+(global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "C-w") 'kill-buffer-and-window)
 
 ;; ======================== Reverse-input-method ===============================
 

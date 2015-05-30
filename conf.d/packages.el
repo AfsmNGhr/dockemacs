@@ -15,10 +15,7 @@
       my:el-get-packages
       '(
         ;; benchmark
-        benchmark-init
-
-        ;; kbd
-        ergoemacs-mode
+        ;; benchmark-init
 
         ;; Features
         yasnippet popup auto-complete git-gutter multiple-cursors
