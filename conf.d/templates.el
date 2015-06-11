@@ -17,6 +17,7 @@
 ;; =============================== JS =========================================
 
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.js.coffee$" . coffee-mode))
 
 ;; ============================= Yaml ==========================================

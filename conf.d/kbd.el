@@ -1,15 +1,18 @@
 ;; ========================== Ergoemacs-mode ===================================
 
+(global-set-key (kbd "C-w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-w") 'kill-buffer-and-window)
+(global-set-key (kbd "M-2") 'quick-cut-line)
+(global-set-key (kbd "M-3") 'quick-copy-line)
+(global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
 
 ;; ======================== Reverse-input-method ===============================
 
 (defun reverse-input-method (input-method)
-    "Build the reverse mapping of single letters from INPUT-METHOD."
+    "build the reverse mapping of single letters from input-method."
     (interactive
-     (list (read-input-method-name "Use input method (default current): ")))
+     (list (read-input-method-name "use input method (default current): ")))
     (if (and input-method (symbolp input-method))
         (setq input-method (symbol-name input-method)))
     (let ((current current-input-method)

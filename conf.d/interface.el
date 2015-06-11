@@ -23,7 +23,8 @@
               use-dialog-box nil
               redisplay-dont-pause t
               ring-bell-function 'ignore
-              query-replace-highlight t)
+              query-replace-highlight t
+              x-select-enable-clipboard t)
 
 (display-time-mode)
 (show-paren-mode 1)
@@ -39,8 +40,6 @@
 (delete-selection-mode t)
 (global-whitespace-mode t)
 (recentf-mode 1)
-(show-paren-mode 1)
-(global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
 
 ;; =============================== UTF-8 =======================================
 
@@ -62,7 +61,7 @@
 
  (if (daemonp)
      (progn
-       (load-theme 'spolsky t t)
+       ;; (load-theme 'spolsky t t)
        (load-theme 'spolsky-term t t)
    (load-theme 'spolsky t t)))
 
