@@ -39,6 +39,7 @@
 (global-font-lock-mode t)
 (delete-selection-mode t)
 (global-whitespace-mode t)
+(auto-revert-mode t)
 (recentf-mode 1)
 
 ;; =============================== UTF-8 =======================================

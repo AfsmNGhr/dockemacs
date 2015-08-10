@@ -1,9 +1,9 @@
 ;; ============================= Benchmark =====================================
 
-;;(let ((benchmark-init.el "~/.emacs.d/el-get/benchmark-init/benchmark-init.el"))
-;;  (when (file-exists-p benchmark-init.el)
-;;    (load benchmark-init.el)))
-;;(benchmark-init/activate)
+(let ((benchmark-init.el "~/.emacs.d/el-get/benchmark-init/benchmark-init.el"))
+  (when (file-exists-p benchmark-init.el)
+    (load benchmark-init.el)))
+(benchmark-init/deactivate)
 
 ;; ================================== Init =====================================
 

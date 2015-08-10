@@ -15,7 +15,7 @@
       my:el-get-packages
       '(
         ;; benchmark
-        ;; benchmark-init
+        benchmark-init
 
         ;; Features
         yasnippet popup auto-complete git-gutter multiple-cursors
@@ -26,13 +26,13 @@
         smartparens
 
         ;; Php
-        php-mode php-mode-improved mmm-mode
+        ;; php-mode php-mode-improved mmm-mode
 
         ;; Org
-        org-mode
+        org-mode gnuplot-mode scrum
 
         ;; lisp, cl, clj
-        slime swank-clojure clojure-mode rainbow-delimiters cider
+        slime rainbow-delimiters ;;swank-clojure clojure-mode cider
 
         ;; Templates
         slim-mode haml-mode yaml-mode sass-mode scss-mode css-complete
