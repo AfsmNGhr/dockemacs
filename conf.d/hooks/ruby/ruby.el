@@ -1,26 +1,38 @@
 ;; =============================== Ruby  =======================================
 
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+(use-package ruby-mode
+  :defer t
+  :mode "\\.rb\\'"
+  :interpreter "ruby"
+  :config
+  (add-hook 'ruby-mode-hook 'rubocop-mode))
 
-;; ================================== Rvm ======================================
+(use-package rubocop
+  :defer t)
 
-(rvm-use-default)
+(use-package rvm
+  :defer t
+  :init
+  (rvm-use-default))
 
-;; ================================= Rubocop ===================================
-
-(add-hook 'ruby-mode-hook 'rubocop-mode)
-
-;; ============================= Smartparens ===================================
-
-(add-hook 'rhtml-mode-hook 'smartparens-mode)
-(show-smartparens-global-mode t)
-(sp-with-modes '(rhtml-mode)
+(use-package rhtml-mode
+  :defer t
+  :init
+  (add-hook 'rhtml-mode-hook 'smartparens-mode)
+  :config
+  (sp-with-modes '(rhtml-mode)
                (sp-local-pair "<" ">")
-               (sp-local-pair "<%" "%>"))
+               (sp-local-pair "<%" "%>")))
 
-;; =================================== Rspec ===================================
+(use-package smartparens
+  :defer t
+  :init
+  (show-smartparens-global-mode t))
 
-(eval-after-load 'rspec-mode
-  '(rspec-install-snippets))
+(use-package rspec-mode
+  :defer t
+  :config
+  (eval-after-load 'rspec-mode
+    '(rspec-install-snippets)))
 
 ;; ========================= To be continued... ================================
