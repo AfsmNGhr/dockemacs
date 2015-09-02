@@ -19,9 +19,9 @@
 (require 'diminish)
 (require 'bind-key)
 
-(use-package benchmark-init
-  :ensure t
-  :init (benchmark-init/activate))
+;;(use-package benchmark-init
+;;  :ensure t
+;;  :init (benchmark-init/activate))
 
 ;; ================================== init =====================================
 
