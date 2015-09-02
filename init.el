@@ -12,8 +12,7 @@
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-(setq use-package-verbose t
-      load-prefer-newer t)
+(setq use-package-verbose t)
 
 (require 'use-package)
 (require 'diminish)
