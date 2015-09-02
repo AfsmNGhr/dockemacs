@@ -1,36 +1,9 @@
-;; =========================== Templates...  ==================================
+;; =========================== Templates...  ===================================
 
-(add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
-
-;; =============================== Ruby =======================================
-
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
-
-;; =============================== JS =========================================
-
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx$" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.js.coffee$" . coffee-mode))
-
-;; ============================= Yaml ==========================================
-
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-hook 'yaml-mode-hook
-      '(lambda ()
-         (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
-;; ============================= Sass ==========================================
-
-(setq exec-path (cons
-                 (expand-file-name ".rvm/rubies/ruby-2.1-head/bin") exec-path))
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(use-package sass-mode :ensure t :defer t)
+(use-package less-css-mode :ensure t :defer t)
+(use-package haml-mode :ensure t :defer t)
+(use-package slim-mode :ensure t :defer t)
+(use-package csv-mode :ensure t :defer t)
 
 ;; ========================= To be continued... ================================

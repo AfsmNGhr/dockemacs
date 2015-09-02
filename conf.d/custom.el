@@ -5,13 +5,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(delete-selection-mode t)
- '(ergoemacs-ctl-c-or-ctl-x-delay 0.2)
- '(ergoemacs-handle-ctl-c-or-ctl-x 'both)
- '(ergoemacs-ini-mode t)
- '(ergoemacs-keyboard-layout "us")
- '(ergoemacs-theme "standard")
- '(ergoemacs-theme-options nil)
- '(ergoemacs-use-menus t)
  '(global-linum-mode t)
  '(global-whitespace-mode t)
  '(initial-frame-alist '((fullscreen . maximized)))
@@ -31,7 +24,7 @@
  '(set-mark-command-repeat-pop t)
  '(shift-select-mode t)
  '(smex-prompt-string
-   #("Alt+A " 0 3
+   #("Alt+X " 0 3
      (face ergoemacs-pretty-key)
      4 5
      (face ergoemacs-pretty-key)))

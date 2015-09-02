@@ -51,10 +51,13 @@
 
 ;; ============================ Delimiters =====================================
 
-(dolist (x '(cl emacs-lisp lisp clojure))
-  (add-hook
-   (intern (concat (symbol-name x) "-mode-hook"))
-   #'rainbow-delimiters-mode))
+(use-package rainbow-delimiters
+  :ensure t :defer t
+  :init
+  (dolist (x '(cl emacs-lisp lisp clojure))
+    (add-hook
+     (intern (concat (symbol-name x) "-mode-hook"))
+     #'rainbow-delimiters-mode)))
 
 ;; =============================== Theme =======================================
 
