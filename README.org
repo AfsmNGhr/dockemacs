@@ -1,13 +1,14 @@
 *** My emacs config
 **** Customize interface & [[file:/themes.md][Themes]]
 #+begin_src elisp
+
 ;; ================================== Theme ====================================
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 (if (daemonp)
     (progn
-      (load-theme 'spolsky t t)
+      ;;(load-theme 'spolsky t t)
       (load-theme 'spolsky-term t t)
   (load-theme 'spolsky t)))
 
@@ -46,60 +47,37 @@
 **** Packages
 #+begin_src elisp
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; ============================== Package ======================================
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       (concat
-        "https://raw.githubusercontent.com/dimitri/"
-        "el-get/master/el-get-install.el"))
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 
-(setq el-get-recipe-path '("~/.emacs.d/el-get/el-get/recipes/")
-      my:el-get-packages
-      '(
-        ;; benchmark
-        benchmark-init
+;; ============================== Use-package ==================================
 
-        ;; Features
-        yasnippet popup auto-complete git-gutter multiple-cursors
-        linum-ex smex flx ido-hacks
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(setq use-package-verbose t
+      load-prefer-newer t)
 
-        ;; Ruby
-        flymake-ruby rvm dash rubocop rspec-mode rinari
-        smartparens
-
-        ;; Org
-        org-mode habitrpg
-
-        ;; lisp, cl, clj
-        slime clojure-mode rainbow-delimiters cider
-
-        ;; Templates
-        slim-mode yaml-mode sass-mode scss-mode css-complete
-        rhtml-mode markdown-mode
-
-        ;; JS
-        js2-mode coffee-mode ac-js2 tern js-comint js3-mode
-
-        )
-      ;; el-get-sources '((:name smex))
-      my:el-get-packages (append my:el-get-packages
-                                 (mapcar #'el-get-source-name el-get-sources)))
-
-(el-get-cleanup my:el-get-packages)
-(el-get 'sync my:el-get-packages)
+(require 'use-package)
+(require 'diminish)
+(require 'bind-key)
 
 #+end_src
 **** Keybinding
 #+begin_src elisp
-;; ========================== Ergoemacs-mode ===================================
 
+(global-set-key (kbd "C-w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-w") 'kill-buffer-and-window)
+(global-set-key (kbd "M-2") 'quick-cut-line)
+(global-set-key (kbd "M-3") 'quick-copy-line)
+(global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
 
 ;; ======================== Reverse-input-method ===============================
 
@@ -154,178 +132,105 @@
 #+end_src
 **** Features
 #+begin_src elisp
-;; ================================ Auto-complete ==============================
 
-(defvar features-path "~/.emacs.d/el-get/")
+(use-package auto-complete
+  :ensure t :defer t
+  :init (global-auto-complete-mode))
 
-(add-to-list 'load-path (concat features-path "popup"))
-(add-to-list 'load-path (concat features-path "auto-complete"))
-(require 'popup)
-(require 'auto-complete-config)
+(use-package yasnippet
+  :ensure t :defer t
+  :config (yas-global-mode 1))
 
-(add-to-list 'ac-dictionary-directories
-             (concat features-path "auto-complete/dict"))
-(ac-config-default)
-(global-auto-complete-mode 1)
-
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary)
-              ac-auto-start 2
-              ac-ignore-case nil)
-
-;; ================================ Snippets  ==================================
-
-(add-to-list 'load-path (concat features-path "yasnippet"))
-(require 'yasnippet)
-
-(yas-global-mode 1)
-(add-to-list 'ac-sources 'ac-source-yasnippet)
-
-;; ================================== Linum+ ===================================
-
-(add-to-list 'load-path (concat features-path "linum-ex"))
-(require 'linum-ex)
-
-(setq linum-format " %i ")
-(global-linum-mode 1)
-
-;; ================================== IDO ======================================
-
-(add-to-list 'load-path (concat features-path "ido-hacks"))
-(add-to-list 'load-path (concat features-path "flx"))
-(require 'flx-ido)
-(require 'ido-hacks)
-
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-
-(setq ido-enable-flex-matching t
-      ido-use-faces t
-      gc-cons-threshold 20000000)
-
-;; =========================== Multiple-cursors ================================
-
-(add-to-list 'load-path (concat features-path "multiple-cursors"))
-(require 'multiple-cursors)
-
-(global-set-key (kbd "C-x C-m") 'mc/edit-lines)
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
-
-;; ================================ Autopair ===================================
+(use-package flx-ido
+  :ensure t
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  (setq ido-enable-flex-matching t
+        ido-use-faces t
+        gc-cons-threshold 20000000))
 
 (electric-pair-mode 1)
 
-;; ============================== Git-gutter ===================================
-
-(add-to-list 'load-path (concat features-path "git-gutter"))
-(require 'git-gutter)
-
-(git-gutter:linum-setup)
-(global-git-gutter-mode +1)
-
-(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
-
-(set-face-foreground 'git-gutter:modified "Violet red")
-(set-face-foreground 'git-gutter:added "DodgerBlue2")
-(set-face-foreground 'git-gutter:deleted "firebrick2")
-
-;; ================================ Bookmark ===================================
-
-(require 'bookmark)
-(global-set-key (kbd "C-x r b")
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag t)
+  (global-set-key (kbd "C-x v") 'bookmark-set)
+  (global-set-key (kbd "s-SPC") 'bookmark-save)
+  (global-set-key (kbd "C-x r b")
     (lambda ()
       (interactive)
       (bookmark-jump
-       (ido-completing-read "Jump to bookmark: " (bookmark-all-names)))))
+       (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
 
-(setq bookmark-save-flag t)
+(use-package smex
+  :ensure t :defer t
+  :config
+  (smex-initialize)
+  (smex-auto-update 600))
 
-(global-set-key (kbd "C-x v")         'bookmark-set)
-(global-set-key (kbd "s-SPC")         'bookmark-save)
+(use-package projectile
+  :ensure t :defer t
+  :diminish projectile-mode
+  :init (projectile-global-mode)
+  :config
+  (setq-default projectile-enable-caching t
+        projectile-indexing-method 'native))
 
-;; ==================================== Smex ===================================
+(use-package perspective
+  :ensure t :defer t
+  :init
+  (persp-mode))
 
-(add-to-list 'load-path (concat features-path "smex"))
-(require 'smex)
-
-(smex-initialize)
-(smex-auto-update 600)
+(use-package multiple-cursors
+  :ensure t :defer t
+  :bind (("C-c C-S-c" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C-<" . mc/mark-all-like-this)
+         ("s-SPC" . set-rectangular-region-anchor)))
 
 #+end_src
 **** Ruby
 #+begin_src elisp
 
-(require 'flymake-ruby)
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+(use-package bundler
+  :ensure t :defer t)
 
-;; ================================== Rvm ======================================
+(use-package rvm
+  :ensure t :defer t
+  :init (rvm-use-default))
 
-(require 'rvm)
-(rvm-use-default)
+(use-package rubocop
+  :ensure t :defer t
+  :init
+  (add-hook 'ruby-mode-hook 'rubocop-mode))
 
-;; ================================= Rubocop ===================================
+(use-package robe
+  :ensure t :defer t
+  :init
+  (progn (add-hook 'ruby-mode-hook 'robe-mode)
+         (add-hook 'robe-mode-hook 'ac-robe-setup)
+         (add-hook 'ruby-mode-hook 'auto-complete-mode)
+         (add-hook 'ruby-mode-hook 'flycheck-mode)))
 
-(require 'dash)
-(require 'rubocop)
-(add-hook 'ruby-mode-hook 'rubocop-mode)
+(use-package rhtml-mode
+  :ensure t :defer t
+  :mode
+  (("\\.jst\\.eco$" . rhtml-mode)
+   ("\\.html\\.erb$" . rhtml-mode)))
 
-;; ============================= Smartparens ===================================
-
-(require 'smartparens-config)
-(require 'smartparens-ruby)
-(add-hook 'rhtml-mode-hook 'smartparens-mode)
-(show-smartparens-global-mode t)
-(sp-with-modes '(rhtml-mode)
-               (sp-local-pair "<" ">")
-               (sp-local-pair "<%" "%>"))
-
-;; =================================== Rspec ===================================
-
-(require 'rspec-mode)
-(eval-after-load 'rspec-mode
-  '(rspec-install-snippets))
-
-#+end_src
-**** Templates
-#+begin_src elisp
-
-(add-to-list 'auto-mode-alist '("\\.jst\\.eco$" . rhtml-mode))
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . org-mode))
-
-;; =============================== Ruby =======================================
-
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
-
-;; =============================== JS =========================================
-
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.js.coffee$" . coffee-mode))
-
-;; ============================= Yaml ==========================================
-
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-hook 'yaml-mode-hook
-      '(lambda ()
-         (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
-;; ============================= Sass ==========================================
-
-(setq exec-path (cons
-                 (expand-file-name ".rvm/rubies/ruby-2.1-head/bin") exec-path))
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(use-package rspec-mode
+  :ensure t :defer t
+  :config
+  (eval-after-load 'rspec-mode
+    '(rspec-install-snippets)))
 
 #+end_src
 **** Hooks
 #+begin_src elisp
+
 ;; =========================== Compile elisp ===================================
 
 (defun byte-compile-current-buffer ()
@@ -336,23 +241,9 @@
              (file-exists-p (byte-compile-dest-file buffer-file-name)))
     (byte-compile-file buffer-file-name)))
 
-;; ============================== Load hook ====================================
-
-(defun load-hook (path)
-  "Load files in hook directory"
-  (interactive)
-  (let ((hooks "~/.emacs.d/conf.d/hooks/"))
-    (dolist (hook-files
-             (directory-files (concat hooks path) t "\.el$" nil))
-      (load (file-name-sans-extension hook-files) 'noerror))))
-
 ;; ================================ Hooks ======================================
 
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
-(add-hook 'org-mode-hook (lambda () (load-hook "org")))
-(add-hook 'js-mode-hook (lambda () (load-hook "js")))
-(add-hook 'lisp-mode-hook (lambda () (load-hook "lisp")))
-(add-hook 'ruby-mode-hook (lambda () (load-hook "ruby")))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 #+end_src
@@ -360,244 +251,71 @@
 #+begin_src clojure
 Benchmark results
 
-╼►[benchmark-init/root nil 5608ms]
-  ├─[quail/cyrillic load 14ms]
-  ├─[~/.emacs.d/el-get/yasnippet/snippets/prog-mode/.yas-setup load 1ms]
-  ├─[~/../../yasnippet/snippets/prog-mode/.yas-compiled-snippets load 0ms]
-  ├─[~/../../yasnippet/snippets/emacs-lisp-mode/.yas-setup load 0ms]
-  ├─[~/../../yasnippet/snippets/emacs-lisp-mode/.yas-compiled-snippets load 0ms]
-  ├─[~/../../yasnippet/snippets/lisp-interaction-mode/.yas-setup load 0ms]
-  ├─[~/../../../snippets/lisp-interaction-mode/.yas-compiled-snippets load 0ms]
-  ├─[default load 2ms]
-  ├─[~/.emacs.d/conf.d/templates load 2ms]
-  ├─[~/.emacs.d/conf.d/remote load 6ms]
-  │ ╰─[tramp require 16ms]
-  │   ╰─[tramp-compat require 3ms]
-  │     ├─[tramp-loaddefs require 8ms]
-  │     ╰─[trampver require 2ms]
-  ├─[~/.emacs.d/conf.d/packages load 1425ms]
-  │ ├─[~/.emacs.d/el-get/.loaddefs load 3ms]
-  │ ├─[skewer-setup require 0ms]
-  │ ├─[coffee-mode require 5ms]
-  │ │ ╰─[rx require 3ms]
-  │ ├─[twittering-mode require 25ms]
-  │ │ ╰─[xml require 3ms]
-  │ ├─[scss-mode require 1ms]
-  │ ├─[slim-mode require 3ms]
-  │ ├─[gud require 14ms]
-  │ ├─[apropos require 4ms]
-  │ ├─[etags require 4ms]
-  │ ├─[arc-mode require 8ms]
-  │ ├─[hyperspec require 5ms]
-  │ │ ╰─[browse-url require 5ms]
-  │ ├─[slime-autoloads load 1ms]
-  │ ├─[rinari require 22ms]
-  │ │ ├─[jump require 1ms]
-  │ │ │ ├─[inflections require 1ms]
-  │ │ │ ╰─[findr require 1ms]
-  │ │ ├─[ruby-compilation require 3ms]
-  │ │ │ ╰─[which-func require 3ms]
-  │ │ │   ╰─[imenu require 3ms]
-  │ │ ╰─[inf-ruby require 2ms]
-  │ ├─[rspec-mode require 7ms]
-  │ │ ╰─[ruby-mode require 10ms]
-  │ │   ╰─[smie require 5ms]
-  │ ├─[rvm require 1ms]
-  │ ├─[flymake-ruby require 0ms]
-  │ │ ╰─[flymake-easy require 1ms]
-  │ │   ╰─[flymake require 4ms]
-  │ ├─[~/.emacs.d/el-get/ido-hacks/ido-hacks load 1ms]
-  │ ├─[~/.emacs.d/el-get/.loaddefs load 3ms]
-  │ ╰─[el-get require 2ms]
-  │   ├─[el-get-autoloading require 1ms]
-  │   ├─[el-get-list-packages require 4ms]
-  │   ├─[el-get-dependencies require 1ms]
-  │   ├─[el-get-build require 1ms]
-  │   ├─[el-get-status require 1ms]
-  │   ├─[el-get-methods require 1ms]
-  │   │ ├─[el-get-fossil require 1ms]
-  │   │ ├─[el-get-svn require 1ms]
-  │   │ ├─[el-get-pacman require 1ms]
-  │   │ ├─[el-get-github-zip require 1ms]
-  │   │ ├─[el-get-github-tar require 1ms]
-  │   │ ├─[el-get-http-zip require 1ms]
-  │   │ ├─[el-get-http-tar require 1ms]
-  │   │ ├─[el-get-hg require 1ms]
-  │   │ ├─[el-get-go require 1ms]
-  │   │ ├─[el-get-git-svn require 1ms]
-  │   │ ├─[el-get-fink require 1ms]
-  │   │ ├─[el-get-emacswiki require 1ms]
-  │   │ │ ├─[el-get-http require 1ms]
-  │   │ │ ╰─[el-get-notify require 1ms]
-  │   │ ├─[el-get-emacsmirror require 1ms]
-  │   │ │ ├─[el-get-github require 1ms]
-  │   │ │ ╰─[el-get-git require 1ms]
-  │   │ ├─[el-get-elpa require 1ms]
-  │   │ │ ╰─[package require 7ms]
-  │   │ │   ╰─[epg-config require 1ms]
-  │   │ ├─[el-get-darcs require 1ms]
-  │   │ ├─[el-get-cvs require 1ms]
-  │   │ ├─[el-get-bzr require 1ms]
-  │   │ ├─[el-get-brew require 1ms]
-  │   │ ├─[el-get-builtin require 1ms]
-  │   │ ╰─[el-get-apt-get require 1ms]
-  │   │   ╰─[el-get-recipes require 2ms]
-  │   │     ╰─[el-get-byte-compile require 1ms]
-  │   ├─[el-get-custom require 3ms]
-  │   ╰─[el-get-core require 1ms]
-  │     ╰─[autoload require 2ms]
-  │       ╰─[lisp-mnt require 3ms]
-  ├─[~/.emacs.d/conf.d/kbd load 3183ms]
-  │ ├─[ergoemacs-menus require 2ms]
-  │ ├─[compile require 5ms]
-  │ ├─[esh-mode require 3ms]
-  │ │ ├─[esh-var require 2ms]
-  │ │ ├─[esh-io require 2ms]
-  │ │ ├─[esh-cmd require 3ms]
-  │ │ │ ├─[esh-proc require 2ms]
-  │ │ │ │ ╰─[esh-cmd require 3ms]
-  │ │ │ │   ╰─[esh-ext require 1ms]
-  │ │ │ │     ╰─[esh-opt require 1ms]
-  │ │ │ ├─[esh-arg require 2ms]
-  │ │ │ ╰─[eldoc require 66ms]
-  │ │ ╰─[esh-module require 1ms]
-  │ │   ├─[esh-groups load 2ms]
-  │ │   ╰─[eshell require 1ms]
-  │ ├─[esh-util require 2ms]
-  │ ├─[calc-loaddefs.el load 2ms]
-  │ ├─[calc-macs require 1ms]
-  │ ├─[org-macro require 1ms]
-  │ ├─[org-footnote require 2ms]
-  │ ├─[org-pcomplete require 1ms]
-  │ │ ╰─[pcomplete require 2ms]
-  │ ├─[org-list require 5ms]
-  │ ├─[org-faces require 5ms]
-  │ ├─[org-entities require 2ms]
-  │ ├─[outline require 7ms]
-  │ ├─[ob-emacs-lisp require 1ms]
-  │ │ ╰─[ob require 1ms]
-  │ │   ├─[ob-tangle require 2ms]
-  │ │   ├─[ob-ref require 1ms]
-  │ │   ├─[ob-lob require 1ms]
-  │ │   ├─[ob-table require 1ms]
-  │ │   ├─[ob-exp require 1ms]
-  │ │   │ ╰─[org-src require 3ms]
-  │ │   │   ╰─[ob-keys require 1ms]
-  │ │   ├─[ob-comint require 1ms]
-  │ │   │ ╰─[comint require 8ms]
-  │ │   ├─[ob-core require 6ms]
-  │ │   ╰─[ob-eval require 1ms]
-  │ ├─[org-compat require 2ms]
-  │ ├─[org-macs require 2ms]
-  │ ├─[org-loaddefs.el load 4ms]
-  │ ├─[format-spec require 1ms]
+╼►[benchmark-init/root nil 1705ms]
+  ├─[quail/cyrillic load 7ms]
+  ├─[/usr/share/emacs/24.5/lisp/term/xterm.elc load 2ms]
+  ├─[flycheck require 24ms]
   │ ├─[find-func require 2ms]
-  │ ├─[calendar require 15ms]
-  │ │ ├─[cal-menu require 1ms]
-  │ │ ╰─[cal-loaddefs load 3ms]
-  │ ├─[ps-print require 7ms]
-  │ │ ╰─[ps-def require 1ms]
-  │ ├─[lpr require 1ms]
-  │ ├─[dired require 15ms]
-  │ ╰─[ergoemacs-mode require 38ms]
-  │   ├─[ergoemacs-advices load 17ms]
-  │   ├─[cus-edit require 9ms]
-  │   ├─[ergoemacs-extras load 2ms]
-  │   ├─[ergoemacs-shortcuts load 3ms]
-  │   ├─[ergoemacs-translate load 6ms]
-  │   │ ╰─[descr-text require 2ms]
-  │   ├─[ergoemacs-functions load 5ms]
-  │   ├─[ergoemacs-modal load 2ms]
-  │   ├─[ergoemacs-unbind load 2ms]
-  │   ├─[ergoemacs-themes load 4ms]
-  │   ├─[ergoemacs-theme-engine load 19ms]
-  │   │ ╰─[eieio-base require 4ms]
-  │   ╰─[ergoemacs-layouts load 1ms]
-  ├─[~/.emacs.d/conf.d/interface load 14ms]
+  │ ├─[help-mode require 2ms]
+  │ ├─[rx require 2ms]
+  │ ╰─[subr-x require 2ms]
+  ├─[flymake require 4ms]
+  ├─[default load 3ms]
+  ├─[~/.emacs.d/conf.d/templates load 1ms]
+  ├─[~/.emacs.d/conf.d/ruby load 1250ms]
+  ├─[~/.emacs.d/conf.d/remote load 0ms]
+  ├─[~/.emacs.d/conf.d/org load 0ms]
+  ├─[~/.emacs.d/conf.d/lisp load 0ms]
+  ├─[~/.emacs.d/conf.d/kbd load 0ms]
+  ├─[~/.emacs.d/conf.d/js load 1ms]
+  ├─[~/.emacs.d/conf.d/interface load 12ms]
+  │ ╰─[filenotify require 1ms]
   ├─[~/.emacs.d/conf.d/hooks load 0ms]
-  ├─[~/.emacs.d/conf.d/habitrpg load 0ms]
-  │ ╰─[habitrpg require 29ms]
-  │   ├─[habitrpg-key-mode require 3ms]
-  │   ├─[ring require 1ms]
-  │   ├─[ansi-color require 1ms]
-  │   ├─[request-deferred require 1ms]
-  │   ├─[request require 22ms]
-  │   │ ├─[url-http require 2ms]
-  │   │ │ ├─[tls require 1ms]
-  │   │ │ ├─[url-auth require 1ms]
-  │   │ │ ├─[mail-parse require 1ms]
-  │   │ │ │ ├─[rfc2231 require 1ms]
-  │   │ │ │ │ ╰─[rfc2047 require 2ms]
-  │   │ │ │ │   ╰─[rfc2045 require 1ms]
-  │   │ │ │ ╰─[ietf-drums require 1ms]
-  │   │ │ ╰─[url-gw require 1ms]
-  │   │ ├─[mail-utils require 1ms]
-  │   │ ╰─[url require 1ms]
-  │   │   ├─[url-proxy require 1ms]
-  │   │   ├─[url-privacy require 1ms]
-  │   │   ├─[url-expand require 1ms]
-  │   │   │ ╰─[url-methods require 1ms]
-  │   │   ├─[url-history require 1ms]
-  │   │   ├─[url-cookie require 2ms]
-  │   │   │ ├─[url-domsuf require 1ms]
-  │   │   │ ╰─[url-util require 2ms]
-  │   │   │   ╰─[url-parse require 2ms]
-  │   │   │     ╰─[auth-source require 3ms]
-  │   │   │       ├─[eieio require 7ms]
-  │   │   │       │ ╰─[eieio-core require 3ms]
-  │   │   │       ├─[gnus-util require 4ms]
-  │   │   │       ├─[mm-util require 10ms]
-  │   │   │       │ ╰─[mail-prsvr require 1ms]
-  │   │   │       ╰─[password-cache require 1ms]
-  │   │   ├─[url-vars require 1ms]
-  │   │   ╰─[mailcap require 2ms]
-  │   ├─[deferred require 42ms]
-  │   ╰─[json require 1ms]
-  ├─[~/.emacs.d/conf.d/features load 80ms]
-  │ ├─[smex require 1ms]
-  │ ├─[bookmark require 3ms]
-  │ │ ╰─[pp require 1ms]
-  │ ├─[git-gutter require 4ms]
-  │ ├─[multiple-cursors require 0ms]
-  │ │ ├─[mc-hide-unmatched-lines-mode require 0ms]
-  │ │ ├─[mc-separate-operations require 0ms]
-  │ │ ├─[rectangular-region-mode require 1ms]
-  │ │ ├─[mc-mark-pop require 0ms]
-  │ │ ├─[mc-mark-more require 1ms]
-  │ │ │ ╰─[thingatpt require 1ms]
-  │ │ ├─[mc-cycle-cursors require 0ms]
-  │ │ ╰─[mc-edit-lines require 0ms]
-  │ │   ╰─[multiple-cursors-core require 4ms]
-  │ │     ├─[~/.emacs.d/.mc-lists.el load 1ms]
-  │ │     ╰─[rect require 1ms]
-  │ ├─[ido-hacks require 1ms]
-  │ ├─[flx-ido require 13ms]
-  │ │ ├─[bytecomp require 6ms]
-  │ │ │ ╰─[cconv require 1ms]
-  │ │ ├─[flx require 7ms]
-  │ │ ╰─[ido require 5ms]
-  │ ├─[linum-ex require 1ms]
-  │ ├─[~/../el-get/yasnippet/snippets/fundamental-mode/.yas-setup load 0ms]
-  │ ├─[~/../../../snippets/fundamental-mode/.yas-compiled-snippets load 0ms]
-  │ ├─[yasnippet require 24ms]
-  │ │ ├─[help-mode require 2ms]
-  │ │ ╰─[cl require 8ms]
-  │ ├─[auto-complete-config require 2ms]
-  │ │ ╰─[auto-complete require 7ms]
-  │ │   ╰─[kmacro require 2ms]
-  │ ╰─[popup require 11ms]
+  ├─[~/.emacs.d/conf.d/features load 51ms]
+  │ ├─[cl require 3ms]
+  │ ├─[compile require 5ms]
+  │ ├─[ibuf-ext require 4ms]
+  │ ├─[ibuffer require 6ms]
+  │ ├─[dash require 4ms]
+  │ ├─[thingatpt require 2ms]
+  │ ├─[bookmark require 4ms]
+  │ │ ╰─[pp require 2ms]
+  │ ├─[flx-ido require 4ms]
+  │ │ ├─[flx require 1ms]
+  │ │ ╰─[ido require 17ms]
+  │ ├─[kmacro require 2ms]
+  │ ├─[gv require 13ms]
+  │ ╰─[popup require 4ms]
   ├─[~/.emacs.d/conf.d/defuns load 0ms]
-  ╰─[~/.emacs.d/conf.d/custom load 3ms]
-    ├─[~/.emacs.d/recentf load 1ms]
-    ├─[recentf load 3ms]
-    │ ├─[tree-widget require 7ms]
-    │ │ ╰─[wid-edit require 4ms]
-    │ ╰─[easymenu require 1ms]
+  ╰─[~/.emacs.d/conf.d/custom load 6ms]
+    ├─[tramp-sh load 23ms]
+    ├─[tramp load 20ms]
+    │ ╰─[tramp-compat require 2ms]
+    │   ├─[auth-source require 3ms]
+    │   │ ├─[eieio require 20ms]
+    │   │ │ ╰─[eieio-core require 4ms]
+    │   │ ├─[gnus-util require 4ms]
+    │   │ ╰─[mm-util require 20ms]
+    │   │   ╰─[mail-prsvr require 1ms]
+    │   ├─[password-cache require 3ms]
+    │   ├─[tramp-loaddefs require 70ms]
+    │   ├─[trampver require 1ms]
+    │   ├─[shell require 11ms]
+    │   │ ├─[pcomplete require 2ms]
+    │   │ ╰─[comint require 5ms]
+    │   │   ├─[regexp-opt require 1ms]
+    │   │   ├─[ansi-color require 2ms]
+    │   │   ╰─[ring require 10ms]
+    │   ╰─[format-spec require 1ms]
+    ├─[~/.emacs.d/recentf load 0ms]
+    ├─[recentf load 4ms]
+    │ ╰─[tree-widget require 2ms]
+    │   ╰─[wid-edit require 12ms]
     ├─[whitespace load 4ms]
-    ├─[linum load 1ms]
-    ├─[delsel load 1ms]
+    ├─[linum load 2ms]
+    ├─[delsel load 2ms]
     ├─[cus-start require 3ms]
-    ╰─[cus-load require 32ms]
+    ╰─[cus-load require 28ms]
 
 #+end_src
 **** To be continued...

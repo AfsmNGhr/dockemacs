@@ -1,6 +1,6 @@
 ;; ================================ Tramp ======================================
 
-(require  'tramp)
+(require 'tramp)
 (setq-default tramp-persistency-file-name nil
               tramp-default-method "scp")
 (tramp-set-completion-function "ssh"
@@ -11,7 +11,7 @@
 
 ;; ================================= Sudo ======================================
 
-(defun sudo-edit-current-file ()
+ (defun sudo-edit-current-file ()
   (interactive)
   (let ((my-file-name) ; fill this with the file to open
         (position))    ; if the file is already open save position
@@ -37,7 +37,5 @@
                  (tramp-file-name-user vec)
                  (tramp-file-name-host vec))))
     (concat "/sudo:root@localhost:" tempfile)))
-
-(define-key dired-mode-map [s-return] 'sudo-edit-current-file)
 
 ;; ========================= To be continued... ================================

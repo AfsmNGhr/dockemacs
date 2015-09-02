@@ -66,5 +66,4 @@ Consecutive calls to this command append each line to the kill-ring."
 
 (global-set-key [remap comment-dwim] 'comment-or-uncomment-region-or-line)
 
-
 ;; ========================= To be continued... ================================
