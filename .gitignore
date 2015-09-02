@@ -226,3 +226,4 @@ tramp
 elpa/
 secrets/
 request/
+projectile*
