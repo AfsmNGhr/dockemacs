@@ -48,7 +48,7 @@ Consecutive calls to this command append each line to the kill-ring."
         )
     (if (region-active-p)
         (progn
-          (shell-command-on-region (region-beginning) (region-end) "echo $1 | parcellite")
+          (shell-command-on-region (region-beginning) (region-end) "parcellite")
           (message "Yanked region to clipboard!")
           (deactivate-mark))
       (message "No region active; can't yank to clipboard!")))
