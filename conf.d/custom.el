@@ -7,14 +7,19 @@
  '(delete-selection-mode t)
  '(global-linum-mode t)
  '(global-whitespace-mode t)
- '(initial-frame-alist '((fullscreen . maximized)))
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(initial-scratch-message
-   #(";; This buffer is for notes you don't want to save, and for Lisp evaluation.\n;; If you want to create a file, visit that file with Ctrl+O,\n;; then enter the text in that file's own buffer." 131 135
-     (face ergoemacs-pretty-key)
-     136 137
-     (face ergoemacs-pretty-key)))
+   #(";; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with Ctrl+O,
+;; then enter the text in that file's own buffer." 131 135
+                                                       (face ergoemacs-pretty-key)
+                                                       136 137
+                                                       (face ergoemacs-pretty-key)))
  '(linum-format " %i ")
  '(org-CUA-compatible nil)
+ '(org-agenda-files
+   (quote
+    ("/home/afsmnghr/Documents/org/work.org" "/home/afsmnghr/Documents/org/diary.org")))
  '(org-replace-disputed-keys nil)
  '(org-special-ctrl-a/e t)
  '(org-support-shift-select t)
@@ -28,7 +33,7 @@
      (face ergoemacs-pretty-key)
      4 5
      (face ergoemacs-pretty-key)))
- '(whitespace-style '(face lines-tail)))
+ '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

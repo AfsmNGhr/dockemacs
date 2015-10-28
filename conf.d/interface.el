@@ -24,7 +24,8 @@
               redisplay-dont-pause t
               ring-bell-function 'ignore
               query-replace-highlight t
-              x-select-enable-clipboard t)
+              x-select-enable-clipboard t
+              epa-file-cache-passphrase-for-symmetric-encryption t)
 
 (display-time-mode)
 (show-paren-mode 1)

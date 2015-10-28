@@ -1,10 +1,13 @@
 ;; ============================== Org mode =====================================
 
+(use-package org-pomodoro
+  :defer t)
+
 (use-package org
   :defer t
   :config
   (setq org-todo-keywords
-      '((sequence "TODO" "INPROGRESS" "DONE"))
+      '((sequence "TODO" "INPROGRESS" "DONE" "CANCELED"))
       org-todo-keyword-faces
       '(("INPROGRESS" . (:foreground "DodgerBlue2" :weight bold))))
   (define-prefix-command 'org-todo-keys)
@@ -15,6 +18,8 @@
     '(lambda () (interactive) (org-todo "DONE")))
   (define-key org-todo-keys "i"
     '(lambda () (interactive) (org-todo "INPROGRESS")))
+  (define-key org-todo-keys "c"
+    '(lambda () (interactive) (org-todo "CANCELED")))
 
 ;; ============================ Org agenda =====================================
 
