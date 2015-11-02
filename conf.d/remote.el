@@ -9,6 +9,14 @@
 (tramp-parse-shostkeys "/etc/ssh2/hostkeys/*")
 (tramp-parse-shostkeys "~/.ssh2/hostkeys/*")
 
+;; ================================ Docker =====================================
+
+(use-package docker
+  :defer t
+  :ensure t
+  :config
+  (docker-global-mode))
+
 ;; ================================= Sudo ======================================
 
  (defun sudo-edit-current-file ()

@@ -8,5 +8,7 @@
 (use-package yaml-mode :ensure t :defer t)
 (use-package sqlplus :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
+(use-package ansible :ensure t :defer t
+  :config (add-hook 'yaml-mode-hook '(lambda () (ansible 1))))
 
 ;; ========================= To be continued... ================================
