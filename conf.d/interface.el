@@ -25,7 +25,8 @@
               ring-bell-function 'ignore
               query-replace-highlight t
               x-select-enable-clipboard t
-              epa-file-cache-passphrase-for-symmetric-encryption t)
+              browse-url-browser-function 'browse-url-generic
+              browse-url-generic-program "firefox-nightly")
 
 (display-time-mode)
 (show-paren-mode 1)
