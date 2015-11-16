@@ -2,7 +2,7 @@
 
 (use-package keyfreq
   :ensure t
-  :init
+  :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
