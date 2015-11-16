@@ -52,10 +52,28 @@
 
 (use-package multiple-cursors
   :ensure t :defer t
-  :bind (("C-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this)
-         ("s-SPC" . set-rectangular-region-anchor)))
+  :bind
+  (("C-c m t" . mc/mark-all-like-this)
+   ("C-c m m" . mc/mark-all-like-this-dwim)
+   ("C-c m l" . mc/edit-lines)
+   ("C-c m e" . mc/edit-ends-of-lines)
+   ("C-c m a" . mc/edit-beginnings-of-lines)
+   ("C-c m n" . mc/mark-next-like-this)
+   ("C-c m p" . mc/mark-previous-like-this)
+   ("C-c m s" . mc/mark-sgml-tag-pair)
+   ("C-c m d" . mc/mark-all-like-this-in-defun)))
+
+(use-package phi-search
+  :ensure t :defer t)
+
+(use-package phi-search-mc
+  :ensure t :defer t
+  :config
+  (phi-search-mc/setup-keys))
+
+(use-package mc-extras
+  :ensure t :defer t
+  :config
+      (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
 
 ;; ========================= To be continued... ================================

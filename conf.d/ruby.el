@@ -1,5 +1,9 @@
 ;; =============================== Ruby  =======================================
 
+(use-package ruby-mode
+  :defer t
+  :mode ("\\.cr\\'" . ruby-mode))
+
 (use-package rinari
   :ensure t :defer t
   :config
