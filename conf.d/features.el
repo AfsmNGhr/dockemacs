@@ -1,5 +1,13 @@
 ;; ============================== Features =====================================
 
+(use-package keyfreq
+  :ensure t
+  :init
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
+(use-package magit :ensure t :defer t)
+
 (use-package auto-complete
   :ensure t :defer t
   :init (global-auto-complete-mode))
