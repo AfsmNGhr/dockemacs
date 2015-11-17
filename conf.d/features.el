@@ -24,7 +24,7 @@
 (use-package keyfreq :ensure t
   :config
   (keyfreq-mode 1)
-  (keyfreq-autosasve-mode 1))
+  (keyfreq-autosave-mode 1))
 
 (use-package magit :ensure t :defer t)
 
