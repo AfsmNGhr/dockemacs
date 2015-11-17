@@ -11,11 +11,3 @@
       (load-path (delq default-directory load-path)))
   (load-file user-init-file)
   (run-hooks 'after-init-hook))
-
-(ert-deftest theme ()
-  "A test that check theme"
-  :expected-result (if (custom-theme-enabled-p 'spolsky-term)
-                       :passed
-                     :failed))
-
-(ert t)
