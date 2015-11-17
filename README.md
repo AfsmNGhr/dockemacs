@@ -1,6 +1,6 @@
 ### My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 
-## *Customize interface & ![Themes](file:/themes.md)*
+### *Customize interface & ![Themes](file:/themes.md)*
 
 ```.elisp
 
@@ -46,7 +46,7 @@
 (size-indication-mode -1)
 ```
 
-## *Packages*
+### *Packages*
 
 ```.elisp
 
@@ -72,7 +72,7 @@
 (require 'bind-key)
 ```
 
-## *Keybinding*
+### *Keybinding*
 
 ```.elisp
 
@@ -136,7 +136,7 @@
 
 {% endhighlight %}
 
-## *Features*
+### *Features*
 
 ```.elisp
 
@@ -199,7 +199,7 @@
          ("s-SPC" . set-rectangular-region-anchor)))
 ```
 
-## *Ruby*
+### *Ruby*
 
 ```.elisp
 
@@ -236,7 +236,7 @@
     '(rspec-install-snippets)))
 ```
 
-## *Hooks*
+### *Hooks*
 
 ```.elisp
 
@@ -257,7 +257,7 @@
 
 ```
 
-## *Benchmark*
+### *Benchmark*
 
 ```.clojure
 
@@ -331,4 +331,4 @@ Benchmark results
 
 ```
 
-## *To be continued...*
+### *To be continued...*
