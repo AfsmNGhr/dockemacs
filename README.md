@@ -1,7 +1,6 @@
-My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
-===
+### My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 
-### *Customize interface & ![Themes](file:/themes.md)*
+## *Customize interface & ![Themes](file:/themes.md)*
 
 ```.elisp
 
@@ -47,7 +46,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 (size-indication-mode -1)
 ```
 
-### *Packages*
+## *Packages*
 
 ```.elisp
 
@@ -73,7 +72,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 (require 'bind-key)
 ```
 
-### *Keybinding*
+## *Keybinding*
 
 ```.elisp
 
@@ -137,7 +136,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 
 {% endhighlight %}
 
-### *Features*
+## *Features*
 
 ```.elisp
 
@@ -200,7 +199,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
          ("s-SPC" . set-rectangular-region-anchor)))
 ```
 
-### *Ruby*
+## *Ruby*
 
 ```.elisp
 
@@ -237,7 +236,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
     '(rspec-install-snippets)))
 ```
 
-### *Hooks*
+## *Hooks*
 
 ```.elisp
 
@@ -258,7 +257,7 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 
 ```
 
-### *Benchmark*
+## *Benchmark*
 
 ```.clojure
 
@@ -332,4 +331,4 @@ Benchmark results
 
 ```
 
-### *To be continued...*
+## *To be continued...*
