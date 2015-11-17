@@ -1,7 +1,7 @@
 My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 ===
 
-*Customize interface & [[file:/themes.md][Themes]]*
+*Customize interface & [Themes](file:/themes.md)*
 ===
 
 {% highlight elisp %}
