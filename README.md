@@ -133,8 +133,7 @@
            (define-key map [return] #'exit-minibuffer)
            (define-key map [backspace] #'delete-backward-char)
            map)))
-
-{% endhighlight %}
+```
 
 ### *Features*
 
