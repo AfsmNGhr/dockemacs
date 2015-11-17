@@ -1,10 +1,9 @@
 My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 ===
 
-*Customize interface & [Themes](file:/themes.md)*
-===
+### *Customize interface & ![Themes](file:/themes.md)*
 
-{% highlight elisp %}
+```.elisp
 
 ;; ================================== Theme ====================================
 
@@ -12,7 +11,6 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 
 (if (daemonp)
     (progn
-      ;;(load-theme 'spolsky t t)
       (load-theme 'spolsky-term t t)
   (load-theme 'spolsky t)))
 
@@ -47,13 +45,11 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 (column-number-mode -1)
 (line-number-mode -1)
 (size-indication-mode -1)
+```
 
-{% endhighlight %}
+### *Packages*
 
-*Packages*
-===
-
-{% highlight elisp %}
+```.elisp
 
 ;; ============================== Package ======================================
 
@@ -75,13 +71,11 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 (require 'use-package)
 (require 'diminish)
 (require 'bind-key)
+```
 
-{% endhighlight %}
+### *Keybinding*
 
-*Keybinding*
-===
-
-{% highlight elisp %}
+```.elisp
 
 (global-set-key (kbd "C-w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
@@ -143,10 +137,9 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
 
 {% endhighlight %}
 
-*Features*
-===
+### *Features*
 
-{% highlight elisp %}
+```.elisp
 
 (use-package auto-complete
   :ensure t :defer t
@@ -205,13 +198,11 @@ My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](http
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this)
          ("s-SPC" . set-rectangular-region-anchor)))
+```
 
-{% endhighlight %}
+### *Ruby*
 
-Ruby
-===
-
-{% highlight elisp %}
+```.elisp
 
 (use-package bundler
   :ensure t :defer t)
@@ -244,14 +235,11 @@ Ruby
   :config
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets)))
+```
 
+### *Hooks*
 
-{% endhighlight %}
-
-*Hooks*
-===
-
-{% highlight elisp %}
+```.elisp
 
 ;; =========================== Compile elisp ===================================
 
@@ -268,12 +256,11 @@ Ruby
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-{% endhighlight %}
+```
 
-*Benchmark*
-===
+### *Benchmark*
 
-{% highlight clojure %}
+```.clojure
 
 Benchmark results
 
@@ -343,7 +330,6 @@ Benchmark results
     ├─[cus-start require 3ms]
     ╰─[cus-load require 28ms]
 
-{% endhighlight %}
+```
 
-*To be continued...*
-===
+### *To be continued...*
