@@ -9,6 +9,10 @@
 (custom-set-variables
  '(whitespace-style '(face lines-tail)))
 
+(custom-set-faces
+ '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+
 (setq-default tab-width 2
               indent-tabs-mode nil
               file-name-coding-system 'utf-8

@@ -1,5 +1,10 @@
 ;; ============================== Features =====================================
 
+(use-package ace-window :ensure t :defer t
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (setq aw-background nil))
+
 (use-package ace-jump-mode :ensure t
   :config
   (define-key global-map (kbd "C-c SPC") 'ace-jump-word-mode)

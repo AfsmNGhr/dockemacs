@@ -28,7 +28,7 @@
     "(tramp-completion-handle-file-name-all-completions \"\" \"/docker:\" returns
     a list of active Docker container names, followed by colons."
     (if (equal (ad-get-arg 1) "/docker:")
-        (let* ((dOckernames-raw (shell-command-to-string "docker ps | awk '$NF != \"NAMES\" { print $NF \":\" }'"))
+        (let* ((dockernames-raw (shell-command-to-string "docker ps | awk '$NF != \"NAMES\" { print $NF \":\" }'"))
                (dockernames (cl-remove-if-not
                              #'(lambda (dockerline) (string-match ":$" dockerline))
                              (split-string dockernames-raw "\n"))))

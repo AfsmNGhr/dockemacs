@@ -1,3 +1,44 @@
+; ================================ Testing error ===============================
+
+(defun test-emacs ()
+  (interactive)
+  (require 'async)
+  (async-start
+   (lambda () (shell-command-to-string
+                         "emacs --batch --eval \"
+(condition-case e
+    (progn
+      (load \\\"~/.emacs.d/init.el\\\")
+      (message \\\"-OK-\\\"))
+  (error
+   (message \\\"ERROR!\\\")
+   (signal (car e) (cdr e))))\""))
+   `(lambda (output)
+      (if (string-match "-OK-" output)
+          (when ,(called-interactively-p 'any)
+            (message "All is well"))
+        (switch-to-buffer-other-window "*startup error*")
+        (delete-region (point-min) (point-max))
+        (insert output)
+        (search-backward "ERROR!")))))
+
+; ================================ Find file =================================
+
+(defun find-with-git ()
+  "Find file in the current Git repository."
+  (interactive)
+  (let* ((default-directory (locate-dominating-file
+                             default-directory ".git"))
+         (cands (split-string
+                 (shell-command-to-string
+                  "git ls-files --full-name --")
+                 "\n"))
+         (file (ido-completing-read "Find file with git: " cands)))
+    (when file
+      (find-file file))))
+
+(global-set-key (kbd "C-c f") 'find-with-git)
+
 ; ==================================== Date ===================================
 
 (defun insert-date ()
