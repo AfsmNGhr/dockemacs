@@ -15,8 +15,8 @@
   (run-hooks 'after-init-hook))
 
 (ert-deftest theme ()
-"A test that check theme"
-:expected-result (unless (custom-theme-enabled-p 'spolsky)
-                   :passed))
+  "A test that check theme"
+  :expected-result (unless (custom-theme-enabled-p 'spolsky)
+                     :passed))
 
 (ert t)

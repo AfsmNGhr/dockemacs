@@ -1,15 +1,15 @@
 ;; ============================== Features =====================================
 
-(use-package ace-window :ensure t :defer t
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  (setq aw-background nil))
-
 (use-package ace-jump-mode :ensure t
   :config
   (define-key global-map (kbd "C-c SPC") 'ace-jump-word-mode)
   (define-key global-map (kbd "C-c v") 'ace-jump-char-mode)
-  (define-key global-map (kbd "C-c b") 'ace-jump-line-mode))
+    (define-key global-map (kbd "C-c b") 'ace-jump-line-mode))
+
+(use-package ace-window :ensure t :defer t
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (setq aw-background nil))
 
 (use-package magit :ensure t :defer t)
 
@@ -34,13 +34,11 @@
 (use-package bookmark
   :config
   (setq bookmark-save-flag t)
-  (global-set-key (kbd "C-x v") 'bookmark-set)
-  (global-set-key (kbd "s-SPC") 'bookmark-save)
   (global-set-key (kbd "C-x r b")
-    (lambda ()
-      (interactive)
-      (bookmark-jump
-       (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
+   (lambda ()
+     (interactive)
+     (bookmark-jump
+      (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
 
 (use-package smex :ensure t
   :config
@@ -78,6 +76,6 @@
 
 (use-package mc-extras :ensure t :defer t
   :config
-      (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
+  (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
 
 ;; ========================= To be continued... ================================

@@ -24,7 +24,7 @@
 
 ; ================================ Find file =================================
 
-(defun find-with-git ()
+(defun git-find-file ()
   "Find file in the current Git repository."
   (interactive)
   (let* ((default-directory (locate-dominating-file
@@ -33,11 +33,9 @@
                  (shell-command-to-string
                   "git ls-files --full-name --")
                  "\n"))
-         (file (ido-completing-read "Find file with git: " cands)))
+         (file (ido-completing-read "Git find file: " cands)))
     (when file
       (find-file file))))
-
-(global-set-key (kbd "C-c f") 'find-with-git)
 
 ; ==================================== Date ===================================
 
