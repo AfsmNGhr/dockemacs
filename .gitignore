@@ -228,3 +228,4 @@ secrets/
 request/
 projectile*
 eshell/
+/.mc-lists.el

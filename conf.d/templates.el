@@ -1,7 +1,9 @@
 ;; =========================== Templates...  ===================================
 
 (use-package markdown-mode :ensure t :defer t)
-(use-package sass-mode :ensure t :defer t)
+(use-package sass-mode :ensure t :defer t
+  :mode
+  (("\\.scss" . sass-mode)))
 (use-package less-css-mode :ensure t :defer t)
 (use-package haml-mode :ensure t :defer t)
 (use-package slim-mode :ensure t :defer t)
