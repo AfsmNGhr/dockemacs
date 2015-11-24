@@ -6,6 +6,9 @@
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 (unless package-archive-contents
+  (when (or (not (boundp 'emacs-version))
+            (string> emacs-version "24.3")
+            load-library "url-handlers"))
   (package-refresh-contents))
 
 ;; ============================== Use-package ==================================
