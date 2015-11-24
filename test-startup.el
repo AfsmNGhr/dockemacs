@@ -16,7 +16,6 @@
 
 (ert-deftest theme ()
   "A test that check theme"
-  :expected-result (unless (custom-theme-enabled-p 'spolsky)
-                     :passed))
+  (should (eq custom-enabled-themes nil)))
 
 (ert t)
