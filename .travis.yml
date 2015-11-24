@@ -15,7 +15,7 @@ install:
   - sudo apt-get update -qq
   - sudo apt-get install ${EMACS} -qq
   - export HOME=$PWD/..
-  - ln -s ../emacs ../.emacs.d
+  - ln -s emacs ../.emacs.d
 
 script:
   - ${EMACS} --version
