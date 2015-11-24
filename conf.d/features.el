@@ -11,7 +11,7 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (setq aw-background nil))
 
-(use-package magit :ensure t :defer t)
+;; (use-package magit :ensure t :defer t)
 
 (use-package auto-complete :ensure t :defer t
   :init (global-auto-complete-mode))
