@@ -16,7 +16,8 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-background nil))
 
-(use-package magit :ensure t :defer t)
+(unless (version< emacs-version "24.4")
+  (use-package magit :ensure t :defer t))
 
 (use-package company :ensure t :defer t :init (global-company-mode t)
   :config

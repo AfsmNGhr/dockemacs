@@ -22,9 +22,6 @@ install:
     fi
   - sudo apt-get update -qq
   - sudo apt-get install ${EMACS} -qq
-  - if [ "$EMACS" = 'emacs-snapshot' ]; then
-      sudo apt-get install -qq emacs-snapshot-el emacs-snapshot-nox;
-    fi
   - export HOME=$PWD/..
   - ln -s emacs ../.emacs.d
 
