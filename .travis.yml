@@ -20,4 +20,4 @@ install:
 
 script:
   - ${EMACS} --version
-  - ./test-startup.el
+  - sudo ./test-startup.el
