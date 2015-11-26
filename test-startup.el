@@ -3,6 +3,7 @@
 ;; original source
 ;; https://github.com/purcell/emacs.d/blob/master/test-startup.sh
 
+(require 'cl)
 (require 'server)
 (unless (server-running-p)
       (server-start))
