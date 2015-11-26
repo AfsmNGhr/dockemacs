@@ -1,6 +1,6 @@
 ;; ================================ Interface ================================
 
-;; ;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
+;; (set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
 ;; (set-frame-parameter (selected-frame) 'alpha '(90 50))
 ;; (add-to-list 'default-frame-alist '(alpha 90 50))
 
@@ -33,7 +33,7 @@
               browse-url-generic-program "firefox-nightly")
 
 (display-time-mode)
-(show-paren-mode 1)
+(show-paren-mode t)
 (menu-bar-mode -1)
 (if tool-bar-mode
     (tool-bar-mode -1))
@@ -69,9 +69,9 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
- (if (daemonp)
-     (load-theme 'spolsky-term t t)
-   (load-theme 'spolsky t t))
+(if (daemonp)
+    (load-theme 'spolsky-term t t)
+  (load-theme 'spolsky t t))
 
  (defun my/enable-theme (frame)
    "enable theme the current frame depending on the frame type"

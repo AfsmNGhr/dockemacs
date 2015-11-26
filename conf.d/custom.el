@@ -8,7 +8,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(org-agenda-files
    (quote
-    ("/home/afsmnghr/Documents/org/work.org" "/home/afsmnghr/Documents/org/diary.org")))
+    ("/home/afsmnghr/Documents/org/development.org" "/home/afsmnghr/Documents/org/diary.org" "/home/afsmnghr/Documents/org/education.org" "/home/afsmnghr/Documents/org/entertainment.org")))
  '(recentf-mode t)
  '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces
@@ -16,6 +16,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
  '(ivy-current-match ((t (:foreground "color-35"))))
  '(ivy-minibuffer-match-face-2 ((t (:foreground "#f78d62" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:background "color-27" :weight bold))))

@@ -44,12 +44,10 @@
     (interactive)
     (find-file (concat (rinari-root) "Gemfile"))))
 
-(use-package bundler
-  :ensure t :defer t)
+(use-package bundler :ensure t :defer t)
 
 (use-package rvm
-  :ensure t :defer t
-  :init (rvm-use-default))
+  :ensure t :defer t :init (rvm-use-default))
 
 (use-package rubocop
   :ensure t :defer t
@@ -60,8 +58,7 @@
   :ensure t :defer t
   :init
   (progn (add-hook 'ruby-mode-hook 'robe-mode)
-         (add-hook 'robe-mode-hook 'ac-robe-setup)
-         (add-hook 'ruby-mode-hook 'auto-complete-mode)
+         (push 'company-robe company-backends)
          (add-hook 'ruby-mode-hook 'flycheck-mode)))
 
 (use-package rhtml-mode

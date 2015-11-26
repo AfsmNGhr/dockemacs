@@ -1,25 +1,32 @@
 ;; ============================== Features =====================================
 
+(use-package keyfreq :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (use-package ace-jump-mode :ensure t
   :config
   (define-key global-map (kbd "C-c SPC") 'ace-jump-word-mode)
   (define-key global-map (kbd "C-c v") 'ace-jump-char-mode)
-    (define-key global-map (kbd "C-c b") 'ace-jump-line-mode))
+  (define-key global-map (kbd "C-c b") 'ace-jump-line-mode))
 
 (use-package ace-window :ensure t :defer t
   :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  (setq aw-background nil))
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-background nil))
 
 (use-package magit :ensure t :defer t)
 
-(use-package auto-complete :ensure t :defer t
-  :init (global-auto-complete-mode))
+(use-package company :ensure t :defer t :init (global-company-mode t)
+  :config
+  (with-eval-after-load 'company
+    (company-flx-mode t)))
 
-(use-package yasnippet
-  :ensure t :defer t
-  :config (yas-global-mode 1))
+(use-package company-ansible :ensure t :defer t)
+(use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
 
+(use-package icicles :ensure t :defer t :init (icy-mode t))
 (use-package flx-ido :ensure t
   :config
    (ido-mode 1)
@@ -52,9 +59,7 @@
   (setq-default projectile-enable-caching t
         projectile-indexing-method 'native))
 
-(use-package perspective :ensure t :defer t
-  :init
-  (persp-mode))
+(use-package perspective :ensure t :defer t :init (persp-mode))
 
 (use-package multiple-cursors :ensure t :defer t
   :bind
@@ -69,13 +74,10 @@
    ("C-c m d" . mc/mark-all-like-this-in-defun)))
 
 (use-package phi-search :ensure t :defer t)
-
 (use-package phi-search-mc :ensure t :defer t
-  :config
-  (phi-search-mc/setup-keys))
+  :config (phi-search-mc/setup-keys))
 
 (use-package mc-extras :ensure t :defer t
-  :config
-  (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
+  :config (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars))
 
 ;; ========================= To be continued... ================================

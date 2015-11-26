@@ -229,3 +229,4 @@ request/
 projectile*
 eshell/
 /.mc-lists.el
+/url
