@@ -8,12 +8,6 @@
 
 ;; ================================ Docker =====================================
 
-(use-package docker
-  :defer t
-  :ensure t
-  :config
-  (docker-global-mode))
-
 (push
  (cons
   "docker"

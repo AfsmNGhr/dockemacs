@@ -18,7 +18,8 @@
 
 (unless (version< emacs-version "24.4")
   (use-package magit :ensure t :defer t)
-  (use-package company-ansible :ensure t :defer t))
+  (use-package company-ansible :ensure t :defer t)
+  (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
 (use-package company-flx :ensure t :defer t
   :config (with-eval-after-load 'company
