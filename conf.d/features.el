@@ -22,8 +22,8 @@
   :config
   (with-eval-after-load 'company
     (company-flx-mode t)))
-
 (use-package company-ansible :ensure t :defer t)
+(use-package company-tern :ensure t :defer t)
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
 
 (use-package icicles :ensure t :defer t :init (icy-mode t))
