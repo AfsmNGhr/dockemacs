@@ -3,7 +3,9 @@
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.milkbox.net/packages/"))
+      use-package-verbose t)
+
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -12,7 +14,6 @@
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-(setq use-package-verbose t)
 
 (require 'use-package)
 (require 'diminish)
