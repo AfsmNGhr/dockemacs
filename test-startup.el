@@ -3,11 +3,9 @@
 ;; original source
 ;; https://github.com/purcell/emacs.d/blob/master/test-startup.sh
 
-(require 'cl)
 (require 'server)
 (unless (server-running-p)
       (server-start))
-(load-library "package")
 
 (let ((debug-on-error t)
       (user-init-file "./init.el")
