@@ -17,14 +17,14 @@
         aw-background nil))
 
 (unless (version< emacs-version "24.4")
-  (use-package magit :ensure t :defer t))
+  (use-package magit :ensure t :defer t)
+  (use-package company-ansible :ensure t :defer t))
 
 (use-package company-flx :ensure t :defer t
   :config (with-eval-after-load 'company
             (company-flx-mode +1)))
 
 (use-package company :ensure t :defer t :init (global-company-mode t))
-(use-package company-ansible :ensure t :defer t)
 (use-package company-tern :ensure t :defer t)
 
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
