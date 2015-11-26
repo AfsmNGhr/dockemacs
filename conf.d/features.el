@@ -27,6 +27,9 @@
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
 
 (use-package icicles :ensure t :defer t :init (icy-mode t))
+
+(use-package ido-hacks :ensure t :defer t)
+(use-package ido-completing-read+ :ensure t :defer t)
 (use-package flx-ido :ensure t
   :config
    (ido-mode 1)
@@ -57,7 +60,7 @@
   :init (projectile-global-mode)
   :config
   (setq-default projectile-enable-caching t
-        projectile-indexing-method 'native))
+                projectile-indexing-method 'native))
 
 (use-package perspective :ensure t :defer t :init (persp-mode))
 
