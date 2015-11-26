@@ -1,9 +1,18 @@
 language: emacs-lisp
+sudo: required
 
 env:
   matrix:
     - EMACS=emacs24
     - EMACS=emacs-snapshot
+
+matrix:
+  allow_failures:
+    - EMACS: emacs-snapshot
+
+cache:
+  directories:
+    - ${HOME}/.emacs.d/elpa
 
 install:
   - sudo add-apt-repository -y ppa:ubuntu-elisp
@@ -15,4 +24,4 @@ install:
 
 script:
   - ${EMACS} --version
-  - ${EMACS} -q -nw --batch -l test-startup.el
+  - ./test-startup.el

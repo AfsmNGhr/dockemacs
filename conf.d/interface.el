@@ -30,7 +30,8 @@
               query-replace-highlight t
               x-select-enable-clipboard t
               browse-url-browser-function 'browse-url-generic
-              browse-url-generic-program "firefox-nightly")
+              browse-url-generic-program "firefox-nightly"
+              magit-completing-read-function #'magit-ido-completing-read)
 
 (display-time-mode)
 (show-paren-mode t)
