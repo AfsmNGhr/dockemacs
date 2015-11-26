@@ -20,9 +20,7 @@
   (use-package magit :ensure t :defer t))
 
 (use-package company :ensure t :defer t :init (global-company-mode t)
-  :config
-  (with-eval-after-load 'company
-    (company-flx-mode t)))
+  :config (company-flx-mode t))
 (use-package company-ansible :ensure t :defer t)
 (use-package company-tern :ensure t :defer t)
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
