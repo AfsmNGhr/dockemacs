@@ -1,14 +1,15 @@
 language: emacs-lisp
 sudo: required
 
+git:
+  submodules: false
+
 env:
   matrix:
     - EMACS=emacs24
     - EMACS=emacs-snapshot
-
-matrix:
-  allow_failures:
-    - EMACS: emacs-snapshot
+    allow_failures:
+      - EMACS: emacs-snapshot
 
 cache:
   directories:
