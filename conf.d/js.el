@@ -3,8 +3,7 @@
 (use-package coffee-mode :ensure t :defer t
   :config (setq-default coffee-js-mode 'js2-mode coffee-tab-width 2))
 
-(use-package js2-mode
-  :ensure t :defer t
+(use-package js2-mode :ensure t :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode

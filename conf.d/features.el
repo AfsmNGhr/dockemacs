@@ -1,6 +1,6 @@
 ;; ============================== Features =====================================
 
-(use-package keyword-search :ensure t
+(use-package keyword-search :ensure t :defer t
   :bind ("C-c s" . keyword-search))
 
 (use-package keyfreq :ensure t
@@ -8,7 +8,7 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
-(use-package ace-jump-mode :ensure t
+(use-package ace-jump-mode :ensure t :defer t
   :bind
   ("C-c SPC" . ace-jump-word-mode)
   ("C-c v" . ace-jump-char-mode)
