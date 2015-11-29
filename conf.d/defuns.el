@@ -1,6 +1,6 @@
 ; ================================ Testing error ===============================
 
-(defun test-emacs ()
+(defun emacs-test ()
   (interactive)
   (require 'async)
   (async-start

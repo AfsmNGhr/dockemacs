@@ -16,4 +16,8 @@
 (defalias 'ms 'magit-status)
 (defalias 'mp 'magit-push)
 
+;; ================================= Testing ===================================
+
+(defalias 'et 'emacs-test)
+
 ;; ========================= To be continued... ================================

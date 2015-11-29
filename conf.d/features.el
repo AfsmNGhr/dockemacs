@@ -1,15 +1,18 @@
 ;; ============================== Features =====================================
 
+(use-package keyword-search :ensure t
+  :bind ("C-c s" . keyword-search))
+
 (use-package keyfreq :ensure t
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
 (use-package ace-jump-mode :ensure t
-  :config
-  (define-key global-map (kbd "C-c SPC") 'ace-jump-word-mode)
-  (define-key global-map (kbd "C-c v") 'ace-jump-char-mode)
-  (define-key global-map (kbd "C-c b") 'ace-jump-line-mode))
+  :bind
+  ("C-c SPC" . ace-jump-word-mode)
+  ("C-c v" . ace-jump-char-mode)
+  ("C-c b" . ace-jump-line-mode))
 
 (use-package ace-window :ensure t :defer t
   :init
