@@ -1,11 +1,9 @@
 ;; =============================== Ruby  =======================================
 
-(use-package ruby-mode
-  :defer t
+(use-package ruby-mode :defer t
   :mode ("\\.cr\\'" . ruby-mode))
 
-(use-package rinari
-  :ensure t :defer t
+(use-package rinari :ensure t :defer t
   :config
   (setf
      my-rinari-jump-schema
@@ -45,30 +43,24 @@
     (find-file (concat (rinari-root) "Gemfile"))))
 
 (use-package bundler :ensure t :defer t)
+(use-package rvm :ensure t :defer t :init (rvm-use-default))
+(use-package company-inf-ruby :ensure t :defer t)
 
-(use-package rvm
-  :ensure t :defer t :init (rvm-use-default))
+(use-package rubocop :ensure t :defer t
+  :init (add-hook 'ruby-mode-hook 'rubocop-mode))
 
-(use-package rubocop
-  :ensure t :defer t
-  :init
-  (add-hook 'ruby-mode-hook 'rubocop-mode))
-
-(use-package robe
-  :ensure t :defer t
+(use-package robe :ensure t :defer t
   :init
   (progn (add-hook 'ruby-mode-hook 'robe-mode)
          (push 'company-robe company-backends)
          (add-hook 'ruby-mode-hook 'flycheck-mode)))
 
-(use-package rhtml-mode
-  :ensure t :defer t
+(use-package rhtml-mode :ensure t :defer t
   :mode
   (("\\.jst\\.eco$" . rhtml-mode)
    ("\\.html\\.erb$" . rhtml-mode)))
 
-(use-package rspec-mode
-  :ensure t :defer t
+(use-package rspec-mode :ensure t :defer t
   :config
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets)))

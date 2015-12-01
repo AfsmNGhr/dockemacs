@@ -29,6 +29,7 @@
               ring-bell-function 'ignore
               query-replace-highlight t
               x-select-enable-clipboard t
+              echo-keystrokes 0.1
               browse-url-browser-function 'browse-url-generic
               browse-url-generic-program "firefox-nightly"
               magit-completing-read-function #'magit-ido-completing-read)

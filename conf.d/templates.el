@@ -11,5 +11,7 @@
   :config (add-to-list 'company-backends 'company-ansible))
 (use-package sqlplus :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
+(use-package company-web :ensure t :defer t
+  :config (add-hook 'html-mode 'angular-html-mode))
 
 ;; ========================= To be continued... ================================
