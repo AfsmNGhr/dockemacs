@@ -1,7 +1,12 @@
 ;; ============================== Features =====================================
 
 (use-package keyword-search :ensure t :defer t
-  :bind ("C-c s" . keyword-search))
+  :bind ("C-c s" . keyword-search)
+  :config
+  (setq my/search-alist
+        '((t/ya-en-ru . "https://translate.yandex.ru/?text=%s&lang=en-ru")
+          (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en"))
+        keyword-search-alist (append keyword-search-alist my/search-alist)))
 
 (use-package keyfreq :ensure t
   :config

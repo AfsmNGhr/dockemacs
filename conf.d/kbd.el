@@ -1,5 +1,7 @@
 ;; ================================= My keys ===================================
 
+(global-set-key (kbd "C-v") 'end-of-buffer)
+(global-set-key (kbd "M-v") 'beginning-of-buffer)
 (global-set-key (kbd "C-x w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-x") 'smex)
@@ -9,9 +11,9 @@
 (global-set-key (kbd "M-2") 'quick-cut-line)
 (global-set-key (kbd "M-3") 'quick-copy-line)
 (global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
-(global-set-key "\C-w" 'clipboard-kill-region)
-(global-set-key "\M-w" 'clipboard-kill-ring-save)
-(global-set-key "\C-y" 'clipboard-yank)
+(global-set-key (kbd "C-w") 'clipboard-kill-region)
+(global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
+(global-set-key (kbd "C-y") 'clipboard-yank)
 
 ;; ======================== Reverse-input-method ===============================
 
