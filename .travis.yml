@@ -26,6 +26,7 @@ install:
   - sudo apt-get install ${EMACS} -qq
   - export HOME=$PWD/..
   - ln -s emacs ../.emacs.d
+  - mkdir -p $HOME/Documents/org
 
 script:
   - ${EMACS} --version

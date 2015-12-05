@@ -30,8 +30,7 @@
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
   (define-key global-map "\C-cc" 'org-capture)
-  (unless (string-match "^travis" system-name)
-    (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
+  (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
           org-capture-templates
           '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
              "* TODO %?\n  SCHEDULED: %^t")
@@ -44,6 +43,6 @@
             ("e" "Education" entry (file "~/Documents/org/education.org")
              "* TODO %?")
             ("n" "Notes" entry (file "~/Documents/org/notes.org")
-             "* %? :NOTE:")))))
+             "* %? :NOTE:"))))
 
 ;; ========================= To be continued... ================================
