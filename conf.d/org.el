@@ -9,7 +9,7 @@
         org-todo-keywords
         '((sequence "TODO" "INPROGRESS" "HOLD" "DONE" "CANCELLED"))
         org-todo-keyword-faces
-        '(("INPORGRESS" . (:foreground "DodgerBlue2" :weight bold))))
+        '(("INPORGRESS" :foreground "DodgerBlue2" :weight bold)))
   (define-prefix-command 'org-todo-keys)
   (define-key org-mode-map "\C-cx" 'org-todo-keys)
   (define-key org-todo-keys "t"
@@ -30,19 +30,24 @@
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
   (define-key global-map "\C-cc" 'org-capture)
+  (require 'org-protocol)
+
   (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
-          org-capture-templates
-          '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
-             "* TODO %?\n  SCHEDULED: %^t")
-            ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
-             "* %?")
-            ("h" "Hopox" entry (file+datetree "~/Documents/org/hopox.org")
-             "* TODO %? :WORK: ")
-            ("f" "FF" entry (file+datetree "~/Documents/org/ff.org")
-             "* TODO %? :WORK:")
-            ("e" "Education" entry (file "~/Documents/org/education.org")
-             "* TODO %?")
-            ("n" "Notes" entry (file "~/Documents/org/notes.org")
-             "* %? :NOTE:"))))
+        org-protocol-default-template-key "l"
+        org-capture-templates
+        '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
+           "* TODO %?\n SCHEDULED: %^t")
+          ("l" "Links" entry (file "~/Documents/org/links.org")
+           "* %c :website:\n%U %?%:initial")
+          ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
+           "* %?")
+          ("h" "Hopox" entry (file+datetree "~/Documents/org/hopox.org")
+           "* TODO %? :WORK: ")
+          ("f" "FF" entry (file+datetree "~/Documents/org/ff.org")
+           "* TODO %? :WORK:")
+          ("e" "Education" entry (file "~/Documents/org/education.org")
+           "* TODO %?")
+          ("n" "Notes" entry (file "~/Documents/org/notes.org")
+           "* %? :NOTE:"))))
 
 ;; ========================= To be continued... ================================
