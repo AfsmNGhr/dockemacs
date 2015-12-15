@@ -8,7 +8,7 @@
           (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en"))
         keyword-search-alist (append keyword-search-alist my/search-alist)))
 
-(use-package keyfreq :ensure t
+(use-package keyfreq :ensure t :defer 20
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
@@ -38,7 +38,7 @@
 
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
 
-(use-package icicles :ensure t :defer t :init (icy-mode t))
+(use-package icicles :ensure t :defer 60 :init (icy-mode t))
 (use-package ido-hacks :ensure t :defer t)
 (use-package ido-completing-read+ :ensure t :defer t)
 (use-package flx-ido :ensure t

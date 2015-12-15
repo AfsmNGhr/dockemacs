@@ -2,7 +2,7 @@
 
 (use-package org-pomodoro :ensure t :defer t)
 
-(use-package org :defer t
+(use-package org :defer 60
   :config
   (setq org-log-done t
         org-startup-indented t
@@ -37,14 +37,14 @@
         org-capture-templates
         '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
            "* TODO %?\n SCHEDULED: %^t")
-          ("l" "Links" entry (file "~/Documents/org/links.org")
-           "* %c :website:\n%U %?%:initial")
+          ("l" "Links" entry (file+datetree "~/Documents/org/links.org")
+           "* %c :LINK:\n%U %?%:initial")
           ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
            "* %?")
           ("h" "Hopox" entry (file+datetree "~/Documents/org/hopox.org")
            "* TODO %? :WORK: ")
           ("f" "FF" entry (file+datetree "~/Documents/org/ff.org")
-           "* TODO %? :WORK:")
+           "* DONE %? :WORK:")
           ("e" "Education" entry (file "~/Documents/org/education.org")
            "* TODO %?")
           ("n" "Notes" entry (file "~/Documents/org/notes.org")

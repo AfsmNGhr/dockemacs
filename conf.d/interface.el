@@ -49,6 +49,7 @@
 (global-whitespace-mode t)
 (auto-revert-mode t)
 (recentf-mode 1)
+(global-linum-mode t)
 
 ;; =============================== UTF-8 =======================================
 
