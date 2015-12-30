@@ -5,7 +5,8 @@
   :config
   (setq my/search-alist
         '((t/ya-en-ru . "https://translate.yandex.ru/?text=%s&lang=en-ru")
-          (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en"))
+          (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en")
+          (reddit . "https://www.reddit.com/search?q=%s"))
         keyword-search-alist (append keyword-search-alist my/search-alist)))
 
 (use-package keyfreq :ensure t :defer 20
@@ -33,7 +34,10 @@
   :config (with-eval-after-load 'company
             (company-flx-mode +1)))
 
-(use-package company :ensure t :defer t :init (global-company-mode t))
+(use-package company :ensure t :defer t
+  :init (global-company-mode t)
+  :config (setq company-backends
+                '((company-capf company-dabbrev-code company-files))))
 (use-package company-tern :ensure t :defer t)
 
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
