@@ -42,7 +42,6 @@
 
 (use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
 
-(use-package icicles :ensure t :defer 60 :init (icy-mode t))
 (use-package ido-hacks :ensure t :defer t)
 (use-package ido-completing-read+ :ensure t :defer t)
 (use-package flx-ido :ensure t
