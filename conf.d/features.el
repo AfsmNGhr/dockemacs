@@ -14,6 +14,7 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
+(use-package ggtags :ensure t :defer 30)
 (use-package ace-jump-mode :ensure t :defer t
   :bind
   ("C-c SPC" . ace-jump-word-mode)
@@ -40,7 +41,9 @@
                 '((company-capf company-dabbrev-code company-files))))
 (use-package company-tern :ensure t :defer t)
 
-(use-package yasnippet :ensure t :defer t :config (yas-global-mode t))
+(use-package yasnippet :ensure t :defer 30
+  :config (yas-global-mode t)
+  (setq yas-fallback-behavior 'indent-line))
 
 (use-package ido-hacks :ensure t :defer t)
 (use-package ido-completing-read+ :ensure t :defer t)
