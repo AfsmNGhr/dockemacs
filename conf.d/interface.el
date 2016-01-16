@@ -21,7 +21,7 @@
               make-backup-files nil
               auto-save-list-file-name nil
               auto-save-default nil
-              show-paren-style 'expression
+              show-paren-style 'mixed
               word-wrap t
               search-highlight t
               use-dialog-box nil

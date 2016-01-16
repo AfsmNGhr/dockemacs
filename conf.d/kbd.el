@@ -1,20 +1,15 @@
 ;; ================================= My keys ===================================
 
-(dolist (key '("\C-h" "\C-z" "\C-w" "\M-w" "\C-b" "\C-f" "\C-k" "\C-l" "\C-n"
-               "\C-p" "\C-q" "\C-j" "\M-k" "\M-{" "\M-}"))
-  (global-unset-key key))
-
 (global-set-key (kbd "C-v") 'end-of-buffer)
 (global-set-key (kbd "M-v") 'beginning-of-buffer)
 
-(global-set-key (kbd "C-j") 'backward-char)
-(global-set-key (kbd "C-l") 'forward-char)
-(global-set-key (kbd "C-i") 'previous-line)
-(global-set-key (kbd "C-M-i") 'backward-paragraph)
+(global-set-key (kbd "C-b") 'backward-char)
+(global-set-key (kbd "C-f") 'forward-char)
+(global-set-key (kbd "C-p") 'previous-line)
+(global-set-key (kbd "C-M-b") 'backward-paragraph)
 (global-set-key (kbd "C-k") 'next-line)
-(global-set-key (kbd "C-M-k") 'forward-paragraph)
+(global-set-key (kbd "C-M-f") 'forward-paragraph)
 
-(global-set-key (kbd "C-d") 'kill-line)
 (global-set-key (kbd "C-x w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-x") 'smex)
@@ -23,10 +18,10 @@
 (global-set-key (kbd "C-c g") 'vc-git-grep)
 (global-set-key (kbd "M-2") 'quick-cut-line)
 (global-set-key (kbd "M-3") 'quick-copy-line)
-(global-set-key (kbd "<mouse-2>") 'x-clipboard-yank)
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-y") 'clipboard-yank)
+(global-set-key (kbd "M-%") 'query-replace-regexp)
 
 ;; ======================== Reverse-input-method ===============================
 

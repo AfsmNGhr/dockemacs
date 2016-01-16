@@ -14,12 +14,16 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
-(use-package ggtags :ensure t :defer 30)
 (use-package ace-jump-mode :ensure t :defer t
   :bind
   ("C-c SPC" . ace-jump-word-mode)
   ("C-c v" . ace-jump-char-mode)
   ("C-c b" . ace-jump-line-mode))
+
+(use-package ggtags :ensure t :defer 30
+  :init (ggtags-mode 1)
+  :config
+  (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
 
 (use-package ace-window :ensure t :defer t
   :init
@@ -77,9 +81,12 @@
   :init (projectile-global-mode)
   :config
   (setq-default projectile-enable-caching t
-                projectile-indexing-method 'native))
-
-(use-package perspective :ensure t :defer t :init (persp-mode))
+                projectile-indexing-method 'native
+                projectile-file-exists-remote-cache-expire nil
+                projectile-file-exists-remote-cache-expire (* 10 60)
+                projectile-file-exists-local-cache-expire (* 5 60)
+                projectile-require-project-root nil
+                projectile-idle-timer-seconds 60))
 
 (use-package multiple-cursors :ensure t :defer t
   :bind

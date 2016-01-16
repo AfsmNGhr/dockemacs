@@ -1,7 +1,5 @@
 ;; ============================== Org mode =====================================
 
-(use-package org-pomodoro :ensure t :defer t)
-
 (use-package org :defer 60
   :config
   (setq org-log-done t
