@@ -50,6 +50,7 @@
 (auto-revert-mode t)
 (recentf-mode 1)
 (global-linum-mode t)
+(electric-pair-mode 1)
 
 ;; =============================== UTF-8 =======================================
 

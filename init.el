@@ -20,8 +20,8 @@
 (require 'bind-key)
 
 ;; (use-package benchmark-init
-;;   :ensure t
-;;   :init (benchmark-init/activate))
+  ;; :ensure t
+  ;; :init (benchmark-init/activate))
 
 ;; ================================== init =====================================
 

@@ -16,6 +16,7 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-c f") 'git-find-file)
 (global-set-key (kbd "C-c g") 'vc-git-grep)
+(global-set-key (kbd "C-c t") 'ggtags-grep)
 (global-set-key (kbd "M-2") 'quick-cut-line)
 (global-set-key (kbd "M-3") 'quick-copy-line)
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
