@@ -8,7 +8,8 @@
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
   :init (progn
-          (setq-default js2-basic-offset 2)
+          (setq-default js2-basic-offset 2
+                        js2-indent-switch-body t)
           (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode)))
   :config (progn
             (js2-imenu-extras-setup)

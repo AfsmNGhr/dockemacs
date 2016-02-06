@@ -58,7 +58,7 @@
 
 ;; ================================ Ido ========================================
 
-(use-package ido-hacks :ensure t :defer t
+(use-package ido-hacks :ensure t
   :config
   (use-package ido-completing-read+ :ensure t :defer t)
   (use-package flx-ido :ensure t
