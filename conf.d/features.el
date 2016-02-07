@@ -43,8 +43,20 @@
 
 (use-package company :ensure t :defer t
   :init (global-company-mode t)
-  :config (setq company-backends
-                '((company-capf company-dabbrev-code company-files)))
+  :config
+  (defvar company-mode/enable-yas t
+    "Enable yasnippet for all backends.")
+
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas) (and (listp backend)
+                                            (member 'company-yasnippet backend)))
+      backend
+      (append (if (consp backend) backend (list backend))
+        '(:with company-yasnippet))))
+
+  (setq company-backends
+    (mapcar #'company-mode/backend-with-yas
+      '((company-capf company-dabbrev-code company-files))))
   (use-package company-flx :ensure t :defer t
   :config (with-eval-after-load 'company
             (company-flx-mode +1)))

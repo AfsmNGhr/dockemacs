@@ -14,6 +14,10 @@
    ((t (:inherit ace-jump-face-foreground :height 3.0)))))
 
 (setq-default tab-width 2
+              indent-line-function 2
+              lisp-indent-offset 2
+              sgml-basic-offset 2
+              nxml-child-indent 2
               indent-tabs-mode nil
               file-name-coding-system 'utf-8
               display-time-interval 1
@@ -46,6 +50,7 @@
 (size-indication-mode -1)
 (global-visual-line-mode t)
 (global-font-lock-mode t)
+(global-auto-revert-mode t)
 (delete-selection-mode t)
 (global-whitespace-mode t)
 (auto-revert-mode t)
@@ -62,8 +67,7 @@
 
 ;; ============================ Delimiters =====================================
 
-(use-package rainbow-delimiters
-  :ensure t :defer t
+(use-package rainbow-delimiters :ensure t :defer t
   :init
   (dolist (x '(cl emacs-lisp lisp clojure))
     (add-hook
