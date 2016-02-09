@@ -29,6 +29,7 @@
               word-wrap t
               search-highlight t
               use-dialog-box nil
+              use-file-dialog nil
               redisplay-dont-pause t
               ring-bell-function 'ignore
               query-replace-highlight t
@@ -57,6 +58,7 @@
 (recentf-mode 1)
 (global-linum-mode t)
 (electric-pair-mode 1)
+(savehist-mode 1)
 
 ;; =============================== UTF-8 =======================================
 

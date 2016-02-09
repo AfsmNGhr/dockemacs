@@ -56,11 +56,12 @@
 
   (setq company-backends
     (mapcar #'company-mode/backend-with-yas
-      '((company-capf company-dabbrev-code company-files))))
+      '((company-capf company-shell company-dabbrev-code company-files))))
   (use-package company-flx :ensure t :defer t
   :config (with-eval-after-load 'company
             (company-flx-mode +1)))
-  (use-package company-tern :ensure t :defer t))
+  (use-package company-tern :ensure t :defer t)
+  (use-package company-shell :ensure t :defer t))
 
 ;; ============================= Snippets ======================================
 
