@@ -10,6 +10,7 @@
 
 (defalias 'list-buffers 'ibuffer)
 (defalias 'rb 'revert-buffer)
+(defalias 'dc 'desktop-clear)
 
 ;; ================================= Magit =====================================
 

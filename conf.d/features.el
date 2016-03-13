@@ -11,6 +11,12 @@
 
 (use-package keyfreq :ensure t :defer 20
   :config
+  (setq keyfreq-excluded-commands
+        '(self-insert-command
+          forward-char
+          backward-char
+          previous-line
+          next-line))
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
@@ -22,7 +28,7 @@
 ;; ============================== Jump =========================================
 
 (use-package ace-window :ensure t :defer t
-  :init
+  :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-background nil))
 
@@ -41,27 +47,33 @@
 
 ;; ============================= Company ======================================
 
-(use-package company :ensure t :defer t
+(use-package company :ensure t :defer 30
   :init (global-company-mode t)
   :config
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
 
   (defun company-mode/backend-with-yas (backend)
-    (if (or (not company-mode/enable-yas) (and (listp backend)
-                                            (member 'company-yasnippet backend)))
-      backend
+    (if (or (not company-mode/enable-yas)
+            (and (listp backend)
+                 (member 'company-yasnippet backend)))
+        backend
       (append (if (consp backend) backend (list backend))
-        '(:with company-yasnippet))))
+              '(:with company-yasnippet))))
 
   (setq company-backends
-    (mapcar #'company-mode/backend-with-yas
-      '((company-capf company-shell company-dabbrev-code company-files))))
+        (mapcar #'company-mode/backend-with-yas
+                '((company-capf company-shell company-dabbrev-code
+                                company-files))))
   (use-package company-flx :ensure t :defer t
-  :config (with-eval-after-load 'company
-            (company-flx-mode +1)))
+    :config (with-eval-after-load 'company
+              (company-flx-mode +1)))
+  (use-package company-ycmd :ensure t :defer t
+    :config (company-ycmd-setup))
   (use-package company-tern :ensure t :defer t)
-  (use-package company-shell :ensure t :defer t))
+  (use-package company-shell :ensure t :defer t)
+  (use-package company-statistics :ensure t :defer t
+    :init (company-statistics-mode)))
 
 ;; ============================= Snippets ======================================
 
@@ -89,17 +101,17 @@
   :config
   (setq bookmark-save-flag t)
   (global-set-key (kbd "C-x r b")
-   (lambda ()
-     (interactive)
-     (bookmark-jump
-      (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
+                  (lambda ()
+                    (interactive)
+                    (bookmark-jump
+                     (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
 
 ;; ============================= Commands =====================================
 
 (use-package smex :ensure t
   :config
-   (smex-initialize)
-   (smex-auto-update 600))
+  (smex-initialize)
+  (smex-auto-update 600))
 
 ;; ============================= Projectile ===================================
 
@@ -113,7 +125,10 @@
                 projectile-file-exists-remote-cache-expire (* 10 60)
                 projectile-file-exists-local-cache-expire (* 5 60)
                 projectile-require-project-root nil
-                projectile-idle-timer-seconds 60))
+                projectile-idle-timer-seconds 60)
+  (use-package projectile-rails :ensure t :defer t
+    :config
+    (add-hook 'projectile-mode-hook 'projectile-rails-on)))
 
 ;; ========================= Multiple-cursors ================================
 

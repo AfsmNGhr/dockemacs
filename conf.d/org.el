@@ -11,17 +11,17 @@
   (define-prefix-command 'org-todo-keys)
   (define-key org-mode-map "\C-cx" 'org-todo-keys)
   (define-key org-todo-keys "t"
-    '(lambda () (interactive) (org-todo "TODO")))
+    '(lambda () (interactive) (org-todo "TODO") (org-clock-out-if-current)))
   (define-key org-todo-keys "n"
-    '(lambda () (interactive) (org-todo "NEXT")))
+    '(lambda () (interactive) (org-todo "NEXT") (org-clock-out-if-current)))
   (define-key org-todo-keys "h"
-    '(lambda () (interactive) (org-todo "HOLD")))
+    '(lambda () (interactive) (org-todo "HOLD") (org-clock-out-if-current)))
   (define-key org-todo-keys "d"
     '(lambda () (interactive) (org-todo "DONE")))
   (define-key org-todo-keys "i"
-    '(lambda () (interactive) (org-todo "INPROGRESS")))
+    '(lambda () (interactive) (org-todo "INPROGRESS") (org-clock-in)))
   (define-key org-todo-keys "c"
-    '(lambda () (interactive) (org-todo "CANCELED")))
+    '(lambda () (interactive) (org-todo "CANCELED") (org-clock-out-if-current)))
 
 ;; ============================ Org agenda =====================================
 

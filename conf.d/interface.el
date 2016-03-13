@@ -15,9 +15,6 @@
 
 (setq-default tab-width 2
               indent-line-function 2
-              lisp-indent-offset 2
-              sgml-basic-offset 2
-              nxml-child-indent 2
               indent-tabs-mode nil
               file-name-coding-system 'utf-8
               display-time-interval 1
@@ -26,6 +23,12 @@
               auto-save-list-file-name nil
               auto-save-default nil
               show-paren-style 'mixed
+              history-length t
+              history-delete-duplicates t
+              savehist-save-minibuffer-history 1
+              savehist-autosave-interval 60
+              savehist-additional-variables '(search-ring regexp-search-ring
+                                                          comint-input-ring)
               word-wrap t
               search-highlight t
               use-dialog-box nil
@@ -84,20 +87,20 @@
     (load-theme 'spolsky-term t t)
   (load-theme 'spolsky t t))
 
- (defun my/enable-theme (frame)
-   "enable theme the current frame depending on the frame type"
-   (with-selected-frame frame
-     (if (window-system)
-         (progn
-           (unless (custom-theme-enabled-p 'spolsky)
-             (if (custom-theme-enabled-p 'spolsky-term)
-                 (disable-theme 'spolsky-term))
-               (enable-theme 'spolsky)))
-           (progn
-             (unless (custom-theme-enabled-p 'spolsky-term)
-               (if (custom-theme-enabled-p 'spolsky)
-                   (disable-theme 'spolsky))
-                 (enable-theme 'spolsky-term))))))
+(defun my/enable-theme (frame)
+  "enable theme the current frame depending on the frame type"
+  (with-selected-frame frame
+    (if (window-system)
+        (progn
+          (unless (custom-theme-enabled-p 'spolsky)
+            (if (custom-theme-enabled-p 'spolsky-term)
+                (disable-theme 'spolsky-term))
+            (enable-theme 'spolsky)))
+      (progn
+        (unless (custom-theme-enabled-p 'spolsky-term)
+          (if (custom-theme-enabled-p 'spolsky)
+              (disable-theme 'spolsky))
+          (enable-theme 'spolsky-term))))))
 
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 

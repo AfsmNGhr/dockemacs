@@ -7,7 +7,6 @@
 (global-set-key (kbd "C-f") 'forward-char)
 (global-set-key (kbd "C-p") 'previous-line)
 (global-set-key (kbd "C-M-b") 'backward-paragraph)
-(global-set-key (kbd "C-k") 'next-line)
 (global-set-key (kbd "C-M-f") 'forward-paragraph)
 
 (global-set-key (kbd "C-x w") 'kill-buffer-and-window)
