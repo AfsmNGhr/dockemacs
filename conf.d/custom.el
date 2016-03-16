@@ -9,6 +9,7 @@
  '(org-agenda-files
    (quote
     ("/home/afsmnghr/Documents/org/development.org" "/home/afsmnghr/Documents/org/diary.org" "/home/afsmnghr/Documents/org/education.org" "/home/afsmnghr/Documents/org/entertainment.org" "/home/afsmnghr/Documents/org/ff.org" "/home/afsmnghr/Documents/org/hopox.org" "/home/afsmnghr/Documents/org/notes.org" "/home/afsmnghr/Documents/org/system.org" "/home/afsmnghr/Documents/org/tasks.org")))
+ '(org-clock-persist (quote history))
  '(recentf-mode t)
  '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces
@@ -21,6 +22,7 @@
  '(ivy-minibuffer-match-face-2 ((t (:foreground "#f78d62" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:background "color-27" :weight bold))))
  '(ivy-minibuffer-match-face-4 ((t (:background "color-164" :weight bold))))
+ '(org-clock-overlay ((t nil)))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "color-31"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "color-26")))))
 ;; ========================= To be continued... ================================

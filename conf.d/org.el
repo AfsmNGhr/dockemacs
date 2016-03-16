@@ -31,6 +31,9 @@
   (require 'org-protocol)
 
   (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
+        org-clock-persist 'history
+        org-agenda-clockreport-parameter-plist
+        (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))
         org-protocol-default-template-key "l"
         org-capture-templates
         '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
@@ -46,6 +49,7 @@
           ("e" "Education" entry (file "~/Documents/org/education.org")
            "* TODO %?")
           ("n" "Notes" entry (file "~/Documents/org/notes.org")
-           "* %? :NOTE:"))))
+           "* %? :NOTE:")))
+  (org-clock-persistence-insinuate))
 
 ;; ========================= To be continued... ================================
