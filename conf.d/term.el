@@ -6,4 +6,7 @@
           comint-input-ring-file-name (getenv "HISTFILE"))
     (comint-read-input-ring t))
 
+(use-package xclip :ensure t :defer 20
+  :config (xclip-mode 1))
+
 ;; ========================= To be continued... ================================

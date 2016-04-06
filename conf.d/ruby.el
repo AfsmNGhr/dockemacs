@@ -15,8 +15,7 @@
   :init
   (progn (add-hook 'ruby-mode-hook 'robe-mode)
          (push 'company-robe company-backends)
-         ;; (add-hook 'ruby-mode-hook 'flycheck-mode)
-         ))
+         (add-hook 'ruby-mode-hook 'flycheck-mode)))
 
 (use-package mmm-mode :ensure t :defer t
   :mode
