@@ -1,6 +1,6 @@
 ### My emacs config [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 
-### *Customize interface & ![Themes](themes.md)*
+### *Customize interface & [Themes](themes.md)
 
 ```.elisp
 
