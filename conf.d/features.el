@@ -22,7 +22,6 @@
 
 (unless (version< emacs-version "24.4")
   (use-package magit :ensure t :defer t)
-  (use-package company-ansible :ensure t :defer t)
   (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
 ;; ============================== Jump =========================================
@@ -63,8 +62,8 @@
 
   (setq company-backends
         (mapcar #'company-mode/backend-with-yas
-                '((company-capf company-shell company-dabbrev-code
-                                company-files))))
+                '((company-capf company-shell company-dabbrev company-abbrev
+                                company-files company-gtags company-keywords))))
   (use-package company-flx :ensure t :defer t
     :config (with-eval-after-load 'company
               (company-flx-mode +1)))
@@ -125,10 +124,7 @@
                 projectile-file-exists-remote-cache-expire (* 10 60)
                 projectile-file-exists-local-cache-expire (* 5 60)
                 projectile-require-project-root nil
-                projectile-idle-timer-seconds 60)
-  (use-package projectile-rails :ensure t :defer t
-    :config
-    (add-hook 'projectile-mode-hook 'projectile-rails-on)))
+                projectile-idle-timer-seconds 60))
 
 ;; ========================= Multiple-cursors ================================
 

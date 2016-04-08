@@ -62,6 +62,7 @@
 (global-linum-mode t)
 (electric-pair-mode 1)
 (savehist-mode 1)
+(auto-fill-mode 1)
 
 ;; =============================== UTF-8 =======================================
 

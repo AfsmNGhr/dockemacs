@@ -22,11 +22,6 @@
 (use-package tern :ensure t :defer t
   :init (add-hook 'js2-mode-hook 'tern-mode)
   (add-to-list 'company-backends 'company-tern))
-
-(use-package skewer-mode :ensure t :defer t)
-(use-package js2-refactor :ensure t :defer t)
-(use-package angular-mode :ensure t :defer t
-  :init (add-hook 'js2-mode 'angular-mode))
 (use-package angular-snippets :ensure t :defer t)
 
 ;; ========================= To be continued... ================================
