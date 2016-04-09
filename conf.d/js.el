@@ -19,6 +19,8 @@
             (bind-key "C-c C-b" 'js-send-buffer-and-go js2-mode-map)
             (bind-key "C-c l" 'js-load-file-and-go js2-mode-map)))
 
+(use-package skewer-mode :ensure t :defer t
+  :init (skewer-mode 1))
 (use-package tern :ensure t :defer t
   :init (add-hook 'js2-mode-hook 'tern-mode)
   (add-to-list 'company-backends 'company-tern))

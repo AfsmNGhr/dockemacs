@@ -63,7 +63,8 @@
   (setq company-backends
         (mapcar #'company-mode/backend-with-yas
                 '((company-capf company-shell company-dabbrev company-abbrev
-                                company-files company-gtags company-keywords))))
+                                company-files company-gtags company-etags
+                                company-keywords))))
   (use-package company-flx :ensure t :defer t
     :config (with-eval-after-load 'company
               (company-flx-mode +1)))
