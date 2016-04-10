@@ -128,10 +128,6 @@
                      (ivy-completing-read "Jump to bookmark: "
                                           (bookmark-all-names))))))
 
-;; ============================= Commands =====================================
-
-
-
 ;; ============================= Projectile ===================================
 
 (use-package projectile :ensure t :defer t
