@@ -30,7 +30,7 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-        magit-completing-read-function 'ivy-completing-read)
+        magit-completing-read-funtion 'ivy-completing-read)
   (global-set-key "\C-s" 'swiper))
 
 (use-package counsel :ensure t :defer t
@@ -44,14 +44,9 @@
                  ("C-h v"   . counsel-describe-variable)
                  ("C-h f"   . counsel-describe-function)
                  ("C-h S"   . counsel-info-lookup-symbol)
-                 ("C-c u"   . counsel-unicode-char))
+                 ("C-c u"   . counsel-unicode-char)
       (bind-keys :map read-expression-map
-                 ("C-r" . counsel-expression-history))
-            (with-eval-after-load 'org
-        (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
-      (with-eval-after-load 'org-agenda
-                (bind-key "C-c C-q" #'counsel-org-tag-agenda
-                          org-agenda-mode-map))))
+                 ("C-r" . counsel-expression-history)))))
   :config
   (progn
     (setq counsel-prompt-function #'counsel-prompt-function-dir
