@@ -17,6 +17,8 @@
 
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
+(global-set-key (kbd "M-2") 'quick-cut-line)
+(global-set-key (kbd "M-3") 'quick-copy-line)
 
 (global-set-key (kbd "C-y") 'clipboard-yank)
 (global-set-key (kbd "M-%") 'query-replace-regexp)

@@ -31,8 +31,11 @@
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
         magit-completing-read-function 'ivy-completing-read
-        ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
+        ivy-initial-inputs-alist nil
+        ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy)
+                                (t . ivy--regex-ignore-order))
+        ivy-display-style 'fancy)
   (global-set-key "\C-s" 'swiper))
 
 (use-package counsel :ensure t :defer t
@@ -47,31 +50,16 @@
          ("C-c u" . counsel-unicode-char))
    (:map read-expression-map
          ("C-r" . counsel-expression-history)))
-
   :config
   (progn
     (setq counsel-prompt-function #'counsel-prompt-function-dir
           counsel-find-file-at-point t
           counsel-find-file-ignore-regexp
           (concat "\\(?:\\`[#.]\\)" "\\|\\(?:[#~]\\'\\)"))
-
     (ivy-set-actions
      'counsel-find-file
      `(("x" (lambda (x) (delete-file (expand-file-name x ivy--directory)))
         ,(propertize "delete" 'face 'font-lock-warning-face))))))
-
-;; ============================== Jump =========================================
-
-(use-package ace-window :ensure t :defer t
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-background nil))
-
-(use-package ace-jump-mode :ensure t :defer t
-  :bind
-  ("C-c SPC" . ace-jump-word-mode)
-  ("C-c v" . ace-jump-char-mode)
-  ("C-c b" . ace-jump-line-mode))
 
 ;; ================================ Tags ======================================
 
@@ -126,7 +114,7 @@
                   (lambda ()
                     (interactive)
                     (bookmark-jump
-                     (ivy-completing-read "Jump to bookmark: "
+                     (ivy-completing-read "jump to bookmark: "
                                           (bookmark-all-names))))))
 
 ;; ============================= Projectile ===================================
