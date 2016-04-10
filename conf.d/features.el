@@ -30,23 +30,24 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-        magit-completing-read-function 'ivy-completing-read)
+        magit-completing-read-function 'ivy-completing-read
+        ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy)))
   (global-set-key "\C-s" 'swiper))
 
 (use-package counsel :ensure t :defer t
-  :init
-  (progn
-    (when (not (bound-and-true-p disable-pkg-ivy))
-      (bind-keys :map global-map
-                 ("M-x"     . counsel-M-x)
-                 ("C-M-y"   . counsel-yank-pop)
-                 ("C-x C-f" . counsel-find-file)
-                 ("C-h v"   . counsel-describe-variable)
-                 ("C-h f"   . counsel-describe-function)
-                 ("C-h S"   . counsel-info-lookup-symbol)
-                 ("C-c u"   . counsel-unicode-char)
-      (bind-keys :map read-expression-map
-                 ("C-r" . counsel-expression-history)))))
+  :bind
+  ((:map global-map
+         ("M-x" . counsel-M-x)
+         ("C-M-y" . counsel-yank-pop)
+         ("C-x C-f" . counsel-find-file)
+         ("C-h v" . counsel-describe-variable)
+         ("C-h f" . counsel-describe-function)
+         ("C-h S" . counsel-info-lookup-symbol)
+         ("C-c u" . counsel-unicode-char))
+   (:map read-expression-map
+         ("C-r" . counsel-expression-history)))
+
   :config
   (progn
     (setq counsel-prompt-function #'counsel-prompt-function-dir
