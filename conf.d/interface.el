@@ -40,8 +40,7 @@
               echo-keystrokes 0.1
               browse-url-browser-function 'browse-url-generic
               browse-url-generic-program "firefox-nightly"
-              tab-always-indent 'complete
-              magit-completing-read-function #'magit-ido-completing-read)
+              tab-always-indent 'complete)
 
 (display-time-mode)
 (show-paren-mode t)

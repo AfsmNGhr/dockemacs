@@ -24,6 +24,46 @@
   (use-package magit :ensure t :defer t)
   (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
+;; ============================== Search =======================================
+
+(use-package swiper :ensure t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+        magit-completing-read-function 'ivy-completing-read)
+  (global-set-key "\C-s" 'swiper))
+
+(use-package counsel :ensure t :defer t
+  :init
+  (progn
+    (when (not (bound-and-true-p disable-pkg-ivy))
+      (bind-keys :map global-map
+                 ("M-x"     . counsel-M-x)
+                 ("C-M-y"   . counsel-yank-pop)
+                 ("C-x C-f" . counsel-find-file)
+                 ("C-h v"   . counsel-describe-variable)
+                 ("C-h f"   . counsel-describe-function)
+                 ("C-h S"   . counsel-info-lookup-symbol)
+                 ("C-c u"   . counsel-unicode-char))
+      (bind-keys :map read-expression-map
+                 ("C-r" . counsel-expression-history))
+            (with-eval-after-load 'org
+        (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
+      (with-eval-after-load 'org-agenda
+                (bind-key "C-c C-q" #'counsel-org-tag-agenda
+                          org-agenda-mode-map))))
+  :config
+  (progn
+    (setq counsel-prompt-function #'counsel-prompt-function-dir
+          counsel-find-file-at-point t
+          counsel-find-file-ignore-regexp
+          (concat "\\(?:\\`[#.]\\)" "\\|\\(?:[#~]\\'\\)"))
+
+    (ivy-set-actions
+     'counsel-find-file
+     `(("x" (lambda (x) (delete-file (expand-file-name x ivy--directory)))
+        ,(propertize "delete" 'face 'font-lock-warning-face))))))
+
 ;; ============================== Jump =========================================
 
 (use-package ace-window :ensure t :defer t
@@ -81,20 +121,6 @@
   :config (yas-global-mode t)
   (setq yas-fallback-behavior 'indent-line))
 
-;; ================================ Ido ========================================
-
-(use-package ido-hacks :ensure t
-  :config
-  (use-package ido-completing-read+ :ensure t :defer t)
-  (use-package flx-ido :ensure t
-    :config
-    (ido-mode 1)
-    (ido-everywhere 1)
-    (flx-ido-mode 1)
-    (setq ido-enable-flex-matching t
-          ido-use-faces t
-          gc-cons-threshold 20000000)))
-
 ;; ============================= Bookmarks =====================================
 
 (use-package bookmark
@@ -104,14 +130,12 @@
                   (lambda ()
                     (interactive)
                     (bookmark-jump
-                     (ido-completing-read "Jump to bookmark: " (bookmark-all-names))))))
+                     (ivy-completing-read "Jump to bookmark: "
+                                          (bookmark-all-names))))))
 
 ;; ============================= Commands =====================================
 
-(use-package smex :ensure t
-  :config
-  (smex-initialize)
-  (smex-auto-update 600))
+
 
 ;; ============================= Projectile ===================================
 
@@ -125,7 +149,8 @@
                 projectile-file-exists-remote-cache-expire (* 10 60)
                 projectile-file-exists-local-cache-expire (* 5 60)
                 projectile-require-project-root nil
-                projectile-idle-timer-seconds 60))
+                projectile-idle-timer-seconds 60
+                projectile-completion-system 'ivy))
 
 ;; ========================= Multiple-cursors ================================
 
@@ -145,6 +170,6 @@
   (use-package phi-search-mc :ensure t :defer t
     :config (phi-search-mc/setup-keys))
   (use-package mc-extras :ensure t :defer t
-    :config (define-key mc/keymap (kbd "C-. =") 'mc/compare-chars)))
+    :config (define-key mc/keymap (kbd "c-. =") 'mc/compare-chars)))
 
-;; ========================= To be continued... ================================
+;; ========================= to be continued... ================================

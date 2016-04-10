@@ -11,17 +11,21 @@
 
 (global-set-key (kbd "C-x w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
-(global-set-key (kbd "M-x") 'smex)
+
 (global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-c f") 'git-find-file)
-(global-set-key (kbd "C-c g") 'vc-git-grep)
 (global-set-key (kbd "C-c t") 'ggtags-grep)
-(global-set-key (kbd "M-2") 'quick-cut-line)
-(global-set-key (kbd "M-3") 'quick-copy-line)
+
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
+
 (global-set-key (kbd "C-y") 'clipboard-yank)
 (global-set-key (kbd "M-%") 'query-replace-regexp)
+
+(global-set-key [remap comment-dwim] 'comment-or-uncomment-region-or-line)
+
+(global-set-key (kbd "C-x (") 'start-kbd-macro)
+(global-set-key (kbd "C-x )") 'end-kbd-macro)
+(global-set-key (kbd "C-x e") 'call-last-kbd-macro)
 
 ;; ======================== Reverse-input-method ===============================
 

@@ -6,9 +6,6 @@
  ;; If there is more than one, they won't work right.
  '(global-whitespace-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(org-agenda-files
-   (quote
-    ("/home/afsmnghr/Documents/org/development.org" "/home/afsmnghr/Documents/org/diary.org" "/home/afsmnghr/Documents/org/education.org" "/home/afsmnghr/Documents/org/entertainment.org" "/home/afsmnghr/Documents/org/ff.org" "/home/afsmnghr/Documents/org/hopox.org" "/home/afsmnghr/Documents/org/notes.org" "/home/afsmnghr/Documents/org/system.org" "/home/afsmnghr/Documents/org/tasks.org")))
  '(org-clock-persist (quote history))
  '(recentf-mode t)
  '(whitespace-style (quote (face lines-tail))))
