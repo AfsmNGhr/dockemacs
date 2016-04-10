@@ -30,7 +30,7 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t
-        magit-completing-read-funtion 'ivy-completing-read)
+        magit-completing-read-function 'ivy-completing-read)
   (global-set-key "\C-s" 'swiper))
 
 (use-package counsel :ensure t :defer t
