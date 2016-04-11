@@ -24,6 +24,13 @@
   (use-package magit :ensure t :defer t)
   (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
+;; ============================== Jump =========================================
+
+(use-package ace-window :ensure t :defer t
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-background nil))
+
 ;; ============================== Search =======================================
 
 (use-package swiper :ensure t
