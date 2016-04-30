@@ -9,19 +9,18 @@
   :commands js2-mode
   :init (progn
           (setq-default js2-basic-offset 2
-                        js2-indent-switch-body t)
-          (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode)))
-  :config (progn
-            (js2-imenu-extras-setup)
-            (bind-key "C-x C-e" 'js-send-last-sexp js2-mode-map)
-            (bind-key "C-M-x" 'js-send-last-sexp-and-go js2-mode-map)
-            (bind-key "C-c b" 'js-send-buffer js2-mode-map)
-            (bind-key "C-c C-b" 'js-send-buffer-and-go js2-mode-map)
-            (bind-key "C-c l" 'js-load-file-and-go js2-mode-map)))
+                        js2-indent-switch-body t
+                        js2-auto-indent-p t
+                        js2-global-externs '("angular")
+                        js2-indent-on-enter-key t
+                        flycheck-disabled-checkers '(javascript-jshint)
+                        flycheck-checkers '(javascript-eslint)
+                        flycheck-eslintrc "~/.eslintrc"))
+          (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
+          (add-to-list 'js2-mode-hook 'flycheck-mode))
 
 (use-package tern :ensure t :defer t
-  :init (add-hook 'js2-mode-hook 'tern-mode)
+  :init (add-hook 'javascript-hook 'tern-mode)
   (add-to-list 'company-backends 'company-tern))
-(use-package angular-snippets :ensure t :defer t)
 
 ;; ========================= To be continued... ================================

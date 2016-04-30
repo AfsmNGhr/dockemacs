@@ -1,6 +1,6 @@
 ;; ============================== Org mode =====================================
 
-(use-package org :defer 60
+(use-package org :defer 30
   :config
   (setq org-log-done t
         org-startup-indented t

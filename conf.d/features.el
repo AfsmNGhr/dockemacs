@@ -95,7 +95,9 @@
         (mapcar #'company-mode/backend-with-yas
                 '((company-capf company-shell company-dabbrev company-abbrev
                                 company-files company-gtags company-etags
-                                company-keywords))))
+                                company-keywords)))
+        company-idle-delay 0
+        company-tooltip-flip-when-above t)
   (use-package company-flx :ensure t :defer t
     :config (with-eval-after-load 'company
               (company-flx-mode +1)))
@@ -110,7 +112,8 @@
 
 (use-package yasnippet :ensure t :defer 30
   :config (yas-global-mode t)
-  (setq yas-fallback-behavior 'indent-line))
+  (setq yas-fallback-behavior 'indent-line
+        yas-snippet-dirs '("~/.emacs.d/snippets/angular/")))
 
 ;; ============================= Bookmarks =====================================
 

@@ -8,6 +8,9 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(ivy-mode t)
  '(ivy-use-virtual-buffers t)
+ '(org-agenda-files
+   (quote
+    ("/home/afsmnghr/Documents/org/development.org" "/home/afsmnghr/Documents/org/diary.org" "/home/afsmnghr/Documents/org/education.org" "/home/afsmnghr/Documents/org/entertainment.org" "/home/afsmnghr/Documents/org/ff.org" "/home/afsmnghr/Documents/org/hopox.org" "/home/afsmnghr/Documents/org/links.org" "/home/afsmnghr/Documents/org/notes.org" "/home/afsmnghr/Documents/org/system.org" "/home/afsmnghr/Documents/org/tasks.org")))
  '(org-clock-persist (quote history))
  '(recentf-mode t)
  '(whitespace-style (quote (face lines-tail))))
