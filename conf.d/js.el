@@ -17,8 +17,11 @@
                         flycheck-eslintrc "~/.eslintrc")
   (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
   (add-to-list 'js2-mode-hook 'flycheck-mode)
-  (with-eval-after-load 'flycheck-mode
-    (flycheck-add-mode 'javascript-eslint 'js2-mode))))
+  (if (version< emacs-version "24.4")
+      (eval-after-load 'flycheck-mode
+        '(progn (flycheck-add-mode 'javascript-eslint 'js2-mode)))
+    (with-eval-after-load 'flycheck-mode
+      (flycheck-add-mode 'javascript-eslint 'js2-mode)))))
 
 (use-package tern :ensure t :defer t
   :init (add-hook 'javascript-hook 'tern-mode)

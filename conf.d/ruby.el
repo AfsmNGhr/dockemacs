@@ -11,8 +11,11 @@
 (use-package rubocop :ensure t :defer t
   :init (add-hook 'ruby-mode-hook 'rubocop-mode)
   (add-to-list 'ruby-mode-hook 'flycheck-mode)
-  (with-eval-after-load 'flycheck-mode
-    (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
+  (if (version< emacs-version "24.4")
+      (eval-after-load 'flycheck-mode
+        '(progn (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
+    (with-eval-after-load 'flycheck-mode
+      (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
 
 (use-package robe :ensure t :defer t
   :init
