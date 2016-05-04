@@ -10,8 +10,9 @@
 
 (use-package rubocop :ensure t :defer t
   :init (add-hook 'ruby-mode-hook 'rubocop-mode)
-  (push 'ruby-rubocop flycheck-checkers)
-  (add-to-list 'ruby-mode-hook 'flycheck-mode))
+  (add-to-list 'ruby-mode-hook 'flycheck-mode)
+  (with-eval-after-load 'flycheck-mode
+    (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
 
 (use-package robe :ensure t :defer t
   :init

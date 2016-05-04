@@ -14,10 +14,11 @@
                         js2-global-externs '("angular")
                         js2-indent-on-enter-key t
                         flycheck-disabled-checkers '(javascript-jshint)
-                        flycheck-eslintrc "~/.eslintrc"))
+                        flycheck-eslintrc "~/.eslintrc")
   (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
-  (push 'javascript-eslint flycheck-checkers)
-  (add-to-list 'js2-mode-hook 'flycheck-mode))
+  (add-to-list 'js2-mode-hook 'flycheck-mode)
+  (with-eval-after-load 'flycheck-mode
+    (flycheck-add-mode 'javascript-eslint 'js2-mode))))
 
 (use-package tern :ensure t :defer t
   :init (add-hook 'javascript-hook 'tern-mode)
