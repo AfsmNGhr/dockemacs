@@ -29,6 +29,8 @@
               savehist-autosave-interval 60
               savehist-additional-variables '(search-ring regexp-search-ring
                                                           comint-input-ring)
+              dired-listing-switches "-lhvA"
+              magit-push-always-verify nil
               word-wrap t
               search-highlight t
               use-dialog-box nil

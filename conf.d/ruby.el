@@ -9,13 +9,14 @@
 (use-package company-inf-ruby :ensure t :defer t)
 
 (use-package rubocop :ensure t :defer t
-  :init (add-hook 'ruby-mode-hook 'rubocop-mode))
+  :init (add-hook 'ruby-mode-hook 'rubocop-mode)
+  (push 'ruby-rubocop flycheck-checkers)
+  (add-to-list 'ruby-mode-hook 'flycheck-mode))
 
 (use-package robe :ensure t :defer t
   :init
   (progn (add-hook 'ruby-mode-hook 'robe-mode)
-         (push 'company-robe company-backends)
-         (add-hook 'ruby-mode-hook 'flycheck-mode)))
+         (push 'company-robe company-backends)))
 
 (use-package mmm-mode :ensure t :defer t
   :mode
