@@ -4,8 +4,8 @@
   :bind ("C-c s" . keyword-search)
   :config
   (setq my/search-alist
-        '((t/ya-en-ru . "https://translate.yandex.ru/?text=%s&lang=en-ru")
-          (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en")
+        '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
+          (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
           (reddit . "https://www.reddit.com/search?q=%s"))
         keyword-search-alist (append keyword-search-alist my/search-alist)))
 

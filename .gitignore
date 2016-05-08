@@ -234,3 +234,5 @@ G*
 history
 /company-statistics-cache.el
 /org-clock-save.el
+/.org-id-locations
+/packages
