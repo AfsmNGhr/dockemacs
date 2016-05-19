@@ -14,8 +14,7 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
+(require 'use-package)
 (require 'diminish)
 (require 'bind-key)
 

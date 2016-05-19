@@ -108,6 +108,10 @@
   (use-package company-statistics :ensure t :defer t
     :init (company-statistics-mode)))
 
+;; ============================= Checkers ======================================
+
+(use-package flycheck :ensure t)
+
 ;; ============================= Snippets ======================================
 
 (use-package yasnippet :ensure t :defer 30
