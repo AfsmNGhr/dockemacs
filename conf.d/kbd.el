@@ -28,6 +28,7 @@
 (global-set-key (kbd "C-x (") 'start-kbd-macro)
 (global-set-key (kbd "C-x )") 'end-kbd-macro)
 (global-set-key (kbd "C-x e") 'call-last-kbd-macro)
+(global-set-key (kbd "C-x m") 'multi-term)
 
 ;; ======================== Reverse-input-method ===============================
 
