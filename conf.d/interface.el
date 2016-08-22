@@ -85,9 +85,11 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-(if (daemonp)
-    (load-theme 'spolsky-term t t)
-  (load-theme 'spolsky t t))
+(defun my/load-theme ()
+    "load my theme"
+  (if (daemonp)
+      (load-theme 'spolsky-term t t)
+    (load-theme 'spolsky)))
 
 (defun my/enable-theme (frame)
   "enable theme the current frame depending on the frame type"
@@ -104,6 +106,7 @@
               (disable-theme 'spolsky))
           (enable-theme 'spolsky-term))))))
 
+(add-hook 'after-init-hook 'my/load-theme)
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 
 ;; ========================= To be continued... ================================
