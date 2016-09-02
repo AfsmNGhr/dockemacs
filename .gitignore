@@ -231,6 +231,7 @@ eshell/
 /.mc-lists.el
 /url
 G*
+!Gemfile
 history
 /company-statistics-cache.el
 /org-clock-save.el
