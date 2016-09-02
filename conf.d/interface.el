@@ -69,10 +69,13 @@
 
 ;; =============================== UTF-8 =======================================
 
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
 (ansi-color-for-comint-mode-on)
+(setq default-buffer-file-coding-system 'utf-8
+      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; ============================ Delimiters =====================================
 
@@ -87,9 +90,11 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-(if (daemonp)
-    (load-theme 'spolsky-term t t)
-  (load-theme 'spolsky t t))
+(defun my/load-theme ()
+    "load my theme"
+  (if (daemonp)
+      (load-theme 'spolsky-term t t)
+    (load-theme 'spolsky)))
 
 (defun my/enable-theme (frame)
   "enable theme the current frame depending on the frame type"
@@ -106,6 +111,7 @@
               (disable-theme 'spolsky))
           (enable-theme 'spolsky-term))))))
 
+(add-hook 'after-init-hook 'my/load-theme)
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 
 ;; ========================= To be continued... ================================
