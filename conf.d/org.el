@@ -50,17 +50,17 @@
            "* TODO %?")
           ("n" "Notes" entry (file "~/Documents/org/notes.org")
            "* %? :NOTE:")))
-  (org-clock-persistence-insinuate)
+  (org-clock-persistence-insinuate))
 
 ;; ============================= Org Drill =====================================
 
-  (use-package org-plus-contrib :defer t :ensure t)
-  (use-package org-drill :defer t
-    :load-path "~/.emacs.d/packages/org-drill"
-    :config (setq org-drill-hide-item-headings-p t
-                  org-drill-maximum-items-per-session 40
-                  org-drill-maximum-duration 30
-                  org-drill-spaced-repetition-algorithm 'sm2))
-  (use-package org-drill-table :defer t :ensure t))
+  ;; (use-package org-plus-contrib :defer t :ensure t)
+  ;; (use-package org-drill :defer t
+  ;;   :load-path "~/.emacs.d/packages/org-drill"
+  ;;   :config (setq org-drill-hide-item-headings-p t
+  ;;                 org-drill-maximum-items-per-session 40
+  ;;                 org-drill-maximum-duration 30
+  ;;                 org-drill-spaced-repetition-algorithm 'sm2))
+  ;; (use-package org-drill-table :defer t :ensure t))
 
 ;; ========================= To be continued... ================================

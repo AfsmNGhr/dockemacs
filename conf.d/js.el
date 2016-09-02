@@ -7,24 +7,25 @@
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
-  :init (progn
-          (setq-default js2-basic-offset 2
+  :config (setq-default js2-basic-offset 2
                         js2-indent-switch-body t
                         js2-auto-indent-p t
                         js2-global-externs '("angular")
                         js2-indent-on-enter-key t
-                        flycheck-disabled-checkers '(javascript-jshint)
-                        flycheck-eslintrc "~/.eslintrc")
+                        ;; flycheck-disabled-checkers '(javascript-jshint)
+                        ;; flycheck-eslintrc "~/.eslintrc")
+                        )
   (add-to-list 'interpreter-mode-alist (cons "node" 'js2-mode))
   (add-to-list 'js2-mode-hook 'flycheck-mode)
-  (if (version< emacs-version "24.4")
-      (eval-after-load 'flycheck-mode
-        '(progn (flycheck-add-mode 'javascript-eslint 'js2-mode)))
-    (with-eval-after-load 'flycheck-mode
-      (flycheck-add-mode 'javascript-eslint 'js2-mode)))))
+  ;; (if (version< emacs-version "24.4")
+  ;;     (eval-after-load 'flycheck-mode
+  ;;       '(progn (flycheck-add-mode 'javascript-eslint 'js2-mode)))
+  ;;   (with-eval-after-load 'flycheck-mode
+  ;;     (flycheck-add-mode 'javascript-eslint 'js2-mode))))
+  )
 
 (use-package tern :ensure t :defer t
-  :init (add-hook 'javascript-hook 'tern-mode)
+  :config (add-hook 'javascript-hook 'tern-mode)
   (add-to-list 'company-backends 'company-tern))
 
 ;; ========================= To be continued... ================================

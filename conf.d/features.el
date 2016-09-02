@@ -1,14 +1,5 @@
 ;; ============================== Features =====================================
 
-(use-package keyword-search :ensure t :defer t
-  :bind ("C-c s" . keyword-search)
-  :config
-  (setq my/search-alist
-        '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
-          (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
-          (reddit . "https://www.reddit.com/search?q=%s"))
-        keyword-search-alist (append keyword-search-alist my/search-alist)))
-
 (use-package keyfreq :ensure t :defer 20
   :config
   (setq keyfreq-excluded-commands
@@ -21,7 +12,8 @@
   (keyfreq-autosave-mode 1))
 
 (unless (version< emacs-version "24.4")
-  (use-package magit :ensure t :defer t)
+  (use-package magit :ensure t :defer t
+    :config (setq magit-completing-read-function 'magit-ido-completing-read))
   (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
 ;; ============================== Jump =========================================
@@ -33,40 +25,27 @@
 
 ;; ============================== Search =======================================
 
-(use-package swiper :ensure t
+(use-package keyword-search :ensure t :defer t
+  :bind ("C-c s" . keyword-search)
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        magit-completing-read-function 'ivy-completing-read
-        ivy-initial-inputs-alist nil
-        ivy-re-builders-alist '((ivy-switch-buffer . ivy--regex-plus)
-                                (t . ivy--regex-fuzzy)
-                                (t . ivy--regex-ignore-order))
-        ivy-display-style 'fancy)
-  (global-set-key "\C-s" 'swiper))
+  (setq my/search-alist
+        '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
+          (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
+          (reddit . "https://www.reddit.com/search?q=%s"))
+        keyword-search-alist (append keyword-search-alist my/search-alist)))
 
-(use-package counsel :ensure t :defer t
-  :bind
-  ((:map global-map
-         ("M-x" . counsel-M-x)
-         ("C-M-y" . counsel-yank-pop)
-         ("C-x C-f" . counsel-find-file)
-         ("C-h v" . counsel-describe-variable)
-         ("C-h f" . counsel-describe-function)
-         ("C-h S" . counsel-info-lookup-symbol)
-         ("C-c u" . counsel-unicode-char))
-   (:map read-expression-map
-         ("C-r" . counsel-expression-history)))
+(use-package ido-hacks :ensure t
   :config
-  (progn
-    (setq counsel-prompt-function #'counsel-prompt-function-dir
-          counsel-find-file-at-point t
-          counsel-find-file-ignore-regexp
-          (concat "\\(?:\\`[#.]\\)" "\\|\\(?:[#~]\\'\\)"))
-    (ivy-set-actions
-     'counsel-find-file
-     `(("x" (lambda (x) (delete-file (expand-file-name x ivy--directory)))
-        ,(propertize "delete" 'face 'font-lock-warning-face))))))
+  (use-package flx-ido :ensure t
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (flx-ido-mode 1)
+    (setq ido-enable-flex-matching t
+          ido-use-faces t
+          gc-cons-threshold 10000000))
+  (use-package ido-ubiquitous :ensure t
+    :config (ido-ubiquitous-mode 1)))
 
 ;; ================================ Tags ======================================
 
@@ -128,7 +107,7 @@
                   (lambda ()
                     (interactive)
                     (bookmark-jump
-                     (ivy-completing-read "jump to bookmark: "
+                     (ido-completing-read "jump to bookmark: "
                                           (bookmark-all-names))))))
 
 ;; ============================= Projectile ===================================
@@ -138,13 +117,14 @@
   :init (projectile-global-mode)
   :config
   (setq-default projectile-enable-caching t
-                projectile-indexing-method 'native
+                projectile-indexing-method 'alien
+                projectile-switch-project-action 'projectile-dired
                 projectile-file-exists-remote-cache-expire nil
                 projectile-file-exists-remote-cache-expire (* 10 60)
                 projectile-file-exists-local-cache-expire (* 5 60)
                 projectile-require-project-root nil
                 projectile-idle-timer-seconds 60
-                projectile-completion-system 'ivy))
+                projectile-completion-system 'ido))
 
 ;; ========================= Multiple-cursors ================================
 
