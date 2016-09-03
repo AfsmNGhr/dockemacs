@@ -1,0 +1,22 @@
+{
+  "name": "emacs",
+  "version": "1.0.0",
+  "description": "Packages for js",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AfsmNGhr/emacs.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AfsmNGhr/emacs/issues"
+  },
+  "homepage": "https://github.com/AfsmNGhr/emacs#readme",
+  "dependencies": {
+    "tern": "0.20.0"
+  }
+}

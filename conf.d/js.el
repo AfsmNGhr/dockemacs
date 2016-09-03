@@ -10,6 +10,7 @@
   :config (setq-default js2-basic-offset 2
                         js2-indent-switch-body t
                         js2-auto-indent-p t
+                        js2-highlight-level 3
                         js2-global-externs '("angular")
                         js2-indent-on-enter-key t
                         ;; flycheck-disabled-checkers '(javascript-jshint)

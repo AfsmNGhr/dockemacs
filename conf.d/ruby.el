@@ -22,11 +22,6 @@
   (progn (add-hook 'ruby-mode-hook 'robe-mode)
          (push 'company-robe company-backends)))
 
-(use-package mmm-mode :ensure t :defer t
-  :mode
-  (("\\.jst\\.eco$" . html-erb-mode)
-   ("\\.html\\.erb$" . html-erb-mode)))
-
 (use-package rspec-mode :ensure t :defer t
   :config
   (eval-after-load 'rspec-mode
