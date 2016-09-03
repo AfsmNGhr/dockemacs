@@ -1,5 +1,7 @@
 ;; ============================== Package ======================================
 
+(defconst my/emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
+
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
@@ -29,7 +31,7 @@
    p.s. equal `load-file' init.el \n
    without `package' and `use-package'"
   (interactive)
-  (let ((conf.d "~/.emacs.d/conf.d/"))
+  (let ((conf.d (concat my/emacs-dir "/conf.d/")))
     (setq custom-file (concat conf.d "custom.el"))
     (dolist (config-files
              (directory-files conf.d t "\.el$" nil))

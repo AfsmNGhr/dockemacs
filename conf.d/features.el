@@ -96,7 +96,7 @@
 (use-package yasnippet :ensure t :defer 30
   :config (yas-global-mode t)
   (setq yas-fallback-behavior 'indent-line
-        yas-snippet-dirs '("~/.emacs.d/snippets/angular/")))
+        yas-snippet-dirs '((concat my/emacs-dir "/snippets/angular/"))))
 
 ;; ============================= Bookmarks =====================================
 
