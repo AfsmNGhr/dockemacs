@@ -17,7 +17,7 @@
   (define-key org-todo-keys "h"
     '(lambda () (interactive) (org-todo "HOLD") (org-clock-out-if-current)))
   (define-key org-todo-keys "d"
-    '(lambda () (interactive) (org-todo "DONE")))
+    '(lambda () (interactive) (org-todo "DONE") (org-clock-out-if-current)))
   (define-key org-todo-keys "i"
     '(lambda () (interactive) (org-todo "INPROGRESS") (org-clock-in)))
   (define-key org-todo-keys "c"
