@@ -2,25 +2,36 @@
 
 (defconst my/emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
 
-(require 'package)
 (setq package-enable-at-startup nil
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "http://melpa.org/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
+
+(unless (version< emacs-version "25.1")
+  (setq package-archive-priorities '(("melpa-stable" . 20)
+                                     ("marmalade" . 20)
+                                     ("gnu" . 10)
+                                     ("melpa" . 0))))
+
+(unless (fboundp 'package-initialize)
+  (require 'package))
 (package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
 
 ;; ============================== Use-package ==================================
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
 (require 'diminish)
 (require 'bind-key)
+
+;; =============================== Benchmark ===================================
 
 ;; (use-package benchmark-init
   ;; :ensure t
