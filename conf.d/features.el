@@ -75,7 +75,7 @@
                 '((company-capf company-shell company-dabbrev company-abbrev
                                 company-files company-gtags company-etags
                                 company-keywords)))
-        company-idle-delay 0
+        company-idle-delay 1.0
         company-tooltip-flip-when-above t)
   (use-package company-flx :ensure t :defer t
     :config (with-eval-after-load 'company
