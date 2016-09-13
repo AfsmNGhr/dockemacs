@@ -4,6 +4,7 @@
   :config
   (setq org-log-done t
         org-startup-indented t
+        org-src-ask-before-returning-to-edit-buffer nil
         org-todo-keywords
         '((sequence "TODO" "INPROGRESS" "HOLD" "DONE" "CANCELLED"))
         org-todo-keyword-faces
