@@ -45,7 +45,11 @@
               echo-keystrokes 0.1
               browse-url-browser-function 'browse-url-generic
               browse-url-generic-program "firefox-nightly"
-              tab-always-indent 'complete)
+              tab-always-indent 'complete
+              electric-pair-pairs '((?\" . ?\")
+                                    (?\` . ?\`)
+                                    (?\( . ?\))
+                                    (?\{ . ?\})))
 
 (display-time-mode)
 (show-paren-mode t)
