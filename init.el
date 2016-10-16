@@ -3,6 +3,7 @@
 (defconst my/emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
 
 (setq package-enable-at-startup nil
+      load-prefer-newer t
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
