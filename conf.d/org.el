@@ -3,6 +3,7 @@
 (use-package org :defer 30
   :config
   (setq org-log-done t
+        org-src-fontify-natively t
         org-startup-indented t
         org-src-ask-before-returning-to-edit-buffer nil
         org-todo-keywords

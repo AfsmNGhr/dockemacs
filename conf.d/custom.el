@@ -4,6 +4,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("1167b8ff8c1ca30824de47bade303a11b5b96d05f6f87651f02b55d6966b7824" default)))
  '(global-whitespace-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(ivy-mode t)
@@ -16,7 +19,7 @@
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
    (quote
-    (focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
+    (use-package-chords focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
  '(recentf-mode t)
  '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces

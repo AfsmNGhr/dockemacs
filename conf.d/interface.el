@@ -98,8 +98,8 @@
 (defun my/load-theme ()
   "load my theme"
   (if (display-graphic-p)
-      (load-theme 'spolsky)
-    (load-theme 'spolsky-term t t)))
+      (load-theme 'spolsky t)
+    (load-theme 'spolsky-term t)))
 
 (defun my/enable-theme (frame)
   "enable theme the current frame depending on the frame type"
