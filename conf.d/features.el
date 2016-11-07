@@ -14,6 +14,7 @@
 (unless (version< emacs-version "24.4")
   (use-package magit :ensure t :defer t
     :config (setq magit-completing-read-function 'magit-ido-completing-read))
+  (use-package git-timemachine :ensure t :defer t)
   (use-package docker :defer t :ensure t :config (docker-global-mode)))
 
 ;; ============================== Jump =========================================
@@ -53,6 +54,10 @@
   :init (ggtags-mode 1)
   :config
   (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
+
+(use-package gxref :ensure t :defer t
+  :if (version<= emacs-version "25.1")
+  :init (add-to-list 'xref-backend-functions 'gxref-xref-backend))
 
 ;; ============================= Company ======================================
 
