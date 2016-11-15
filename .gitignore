@@ -237,3 +237,5 @@ history
 /org-clock-save.el
 /.org-id-locations
 /packages
+*.data
+*.snip#
