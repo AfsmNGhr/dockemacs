@@ -55,9 +55,9 @@
   :config
   (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
 
-(use-package gxref :ensure t :defer t
-  :if (version<= emacs-version "25.1")
-  :init (add-to-list 'xref-backend-functions 'gxref-xref-backend))
+(unless (version< emacs-version "25.1")
+  (use-package gxref :ensure t :defer t
+    :init (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
 
 ;; ============================= Company ======================================
 
