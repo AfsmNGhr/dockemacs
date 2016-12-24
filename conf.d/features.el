@@ -44,6 +44,8 @@
     (flx-ido-mode 1)
     (setq ido-enable-flex-matching t
           ido-use-faces t
+          ido-virtual-buffers t
+          ido-auto-merge-delay-time 99999999
           gc-cons-threshold 10000000))
   (use-package ido-ubiquitous :ensure t
     :config (ido-ubiquitous-mode 1)))

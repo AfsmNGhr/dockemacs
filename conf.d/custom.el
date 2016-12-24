@@ -19,8 +19,9 @@
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
    (quote
-    (git-timemachine multiple-cursors company gxref use-package-chords focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
+    (achievements git-timemachine multiple-cursors company gxref use-package-chords focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
  '(recentf-mode t)
+ '(safe-local-variable-values (quote ((eval org-content 2))))
  '(whitespace-style (quote (face lines-tail))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

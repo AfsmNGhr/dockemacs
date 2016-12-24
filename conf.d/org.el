@@ -4,6 +4,9 @@
   :config
   (setq org-log-done t
         org-src-fontify-natively t
+	      org-edit-src-content-indentation 2
+        org-src-tab-acts-natively t
+        org-src-preserve-indentation t
         org-startup-indented t
         org-src-ask-before-returning-to-edit-buffer nil
         org-todo-keywords
