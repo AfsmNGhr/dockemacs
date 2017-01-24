@@ -23,8 +23,4 @@
 
 (global-set-key [remap comment-dwim] 'comment-or-uncomment-region-or-line)
 
-(global-set-key (kbd "C-x 2") 'start-kbd-macro)
-(global-set-key (kbd "C-x 3") 'end-kbd-macro)
-(global-set-key (kbd "C-x e") 'call-last-kbd-macro)
-
 ;; ========================= To be continued... ================================

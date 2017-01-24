@@ -43,7 +43,7 @@
         org-capture-templates
         '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
            "* TODO %?\n SCHEDULED: %^t")
-          ("l" "Links" entry (file+datetree "~/Documents/org/links.org")
+          ("L" "Links" entry (file+datetree "~/Documents/org/links.org")
            "* %c :LINK:\n%U %?%:initial")
           ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
            "* %?")
