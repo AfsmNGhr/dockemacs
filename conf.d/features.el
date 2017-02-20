@@ -96,8 +96,8 @@
 
 ;; ============================= Checkers ======================================
 
-(use-package flycheck :ensure t
-  :init (global-flycheck-mode))
+;; (use-package flycheck :ensure t
+;;   :init (global-flycheck-mode))
 
 ;; ============================= Snippets ======================================
 
@@ -126,6 +126,7 @@
   :init (projectile-global-mode)
   :config
   (setq-default projectile-enable-caching t
+                projectile-use-git-grep t
                 projectile-indexing-method 'alien
                 projectile-switch-project-action 'projectile-dired
                 projectile-file-exists-remote-cache-expire nil
