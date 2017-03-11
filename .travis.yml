@@ -5,7 +5,7 @@ install:
   - docker build -t afsmnghr/emacs .
 
 script:
-  - docker run --rm -it afsmnghr/emacs \
+  - docker run --rm -it afsmnghr/emacs /bin/sh -c \
     "cd \"$HOME/.emacs.d\" && \
     git pull origin master && \
     (bundle check || bundle install --path \"$HOME/.emacs.d/bundle\") && \
