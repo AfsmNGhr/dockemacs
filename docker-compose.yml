@@ -1,14 +1,13 @@
 version: '2'
 services:
   emacs:
-    build: .
+    build:
+      context: .
     volumes:
-      - $HOME/.emacs.d:/root/.emacs.d
-      - elpa:/root/.emacs.d/elpa
-      - npm:/usr/lib/node_modules
-      - bundle://usr/local/bundle
-      - $HOME/Documents:/root/Documents
+      - $HOME:/mnt/workspace
+      - data:/home/emacser/.emacs.d
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - config.env
 volumes:
-  elpa:
-  bundle:
-  npm:
+  data:
