@@ -35,26 +35,27 @@
   (define-key global-map "\C-cc" 'org-capture)
   (require 'org-protocol)
 
-  (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
-        org-clock-persist 'history
-        org-agenda-clockreport-parameter-plist
-        (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))
-        org-protocol-default-template-key "l"
-        org-capture-templates
-        '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
-           "* TODO %?\n SCHEDULED: %^t")
-          ("L" "Links" entry (file+datetree "~/Documents/org/links.org")
-           "* %c :LINK:\n%U %?%:initial")
-          ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
-           "* %?")
-          ("h" "Hopox" entry (file+datetree "~/Documents/org/hopox.org")
-           "* TODO %? :WORK: ")
-          ("f" "FF" entry (file+datetree "~/Documents/org/ff.org")
-           "* DONE %? :WORK:")
-          ("e" "Education" entry (file "~/Documents/org/education.org")
-           "* TODO %?")
-          ("n" "Notes" entry (file "~/Documents/org/notes.org")
-           "* %? :NOTE:")))
+  (if file-directory-p "~/Documents/org/"
+    (setq org-agenda-files (directory-files "~/Documents/org/" t "\.org$" nil)
+          org-clock-persist 'history
+          org-agenda-clockreport-parameter-plist
+          (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))
+          org-protocol-default-template-key "l"
+          org-capture-templates
+          '(("t" "Tasks" entry (file "~/Documents/org/tasks.org")
+             "* TODO %?\n SCHEDULED: %^t")
+            ("L" "Links" entry (file+datetree "~/Documents/org/links.org")
+             "* %c :LINK:\n%U %?%:initial")
+            ("d" "Diary" entry (file+datetree "~/Documents/org/diary.org")
+             "* %?")
+            ("h" "Hopox" entry (file+datetree "~/Documents/org/hopox.org")
+             "* TODO %? :WORK: ")
+            ("f" "FF" entry (file+datetree "~/Documents/org/ff.org")
+             "* DONE %? :WORK:")
+            ("e" "Education" entry (file "~/Documents/org/education.org")
+             "* TODO %?")
+            ("n" "Notes" entry (file "~/Documents/org/notes.org")
+             "* %? :NOTE:"))))
   (org-clock-persistence-insinuate))
 
 ;; ============================= Org Drill =====================================
