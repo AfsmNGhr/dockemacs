@@ -1,33 +1,13 @@
-language: generic
-sudo: required
-
-git:
-  submodules: false
-
-env:
-  - EMACS=emacs24
-  - EMACS=emacs-snapshot
-
-matrix:
-  allow_failures:
-    - env: EMACS=emacs-snapshot
-
-cache:
-  directories:
-    - ${HOME}/.emacs.d/elpa
+services:
+  - docker
 
 install:
-  - if [ "$EMACS" = 'emacs-snapshot' ]; then
-      sudo add-apt-repository -y ppa:ubuntu-elisp;
-    else
-      sudo add-apt-repository -y ppa:cassou/emacs;
-    fi
-  - sudo apt-get update -qq
-  - sudo apt-get install ${EMACS} xclip -qq
-  - export HOME=$PWD/..
-  - ln -s emacs ../.emacs.d
-  - mkdir -p $HOME/Documents/org
+  - docker build -t afsmnghr/emacs .
 
 script:
-  - ${EMACS} --version
-  - ./test-startup.el
+  - docker run --rm -it afsmnghr/emacs \
+    cd "$HOME/.emacs.d" && \
+    git pull origin master && \
+    (bundle check || bundle install --path "$HOME/.emacs.d/bundle") && \
+    npm install && export PATH="$(npm bin):$PATH" && \
+    emacs --version && ./test-startup
