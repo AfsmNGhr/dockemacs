@@ -239,3 +239,4 @@ history
 /packages
 *.data
 *.snip#
+/node_modules/
