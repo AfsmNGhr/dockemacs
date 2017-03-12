@@ -13,9 +13,6 @@
 ## Benchmark
 
 ```.clojure
--UUU:%%--F1  *GNU Emacs*    All  (Fundamental WS) 13:04 0.64 -----------------
-0.7 seconds
-
 Benchmark results
 
 ╼►[benchmark-init/root nil 1141ms]
@@ -147,6 +144,9 @@ Benchmark results
   │ ├─[cus-start require 10ms]
   │ ╰─[cus-load require 22ms]
   ╰─[~/.emacs.d/conf.d/aliases load 2ms]
+
+-UUU:%%--F1  *GNU Emacs*    All  (Fundamental WS) 13:04 0.64 ----------------------------------------------
+0.7 seconds
 ```
 
 ### *To be continued...*
