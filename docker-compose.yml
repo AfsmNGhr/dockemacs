@@ -8,6 +8,6 @@ services:
       - data:/home/emacser/.emacs.d
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - config.env
+      - development.env
 volumes:
   data:

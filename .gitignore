@@ -240,3 +240,4 @@ history
 *.data
 *.snip#
 /node_modules/
+development.env

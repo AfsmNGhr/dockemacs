@@ -1,4 +1,5 @@
 *.md
+*.env
 /images
 .travis.yml
 el-get/
