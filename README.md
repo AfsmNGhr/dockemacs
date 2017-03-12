@@ -41,7 +41,7 @@
 * Run and wait until the boot:
 
   ```sh
-  $ de
+  $ dockemacs
   ````
 
 ## Customize & [Themes](themes.md)
