@@ -28,3 +28,6 @@ history
 *.snip#
 /node_modules/
 /bin/
+Dockerfile
+docker-compose*
+.dockerignore

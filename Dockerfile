@@ -9,7 +9,7 @@ ENV UNAME=emacser \
     WORKSPACE=/mnt/workspace \
     SHELL=/bin/bash \
     TERM=xterm-256color \
-    REPOSITORY=https://github.com/AfsmNGhr/emacs.git
+    REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
 
 COPY sbin/* /usr/local/sbin/
 
