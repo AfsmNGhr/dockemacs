@@ -31,5 +31,9 @@ CMD cd "$HOME/.emacs.d" && \
     git pull origin master && \
     (bundle check || bundle install --path "$HOME/.emacs.d/bundle") && \
     npm install && export PATH="$(npm bin):$PATH" && \
+    ln -s "$WORKSPACE/.git" "$HOME/.git" && \
+    ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
+    ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
+    ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     cd "$WORKSPACE" && emacs

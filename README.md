@@ -10,9 +10,9 @@
 
 ## Instalation
 
-* [Install Docker Engine](https://docs.docker.com/engine/installation/)
-* [Install Docker Compose](https://docs.docker.com/compose/install/)
-* Backup old emacs config
+* [Install Docker Engine](https://docs.docker.com/engine/installation/):
+* [Install Docker Compose](https://docs.docker.com/compose/install/):
+* Backup old emacs config:
 
   ```sh
   cp ~/.emacs.d ~/.emacs.d.backup
@@ -25,22 +25,24 @@
   git clone git@github.com:AfsmNGhr/emacs.git .emacs.d
   ```
 
-* Prepare development.env, check your `ENV_VARS`
+* Prepare development.env, check your `ENV_VARS`:
 
   ```sh
   cd .emacs.d
   cp development.template.env development.env
   ```
 
-* Add executable file - `de`
+* Add executable file:
 
   ```sh
   echo "export PATH=$HOME/.emacs.d/bin:$PATH" >> ~/.bashrc
   ```
 
-## Running
+* Run and wait until the boot:
 
-* Run the `de`
+  ```sh
+  $ de
+  ````
 
 ## Customize & [Themes](themes.md)
 
