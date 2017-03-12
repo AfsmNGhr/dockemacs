@@ -2,6 +2,7 @@ version: '2'
 services:
   emacs:
     build:
+      context: .
       dockerfile: Dockerfile.travis
     volumes:
       - $HOME:/mnt/workspace
