@@ -7,13 +7,11 @@
 
 (setq package-enable-at-startup nil
       package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "http://melpa.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (unless (version< emacs-version "25.1")
   (setq package-archive-priorities '(("melpa-stable" . 20)
-                                     ("marmalade" . 20)
                                      ("gnu" . 10)
                                      ("melpa" . 0))))
 (unless package-archive-contents
@@ -31,9 +29,9 @@
 
 ;; =============================== Benchmark ===================================
 
-;; (use-package benchmark-init
-  ;; :ensure t
-  ;; :init (benchmark-init/activate))
+(use-package benchmark-init
+  :ensure t
+  :init (benchmark-init/activate))
 
 ;; ================================== init =====================================
 
