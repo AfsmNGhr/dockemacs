@@ -23,7 +23,7 @@ RUN apk update && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod 700 /usr/local/sbin/initialize && \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
+    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
@@ -35,6 +35,5 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    export PINENTRY_USER_DATA="USE_CURSES=1" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     cd "$WORKSPACE" && emacs
