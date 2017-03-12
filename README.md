@@ -182,7 +182,7 @@ Benchmark results
   ╰─[~/.emacs.d/conf.d/aliases load 2ms]
 
 -UUU:%%--F1  *GNU Emacs*    All  (Fundamental WS) 13:04 0.64 ----------------------------------------------
-0.7 seconds
+ 0.7 seconds
 ```
 
 ### *To be continued...*
