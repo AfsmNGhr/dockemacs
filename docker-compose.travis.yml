@@ -2,7 +2,7 @@ version: '2'
 services:
   emacs:
     build:
-      dokerfile: Dockerfile.travis
+      dockerfile: Dockerfile.travis
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
