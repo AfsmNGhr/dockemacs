@@ -6,7 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/alpine-emacs/)
 [![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmgnhr/alpine-emacs/)
 
-![Emacs](https://raw.githubusercontent.com/myuhe/org-gcal.el/master/emacs.png)
+![Dockemacs](images/dockemacs.png)
 
 ## Instalation
 
