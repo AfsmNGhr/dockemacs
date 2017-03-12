@@ -1,4 +1,4 @@
-## *Emacs*
+## A minimal emacs noX
 
 [![Build Status](https://travis-ci.org/AfsmNGhr/emacs.svg)](https://travis-ci.org/AfsmNGhr/emacs)
 [![](https://images.microbadger.com/badges/version/afsmnghr/alpine-emacs.svg)](https://microbadger.com/images/afsmnghr/alpine-emacs "Get your own version badge on microbadger.com")
@@ -8,9 +8,9 @@
 
 ![Emacs](https://raw.githubusercontent.com/myuhe/org-gcal.el/master/emacs.png)
 
-## *Customize & [Themes](themes.md)*
+## Customize & [Themes](themes.md)
 
-## *Benchmark*
+## Benchmark
 
 ```.clojure
 Benchmark results
