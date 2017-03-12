@@ -8,7 +8,7 @@
 
 ![Dockemacs](images/dockemacs.png)
 
-## Instalation
+## Installation
 
 * [Install Docker Engine](https://docs.docker.com/engine/installation/):
 * [Install Docker Compose](https://docs.docker.com/compose/install/):
