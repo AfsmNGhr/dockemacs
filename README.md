@@ -8,6 +8,40 @@
 
 ![Emacs](https://raw.githubusercontent.com/myuhe/org-gcal.el/master/emacs.png)
 
+## Instalation
+
+* [Install Docker Engine](https://docs.docker.com/engine/installation/)
+* [Install Docker Compose](https://docs.docker.com/compose/install/)
+* Backup old emacs config
+
+  ```sh
+  cp ~/.emacs.d ~/.emacs.d.backup
+  ```
+
+* Clone the repository to your `$HOME`:
+
+  ```sh
+  cd ~
+  git clone git@github.com:AfsmNGhr/emacs.git .emacs.d
+  ```
+
+* Prepare development.env, check your `ENV_VARS`
+
+  ```sh
+  cd .emacs.d
+  cp development.template.env development.env
+  ```
+
+* Add executable file - `de`
+
+  ```sh
+  echo "export PATH=$HOME/.emacs.d/bin:$PATH" >> ~/.bashrc
+  ```
+
+## Running
+
+* Run the `de`
+
 ## Customize & [Themes](themes.md)
 
 ## Benchmark
