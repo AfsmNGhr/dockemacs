@@ -8,7 +8,5 @@ services:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
       - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - development.env
 volumes:
   data:
