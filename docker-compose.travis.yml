@@ -1,6 +1,7 @@
 version: '2'
 services:
   emacs:
+    container_name: emacs
     build:
       context: .
       dockerfile: Dockerfile.travis
