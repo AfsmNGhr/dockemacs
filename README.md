@@ -22,7 +22,7 @@
 
   ```sh
   cd ~
-  git clone git@github.com:AfsmNGhr/emacs.git .emacs.d
+  git clone git@github.com:AfsmNGhr/dockemacs.git .emacs.d
   ```
 
 * Prepare development.env, check your `ENV_VARS`:
