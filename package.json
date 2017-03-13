@@ -1,6 +1,6 @@
 {
-  "name": "emacs",
-  "version": "1.0.0",
+  "name": "dockemacs",
+  "version": "1.1.0",
   "description": "Packages for js",
   "main": "",
   "scripts": {
@@ -8,19 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AfsmNGhr/emacs.git"
+    "url": "git+https://github.com/AfsmNGhr/dockemacs.git"
   },
   "author": "Alexsey Ermolaev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AfsmNGhr/emacs/issues"
+    "url": "https://github.com/AfsmNGhr/dockemacs/issues"
   },
-  "homepage": "https://github.com/AfsmNGhr/emacs#readme",
+  "homepage": "https://github.com/AfsmNGhr/dockemacs#readme",
   "dependencies": {
-    "babel-eslint": "7.1.1",
-    "eslint": "3.17.1",
-    "eslint-config-angular": "0.5.0",
-    "eslint-plugin-angular": "1.6.2",
     "tern": "0.20.0"
   }
 }
