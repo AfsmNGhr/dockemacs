@@ -29,7 +29,8 @@
 
   ```sh
   cd .emacs.d
-  cp development.template.env development.env
+  echo "UID=$(id -u)" >> development.env
+  echo "GID=$(id -g)" >> development.env
   ```
 
 * Add executable file:
