@@ -6,7 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/alpine-emacs/)
 [![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmgnhr/alpine-emacs/)
 
-![Dockemacs](http://i.imgur.com/q0QaG7W.png)
+![Dockemacs](http://i.imgur.com/q0QaG7W.png "Image is clickable")
 
 ## Installation
 
