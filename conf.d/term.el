@@ -1,5 +1,7 @@
 ;; ================================ Shell ======================================
 
+(use-package pinetry :defer t :ensure t)
+
 (use-package multi-term :defer t :ensure t
   :config
   (setq multi-term-program "/bin/bash"
