@@ -1,6 +1,7 @@
 ;; ================================ Shell ======================================
 
-(use-package pinetry :defer t :ensure t)
+(use-package pinetry :defer t :ensure t
+  :config (allow-emacs-pinentry))
 
 (use-package multi-term :defer t :ensure t
   :config

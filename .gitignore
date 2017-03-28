@@ -25,3 +25,4 @@ history
 /node_modules/
 development.env
 *~
+/.#company-statistics-cache.el
