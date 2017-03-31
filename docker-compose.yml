@@ -4,11 +4,21 @@ services:
     container_name: emacs
     build:
       context: .
+    networks:
+      net:
+        ipv4_address: 172.10.225.2
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - development.env
+networks:
+  net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.10.225.0/24
 volumes:
   data:
