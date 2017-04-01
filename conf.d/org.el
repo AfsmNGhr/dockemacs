@@ -1,6 +1,6 @@
 ;; ============================== Org mode =====================================
 
-(use-package org :defer 30
+(use-package org :defer 30 :pin melpa
   :config
   (setq org-log-done t
         org-src-fontify-natively t
