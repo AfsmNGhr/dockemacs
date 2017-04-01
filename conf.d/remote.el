@@ -4,6 +4,8 @@
   :config
   (setq auto-revert-remote-files t))
 
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
 (use-package exec-path-from-shell :ensure t)
 
 ;; ================================ Docker =====================================
