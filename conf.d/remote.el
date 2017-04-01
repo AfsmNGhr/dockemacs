@@ -4,6 +4,8 @@
   :config
   (setq auto-revert-remote-files t))
 
+(use-package :exec-path-from-shell :ensure t)
+
 ;; ================================ Docker =====================================
 
 (push
