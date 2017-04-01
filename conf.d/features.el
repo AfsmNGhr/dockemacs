@@ -128,7 +128,6 @@
                 projectile-use-git-grep t
                 projectile-indexing-method 'default
                 projectile-switch-project-action 'projectile-dired
-                projectile-file-exists-remote-cache-expire nil
                 projectile-file-exists-remote-cache-expire (* 10 60)
                 projectile-file-exists-local-cache-expire (* 5 60)
                 projectile-require-project-root nil
