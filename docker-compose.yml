@@ -2,11 +2,10 @@ version: '2'
 services:
   emacs:
     container_name: emacs
+    networks:
+      - net
     build:
       context: .
-    networks:
-      net:
-        ipv4_address: 172.10.225.2
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
@@ -16,10 +15,5 @@ services:
       - development.env
 networks:
   net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.10.225.0/24
 volumes:
   data:
