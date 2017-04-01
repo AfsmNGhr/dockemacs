@@ -96,8 +96,7 @@
 
 ;; ============================= Checkers ======================================
 
-(use-package flycheck :ensure t
-  :init (global-flycheck-mode))
+(use-package flycheck :ensure t :defer t)
 
 ;; ============================= Snippets ======================================
 

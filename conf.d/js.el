@@ -12,7 +12,8 @@
                         js2-auto-indent-p t
                         js2-highlight-level 3
                         js2-global-externs '("angular")
-                        js2-indent-on-enter-key t))
+                        js2-indent-on-enter-key t)
+  (add-to-list 'js2-mode-hook 'flycheck-mode))
 
 (use-package tern :ensure t :defer t
   :config (add-hook 'javascript-hook 'tern-mode)
