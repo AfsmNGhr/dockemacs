@@ -58,6 +58,10 @@
               ("n" "Notes" entry (file (concat my/org-dir "notes.org"))
                "* %? :NOTE:"))))
 
+  (defvar org-babel-default-header-args:screen
+    '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "linux"))
+    "Default arguments to use when running screen source blocks.")
+
   (org-clock-persistence-insinuate))
 
 ;; ============================= Org Drill =====================================
