@@ -126,7 +126,7 @@
   :config
   (setq-default projectile-enable-caching t
                 projectile-use-git-grep t
-                projectile-indexing-method 'alien
+                projectile-indexing-method 'default
                 projectile-switch-project-action 'projectile-dired
                 projectile-file-exists-remote-cache-expire nil
                 projectile-file-exists-remote-cache-expire (* 10 60)
