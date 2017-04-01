@@ -9,7 +9,7 @@
 (custom-set-variables
  '(whitespace-style '(face lines-tail))
  '(org-babel-load-languages
-   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+   (quote ((emacs-lisp . t) (shell . t) (ruby . t) (js . t))))
  '(org-confirm-babel-evaluate nil))
 
 (custom-set-faces
