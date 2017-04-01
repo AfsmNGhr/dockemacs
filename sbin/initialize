@@ -13,6 +13,7 @@ fi
 egrep -i "^${GNAME}" /etc/group;
 if [ $? -ne 0 ]; then
   echo "${GNAME}:x:${GID}:${UNAME}" >> /etc/group
+  echo "${DOCKER_NAME}:x:${DOCKER_GROUP}:${UNAME}" >> /etc/group
 fi
 
 if [ -d "${HOME}" ]; then

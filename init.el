@@ -11,9 +11,9 @@
                          ("melpa" . "http://melpa.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (unless (version< emacs-version "25.1")
-  (setq package-archive-priorities '(("melpa-stable" . 20)
+  (setq package-archive-priorities '(("melpa-stable" . 10)
                                      ("gnu" . 10)
-                                     ("melpa" . 0))))
+                                     ("melpa" . 20))))
 (unless package-archive-contents
   (package-refresh-contents))
 

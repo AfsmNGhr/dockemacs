@@ -11,6 +11,7 @@ services:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
       - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file:
       - development.env
 networks:
