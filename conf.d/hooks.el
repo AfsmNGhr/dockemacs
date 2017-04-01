@@ -16,6 +16,13 @@
   (if (and (buffer-file-name) (buffer-modified-p))
       (save-buffer args)))
 
+;; ============================== close =====================================
+
+(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+  "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+  (cl-letf (((symbol-function #'process-list) (lambda ())))
+    ad-do-it))
+
 ;; ================================ Hooks ======================================
 
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
