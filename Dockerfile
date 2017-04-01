@@ -21,7 +21,7 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-        bash sudo emacs-nox screen docker global git openssh gnupg nodejs-npm && \
+        bash sudo emacs screen xterm docker global git openssh gnupg nodejs-npm && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod 700 /usr/local/sbin/initialize && \

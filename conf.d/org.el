@@ -59,7 +59,7 @@
                "* %? :NOTE:"))))
 
   (defvar org-babel-default-header-args:screen
-    '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "linux"))
+    '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "xterm"))
     "Default arguments to use when running screen source blocks.")
 
   (org-clock-persistence-insinuate))
