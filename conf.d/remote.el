@@ -1,11 +1,8 @@
 ;; ================================ Tramp ======================================
 
 (use-package tramp
-    :config
-    (setq tramp-default-method "scp"
-        tramp-shell-prompt-pattern
-        "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*"
-        auto-revert-remote-files t))
+  :config
+  (setq auto-revert-remote-files t))
 
 ;; ================================ Docker =====================================
 
