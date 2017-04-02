@@ -64,7 +64,9 @@
 
   (org-clock-persistence-insinuate)
 
-  (use-package org-brain :ensure t :defer t)
+  (use-package org-brain :ensure t :defer t
+    :config
+    (setq org-brain-path (concat my/org-dir "brain"))
 
   (defun org-brain-deft ()
     "Use `deft' for files in `org-brain-path'."
