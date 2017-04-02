@@ -62,7 +62,18 @@
     '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "xterm"))
     "Default arguments to use when running screen source blocks.")
 
-  (org-clock-persistence-insinuate))
+  (org-clock-persistence-insinuate)
+
+  (use-package org-brain :ensure t :defer t)
+
+  (defun org-brain-deft ()
+    "Use `deft' for files in `org-brain-path'."
+    (interactive)
+    (let ((deft-directory org-brain-path)
+          (deft-recursive t)
+          (deft-extensions '("org")))
+      (deft)))
+  )
 
 ;; ============================= Org Drill =====================================
 
