@@ -66,16 +66,7 @@
 
   (use-package org-brain :ensure t :defer t
     :config
-    (setq org-brain-path (concat my/org-dir "brain"))
-
-  (defun org-brain-deft ()
-    "Use `deft' for files in `org-brain-path'."
-    (interactive)
-    (let ((deft-directory org-brain-path)
-          (deft-recursive t)
-          (deft-extensions '("org")))
-      (deft)))
-  )
+    (setq org-brain-path (concat my/org-dir "brain"))))
 
 ;; ============================= Org Drill =====================================
 
