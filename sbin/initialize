@@ -27,7 +27,7 @@ else
 fi
 
 mkdir -p "${WORKSPACE}"
-chown "${UID}":"${GID}" "${WORKSPACE}"
+chown "${UID}":"${GID}" "${WORKSPACE}" /usr/local/bin /usr/bin/npm
 
 cd "${WORKSPACE}"
 

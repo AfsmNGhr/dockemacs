@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM ruby:2.4.0-alpine
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
 ENV UNAME=emacser \
@@ -21,7 +21,7 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-        bash sudo emacs-nox screen xterm docker global git openssh gnupg && \
+        bash sudo emacs-nox xterm docker global git openssh gnupg nodejs-npm && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod 700 /usr/local/sbin/initialize && \
@@ -37,5 +37,7 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
     git stash && \
     git pull origin master && \
+    (bundle check || bundle install --path "$HOME/.emacs.d/bundle") && \
+    npm install && export PATH="$(npm bin):$PATH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     cd "$WORKSPACE" && emacs

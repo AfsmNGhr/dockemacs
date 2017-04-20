@@ -14,12 +14,18 @@
  '(org-agenda-files
    (quote
     ("/home/afsmnghr/Documents/org/development.org" "/home/afsmnghr/Documents/org/diary.org" "/home/afsmnghr/Documents/org/education.org" "/home/afsmnghr/Documents/org/entertainment.org" "/home/afsmnghr/Documents/org/ff.org" "/home/afsmnghr/Documents/org/hopox.org" "/home/afsmnghr/Documents/org/links.org" "/home/afsmnghr/Documents/org/notes.org" "/home/afsmnghr/Documents/org/system.org" "/home/afsmnghr/Documents/org/tasks.org")))
- '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+ '(org-babel-load-languages
+   (quote
+    ((emacs-lisp . t)
+     (screen . t)
+     (shell . t)
+     (ruby . t)
+     (js . t))))
  '(org-clock-persist (quote history))
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
    (quote
-    (ledger-mode pinetry achievements git-timemachine multiple-cursors company gxref use-package-chords focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
+    (exec-path-from-shell ledger-mode pinetry achievements git-timemachine multiple-cursors company gxref use-package-chords focus yasnippet yaml-mode xclip web-mode use-package sqlplus slime slim-mode sass-mode rvm rubocop rspec-mode robe rainbow-delimiters projectile phi-search-mc multi-term mmm-mode mc-extras markdown-mode magit keyword-search keyfreq js2-mode ido-ubiquitous ido-hacks ggtags flycheck flx-ido dockerfile-mode docker csv-mode company-ycmd company-web company-tern company-statistics company-shell company-inf-ruby company-flx coffee-mode bundler ace-window)))
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((eval org-content 2))))
  '(whitespace-style (quote (face lines-tail))))
