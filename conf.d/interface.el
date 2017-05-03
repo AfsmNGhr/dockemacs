@@ -34,6 +34,7 @@
                                                           comint-input-ring)
               dired-listing-switches "-lhvA"
               magit-push-always-verify nil
+              epa-pinentry-mode 'loopback
               word-wrap t
               search-highlight t
               use-dialog-box nil
