@@ -1,0 +1,22 @@
+extends:
+  - 'airbnb-base/legacy'
+  - 'angular'
+plugins:
+  - import
+env:
+  browser: true
+  es6: true
+  node: true
+globals:
+  module: true
+  angular: true
+  browser: true
+  element: true
+  '_': true
+settings:
+  angular: 1
+rules:
+  'angular/controller-name': 0
+  'angular/controller-as-vm': 0
+  'max-len': ['error', 80]
+  'radix': ['error', 'as-needed']
