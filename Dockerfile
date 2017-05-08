@@ -30,6 +30,7 @@ RUN apk update && \
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
 CMD cd "$HOME/.emacs.d" && \
+    ln -s "$HOME/.emacs.d/.eslintrc.yml" "$HOME/.eslintrc.yml" && \
     ln -s "$WORKSPACE/.docker" "$HOME/.docker" && \
     ln -s "$WORKSPACE/.git" "$HOME/.git" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
