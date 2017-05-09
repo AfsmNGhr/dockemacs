@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+docker run -it --rm \
+	--net host \
+	--cpuset-cpus 0 \
+	--memory 512mb \
+	-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+	-e DISPLAY=$DISPLAY \
+	-v $HOME/:/home/developer/ \
+	--device /dev/snd \
+	-v /dev/shm/:/dev/shm/ \
+	-v /usr/share/fonts/:/usr/share/fonts/ \
+	rodrigomiguele/chromium "$@"

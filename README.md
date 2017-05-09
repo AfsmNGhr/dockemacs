@@ -31,6 +31,7 @@
   cd .emacs.d
   echo "UID=$(id -u)" >> development.env
   echo "GID=$(id -g)" >> development.env
+  echo "DISPLAY=$(echo $DISPLAY)" >> development.env
   ```
 
 * Add executable file:

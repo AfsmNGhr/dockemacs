@@ -24,6 +24,7 @@ RUN apk update && \
         bash sudo emacs-nox xterm docker global git openssh gnupg nodejs-npm && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
+    chmod +x /usr/sbin/chromium && \
     chmod 700 /usr/local/sbin/initialize && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
