@@ -13,8 +13,6 @@ ENV UNAME=emacser \
     TERM=xterm-256color \
     REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
 
-COPY sbin/* /usr/local/sbin/
-
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
@@ -22,11 +20,14 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
         bash sudo emacs-nox xterm docker global git openssh gnupg nodejs-npm && \
-    git clone "$REPOSITORY" "$HOME/.emacs.d" && \
+    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
+
+COPY sbin/* /usr/local/sbin/
+
+RUN git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod +x /usr/local/sbin/chromium && \
-    chmod 700 /usr/local/sbin/initialize && \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
+    chmod 700 /usr/local/sbin/initialize
 
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]

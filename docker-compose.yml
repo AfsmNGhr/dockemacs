@@ -1,16 +1,23 @@
-version: '2'
+version: '3'
 services:
   emacs:
-    container_name: emacs
     networks:
       - net
     build:
       context: .
+    privileged: true
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /dev/shm:/dev/shm:ro
+      - /usr/share/fonts:/usr/share/fonts:ro
+    devices:
+      - /dev/snd:/dev/snd
+      - /dev/dri:/dev/dri
+      - /dev/video0:/dev/video0
     env_file:
       - development.env
 networks:
