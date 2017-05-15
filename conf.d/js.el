@@ -29,7 +29,7 @@
 
 (use-package js2-refactor :ensure t :defer t
   :config
-  (js2r-add-keybindings-with-prefix "C-c C-r")
+  (js2r-add-keybindings-with-prefix "C-c C-f")
   (define-key js2-mode-map (kbd "C-k") #'js2r-kill))
 
 (use-package xref-js2 :ensure t :defer t

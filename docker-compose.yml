@@ -1,11 +1,12 @@
 version: '3'
 services:
   emacs:
-    networks:
-      - net
+    image: "${COMPOSE_PROJECT_NAME}:${VERSION}"
     build:
       context: .
     privileged: true
+    networks:
+      - net
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
