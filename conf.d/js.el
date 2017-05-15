@@ -36,14 +36,4 @@
   :config
   (define-key js-mode-map (kbd "M-.") nil))
 
-(defun reset-eslint-rc ()
-  (let ((rc-path (if (projectile-project-p)
-                     (concat (projectile-project-root) ".eslintrc"))))
-    (if (file-exists-p rc-path)
-        (progn
-          (message rc-path)
-          (setq flycheck-eslintrc rc-path)))))
-
-(add-hook 'flycheck-mode-hook 'reset-eslint-rc)
-
 ;; ========================= To be continued... ================================
