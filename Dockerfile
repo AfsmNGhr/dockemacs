@@ -19,7 +19,7 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-        bash sudo emacs-nox xterm docker global the_silver_searcher \
+        bash sudo emacs-nox docker global the_silver_searcher \
         git openssh gnupg nodejs-npm && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
@@ -33,7 +33,6 @@ RUN git clone "$REPOSITORY" "$HOME/.emacs.d" && \
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
 CMD cd "$HOME/.emacs.d" && \
-    ln -s "$HOME/.emacs.d/.eslintrc.yml" "$HOME/.eslintrc" && \
     ln -s "$WORKSPACE/.docker" "$HOME/.docker" && \
     ln -s "$WORKSPACE/.git" "$HOME/.git" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
@@ -42,6 +41,6 @@ CMD cd "$HOME/.emacs.d" && \
     git stash && \
     (git pull origin master || true) && \
     (bundle check || bundle install --path "$HOME/.emacs.d/bundle" || true) && \
-    (npm install && export PATH="$(npm bin):$PATH" || true) && \
+    (npm install || true) && export PATH="$(npm bin):$PATH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     cd "$WORKSPACE" && emacs
