@@ -4,7 +4,6 @@ services:
     image: "${COMPOSE_PROJECT_NAME}:${VERSION}"
     build:
       context: .
-    privileged: true
     networks:
       - net
     volumes:
@@ -12,13 +11,6 @@ services:
       - data:/home/emacser/.emacs.d
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      - /dev/shm:/dev/shm:ro
-      - /usr/share/fonts:/usr/share/fonts:ro
-    devices:
-      - /dev/snd:/dev/snd
-      - /dev/dri:/dev/dri
-      - /dev/video0:/dev/video0
     env_file:
       - development.env
 networks:
