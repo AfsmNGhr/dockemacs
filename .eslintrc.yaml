@@ -19,5 +19,6 @@ settings:
 rules:
   'angular/controller-name': 0
   'angular/controller-as-vm': 0
+  'angular/service-name': 0
   'max-len': ['error', 80]
   'radix': ['error', 'as-needed']
