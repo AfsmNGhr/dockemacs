@@ -14,7 +14,7 @@
                         js2-global-externs '("angular")
                         js2-indent-on-enter-key t)
   (setq flycheck-disabled-checkers '(javascript-jshint)
-        flycheck-eslintrc "~/.eslintrc")
+        flycheck-eslintrc "~/.eslintrc.yaml")
   (add-to-list 'js2-mode-hook 'flycheck-mode)
   (add-to-list 'js2-mode-hook 'tern-mode)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
