@@ -17,7 +17,6 @@
         flycheck-eslintrc "~/.eslintrc.yaml")
   (add-to-list 'js2-mode-hook 'flycheck-mode)
   (add-to-list 'js2-mode-hook 'tern-mode)
-  (add-to-list 'company-backends 'company-flow)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
   (add-hook 'js2-mode-hook
             (lambda ()
