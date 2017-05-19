@@ -90,6 +90,7 @@
   (use-package company-ycmd :ensure t :defer t
     :config (company-ycmd-setup))
   (use-package company-tern :ensure t :defer t)
+  (use-package company-flow :ensure t :defer t)
   (use-package company-shell :ensure t :defer t)
   (use-package company-statistics :ensure t :defer t
     :init (company-statistics-mode)))
@@ -97,6 +98,7 @@
 ;; ============================= Checkers ======================================
 
 (use-package flycheck :ensure t :defer t)
+(use-package flycheck-flow :ensure t :defer t)
 
 ;; ============================= Snippets ======================================
 
