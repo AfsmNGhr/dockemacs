@@ -44,6 +44,7 @@
               query-replace-highlight t
               x-select-enable-clipboard t
               echo-keystrokes 0.1
+              enable-local-eval t
               browse-url-browser-function 'browse-url-generic
               browse-url-generic-program "chromium"
               tab-always-indent 'complete
