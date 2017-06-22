@@ -34,6 +34,8 @@ WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
 CMD cd "$HOME/.emacs.d" && \
     ln -s "$HOME/.emacs.d/.eslintrc.yaml" "$HOME/.eslintrc.yaml" && \
+    ln -s "$WORKSPACE/.Xauthority" "$HOME/.Xauthority" && \
+    ln -s "$WORKSPACE/.dbus" "$HOME/.dbus" && \
     ln -s "$WORKSPACE/.docker" "$HOME/.docker" && \
     ln -s "$WORKSPACE/.git" "$HOME/.git" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
