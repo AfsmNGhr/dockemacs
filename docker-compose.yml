@@ -4,16 +4,14 @@ services:
     image: "${COMPOSE_PROJECT_NAME}:${VERSION}"
     build:
       context: .
-    networks:
-      - net
+    network_mode: host
     volumes:
       - $HOME:/mnt/workspace
+      - $HOME/.dbus:/mnt/workspace/.dbus
       - data:/home/emacser/.emacs.d
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - development.env
-networks:
-  net:
 volumes:
   data:
