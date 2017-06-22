@@ -47,7 +47,7 @@
               enable-local-eval t
               enable-remote-dir-locals t
               browse-url-browser-function 'browse-url-generic
-              browse-url-generic-program (getenv "WEB_BROWSER")
+              browse-url-generic-program "web-browser"
               tab-always-indent 'complete
               electric-pair-pairs '((?\" . ?\")
                                     (?\` . ?\`)
