@@ -19,23 +19,21 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-        bash sudo emacs-nox docker dbus-x11 global the_silver_searcher \
-        git openssh gnupg nodejs-npm && \
+        bash sudo emacs-nox docker global the_silver_searcher git \
+        openssh gnupg nodejs-npm && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
 COPY sbin/* /usr/local/sbin/
 
 RUN git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
-    chmod +x /usr/local/sbin/web-browser && \
+    chmod +x /usr/local/sbin/chrome-remote && \
     chmod 700 /usr/local/sbin/initialize
 
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
 CMD cd "$HOME/.emacs.d" && \
     ln -s "$HOME/.emacs.d/.eslintrc.yaml" "$HOME/.eslintrc.yaml" && \
-    ln -s "$WORKSPACE/.Xauthority" "$HOME/.Xauthority" && \
-    ln -s "$WORKSPACE/.dbus" "$HOME/.dbus" && \
     ln -s "$WORKSPACE/.docker" "$HOME/.docker" && \
     ln -s "$WORKSPACE/.git" "$HOME/.git" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \

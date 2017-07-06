@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-dbus_session_file="$HOME/.dbus/session-bus/$(cat /var/lib/dbus/machine-id)-0"
-if [ -e "$dbus_session_file" ]; then
-  . "$dbus_session_file"
-  export DBUS_SESSION_BUS_ADDRESS DBUS_SESSION_BUS_PID
-  dbus-launch "$WEB_BROWSER" "$@"
-fi
