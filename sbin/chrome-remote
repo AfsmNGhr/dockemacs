@@ -1,3 +1,21 @@
-#!/usr/bin/env sh
+#!/usr/bin/env node
 
-chrome-remote-interface new "$@"
+const CDP = require('chrome-remote-interface');
+
+CDP((client) => {
+    const { Network, Page } = client;
+    Page.loadEventFired(() => {
+        client.close();
+    });
+    Promise.all([
+        Network.enable(),
+        Page.enable()
+    ]).then(() => {
+        return Page.navigate({ url: process.argv[2] });
+    }).catch((err) => {
+        console.error(err);
+        client.close();
+    });
+}).on('error', (err) => {
+    console.error(err);
+});
