@@ -1,4 +1,4 @@
-FROM ruby:2.4.0-alpine
+FROM ruby:2.4.1-alpine
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
 ENV UNAME=emacser \
@@ -39,8 +39,8 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    git stash && \
-    (git pull origin master || true) && \
+    git fetch origin master && \
+    (git reset --hard origin/master || true) && \
     (bundle check || bundle install --path "$HOME/.emacs.d/bundle" || true) && \
     (npm install || true) && export PATH="$(npm bin):$PATH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
