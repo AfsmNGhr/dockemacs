@@ -4,8 +4,7 @@ services:
     image: "${COMPOSE_PROJECT_NAME}:${VERSION}"
     build:
       context: .
-    networks:
-      - net
+    network_mode: host
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
@@ -13,12 +12,5 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - development.env
-networks:
-  net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.238.0/24
 volumes:
   data:

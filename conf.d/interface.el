@@ -47,7 +47,7 @@
               enable-local-eval t
               enable-remote-dir-locals t
               browse-url-browser-function 'browse-url-generic
-              browse-url-generic-program "chrome-remote"
+              browse-url-generic-program "/usr/local/sbin/chrome-remote"
               tab-always-indent 'complete
               electric-pair-pairs '((?\" . ?\")
                                     (?\` . ?\`)
