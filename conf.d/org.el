@@ -64,9 +64,10 @@
 
   (org-clock-persistence-insinuate)
 
-  (use-package org-brain :ensure t :defer t
-    :config
-    (setq org-brain-path (concat my/org-dir "brain"))))
+  ;; (use-package org-brain :ensure t :defer t
+  ;;   :config
+  ;;   (setq org-brain-path (concat my/org-dir "brain")))
+  )
 
 ;; ============================= Org Drill =====================================
 
@@ -79,6 +80,6 @@
 ;;                 org-drill-spaced-repetition-algorithm 'sm2))
 ;; (use-package org-drill-table :defer t :ensure t))
 
-(use-package ledger-mode :defer t :ensure t)
+;; (use-package ledger-mode :defer t :ensure t)
 
 ;; ========================= To be continued... ================================
