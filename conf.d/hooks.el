@@ -23,10 +23,20 @@
   (cl-letf (((symbol-function #'process-list) (lambda ())))
     ad-do-it))
 
+;; ============================== Minibuffer ===================================
+
+(defun my/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun my/minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000))
+
 ;; ================================ Hooks ======================================
 
 (add-hook 'after-save-hook 'byte-compile-current-buffer)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 ;; (add-hook 'auto-save-hook 'save-buffer-if-visiting-file)
 
 ;; ========================= To be continued... ================================
