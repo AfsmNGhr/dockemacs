@@ -6,7 +6,10 @@
 (use-package typescript-mode :ensure t :defer t
   :config
   (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  (add-to-list 'typescript-mode-hook 'tide-mode)
   (setq typescript-indent-level 2))
+
+(use-package tide :ensure t :defer t)
 
 (use-package js2-mode :ensure t :defer t
   :mode (("\\.js\\'" . js2-mode)
