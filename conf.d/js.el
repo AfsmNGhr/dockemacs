@@ -4,7 +4,9 @@
   :config (setq-default coffee-js-mode 'js2-mode coffee-tab-width 2))
 
 (use-package typescript-mode :ensure t :defer t
-  :config (add-to-list 'typescript-mode-hook 'flycheck-mode))
+  :config
+  (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  (setq typescript-indent-level 2))
 
 (use-package js2-mode :ensure t :defer t
   :mode (("\\.js\\'" . js2-mode)
