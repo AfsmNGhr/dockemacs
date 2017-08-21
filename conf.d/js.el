@@ -5,12 +5,11 @@
 
 (use-package typescript-mode :ensure t :defer t
   :config
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup))
   (add-to-list 'typescript-mode-hook 'flycheck-mode)
-  (add-to-list 'typescript-mode-hook #'setup-tide-mode)
-  (setq typescript-indent-level 2))
+  (add-to-list 'typescript-mode-hook (lambda () (tide-setup)))
+  (setq typescript-indent-level 2
+	tide-format-options '(:placeOpenBraceOnNewLineForFunctions t :placeOpenBraceOnNewLineForControlBlocks t)
+	company-tooltip-align-annotations t))
 
 (use-package tide :ensure t :defer t)
 
