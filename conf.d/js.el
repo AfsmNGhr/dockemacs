@@ -10,8 +10,7 @@
     (tide-setup))
   (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (add-to-list 'typescript-mode-hook #'setup-tide-mode)
-  (setq typescript-indent-level 2
-	tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+  (setq typescript-indent-level 2))
 
 (use-package tide :ensure t :defer t)
 
