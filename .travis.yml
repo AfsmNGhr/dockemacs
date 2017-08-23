@@ -1,3 +1,17 @@
+dist: trusty
+sudo: required
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=afsmnghr/dockemacs
+    - secure:
+F8t4Fa0Ic6KZ/yu7r5r5Fqdf3lJXjTNupAapH8znkXV9QOEq/pOlYuFLp2Uv8pTO+LJ/3Q9kLqQJGV+aiW2diRo39IniKDBSO00aLuoq2f+xf9iHZCKR6XyimPR72wl7BtWl6hMZZzo4Zlb0eSsmskskz14ufi5McRxLT1PooC8=
+    - secure:
+Mq4PKU+tCch7rXPQ+kB6YM4JxlfxvwaCdZIyjguvswrXF4zTPJzRPEzkCadWl8sZkyqifDbPxiwup53Mo2nQ3fQOsdMfqT0a5dF+Q0/zBx/g8rlXpJgVBh+SOsGKPJ0NiqOgkhM8wi6tUPjiQ1lmPvH9QzBSL76uVqV1JURy11g=
+    - secure:
+tIHCd5/3Vya+eFCH1vVCyfsPT+90/KPXB0GqyTY88kDItxwYRhOch9uKfXgug9ZvqziqvTd04+OBvSAuO970YVDzwk9xvndN+zTynFw0WZVW8+c/GGxlmuqQrkfSYpWReOKsV0zKc3mtfivnvI2bQvojyZTPKGgu8OhUHNb4Xx8=
+
 services:
   - docker
 
@@ -6,3 +20,13 @@ install:
 
 script:
   - docker-compose -f docker-compose.travis.yml up
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - export $(cat .env)
+  - docker build -t $REPO:$VERSION -t $REPO:$TAG -f Dockerfile .
+
+after_success:
+ - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+ - export REPO=afsmnghr/dockemacs
+ - docker tag $REPO:$COMMIT $REPO:$TAG
+ - docker tag $REPO:$COMMIT $REPO:$TRAVIS_BUILD_NUMBER
+ - docker push $REPO

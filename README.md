@@ -1,10 +1,10 @@
 ## Dockemacs - the minimal emacs noX
 
 [![Build Status](https://travis-ci.org/AfsmNGhr/dockemacs.svg)](https://travis-ci.org/AfsmNGhr/dockemacs "Build status from Travis CI")
-[![](https://images.microbadger.com/badges/version/afsmnghr/alpine-emacs.svg)](https://microbadger.com/images/afsmnghr/alpine-emacs "Latest version")
-[![](https://images.microbadger.com/badges/image/afsmnghr/alpine-emacs.svg)](https://microbadger.com/images/afsmnghr/alpine-emacs "Image size / layers")
-[![Docker Pulls](https://img.shields.io/docker/pulls/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/alpine-emacs/)
-[![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/alpine-emacs.svg?style=flat-square)](https://hub.docker.com/r/afsmgnhr/alpine-emacs/)
+[![](https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Latest version")
+[![](https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Image size / layers")
+[![Docker Pulls](https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/dockemacs/)
+[![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square)](https://hub.docker.com/r/afsmgnhr/dockemacs/)
 
 ![Dockemacs](http://i.imgur.com/q0QaG7W.png "Image is clickable")
 
