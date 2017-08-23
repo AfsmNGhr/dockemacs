@@ -17,6 +17,7 @@ services:
 
 install:
   - sudo pip install docker-compose
+  - sudo chown -R "$USER:$USER" "/home/$USER/.docker"
 
 script:
   - docker-compose -f docker-compose.travis.yml up
