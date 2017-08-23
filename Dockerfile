@@ -39,7 +39,7 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    git fetch origin master && \
+    (git fetch origin master || true) && \
     git reset --hard origin/master && \
     (bundle check || bundle install --path "$HOME/.emacs.d/bundle" || true) && \
     (npm install || true) && export PATH="$(npm bin):$PATH" && \
