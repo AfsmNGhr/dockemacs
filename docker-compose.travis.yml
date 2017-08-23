@@ -1,13 +1,15 @@
-version: '2'
+version: '3'
 services:
   emacs:
-    container_name: emacs
+    image: "${COMPOSE_PROJECT_NAME}:${VERSION}"
     build:
       context: .
       dockerfile: Dockerfile.travis
+    network_mode: host
     volumes:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
 volumes:
   data:
