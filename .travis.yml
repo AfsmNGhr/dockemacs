@@ -18,18 +18,14 @@ services:
 install:
   - sudo pip install docker-compose
 
-before_script:
-  - mkdir "/home/$USER/.docker"
-  - sudo chown -R "$USER:$USER" "/home/$USER/.docker"
-
 script:
   - docker-compose -f docker-compose.travis.yml up
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - export $(cat .env)
-  - docker build -t "$REPO:$VERSION" -t "$REPO:$TAG" -f Dockerfile $(pwd)
+  - sudo docker build -t "$REPO:$VERSION" -t "$REPO:$TAG" -f Dockerfile $(pwd)
 
 after_success:
- - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+ - sudo docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
  - docker tag "$REPO:$COMMIT" "$REPO:$TAG"
  - docker tag "$REPO:$COMMIT" "$REPO:$TRAVIS_BUILD_NUMBER"
  - docker push $REPO
