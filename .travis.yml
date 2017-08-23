@@ -26,6 +26,6 @@ script:
 
 after_success:
  - sudo docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
- - docker tag "$REPO:$COMMIT" "$REPO:$TAG"
- - docker tag "$REPO:$COMMIT" "$REPO:$TRAVIS_BUILD_NUMBER"
- - docker push $REPO
+ - sudo docker tag "$REPO:$COMMIT" "$REPO:$TAG"
+ - sudo docker tag "$REPO:$COMMIT" "$REPO:$TRAVIS_BUILD_NUMBER"
+ - sudo docker push $REPO
