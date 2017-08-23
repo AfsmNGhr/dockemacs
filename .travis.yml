@@ -17,6 +17,7 @@ services:
 
 install:
   - sudo pip install docker-compose
+  - mkdir "/home/$USER/.docker"
   - sudo chown -R "$USER:$USER" "/home/$USER/.docker"
 
 script:
