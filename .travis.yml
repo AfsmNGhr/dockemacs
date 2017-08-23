@@ -25,7 +25,7 @@ script:
   - sudo docker build -t "$REPO:$VERSION" -t "$REPO:$TAG" -f Dockerfile $(pwd)
 
 after_success:
- - sudo docker login -u $DOCKER_USER -p $DOCKER_PASS
+ - sudo docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
  - sudo docker tag "$REPO:$COMMIT" "$REPO:$TAG"
  - sudo docker tag "$REPO:$COMMIT" "$REPO:$TRAVIS_BUILD_NUMBER"
- - sudo docker push $REPO
+ - sudo docker push "$REPO"
