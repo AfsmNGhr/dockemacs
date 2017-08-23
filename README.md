@@ -4,7 +4,7 @@
 [![](https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Latest version")
 [![](https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Image size / layers")
 [![Docker Pulls](https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/dockemacs/)
-[![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square)](https://hub.docker.com/r/afsmgnhr/dockemacs/)
+[![Docker Stars](https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square)](https://hub.docker.com/r/afsmnghr/dockemacs/)
 
 ![Dockemacs](http://i.imgur.com/q0QaG7W.png "Image is clickable")
 
