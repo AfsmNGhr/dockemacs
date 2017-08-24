@@ -16,44 +16,44 @@
  '(aw-leading-char-face
    ((t (:inherit ace-jump-face-foreground :height 3.0)))))
 
-(setq tab-width 2
-      indent-line-function 2
-      indent-tabs-mode nil
-      file-name-coding-system 'utf-8
-      display-time-interval 1
-      display-time-format "%H:%M"
-      make-backup-files nil
-      auto-save-list-file-name nil
-      auto-save-default nil
-      show-paren-style 'mixed
-      history-length t
-      history-delete-duplicates t
-      savehist-save-minibuffer-history 1
-      savehist-autosave-interval 60
-      savehist-additional-variables '(search-ring regexp-search-ring
-                                                  comint-input-ring)
-      dired-listing-switches "-lhvA"
-      magit-push-always-verify nil
-      epa-pinentry-mode 'loopback
-      word-wrap t
-      search-highlight t
-      use-dialog-box nil
-      use-file-dialog nil
-      redisplay-dont-pause t
-      ring-bell-function 'ignore
-      query-replace-highlight t
-      x-select-enable-clipboard t
-      echo-keystrokes 0.1
-      enable-local-eval t
-      enable-remote-dir-locals t
-      browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "/usr/local/sbin/chrome-remote"
-      tab-always-indent 'complete
-      garbage-collection-messages t
-      electric-pair-pairs '((?\" . ?\")
-                            (?\` . ?\`)
-                            (?\( . ?\))
-                            (?\{ . ?\})))
+(setq-default tab-width 2
+	      indent-line-function 2
+	      indent-tabs-mode nil
+	      file-name-coding-system 'utf-8
+	      display-time-interval 1
+	      display-time-format "%H:%M"
+	      make-backup-files nil
+	      auto-save-list-file-name nil
+	      auto-save-default nil
+	      show-paren-style 'mixed
+	      history-length t
+	      history-delete-duplicates t
+	      savehist-save-minibuffer-history 1
+	      savehist-autosave-interval 60
+	      savehist-additional-variables '(search-ring regexp-search-ring
+							  comint-input-ring)
+	      dired-listing-switches "-lhvA"
+	      magit-push-always-verify nil
+	      epa-pinentry-mode 'loopback
+	      word-wrap t
+	      search-highlight t
+	      use-dialog-box nil
+	      use-file-dialog nil
+	      redisplay-dont-pause t
+	      ring-bell-function 'ignore
+	      query-replace-highlight t
+	      x-select-enable-clipboard t
+	      echo-keystrokes 0.1
+	      enable-local-eval t
+	      enable-remote-dir-locals t
+	      browse-url-browser-function 'browse-url-generic
+	      browse-url-generic-program "/usr/local/sbin/chrome-remote"
+	      tab-always-indent 'complete
+	      garbage-collection-messages t
+	      electric-pair-pairs '((?\" . ?\")
+				    (?\` . ?\`)
+				    (?\( . ?\))
+				    (?\{ . ?\})))
 
 (display-time-mode)
 (show-paren-mode t)
