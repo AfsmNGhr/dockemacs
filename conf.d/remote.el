@@ -4,8 +4,8 @@
   :config
   (setq auto-revert-remote-files t))
 
-(add-to-list 'tramp-remote-path (shell-command "npm bin"))
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+;;(add-to-list 'tramp-remote-path (shell-command "npm bin"))
+;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 (use-package exec-path-from-shell :ensure t)
 
