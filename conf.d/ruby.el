@@ -17,11 +17,6 @@
     (with-eval-after-load 'flycheck-mode
       (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
 
-(use-package robe :ensure t :defer t
-  :init
-  (progn (add-hook 'ruby-mode-hook 'robe-mode)
-         (push 'company-robe company-backends)))
-
 (use-package rspec-mode :ensure t :defer t
   :config
   (eval-after-load 'rspec-mode

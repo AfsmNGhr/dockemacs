@@ -12,7 +12,6 @@
         company-tooltip-align-annotations t))
 
 (use-package tide :ensure t :defer t)
-
 (use-package json :config (setq js-indent-level 2))
 
 (use-package js2-mode :ensure t :defer t
