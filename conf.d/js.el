@@ -13,12 +13,13 @@
 
 (use-package tide :ensure t :defer t)
 
+(use-package json :config (setq js-indent-level 2))
+
 (use-package js2-mode :ensure t :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
   :config (setq-default js2-basic-offset 2
-                        js-indent-level 2
                         js2-indent-switch-body t
                         js2-auto-indent-p t
                         js2-highlight-level 3
