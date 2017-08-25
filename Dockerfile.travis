@@ -23,8 +23,8 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
-        bash sudo emacs-nox global git openssh gnupg nodejs-npm && \
-    apk add --no-cache --virtual cask-install-deps git python gnutls-utils && \
+        bash sudo emacs-nox global git openssh gnupg nodejs-npm python && \
+    apk add --no-cache --virtual cask-install-deps gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     apk del cask-install-deps && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
