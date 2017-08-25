@@ -26,7 +26,7 @@ RUN apk update && \
         bash sudo emacs-nox global git openssh gnupg nodejs-npm && \
     apk add --no-cache --virtual cask-install-deps git python gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
-    apk del cask-install-deps &&
+    apk del cask-install-deps && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod +x /usr/local/sbin/chrome-remote && \
