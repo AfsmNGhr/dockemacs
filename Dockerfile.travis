@@ -48,4 +48,4 @@ CMD cd "$HOME/.emacs.d" && \
     (npm install || true) && export PATH="$(npm bin):$PATH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
-    emacs --version && cask install && cask exec ert-runner
+    cask install && cask exec ert-runner
