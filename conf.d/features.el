@@ -96,13 +96,14 @@
 ;; ============================= Checkers ======================================
 
 (use-package flycheck :ensure t :defer t)
+(use-package coverage :ensure t :defer t
+  :config (add-hook 'ruby-mode-hook 'coverage-mode))
 
 ;; ============================= Snippets ======================================
 
 (use-package yasnippet :ensure t :defer 30
   :config
   (yas-global-mode t)
-  (yas-load-directory (concat my/emacs-dir) "/snippets/angular")
   (setq yas-fallback-behavior 'indent-line))
 
 ;; ============================= Bookmarks =====================================
