@@ -20,6 +20,35 @@
 ;; ============================== Jump =========================================
 
 (use-package ace-window :ensure t :defer t)
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag t)
+  (global-set-key (kbd "C-x r b")
+                  (lambda ()
+                    (interactive)
+                    (bookmark-jump
+                     (ido-completing-read "jump to bookmark: "
+                                          (bookmark-all-names))))))
+
+(use-package recentf
+  :config
+  (setq recentf-max-saved-items 200)
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to find a recent file."
+    (interactive)
+    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
+
+  (global-set-key (kbd "C-c f") 'ido-recentf-open))
+
+(use-package ggtags :ensure t :defer 30
+  :config
+  (ggtags-mode 1)
+  (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
+
+(unless (version< emacs-version "25.1")
+  (use-package gxref :ensure t :defer t
+    :init (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
 
 ;; ============================== Search =======================================
 
@@ -46,22 +75,11 @@
   (use-package ido-ubiquitous :ensure t
     :config (ido-ubiquitous-mode 1)))
 
-;; ================================ Tags ======================================
-
-(use-package ggtags :ensure t :defer t
-  :init (ggtags-mode 1)
-  :config
-  (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
-
-(unless (version< emacs-version "25.1")
-  (use-package gxref :ensure t :defer t
-    :init (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
-
 ;; ============================= Company ======================================
 
 (use-package company :ensure t :defer 30
-  :init (global-company-mode t)
   :config
+  (global-company-mode t)
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
 
@@ -100,18 +118,6 @@
   :config
   (yas-global-mode t)
   (setq yas-fallback-behavior 'indent-line))
-
-;; ============================= Bookmarks =====================================
-
-(use-package bookmark
-  :config
-  (setq bookmark-save-flag t)
-  (global-set-key (kbd "C-x r b")
-                  (lambda ()
-                    (interactive)
-                    (bookmark-jump
-                     (ido-completing-read "jump to bookmark: "
-                                          (bookmark-all-names))))))
 
 ;; ============================= Projectile ===================================
 
