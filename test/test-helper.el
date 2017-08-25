@@ -1,4 +1,4 @@
 (require 'undercover)
 
-(undercover "*.el" "conf.d/*.el" (:exclude "*-test.el"))
+(undercover "init.el" "conf.d/*.el")
 (message "Running tests on Emacs %s" emacs-version)
