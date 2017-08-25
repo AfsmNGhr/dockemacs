@@ -41,6 +41,7 @@
 
   (global-set-key (kbd "C-c f") 'ido-recentf-open))
 
+(use-package ag :ensure t :defer t)
 (use-package ggtags :ensure t :defer 30
   :init (ggtags-mode 1)
   :config
