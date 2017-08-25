@@ -11,7 +11,9 @@ ENV UNAME=emacser \
     WORKSPACE=/mnt/workspace \
     SHELL=/bin/bash \
     TERM=xterm-256color \
-    REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
+    REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git \
+    CASK=/opt/cask \
+    CASK_BIN=/opt/cask/bin
 
 COPY sbin/* /usr/local/sbin/
 
@@ -22,6 +24,9 @@ RUN apk update && \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
         bash sudo emacs-nox global git openssh gnupg nodejs-npm && \
+    apk add --no-cache --virtual cask-install-deps git python gnutls-utils && \
+    git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
+    apk del cask-install-deps &&
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
     chmod +x /usr/local/sbin/chrome-remote && \
@@ -42,4 +47,5 @@ CMD cd "$HOME/.emacs.d" && \
     (bundle check || bundle install --path "$HOME/.emacs.d/bundle" || true) && \
     (npm install || true) && export PATH="$(npm bin):$PATH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
-    emacs --version && ./test-startup.el
+    export PATH="$CASK_BIN:$PATH" &&
+    emacs --version && cask install && cask exec ert-runner

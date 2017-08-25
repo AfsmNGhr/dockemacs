@@ -1,5 +1,6 @@
 ## Dockemacs - the minimal emacs noX
 
+[![Coverage Status](https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master)](https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master)
 [![Build Status](https://travis-ci.org/AfsmNGhr/dockemacs.svg)](https://travis-ci.org/AfsmNGhr/dockemacs "Build status from Travis CI")
 [![](https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Latest version")
 [![](https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg)](https://microbadger.com/images/afsmnghr/dockemacs "Image size / layers")
