@@ -96,8 +96,7 @@
 ;; ============================= Checkers ======================================
 
 (use-package flycheck :ensure t :defer t)
-(use-package coverage :ensure t :defer t
-  :config (add-hook 'ruby-mode-hook 'coverage-mode))
+(use-package coverage :ensure t :defer t)
 
 ;; ============================= Snippets ======================================
 

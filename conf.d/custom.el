@@ -40,6 +40,8 @@
  '(avy-lead-face-2 ((t (:foreground "#f86bf3" :weight bold))))
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
  '(ivy-current-match ((t (:foreground "color-35"))))
+ '(coverage-covered-face ((t (:background "color-233"))))
+ '(coverage-uncovered-face ((t nil)))
  '(ivy-minibuffer-match-face-2 ((t (:foreground "#f78d62" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:foreground "color-33" :weight bold))))
  '(ivy-minibuffer-match-face-4 ((t (:foreground "color-205" :weight bold))))
