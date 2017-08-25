@@ -19,10 +19,7 @@
 
 ;; ============================== Jump =========================================
 
-(use-package ace-window :ensure t :defer t
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-background nil))
+(use-package ace-window :ensure t :defer t)
 
 ;; ============================== Search =======================================
 
@@ -96,7 +93,6 @@
 ;; ============================= Checkers ======================================
 
 (use-package flycheck :ensure t :defer t)
-(use-package coverage :ensure t :defer t)
 
 ;; ============================= Snippets ======================================
 
