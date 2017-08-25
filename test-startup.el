@@ -1,5 +1,8 @@
 #!/usr/bin/emacs --script
 
+(when (require 'undercover nil t)
+  (undercover))
+
 (require 'server)
 (unless (server-running-p)
       (server-start))
