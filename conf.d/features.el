@@ -15,7 +15,7 @@
   (use-package magit :ensure t :defer t
     :config (setq magit-completing-read-function 'magit-ido-completing-read))
   (use-package git-timemachine :ensure t :defer t)
-  (use-package docker :defer t :ensure t :config (docker-global-mode)))
+  (use-package docker :defer t :ensure t))
 
 ;; ============================== Jump =========================================
 
@@ -42,8 +42,8 @@
   (global-set-key (kbd "C-c f") 'ido-recentf-open))
 
 (use-package ggtags :ensure t :defer 30
+  :init (ggtags-mode 1)
   :config
-  (ggtags-mode 1)
   (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
 
 (unless (version< emacs-version "25.1")
@@ -78,8 +78,8 @@
 ;; ============================= Company ======================================
 
 (use-package company :ensure t :defer 30
+  :init (global-company-mode t)
   :config
-  (global-company-mode t)
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
 
@@ -115,8 +115,8 @@
 ;; ============================= Snippets ======================================
 
 (use-package yasnippet :ensure t :defer 30
+  :init (yas-global-mode t)
   :config
-  (yas-global-mode t)
   (setq yas-fallback-behavior 'indent-line))
 
 ;; ============================= Projectile ===================================

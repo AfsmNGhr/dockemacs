@@ -8,8 +8,8 @@
   (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (add-to-list 'typescript-mode-hook (lambda () (tide-setup)))
   (setq typescript-indent-level 2
-	tide-format-options '(:placeOpenBraceOnNewLineForFunctions t :placeOpenBraceOnNewLineForControlBlocks t)
-	company-tooltip-align-annotations t))
+        tide-format-options '(:placeOpenBraceOnNewLineForFunctions t :placeOpenBraceOnNewLineForControlBlocks t)
+        company-tooltip-align-annotations t))
 
 (use-package tide :ensure t :defer t)
 
@@ -18,6 +18,7 @@
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
   :config (setq-default js2-basic-offset 2
+                        js-indent-level 2
                         js2-indent-switch-body t
                         js2-auto-indent-p t
                         js2-highlight-level 3
