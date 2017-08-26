@@ -23,4 +23,3 @@ after_success:
  - sudo docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
  - sudo docker tag "$REPO:$VERSION" "$REPO:$TRAVIS_BUILD_NUMBER"
  - sudo docker push "$REPO"
- - curl -X POST "$MICROBADGER_HOOK_URL"
