@@ -10,7 +10,7 @@ ENV UNAME=emacser \
     DOCKER_GROUP=999 \
     WORKSPACE=/mnt/workspace \
     SHELL=/bin/bash \
-    TERM=xterm \
+    TERM=xterm-256color \
     REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
 
 RUN apk update && \
