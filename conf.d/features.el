@@ -73,7 +73,7 @@
           ido-use-faces t
           ido-virtual-buffers t
           ido-auto-merge-delay-time 99999999))
-  (use-package ido-ubiquitous :ensure t
+  (use-package ido-completing-read+ :ensure t
     :config (ido-ubiquitous-mode 1)))
 
 ;; ============================= Company ======================================

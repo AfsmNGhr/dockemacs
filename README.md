@@ -32,19 +32,17 @@
 
 * Prepare .dockemacs, check your `ENV_VARS`:
 
-  `UID` and `GID` - transparent permissions
-  `ORG_FILES` - only relative path
-  `DOCKER_GROUP` or `DOCKER_NAME` - change if custom
-
   ```sh
-  cat << 'EOF' >> $HOME/.dockemacs
-  UID=$(id -u)
-  GID=$(id -g)
-  ORG_FILES=Documents/org/
-  DOCKER_NAME=docker
-  DOCKER_GROUP=999
-  EOF
+  echo "UID=$(id -u)" >> $HOME/.dockemacs
+  echo "GID=$(id -g)" >> $HOME/.dockemacs
+  echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
+  echo "DOCKER_NAME=docker" >> $HOME/.dockemacs
+  echo "DOCKER_GROUP=999" >> $HOME/.dockemacs
   ```
+
+    * `UID` and `GID` - transparent permissions
+    * `ORG_FILES` - only relative path
+    * `DOCKER_GROUP` or `DOCKER_NAME` - change if custom
 
 * Run and wait until the boot:
 
