@@ -40,7 +40,6 @@
   echo "DOCKER_GROUP=999" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
   echo "HOST_IP=127.1" >> $HOME/.dockemacs
-  echo "HOST_PORT=22" >> $HOME/.dockemacs
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   ```
