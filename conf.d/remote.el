@@ -2,35 +2,10 @@
 
 (use-package tramp
   :config
-  (setq auto-revert-remote-files t))
-
-;;(add-to-list 'tramp-remote-path (shell-command "npm bin"))
-;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq auto-revert-remote-files t
+        shell-file-name "/bin/sh"))
 
 (use-package exec-path-from-shell :ensure t)
-
-;; ================================ Docker =====================================
-
-(push
- (cons
-  "docker"
-  '((tramp-login-program "docker")
-    (tramp-login-args (("exec" "-it") ("%h") ("/bin/sh")))
-    (tramp-remote-shell "/bin/sh")
-    (tramp-remote-shell-args ("-i") ("-c"))))
- tramp-methods)
-
-(defadvice tramp-completion-handle-file-name-all-completions
-    (around dotemacs-completion-docker activate)
-    "(tramp-completion-handle-file-name-all-completions \"\" \"/docker:\" returns
-    a list of active Docker container names, followed by colons."
-    (if (equal (ad-get-arg 1) "/docker:")
-        (let* ((dockernames-raw (shell-command-to-string "docker ps | awk '$NF != \"NAMES\" { print $NF \":\" }'"))
-               (dockernames (cl-remove-if-not
-                             #'(lambda (dockerline) (string-match ":$" dockerline))
-                             (split-string dockernames-raw "\n"))))
-          (setq ad-return-value dockernames))
-          ad-do-it))
 
 ;; ================================= Sudo ======================================
 
