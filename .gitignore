@@ -26,3 +26,4 @@ history
 development.env
 *~
 /.#company-statistics-cache.el
+*.lock

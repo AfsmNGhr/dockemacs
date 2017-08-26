@@ -30,7 +30,7 @@
        afsmnghr/dockemacs:1.2.0 # or another tag
   ```
 
-* Prepare .dockemacs, check your `ENV_VARS`:
+* Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
 
   ```sh
   echo "UID=$(id -u)" >> $HOME/.dockemacs
@@ -39,7 +39,7 @@
   echo "DOCKER_NAME=docker" >> $HOME/.dockemacs
   echo "DOCKER_GROUP=999" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
-  echo "HOST_IP=127.1" >> $HOME/.dockemacs
+  echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   ```
@@ -47,6 +47,9 @@
     * `UID` and `GID` - transparent permissions
     * `ORG_FILES` - only relative path
     * `DOCKER_GROUP` or `DOCKER_NAME` - change if custom
+    * `HOST_USER` and `HOST_IP` - for remote management through ssh
+    * `DISPLAY` - for GUI application
+    * `WEB_BROWSER` - setup browser for emacs
 
 * Run and wait until the boot:
 
