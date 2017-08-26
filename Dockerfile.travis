@@ -29,7 +29,7 @@ RUN apk update && \
     apk del cask-install-deps && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
-    chmod +x /usr/local/sbin/chrome-remote && \
+    chmod +x /usr/local/sbin/browser-remote && \
     chmod 700 /usr/local/sbin/initialize && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
