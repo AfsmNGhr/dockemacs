@@ -19,7 +19,9 @@
 
 ;; ============================== Jump =========================================
 
-(use-package ace-window :ensure t :defer t)
+(use-package ace-window :ensure t :defer t
+  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+                aw-background nil))
 (use-package bookmark
   :config
   (setq bookmark-save-flag t)
