@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-current=$(pwd)
-cd ~/.emacs.d || ~/
-docker-compose run --rm emacs
-cd "$current" || ~/

@@ -27,7 +27,6 @@ history
 *.data
 *.snip#
 /node_modules/
-/bin/
 Dockerfile*
 docker-compose*
 .dockerignore

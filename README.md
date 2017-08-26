@@ -27,7 +27,7 @@
        -v emacs_data:/home/emacser/.emacs.d \
        -v /var/run/docker.sock:/var/run/docker.sock:ro \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.2.0 # or another tag
+       afsmnghr/dockemacs:1.3.0 # or another tag
   ```
 
 * Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
@@ -40,6 +40,7 @@
   echo "DOCKER_GROUP=999" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
   echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
+  echo "HOST_PORT=22" >> $HOME/.dockemacs
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   ```
@@ -47,7 +48,7 @@
     * `UID` and `GID` - transparent permissions
     * `ORG_FILES` - only relative path
     * `DOCKER_GROUP` or `DOCKER_NAME` - change if custom
-    * `HOST_USER` and `HOST_IP` - for remote management through ssh
+    * `HOST_USER`, `HOST_IP`, `HOST_PORT` - remote management through ssh
     * `DISPLAY` - for GUI application
     * `WEB_BROWSER` - setup browser for emacs
 
