@@ -1,16 +1,8 @@
 FROM ruby:2.4.1-alpine3.6
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
-ENV UNAME=emacser \
-    GNAME=emacs \
-    HOME=/home/emacser \
-    UID=1000 \
-    GID=1000 \
-    DOCKER_NAME=docker \
-    DOCKER_GROUP=999 \
+ENV HOME=/home/emacser \
     WORKSPACE=/mnt/workspace \
-    SHELL=/bin/bash \
-    TERM=xterm-256color \
     REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
 
 RUN apk update && \

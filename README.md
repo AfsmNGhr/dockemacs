@@ -23,13 +23,12 @@
   ```sh
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
-       --entrypoint /usr/local/bin/initialize \
+       --entrypoint initialize "$@" \
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /var/run/docker.sock:/var/run/docker.sock:ro \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.4.0 \ # or another tag
-       /usr/local/bin/startup
+       afsmnghr/dockemacs:1.4.0 startup
   ```
 
 * Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
@@ -37,6 +36,12 @@
   ```sh
   echo "UID=$(id -u)" >> $HOME/.dockemacs
   echo "GID=$(id -g)" >> $HOME/.dockemacs
+  echo "UNAME=emacser" >> $HOME/.dockemacs
+  echo "GNAME=emacs" >> $HOME/.dockemacs
+  echo "HOME=/home/emacser" >> $HOME/.dockemacs
+  echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
+  echo "SHELL=/bin/bash" >> $HOME/.dockemacs
+  echo "TERM=xterm-256color" >> $HOME/.dockemacs
   echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
   echo "DOCKER_NAME=docker" >> $HOME/.dockemacs
   echo "DOCKER_GROUP=999" >> $HOME/.dockemacs
@@ -48,6 +53,11 @@
   ```
 
     * `UID` and `GID` - transparent permissions
+    * `UNAME` and `GNAME` - user & group name in container
+    * `HOME` - rewrite home path for new user
+    * `WORKSPACE` - mount path from host
+    * `SHELL` - default shell
+    * `TERM` - set terminal env
     * `ORG_FILES` - only relative path
     * `DOCKER_GROUP` or `DOCKER_NAME` - change if custom
     * `HOST_USER`, `HOST_IP`, `HOST_PORT` - remote management through ssh
