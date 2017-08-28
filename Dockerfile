@@ -27,7 +27,7 @@ COPY sbin/* /usr/local/sbin/
 
 RUN git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
-    chmod +x /usr/local/sbin/{browser-remote, startup} && \
+    chmod +x /usr/local/sbin/* && \
     chmod 700 /usr/local/sbin/initialize
 
 WORKDIR "${WORKSPACE}"
