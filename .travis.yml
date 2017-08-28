@@ -16,10 +16,12 @@ script:
   - docker-compose -f docker-compose.travis.yml up
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - export $(cat .env)
-  - sudo docker build -t "$REPO:$VERSION" -t "$REPO:$TAG" -f Dockerfile $(pwd)
+  - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
+  - export ID=$(sudo docker run --rm -d "$REPO:$TRAVIS_BUILD_NUMBER" emacs)
+  - docker export "$ID"| docker import - "$REPO:$VERSION"
 
 after_success:
  - sudo docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+ - sudo docker tag "$REPO:$VERSION" "$REPO:$TAG"
  - sudo docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
- - sudo docker tag "$REPO:$VERSION" "$REPO:$TRAVIS_BUILD_NUMBER"
  - sudo docker push "$REPO"

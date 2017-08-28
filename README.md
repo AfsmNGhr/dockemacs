@@ -23,11 +23,13 @@
   ```sh
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
+       --entrypoint /usr/local/bin/initialize \
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /var/run/docker.sock:/var/run/docker.sock:ro \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.3.0 # or another tag
+       afsmnghr/dockemacs:1.4.0 \ # or another tag
+       /usr/local/bin/startup
   ```
 
 * Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
