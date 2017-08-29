@@ -21,6 +21,7 @@
 * Add alias or script file:
 
   ```sh
+  alias dockemacs='
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
        --entrypoint initialize "$@" \
@@ -29,6 +30,7 @@
        -v /var/run/docker.sock:/var/run/docker.sock:ro \
        -v /etc/localtime:/etc/localtime:ro \
        afsmnghr/dockemacs:1.4.0 startup
+  '
   ```
 
 * Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
@@ -63,6 +65,13 @@
     * `HOST_USER`, `HOST_IP`, `HOST_PORT` - remote management through ssh
     * `DISPLAY` - for GUI application
     * `WEB_BROWSER` - setup browser for emacs
+
+* Setup ssh daemon and restart
+
+  ```sh
+  # /etc/ssh/sshd_config
+  ListenAddress 127.1
+  ```
 
 * Run and wait until the boot:
 
