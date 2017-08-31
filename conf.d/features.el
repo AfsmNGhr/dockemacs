@@ -76,7 +76,7 @@
           ido-use-faces t
           ido-virtual-buffers t
           ido-auto-merge-delay-time 99999999))
-  (use-package ido-completing-read+ :ensure t
+  (use-package ido-completing-read+ :ensure t :pin melpa-stable
     :config (ido-ubiquitous-mode 1)))
 
 ;; ============================= Company ======================================
