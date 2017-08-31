@@ -34,7 +34,7 @@
 
 (use-package recentf
   :config
-  (setq recentf-max-saved-items 200)
+  (setq recentf-max-saved-items 30)
 
   (defun ido-recentf-open ()
     "Use `ido-completing-read' to find a recent file."
