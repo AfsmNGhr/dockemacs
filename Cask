@@ -3,4 +3,4 @@
 
 (development
   (depends-on "undercover")
-  (depends-on "ert-runner"))
+  (depends-on "buttercup"))

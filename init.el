@@ -48,4 +48,6 @@
 
 (my/initialize)
 
+(provide 'my/init)
+
 ;; ========================= To be continued... ================================
