@@ -1,6 +1,6 @@
-(require 'my/init)
-(require 'my/undercover)
+(require 'init.el)
+(require 'undercover-init.el)
 
 (describe "defun: `my/initialize'"
-  (it "check tab width"
-    (expect (default-tab-width) :to-be 2))
+  (it "default params"
+      (expect (princ default-tab-width) :to-be 2)))

@@ -48,6 +48,6 @@
 
 (my/initialize)
 
-(provide 'my/init)
+(provide 'init.el)
 
 ;; ========================= To be continued... ================================
