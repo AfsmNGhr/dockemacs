@@ -12,6 +12,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - COVERALLS_REPO_TOKEN="${COVERALLS_REPO_TOKEN}"
+      - TRAVIS=$TRAVIS
+      - TRAVIS_JOB_ID=$TRAVIS_JOB_ID
 volumes:
   data:
