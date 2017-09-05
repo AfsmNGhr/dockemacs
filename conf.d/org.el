@@ -38,7 +38,6 @@
   (defconst my/org-dir (getenv "ORG_PATH"))
   (if (> (length my/org-dir) 0)
       (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
-            org-clock-persist 'history
             org-agenda-clockreport-parameter-plist
             (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))
             org-protocol-default-template-key "l"
@@ -68,6 +67,17 @@
   ;;   :config
   ;;   (setq org-brain-path (concat my/org-dir "brain")))
   )
+
+(use-package org-clock :defer t
+  :config
+  (setq org-clock-history-length 23
+        org-clock-in-resume t
+        org-clock-into-drawer t
+        org-clock-out-remove-zero-time-clocks t
+        org-clock-out-when-done t
+        org-clock-persist t
+        org-clock-persist-query-resume nil
+        org-clock-report-include-clocking-task t))
 
 ;; ============================= Org Drill =====================================
 
