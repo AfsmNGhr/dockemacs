@@ -66,7 +66,8 @@
           org-clock-into-drawer t
           org-clock-out-remove-zero-time-clocks t
           org-clock-out-when-done t
-          org-clock-persist t
+          org-clock-persist 'history
+          org-clock-clocked-in-display 'mode-line
           org-clock-persist-query-resume nil
           org-clock-report-include-clocking-task t)
     (org-clock-persistence-insinuate))
