@@ -1,7 +1,7 @@
 ;; ============================== Org mode =====================================
 
 (use-package org :defer 30 :pin melpa
-  :config
+  :init
   (setq org-log-done t
         org-src-fontify-natively t
 	      org-edit-src-content-indentation 2
@@ -13,8 +13,8 @@
         '((sequence "TODO" "INPROGRESS" "HOLD" "DONE" "CANCELLED"))
         org-todo-keyword-faces
         '(("INPORGRESS" :foreground "DodgerBlue2" :weight bold)))
+  (add-hook 'kill-emacs-hook (lambda () (org-save-all-org-buffers)))
   (define-prefix-command 'org-todo-keys)
-  (define-key org-mode-map "\C-cx" 'org-todo-keys)
   (define-key org-todo-keys "t"
     '(lambda () (interactive) (org-todo "TODO") (org-clock-out-if-current)))
   (define-key org-todo-keys "n"
@@ -40,58 +40,38 @@
       (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
             org-agenda-clockreport-parameter-plist
             (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))
-            org-protocol-default-template-key "l"
-            org-capture-templates
-            '(("t" "Tasks" entry (file (concat my/org-dir "tasks.org"))
-               "* TODO %?\n SCHEDULED: %^t")
-              ("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
-               "* %c :LINK:\n%U %?%:initial")
-              ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
-               "* %?")
-              ("h" "Hopox" entry (file+datetree (concat my/org-dir "hopox.org"))
-               "* TODO %? :WORK: ")
-              ("f" "FF" entry (file+datetree (concat my/org-dir "ff.org"))
-               "* DONE %? :WORK:")
-              ("e" "Education" entry (file (concat my/org-dir "education.org"))
-               "* TODO %?")
-              ("n" "Notes" entry (file (concat my/org-dir "notes.org"))
-               "* %? :NOTE:"))))
+            org-protocol-default-template-key "L"))
 
-  (defvar org-babel-default-header-args:screen
-    '((:results . "silent") (:session . "default") (:cmd . "sh") (:terminal . "xterm"))
-    "Default arguments to use when running screen source blocks.")
+  (use-package org-capture
+    :init
+    (setq org-capture-templates
+          '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
+             "* %c :LINK:\n%U %?%:initial")
+            ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
+             "* %?\n%U\n" :clock-in t :clock-resume t)
+            ("w" "Work" entry (file+datetree
+                               (concat my/org-dir "work.org"))
+             "* TODO %?\n%U\n" :clock-in t :clock-resume t)
+            ("f" "Freelance" entry (file+datetree
+                                    (concat my/org-dir "freelance.org"))
+             "* TODO %?\n%U\n" :clock-in t :clock-resume t)
+            ("e" "Education" entry (file
+                                    (concat my/org-dir "education.org"))
+             "* TODO %?\n%U\n" :clock-in t :clock-resume t))))
 
-  (org-clock-persistence-insinuate)
+  (use-package org-clock
+    :init
+    (setq org-clock-history-length 23
+          org-clock-in-resume t
+          org-clock-into-drawer t
+          org-clock-out-remove-zero-time-clocks t
+          org-clock-out-when-done t
+          org-clock-persist t
+          org-clock-persist-query-resume nil
+          org-clock-report-include-clocking-task t)
+    (org-clock-persistence-insinuate))
 
-  ;; (use-package org-brain :ensure t :defer t
-  ;;   :config
-  ;;   (setq org-brain-path (concat my/org-dir "brain")))
-  )
-
-(use-package org-clock :defer t
-  :config
-  (setq org-clock-history-length 23
-        org-clock-in-resume t
-        org-clock-into-drawer t
-        org-clock-out-remove-zero-time-clocks t
-        org-clock-out-when-done t
-        org-clock-persist t
-        org-clock-persist-query-resume nil
-        org-clock-report-include-clocking-task t))
-
-(add-hook 'kill-emacs-hook (lambda () (org-save-all-org-buffers)))
-
-;; ============================= Org Drill =====================================
-
-;; (use-package org-plus-contrib :defer t :ensure t)
-;; (use-package org-drill :defer t
-;;   :load-path "~/.emacs.d/packages/org-drill"
-;;   :config (setq org-drill-hide-item-headings-p t
-;;                 org-drill-maximum-items-per-session 40
-;;                 org-drill-maximum-duration 30
-;;                 org-drill-spaced-repetition-algorithm 'sm2))
-;; (use-package org-drill-table :defer t :ensure t))
-
-;; (use-package ledger-mode :defer t :ensure t)
+  :bind
+  (:map org-mode-map ("\C-cx" . org-todo-keys)))
 
 ;; ========================= To be continued... ================================
