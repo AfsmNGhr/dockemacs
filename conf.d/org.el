@@ -44,20 +44,20 @@
 
   (use-package org-capture
     :init
-    (setq org-capture-templates
-          '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
-             "* %c :LINK:\n%U %?%:initial")
-            ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
-             "* %?\n%U\n" :clock-in t :clock-resume t)
-            ("w" "Work" entry (file+datetree
-                               (concat my/org-dir "work.org"))
-             "* TODO %?\n%U\n" :clock-in t :clock-resume t)
-            ("f" "Freelance" entry (file+datetree
-                                    (concat my/org-dir "freelance.org"))
-             "* TODO %?\n%U\n" :clock-in t :clock-resume t)
-            ("e" "Education" entry (file
-                                    (concat my/org-dir "education.org"))
-             "* TODO %?\n%U\n" :clock-in t :clock-resume t))))
+    (defconst my/capture-templates
+      '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
+         "* %c :LINK:\n%U %?%:initial")
+        ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
+         "* %?\n%U\n" :clock-in t :clock-resume t)
+        ("w" "Work" entry (file+datetree (concat my/org-dir "work.org"))
+         "* TODO %?\n%U\n" :clock-in t :clock-resume t)
+        ("f" "Freelance" entry (file+datetree
+                                (concat my/org-dir "freelance.org"))
+         "* TODO %?\n%U\n" :clock-in t :clock-resume t)
+        ("e" "Education" entry (file
+                                (concat my/org-dir "education.org"))
+         "* TODO %?\n%U\n" :clock-in t :clock-resume t)))
+    (setq org-capture-templates 'my/capture-templates))
 
   (use-package org-clock
     :init
