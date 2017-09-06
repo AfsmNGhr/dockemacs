@@ -79,6 +79,8 @@
         org-clock-persist-query-resume nil
         org-clock-report-include-clocking-task t))
 
+(add-hook 'kill-emacs-hook (lambda () (org-save-all-org-buffers)))
+
 ;; ============================= Org Drill =====================================
 
 ;; (use-package org-plus-contrib :defer t :ensure t)
