@@ -44,7 +44,7 @@
 
   (use-package org-capture
     :init
-    (defconst my/capture-templates
+    (defconst my/org-capture-templates
       '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
          "* %c :LINK:\n%U %?%:initial")
         ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
@@ -57,7 +57,7 @@
         ("e" "Education" entry (file
                                 (concat my/org-dir "education.org"))
          "* TODO %?\n%U\n" :clock-in t :clock-resume t)))
-    (setq org-capture-templates 'my/capture-templates))
+    (setq org-capture-templates my/org-capture-templates))
 
   (use-package org-clock
     :init
