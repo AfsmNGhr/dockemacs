@@ -54,7 +54,7 @@
       (*regexp*             "#A63A62")
       (*string*             "#EEDC82")
       (*variable*           "#FD971F")
-      (*visual-selection*   "#555"))
+      (*visual-selection*   "color-233"))
 
   (custom-theme-set-faces
    'spolsky-term
@@ -111,8 +111,9 @@
    `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
 
    ;; org
-   `(org-block-begin-line ((t 'highlight)))
-   `(org-block-end-line ((t 'highlight)))
+   `(org-block ((t (:background, *current-line*))))
+   `(org-block-begin-line ((t (:background, *current-line*))))
+   `(org-block-end-line ((t (:background, *current-line*))))
    ))
 
 ;;;###autoload
