@@ -8,6 +8,9 @@
    (quote
     ("1167b8ff8c1ca30824de47bade303a11b5b96d05f6f87651f02b55d6966b7824" default)))
  '(global-whitespace-mode t)
+ '(org-agenda-files
+   (quote
+    ("/mnt/workspace/Documents/org/diary.org" "/mnt/workspace/Documents/org/education.org" "/mnt/workspace/Documents/org/finance.org" "/mnt/workspace/Documents/org/hopox.org" "/mnt/workspace/Documents/org/links.org" "/mnt/workspace/Documents/org/system.org" "/mnt/workspace/Documents/org/work.org")))
  '(org-babel-load-languages (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
  '(org-clock-persist (quote history))
  '(org-confirm-babel-evaluate nil)
