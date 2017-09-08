@@ -31,7 +31,7 @@
 (let ((*background*         "unspecified-bg")
       (*comments*           "#8C8C8C")
       (*constant*           "#FF80F4")
-      (*current-line*       "#151515")
+      (*current-line*       "color-233")
       (*cursor-underscore*  "#EEDC82")
       (*keywords*           "#F92672")
 
@@ -110,6 +110,9 @@
    `(isearch-fail ((t (:background, *warning*))))
    `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
 
+   ;; org
+   `(org-block-begin-line ((t 'highlight)))
+   `(org-block-end-line ((t 'highlight)))
    ))
 
 ;;;###autoload
