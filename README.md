@@ -44,10 +44,6 @@
   echo "SHELL=/bin/bash" >> $HOME/.dockemacs
   echo "TERM=xterm-256color" >> $HOME/.dockemacs
   echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
-  echo "DOCKER_TLS_VERIFY=1" >> $HOME/.dockemacs
-  echo "DOCKER_HOST=tcp://127.1:2376" >> $HOME/.dockemacs
-  echo "DOCKER_CERT_PATH=/home/emacser/.docker/machine/machines/Xrate" >> $HOME/.dockemacs
-  echo "DOCKER_MACHINE_NAME=Xrate" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
   echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
   echo "HOST_PORT=22" >> $HOME/.dockemacs
@@ -62,16 +58,9 @@
     * `SHELL` - default shell
     * `TERM` - set terminal env
     * `ORG_FILES` - only relative path
-    * `DOCKER_TLS_VERIFY` - secure by default
-    * `DOCKER_HOST`, `DOCKER_CERT_PATH` and `DOCKER_MACHINE_NAME` - docker management
     * `HOST_USER`, `HOST_IP`, `HOST_PORT` - remote management through ssh
     * `DISPLAY` - for GUI application
     * `WEB_BROWSER` - setup browser for emacs
-
-* Setup docker and docker-machine
-
-   * [Protect the Docker daemon socket](https://docs.docker.com/engine/security/https/)
-   * [Manual create docker host](https://docs.docker.com/machine/drivers/generic/)
 
 * Setup ssh daemon and restart
 

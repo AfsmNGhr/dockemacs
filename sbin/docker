@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker "$@"
