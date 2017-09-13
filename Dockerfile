@@ -2,8 +2,7 @@ FROM ruby:2.4.1-alpine3.6
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
 ENV HOME=/home/emacser \
-    WORKSPACE=/mnt/workspace \
-    REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git
+    WORKSPACE=/mnt/workspace
 
 RUN apk update && \
     apk upgrade && \
@@ -17,8 +16,7 @@ RUN apk update && \
 
 COPY sbin/* /usr/local/sbin/
 
-RUN git clone "$REPOSITORY" "$HOME/.emacs.d" && \
-    chown root /usr/local/sbin/initialize && \
+RUN chown root /usr/local/sbin/initialize && \
     chmod +x /usr/local/sbin/* && \
     chmod 700 /usr/local/sbin/initialize
 

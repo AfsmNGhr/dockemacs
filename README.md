@@ -28,7 +28,7 @@
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.5.0 startup
+       afsmnghr/dockemacs:1.5.1 startup
   '
   ```
 
@@ -49,6 +49,7 @@
   echo "HOST_PORT=22" >> $HOME/.dockemacs
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
+  echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
   ```
 
     * `UID` and `GID` - transparent permissions
@@ -61,6 +62,7 @@
     * `HOST_USER`, `HOST_IP`, `HOST_PORT` - remote management through ssh
     * `DISPLAY` - for GUI application
     * `WEB_BROWSER` - setup browser for emacs
+    * `REPOSITORY` - our repository dotemacs (first clone)
 
 * Setup ssh daemon and restart
 
