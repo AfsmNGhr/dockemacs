@@ -1,7 +1,5 @@
-## 1.5.2
-
-* Minimize docker build context
-
 ## 1.5.1
 
+* Set `BUNDLE_PATH`
 * Delete `REPOSITORY` source from image
+* Minimize docker build context
