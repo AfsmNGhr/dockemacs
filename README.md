@@ -78,7 +78,7 @@
   $ dockemacs
   ```
 
-## Flycheck checkers
+## Flycheck wrapped checkers
 
 * [Rubocop](https://github.com/bbatsov/rubocop):
 
