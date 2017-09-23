@@ -28,7 +28,7 @@
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.5.1 startup
+       afsmnghr/dockemacs:1.5.2 startup
   '
   ```
 
@@ -75,4 +75,18 @@
 
   ```sh
   $ dockemacs
-  ````
+  ```
+
+## Project management
+
+##### Ruby
+
+* Setup [rubocop](https://github.com/bbatsov/rubocop):
+
+  ```elisp
+  ;; .dir-locals.el
+  ((nil . ((eval . (progn
+                     (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                     (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                     (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` bundle exec rubocop"))))))
+  ```

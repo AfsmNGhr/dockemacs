@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cat /dev/null > /tmp/docker.out
 args=$(printf "%q\t" "$@")
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker "$args" > /tmp/docker.json
-cat /tmp/docker.json
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker "$args" >> /tmp/docker.out
+cat /tmp/docker.out

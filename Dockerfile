@@ -1,4 +1,4 @@
-FROM ruby:2.4.1-alpine3.6
+FROM alpine:3.6
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
 ENV HOME=/home/emacser \
