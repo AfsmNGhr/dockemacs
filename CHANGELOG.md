@@ -1,5 +1,5 @@
 ## 1.5.1
 
-* Set `BUNDLE_PATH`
+* First initialize `REPOSITORY`
 * Delete `REPOSITORY` source from image
 * Minimize docker build context
