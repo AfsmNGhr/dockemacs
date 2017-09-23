@@ -32,7 +32,7 @@
   '
   ```
 
-* Prepare `$HOME/.dockemacs`, check your `ENV_VARS`:
+* Prepare `$HOME/.dockemacs`, check your `env`:
 
   ```sh
   echo "UID=$(id -u)" >> $HOME/.dockemacs
@@ -68,6 +68,7 @@
 
   ```sh
   # /etc/ssh/sshd_config
+
   ListenAddress 127.1
   ```
 
@@ -77,16 +78,16 @@
   $ dockemacs
   ```
 
-## Project management
+## Flycheck checkers
 
-##### Ruby
-
-* Setup [rubocop](https://github.com/bbatsov/rubocop):
+* [Rubocop](https://github.com/bbatsov/rubocop):
 
   ```elisp
   ;; .dir-locals.el
-  ((nil . ((eval . (progn
-                     (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                     (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                     (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` bundle exec rubocop"))))))
+
+  ((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` bundle exec rubocop"))))))
   ```
