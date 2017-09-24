@@ -16,7 +16,7 @@
  '(org-confirm-babel-evaluate nil)
  '(package-selected-packages
    (quote
-    (multi-term web-mode company-web dockerfile-mode sqlplus yaml-mode csv-mode slim-mode sass-mode markdown-mode rspec-mode rubocop company-inf-ruby rvm bundler exec-path-from-shell xref-js2 js2-refactor js2-mode tide typescript-mode coffee-mode rainbow-delimiters multiple-cursors projectile yasnippet flycheck company-statistics company-shell company-tern company-ycmd company-flx company ido-completing-read+ flx-ido ido-hacks keyword-search gxref ggtags ag ace-window docker git-timemachine magit keyfreq benchmark-init use-package)))
+    (robe multi-term web-mode company-web dockerfile-mode sqlplus yaml-mode csv-mode slim-mode sass-mode markdown-mode rspec-mode rubocop company-inf-ruby rvm bundler exec-path-from-shell xref-js2 js2-refactor js2-mode tide typescript-mode coffee-mode rainbow-delimiters multiple-cursors projectile yasnippet flycheck company-statistics company-shell company-tern company-ycmd company-flx company ido-completing-read+ flx-ido ido-hacks keyword-search gxref ggtags ag ace-window docker git-timemachine magit keyfreq benchmark-init use-package)))
  '(recentf-mode t)
  '(safe-local-variable-values (quote ((eval org-content 2))))
  '(whitespace-style (quote (face lines-tail))))

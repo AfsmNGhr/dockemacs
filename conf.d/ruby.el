@@ -5,8 +5,17 @@
          (".irbrc" . ruby-mode)))
 
 (use-package bundler :ensure t :defer t)
-(use-package rvm :ensure t :defer t :init (rvm-use-default))
+(use-package rvm :ensure t :defer t
+  :init (rvm-use-default)
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
+
 (use-package company-inf-ruby :ensure t :defer t)
+
+(use-package robe :ensure t :defer t
+  :init (add-hook 'ruby-mode-hook 'robe-mode)
+  (eval-after-load 'company
+    '(push 'company-robe company-backends)))
 
 (use-package rubocop :ensure t :defer t
   :init (add-hook 'ruby-mode-hook 'rubocop-mode)
