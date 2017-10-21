@@ -1,9 +1,6 @@
 FROM alpine:3.6
 MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
 
-ENV HOME=/home/emacser \
-    WORKSPACE=/mnt/workspace
-
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
@@ -19,5 +16,3 @@ COPY sbin/* /usr/local/sbin/
 RUN chown root /usr/local/sbin/initialize && \
     chmod +x /usr/local/sbin/* && \
     chmod 700 /usr/local/sbin/initialize
-
-WORKDIR "${WORKSPACE}"
