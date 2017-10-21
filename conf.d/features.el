@@ -125,9 +125,9 @@
 
 ;; ============================= Projectile ===================================
 
-(use-package projectile :ensure t :defer t
-  :diminish projectile-mode
+(use-package projectile :ensure t :defer 30
   :init (projectile-global-mode)
+  :diminish projectile-mode
   :config
   (setq-default projectile-enable-caching t
                 projectile-use-git-grep t
