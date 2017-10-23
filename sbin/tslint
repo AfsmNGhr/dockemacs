@@ -3,7 +3,7 @@
 cat /dev/null > /tmp/tslint.out
 args=$(printf "%q\t" "$@")
 args=${args//--stdin/}
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_RUBOCOP_CMD" \
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_TSLINT_CMD" \
     "${args//$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH}" >> /tmp/tslint.out
 result=$(grep "$PROJECT_REMOTE_PATH" /tmp/tslint.out)
 if [ ! -z "$result" ]; then

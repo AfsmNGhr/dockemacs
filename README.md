@@ -106,6 +106,18 @@
                  (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` bundle exec rubocop"))))))
   ```
 
+* [node](https://nodejs.org/)
+
+  ```elisp
+  ;; .dir-locals.el
+
+  ((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 (setenv "PROJECT_NODE_CMD" "docker exec -it `CONTAINER` node"))))))
+  ```
+
 * [tslint](https://www.npmjs.com/package/tslint)
 
   ```elisp
@@ -115,5 +127,5 @@
                (progn
                  (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` tslint"))))))
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it `CONTAINER` tslint"))))))
   ```

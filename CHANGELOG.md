@@ -3,6 +3,7 @@
 * Remove `nodejs-npm`
 * Add tty to wrapper docker for `exec`
 * Add `tslint` wrapper
+* Add `node` wrapper
 
 ## 1.5.3
 

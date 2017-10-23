@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+args=$(printf "%q\t" "$@")
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_NODE_CMD" "$args"
