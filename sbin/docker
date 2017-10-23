@@ -2,5 +2,9 @@
 
 cat /dev/null > /tmp/docker.out
 args=$(printf "%q\t" "$@")
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker "$args" >> /tmp/docker.out
-cat /tmp/docker.out
+if [ "$args" != *"exec"* ]; then
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker "$args" >> /tmp/docker.out
+  cat /tmp/docker.out
+else
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt docker "$args"
+fi

@@ -28,7 +28,7 @@
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.5.3 startup
+       afsmnghr/dockemacs:1.6.0 startup
   '
   ```
 
@@ -78,7 +78,21 @@
   $ dockemacs
   ```
 
-## Flycheck wrapped checkers
+## Wrappers through ssh
+
+* [Docker](https://docs.docker.com/)
+
+* [Bundle](http://bundler.io/)
+
+  ```elisp
+  ;; .dir-locals.el
+
+  ((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 (setenv "PROJECT_BUNDLE_CMD" "docker exec -it `CONTAINER` bundle"))))))
+  ```
 
 * [Rubocop](https://github.com/bbatsov/rubocop):
 
@@ -90,4 +104,16 @@
                  (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` bundle exec rubocop"))))))
+  ```
+
+* [tslint](https://www.npmjs.com/package/tslint)
+
+  ```elisp
+  ;; .dir-locals.el
+
+  ((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it `CONTAINER` tslint"))))))
   ```

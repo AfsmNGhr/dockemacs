@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cat /dev/null > /tmp/tslint.out
+args=$(printf "%q\t" "$@")
+args=${args//--stdin/}
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_RUBOCOP_CMD" \
+    "${args//$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH}" >> /tmp/tslint.out
+result=$(grep "$PROJECT_REMOTE_PATH" /tmp/tslint.out)
+if [ ! -z "$result" ]; then
+    echo "${result//$PROJECT_REMOTE_PATH/$PROJECT_LOCAL_PATH}"
+    exit 0
+else
+    cat /tmp/tslint.out
+    exit 1
+fi

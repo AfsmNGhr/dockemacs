@@ -13,7 +13,6 @@ fi
 
 (git fetch origin master || true)
 git reset --hard origin/master
-(npm install || true) && export PATH="$(npm bin):$PATH"
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE"
 emacs
