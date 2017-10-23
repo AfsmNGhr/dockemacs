@@ -12,10 +12,10 @@
 
 (use-package company-inf-ruby :ensure t :defer t)
 
-(use-package robe :ensure t :defer t
-  :init (add-hook 'ruby-mode-hook 'robe-mode)
-  (eval-after-load 'company
-    '(push 'company-robe company-backends)))
+;; (use-package robe :ensure t :defer t
+  ;; :init (add-hook 'ruby-mode-hook 'robe-mode)
+  ;; (eval-after-load 'company
+    ;; '(push 'company-robe company-backends)))
 
 (use-package rubocop :ensure t :defer t
   :init (add-hook 'ruby-mode-hook 'rubocop-mode)
