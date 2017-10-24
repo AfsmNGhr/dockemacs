@@ -78,7 +78,9 @@
   $ dockemacs
   ```
 
-## Wrappers through ssh
+## Wrappers through ssh -> another containers, host
+
+* `WEB_BROWSER`
 
 * [Docker](https://docs.docker.com/)
 
@@ -127,5 +129,6 @@
                (progn
                  (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it `CONTAINER` tslint"))))))
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it `CONTAINER` tslint")
+                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint"))))))
   ```
