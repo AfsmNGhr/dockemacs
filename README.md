@@ -72,6 +72,12 @@
   ListenAddress 127.1
   ```
 
+* Add SSH Keys to authorized_keys:
+
+  ```sh
+  ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+  ```
+
 * Run and wait until the boot:
 
   ```sh
