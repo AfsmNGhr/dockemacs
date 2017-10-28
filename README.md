@@ -78,7 +78,11 @@
   $ dockemacs
   ```
 
-## Wrappers through ssh -> another containers, host
+## Ecosystem
+
+![Architecture](https://i.imgur.com/wmDvJbq.png?1 "Image is clickable")
+
+## Wrappers
 
 * `WEB_BROWSER`
 
