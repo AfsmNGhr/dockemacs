@@ -28,7 +28,7 @@
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.6.0 startup
+       afsmnghr/dockemacs:1.6.1 startup
   '
   ```
 
@@ -141,4 +141,16 @@
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  (setenv "PROJECT_TSLINT_CMD" "docker exec -it `CONTAINER` tslint")
                  (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint"))))))
+  ```
+
+* [Pylint](https://www.pylint.org/)
+
+  ```elisp
+  ;; .dir-locals.el
+
+  ((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 (setenv "PROJECT_PYLINT_CMD" "docker exec -it `CONTAINER` pylint"))))))
   ```
