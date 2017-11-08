@@ -45,14 +45,16 @@
   (global-set-key (kbd "C-c f") 'ido-recentf-open))
 
 (use-package ag :ensure t :defer t)
-(use-package ggtags :ensure t :defer 30
-  :init (ggtags-mode 1)
-  :config
-  (setq-local eldoc-documentation-function #'ggtags-eldoc-function))
 
-(unless (version< emacs-version "25.1")
-  (use-package gxref :ensure t :defer t
-    :init (add-to-list 'xref-backend-functions 'gxref-xref-backend)))
+(use-package dumb-jump :ensure t :defer t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :config (setq dumb-jump-selector 'ido
+                dumb-jump-prefer-searcher 'git-grep
+                dumb-jump-force-searcher 'ag))
 
 ;; ============================== Search =======================================
 

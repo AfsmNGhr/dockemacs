@@ -1,3 +1,7 @@
+## 1.7.0
+
+* Remove `global`
+
 ## 1.6.1
 
 * Add `pylint` wrapper

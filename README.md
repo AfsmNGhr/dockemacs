@@ -28,7 +28,7 @@
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.6.1 startup
+       afsmnghr/dockemacs:1.7.0 startup
   '
   ```
 

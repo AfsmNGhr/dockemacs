@@ -7,7 +7,7 @@
   :config
   (add-to-list 'typescript-mode-hook 'flycheck-mode)
   ;; (add-to-list 'typescript-mode-hook (lambda () (tide-setup)))
-  ;; (setq typescript-indent-level 2
+  (setq typescript-indent-level 2)
         ;; tide-format-options '(:placeOpenBraceOnNewLineForFunctions t :placeOpenBraceOnNewLineForControlBlocks t)
   ;; company-tooltip-align-annotations t)
   )
@@ -28,10 +28,7 @@
   (setq flycheck-disabled-checkers '(javascript-jshint))
   (add-to-list 'js2-mode-hook 'flycheck-mode)
   ;; (add-to-list 'js2-mode-hook 'tern-mode)
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  (add-hook 'js2-mode-hook
-            (lambda ()
-              (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+  (add-hook 'js2-mode-hook #'js2-refactor-mode))
 
 ;; (use-package tern :ensure t :defer t
   ;; :config
@@ -43,9 +40,5 @@
   :config
   (js2r-add-keybindings-with-prefix "C-c C-f")
   (define-key js2-mode-map (kbd "C-k") #'js2r-kill))
-
-(use-package xref-js2 :ensure t :defer t
-  :config
-  (define-key js-mode-map (kbd "M-.") nil))
 
 ;; ========================= To be continued... ================================
