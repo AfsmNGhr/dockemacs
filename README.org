@@ -9,17 +9,14 @@
 [[https://i.imgur.com/wmDvJbq.png?1]]
 
 *** Table of Contents                                                 :TOC:
-- [[#installation][Installation]]
-  + [[#install-docker-engine][Install Docker Engine]]
-  + [[#add-alias][Alias]]
-  + [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
-  + [[#setup-ssh-daemon-and-restart][Setup Ssh Daemon]]
-  + [[#add-ssh-key-to-authorized_keys][Ssh Key]]
-  + [[#run-and-wait-until-the-boot][Run]]
-- [[#themes][Themes]]
-  - [[#spolsky][Spolsky]]
-  - [[#spolsky-term][Spolsky Term]]
-- [[#wrappers-for-container-workflow][Wrappers]]
++ [[#installation][Installation]]
+  - [[#install-docker-engine][Install Docker Engine]]
+  - [[#add-alias][Alias]]
+  - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
+  - [[#setup-ssh-daemon-and-restart][Setup ssh Daemon]]
+  - [[#add-ssh-key-to-authorized_keys][Ssh Key]]
+  - [[#run-and-wait-until-the-boot][Run]]
++ [[#wrappers-for-container-workflow][Wrappers]]
   - Web browser
   - Docker
   - [[#bundle][Bundle]]
@@ -27,13 +24,16 @@
   - [[#node][node]]
   - [[#tslint][tslint]]
   - [[#pylint][Pylint]]
-- [[#configurations][Configurations]]
++ [[#configurations][Configurations]]
   - [[#initialize][Initialize]]
-  - [[#package-management][Package Management]]
+  + [[#package-management][Package Management]]
     - use-package
   - [[#encoding][Encoding]]
   - [[#indentation][Indentation]]
-  - [[#interface][Interface]]
+  + [[#interface][Interface]]
+    + [[#themes][Themes]]
+      - [[#spolsky][Spolsky]]
+      - [[#spolsky-term][Spolsky Term]]
 
 *** Installation
 
@@ -100,7 +100,7 @@ alias dockemacs='
 ListenAddress 127.1
 #+end_src
 
-**** Add ssh Key to authorized_keys:
+**** Add ssh key to authorized_keys:
 
 #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
@@ -111,20 +111,6 @@ ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
 #+begin_src sh :tangle no
 $ dockemacs
 #+end_src
-
-*** Themes
-
-**** Spolsky
-
-Dark color theme
-
-[[file:images/spolsky-theme.png]]
-
-**** Spolsky Term
-
-Dark color theme for terminal
-
-[[file:images/spolsky-term-theme.png]]
 
 *** Wrappers for container workflow
 
@@ -350,6 +336,20 @@ Enable build-in modes.
 (global-linum-mode t)
 (auto-fill-mode 1)
 #+end_src
+
+***** Themes
+
+****** Spolsky
+
+Dark color theme
+
+[[file:images/spolsky-theme.png]]
+
+****** Spolsky Term
+
+Dark color theme for terminal
+
+[[file:images/spolsky-term-theme.png]]
 
 **** History
 
