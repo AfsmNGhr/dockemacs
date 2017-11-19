@@ -1,4 +1,4 @@
-* Dockemacs - the minimal emacs noX
+** Dockemacs - the minimal emacs noX
 [[https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
 [[https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
@@ -8,4 +8,26 @@
 
 [[https://i.imgur.com/LZxhWdm.png]]
 
-** Installing
+*** Installing
+**** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+**** Create emacs data volume:
+
+  #+BEGIN_SRC sh :tangle no
+  docker volume create emacs_data
+  #+END_SRC
+
+**** Add alias or script file:
+
+  #+BEGIN_SRC sh :tangle no
+  echo "alias dockemacs=\"
+  docker run -it --rm --net=host \
+       --env-file $HOME/.dockemacs \
+       --entrypoint initialize \"$@\" \
+       -v $HOME:/mnt/workspace \
+       -v emacs_data:/home/emacser/.emacs.d \
+       -v /etc/localtime:/etc/localtime:ro \
+       afsmnghr/dockemacs:1.7.0 startup
+  \"" "$HOME/.bash_aliases"
+  #+END_SRC
+
+**** Prepare `$HOME/.dockemacs`, check your `env`:
