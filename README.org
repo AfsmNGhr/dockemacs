@@ -12,13 +12,13 @@
 - [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 - Create emacs data volume:
 
-  #+BEGIN_SRC sh :tangle no
+  #+begin_src sh :tangle no
   docker volume create emacs_data
-  #+END_SRC
+  #+end_src
 
 - Add alias:
 
-  #+BEGIN_SRC sh :tangle no
+  #+begin_src sh :tangle no
   echo "alias dockemacs=\"
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
@@ -28,11 +28,11 @@
        -v /etc/localtime:/etc/localtime:ro \
        afsmnghr/dockemacs:1.7.0 startup
   \"" "$HOME/.bash_aliases"
-  #+END_SRC
+  #+end_src
 
 - Prepare =$HOME/.dockemacs=, check your =env=:
 
-  #+BEGIN_SRC sh :tangle no
+  #+begin_src sh :tangle no
   echo "UID=$(id -u)" >> $HOME/.dockemacs
   echo "GID=$(id -g)" >> $HOME/.dockemacs
   echo "UNAME=emacser" >> $HOME/.dockemacs
@@ -48,7 +48,7 @@
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
-  #+END_SRC
+  #+end_src
 
     * =UID= and =GID= - transparent permissions
     * =UNAME= and =GNAME= - user & group name in container
