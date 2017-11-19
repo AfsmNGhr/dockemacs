@@ -28,6 +28,8 @@
   - [[#tslint][tslint]]
   - [[#pylint][Pylint]]
 - [[#configurations][Configurations]]
+  - [[#initialize][Initialize]]
+  - [[#package-management][Package Management]] (use-package)
 
 *** Installation
 
@@ -205,6 +207,38 @@ Dark color theme for terminal
 
 Set lexical scoping for the init-file.
 
-#+begin_src emacs-lisp
+#+begin_src elisp
 ;;; -*- lexical-binding: t -*-
+#+end_src
+
+**** Package Management
+
+The =use-package= declarative and performance-oriented.
+
+#+begin_src elisp
+(require 'package)
+(package-initialize)
+
+(setq package-enable-at-startup nil
+      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+(unless (version< emacs-version "25.1")
+  (setq package-archive-priorities '(("melpa-stable" . 10)
+                                     ("gnu" . 10)
+                                     ("melpa" . 20))))
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
+(setq use-package-verbose t
+      use-package-always-ensure t)
 #+end_src
