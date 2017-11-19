@@ -87,15 +87,11 @@ $ dockemacs
 
 *** Themes
 
-**** Spolsky
-
-: A dark color theme
+**** Spolsky : dark color theme
 
 [[file:images/spolsky-theme.png]]
 
-**** Spolsky Term
-
-: A dark color theme for terminal
+**** Spolsky Term : dark color theme for terminal
 
 [[file:images/spolsky-term-theme.png]]
 
