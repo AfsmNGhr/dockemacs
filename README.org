@@ -1,10 +1,10 @@
 ** Dockemacs - the minimal emacs noX
-[[https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
-[[https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
-[[https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
-[[https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
-[[https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
-[[https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
+[[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
+[[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
+[[(https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
+[[(https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
 [[https://i.imgur.com/LZxhWdm.png]]
 
@@ -12,7 +12,7 @@
 - [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 - Create emacs data volume:
 
-  #+BEGIN_SRC sh :tangle no
+  #+BEGIN_SRC sh :tangle no :exports both
   docker volume create emacs_data
   #+END_SRC
 
