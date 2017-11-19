@@ -21,7 +21,7 @@ docker volume create emacs_data
 - Add alias:
 
   #+begin_src sh :tangle no
-  echo "alias dockemacs=\"
+echo "alias dockemacs=\"
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
        --entrypoint initialize \"$@\" \
@@ -63,3 +63,23 @@ docker volume create emacs_data
     * =DISPLAY= - for GUI application
     * =WEB_BROWSER= - setup browser for emacs
     * =REPOSITORY= - our repository dotemacs (first clone)
+
+- Setup ssh daemon and restart:
+
+  #+begin_src sh :tangle no
+# /etc/ssh/sshd_config
+
+ListenAddress 127.1
+  #+end_src
+
+- Add SSH Keys to authorized_keys:
+
+  #+begin_src sh :tangle no
+ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+  #+end_src
+
+- Run and wait until the boot:
+
+  #+begin_src sh :tangle no
+$ dockemacs
+  #+end_src
