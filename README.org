@@ -10,12 +10,12 @@
 
 *** Table of Contents                                                 :TOC:
 - [[#installation][Installation]]
-  - [[#install-docker-engine][Install Docker Engine]]
-  - [[#add-alias][Alias]]
-  - [[#prepare-homedockemacs-check-your-env][Prepare variables]]
-  - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
-  - [[#add-ssh-keys-to-authorized_keys][Ssh Keys]]
-  - [[#run-and-wait-until-the-boot][Run]]
+  + [[#install-docker-engine][Install Docker Engine]]
+  + [[#add-alias][Alias]]
+  + [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
+  + [[#setup-ssh-daemon-and-restart][Setup Ssh Daemon]]
+  + [[#add-ssh-key-to-authorized_keys][Ssh Key]]
+  + [[#run-and-wait-until-the-boot][Run]]
 - [[#themes][Themes]]
   - [[#spolsky][Spolsky]]
   - [[#spolsky-term][Spolsky Term]]
@@ -29,7 +29,8 @@
   - [[#pylint][Pylint]]
 - [[#configurations][Configurations]]
   - [[#initialize][Initialize]]
-  - [[#package-management][Package Management]] (use-package)
+  - [[#package-management][Package Management]]
+    - use-package
   - [[#encoding][Encoding]]
   - [[#indentation][Indentation]]
   - [[#interface][Interface]]
@@ -99,7 +100,7 @@ alias dockemacs='
 ListenAddress 127.1
 #+end_src
 
-**** Add SSH Keys to authorized_keys:
+**** Add ssh Key to authorized_keys:
 
 #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
