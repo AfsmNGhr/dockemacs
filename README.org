@@ -87,11 +87,11 @@ $ dockemacs
 
 *** Themes
 
-- Spolsky
+**** Spolsky
 
 [[file:images/spolsky-theme.png]]
 
-- Spolsky Term
+**** Spolsky Term
 
 [[file:images/spolsky-term-theme.png]]
 
