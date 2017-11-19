@@ -1,3 +1,5 @@
+#+OPTIONS: toc:2
+
 ** Dockemacs - the minimal emacs noX
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
@@ -13,7 +15,7 @@
 - Create emacs data volume:
 
   #+begin_src sh :tangle no
-  docker volume create emacs_data
+docker volume create emacs_data
   #+end_src
 
 - Add alias:
