@@ -30,6 +30,9 @@
 - [[#configurations][Configurations]]
   - [[#initialize][Initialize]]
   - [[#package-management][Package Management]] (use-package)
+  - [[#encoding][Encoding]]
+  - [[#indentation][Indentation]]
+  - [[#interface][Interface]]
 
 *** Installation
 
@@ -213,7 +216,7 @@ Set lexical scoping for the init-file.
 
 **** Package Management
 
-The =use-package= declarative and performance-oriented.
+The =use-package= declarative and performance-oriented. Initialize the emacs packaging system and autoinstalling packages.
 
 #+begin_src elisp
 (require 'package)
@@ -224,6 +227,7 @@ The =use-package= declarative and performance-oriented.
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
 (unless (version< emacs-version "25.1")
   (setq package-archive-priorities '(("melpa-stable" . 10)
                                      ("gnu" . 10)
@@ -241,4 +245,95 @@ The =use-package= declarative and performance-oriented.
 
 (setq use-package-verbose t
       use-package-always-ensure t)
+#+end_src
+
+**** Encoding
+
+Set utf-8 everywhere.
+
+#+begin_src elisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8
+      file-name-coding-system 'utf-8
+      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+end_src
+
+**** Indentation
+
+Prefer space indentation.
+
+#+begin_src elisp
+(setq tab-width 2
+      tab-always-indent 'complete
+      indent-tabs-mode nil)
+#+end_src
+
+**** Interface
+
+Set custom file and few variables.
+
+#+begin_src elisp
+(setq custom-file (concat user-emacs-directory "custom.el")
+
+(custom-set-variables
+ '(whitespace-style '(face lines-tail))
+ '(org-babel-load-languages
+   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+ '(org-confirm-babel-evaluate nil))
+
+(custom-set-faces
+ '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+#+end_src
+
+Answering yes or no short.
+
+#+begin_src elisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+Clear UI.
+
+#+begin_src elisp
+(menu-bar-mode -1)
+(if tool-bar-mode
+    (tool-bar-mode -1))
+(column-number-mode -1)
+(blink-cursor-mode -1)
+(line-number-mode -1)
+(size-indication-mode -1)
+#+end_src
+
+Time in the modeline.
+
+#+begin_src elisp
+(display-time-mode)
+(setq display-time-interval 1
+      display-time-format "%H:%M")
+#+end_src
+
+Dialogs stay in emacs.
+
+#+begin_src elisp
+(setq use-dialog-box nil
+      use-file-dialog nil
+      epa-pinentry-mode 'loopback)
+#+end_src
+
+**** History
+
+Write history.
+
+#+begin_src elisp
+(setq history-length t
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-autosave-interval 60
+      savehist-additional-variables '(search-ring regexp-search-ring
+                                                  comint-input-ring))
+
+(savehist-mode 1)
 #+end_src
