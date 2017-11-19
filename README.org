@@ -14,7 +14,7 @@
   - [[#add-alias][Alias]]
   - [[#prepare-homedockemacs-check-your-env][Prepare variables]]
   - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
-  - [[#add-ssh-keys-to-authorized_keys][SSH Keys]]
+  - [[#add-ssh-keys-to-authorized_keys][Ssh Keys]]
   - [[#run-and-wait-until-the-boot][Run]]
 - [[#themes][Themes]]
   - [[#spolsky][Spolsky]]
@@ -34,13 +34,13 @@
 **** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 **** Create emacs data volume:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
 docker volume create emacs_data
-  #+end_src
+#+end_src
 
 **** Add alias:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
 # ~/.bash_aliases or etc ...
 
 alias dockemacs='
@@ -52,11 +52,11 @@ alias dockemacs='
        -v /etc/localtime:/etc/localtime:ro \
        afsmnghr/dockemacs:1.7.0 startup
 '
-  #+end_src
+#+end_src
 
 **** Prepare =$HOME/.dockemacs=, check your =env=:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
   echo "UID=$(id -u)" >> $HOME/.dockemacs
   echo "GID=$(id -g)" >> $HOME/.dockemacs
   echo "UNAME=emacser" >> $HOME/.dockemacs
@@ -72,7 +72,7 @@ alias dockemacs='
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
-  #+end_src
+#+end_src
 
     * =UID= and =GID= - transparent permissions
     * =UNAME= and =GNAME= - user & group name in container
@@ -88,23 +88,23 @@ alias dockemacs='
 
 **** Setup ssh daemon and restart:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
 # /etc/ssh/sshd_config
 
 ListenAddress 127.1
-  #+end_src
+#+end_src
 
 **** Add SSH Keys to authorized_keys:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
-  #+end_src
+#+end_src
 
 **** Run and wait until the boot:
 
-  #+begin_src sh :tangle no
+#+begin_src sh :tangle no
 $ dockemacs
-  #+end_src
+#+end_src
 
 *** Themes
 
@@ -127,7 +127,7 @@ Dark color theme for terminal
 
 **** [[http://bundler.io/][Bundle]]
 
-  #+begin_src elisp :tangle no
+#+begin_src elisp :tangle no
 ;; .dir-locals.el in root project
 
 ((nil . ((eval .
@@ -137,11 +137,11 @@ Dark color theme for terminal
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
                  (setenv "PROJECT_BUNDLE_CMD" "docker exec -it PROJECT_CONTAINER bundle"))))))
-  #+end_src
+#+end_src
 
 **** [[https://github.com/bbatsov/rubocop][Rubocop]]
 
-  #+begin_src elisp :tangle no
+#+begin_src elisp :tangle no
 ;; .dir-locals.el in root project
 
 ((nil . ((eval .
@@ -151,11 +151,11 @@ Dark color theme for terminal
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
                  (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it PROJECT_CONTAINER rubocop"))))))
-  #+end_src
+#+end_src
 
 **** [[https://nodejs.org/][node]]
 
-  #+begin_src elisp :tangle no
+#+begin_src elisp :tangle no
 ;; .dir-locals.el in root project
 
 ((nil . ((eval .
@@ -165,11 +165,11 @@ Dark color theme for terminal
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
                  (setenv "PROJECT_NODE_CMD" "docker exec -it PROJECT_CONTAINER node"))))))
-  #+end_src
+#+end_src
 
 **** [[https://www.npmjs.com/package/tslint][tslint]]
 
-  #+begin_src elisp :tangle no
+#+begin_src elisp :tangle no
 ;; .dir-locals.el in root project
 
 ((nil . ((eval .
@@ -183,11 +183,11 @@ Dark color theme for terminal
                  (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint")
                  ;; host application
 )))))
-  #+end_src
+#+end_src
 
 **** [[https://www.pylint.org/][Pylint]]
 
-  #+begin_src elisp :tangle no
+#+begin_src elisp :tangle no
 ;; .dir-locals.el in root project
 
 ((nil . ((eval .
@@ -197,6 +197,14 @@ Dark color theme for terminal
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
                  (setenv "PROJECT_PYLINT_CMD" "docker exec -it PROJECT_CONTAINER pylint"))))))
-  #+end_src
+#+end_src
 
 *** Configurations
+
+**** Initialize
+
+Set lexical scoping for the init-file.
+
+#+begin_src emacs-lisp
+;;; -*- lexical-binding: t -*-
+#+end_src
