@@ -9,14 +9,17 @@
 [[https://i.imgur.com/LZxhWdm.png]]
 
 *** Installing
-**** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
-**** Create emacs data volume:
+- [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+- Create emacs data volume:
 
   #+BEGIN_SRC sh :tangle no
   docker volume create emacs_data
   #+END_SRC
 
-**** Add alias or script file:
+  #+RESULTS:
+  : emacs_data
+
+- Add alias:
 
   #+BEGIN_SRC sh :tangle no
   echo "alias dockemacs=\"
@@ -30,4 +33,34 @@
   \"" "$HOME/.bash_aliases"
   #+END_SRC
 
-**** Prepare `$HOME/.dockemacs`, check your `env`:
+- Prepare =$HOME/.dockemacs=, check your =env=:
+
+  #+BEGIN_SRC sh :tangle no
+  echo "UID=$(id -u)" >> $HOME/.dockemacs
+  echo "GID=$(id -g)" >> $HOME/.dockemacs
+  echo "UNAME=emacser" >> $HOME/.dockemacs
+  echo "GNAME=emacs" >> $HOME/.dockemacs
+  echo "HOME=/home/emacser" >> $HOME/.dockemacs
+  echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
+  echo "SHELL=/bin/bash" >> $HOME/.dockemacs
+  echo "TERM=xterm-256color" >> $HOME/.dockemacs
+  echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
+  echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
+  echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
+  echo "HOST_PORT=22" >> $HOME/.dockemacs
+  echo "DISPLAY=:0.0" >> $HOME/.dockemacs
+  echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
+  echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+  #+END_SRC
+
+    * =UID= and =GID= - transparent permissions
+    * =UNAME= and =GNAME= - user & group name in container
+    * =HOME= - rewrite home path for new user
+    * =WORKSPACE= - mount path from host
+    * =SHELL= - default shell
+    * =TERM= - set terminal env
+    * =ORG_FILES= - only relative path
+    * =HOST_USER=, =HOST_IP=, =HOST_PORT= - remote management through ssh
+    * =DISPLAY= - for GUI application
+    * =WEB_BROWSER= - setup browser for emacs
+    * =REPOSITORY= - our repository dotemacs (first clone)
