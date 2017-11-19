@@ -339,15 +339,41 @@ Enable build-in modes.
 
 ***** Themes
 
-****** Spolsky
+Load my themes. Enable theme on the frame type.
 
-Dark color theme
+#+begin_src elisp
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+(defun my/load-theme ()
+  "load my theme"
+  (if (display-graphic-p)
+      (load-theme 'spolsky t)
+    (load-theme 'spolsky-term t)))
+
+(defun my/enable-theme (frame)
+  "enable theme the current frame depending on the frame type"
+  (with-selected-frame frame
+    (if (window-system)
+        (progn
+          (unless (custom-theme-enabled-p 'spolsky)
+            (if (custom-theme-enabled-p 'spolsky-term)
+                (disable-theme 'spolsky-term))
+            (enable-theme 'spolsky)))
+      (progn
+        (unless (custom-theme-enabled-p 'spolsky-term)
+          (if (custom-theme-enabled-p 'spolsky)
+              (disable-theme 'spolsky))
+          (enable-theme 'spolsky-term))))))
+
+(add-hook 'after-init-hook 'my/load-theme)
+(add-hook 'after-make-frame-functions 'my/enable-theme)
+#+end_src
+
+****** Spolsky
 
 [[file:images/spolsky-theme.png]]
 
 ****** Spolsky Term
-
-Dark color theme for terminal
 
 [[file:images/spolsky-term-theme.png]]
 
