@@ -89,8 +89,9 @@ $ dockemacs
 
 *** Wrappers for container workflow
 
-**** =WEB_BROWSER= from =env= with =DISPLAY=
-**** [[https://docs.docker.com/][Docker]]
+- =WEB_BROWSER= from =env= with =DISPLAY=
+- [[https://docs.docker.com/][Docker]]
+
 **** [[http://bundler.io/][Bundle]]
 
   #+begin_src elisp :tangle no
