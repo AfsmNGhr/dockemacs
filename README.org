@@ -1,6 +1,3 @@
-#+OPTIONS: toc:2
-#+HTML_HEAD_EXTRA: <style type="text/css">.markdown-body h4 {font-weight: 400;}</style>
-
 ** Dockemacs - the minimal emacs noX
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
@@ -11,7 +8,11 @@
 
 [[https://i.imgur.com/LZxhWdm.png]]
 
-*** Installing
+This configuration is designed to
+it'll run basically anywhere.
+
+*** Installation
+
 **** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 **** Create emacs data volume:
 
@@ -84,3 +85,7 @@ ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
   #+begin_src sh :tangle no
 $ dockemacs
   #+end_src
+
+*** Ecosystem
+
+[[https://i.imgur.com/wmDvJbq.png?1]]
