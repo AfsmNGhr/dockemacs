@@ -8,9 +8,6 @@
 
 [[https://i.imgur.com/LZxhWdm.png]]
 
-This configuration is designed to
-it'll run basically anywhere.
-
 *** Installation
 
 **** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
@@ -89,3 +86,81 @@ $ dockemacs
 *** Ecosystem
 
 [[https://i.imgur.com/wmDvJbq.png?1]]
+
+*** Wrappers for container workflow
+
+**** =WEB_BROWSER= from =env= with =DISPLAY=
+**** [[https://docs.docker.com/][Docker]]
+**** [[http://bundler.io/][Bundle]]
+
+  #+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_BUNDLE_CMD" "docker exec -it PROJECT_CONTAINER bundle"))))))
+  #+end_src
+
+**** [[https://github.com/bbatsov/rubocop][Rubocop]]
+
+  #+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it PROJECT_CONTAINER rubocop"))))))
+  #+end_src
+
+**** [[https://nodejs.org/][node]]
+
+  #+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_NODE_CMD" "docker exec -it PROJECT_CONTAINER node"))))))
+  #+end_src
+
+**** [[https://www.npmjs.com/package/tslint][tslint]]
+
+  #+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER tslint")
+                 ;; container workflow
+                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint")
+                 ;; host application
+)))))
+  #+end_src
+
+**** [[https://www.pylint.org/][Pylint]]
+
+  #+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_PYLINT_CMD" "docker exec -it PROJECT_CONTAINER pylint"))))))
+  #+end_src
