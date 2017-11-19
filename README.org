@@ -216,7 +216,7 @@ Set lexical scoping for the init-file.
 
 **** Package Management
 
-The =use-package= declarative and performance-oriented. Initialize the emacs packaging system and autoinstalling packages.
+The =use-package= declarative and performance-oriented.
 
 #+begin_src elisp
 (require 'package)
@@ -271,6 +271,26 @@ Prefer space indentation.
       indent-tabs-mode nil)
 #+end_src
 
+**** Autopair
+
+#+begin_src elisp
+(setq electric-pair-pairs '((?\" . ?\")
+                            (?\` . ?\`)
+                            (?\( . ?\))
+                            (?\{ . ?\})))
+
+(electric-pair-mode 1)
+#+end_src
+
+**** Whitespace
+
+#+begin_src elisp
+(custom-set-variables
+ '(whitespace-style '(face lines-tail))
+
+(global-whitespace-mode t)
+#+end_src
+
 **** Interface
 
 Set custom file and few variables.
@@ -279,14 +299,9 @@ Set custom file and few variables.
 (setq custom-file (concat user-emacs-directory "custom.el")
 
 (custom-set-variables
- '(whitespace-style '(face lines-tail))
  '(org-babel-load-languages
    (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
  '(org-confirm-babel-evaluate nil))
-
-(custom-set-faces
- '(aw-leading-char-face
-   ((t (:inherit ace-jump-face-foreground :height 3.0)))))
 #+end_src
 
 Answering yes or no short.
@@ -305,6 +320,7 @@ Clear UI.
 (blink-cursor-mode -1)
 (line-number-mode -1)
 (size-indication-mode -1)
+(setq ring-bell-function 'ignore)
 #+end_src
 
 Time in the modeline.
@@ -323,9 +339,18 @@ Dialogs stay in emacs.
       epa-pinentry-mode 'loopback)
 #+end_src
 
-**** History
+Enable build-in modes.
 
-Write history.
+#+begin_src elisp
+(global-visual-line-mode t)
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(delete-selection-mode t)
+(global-linum-mode t)
+(auto-fill-mode 1)
+#+end_src
+
+**** History
 
 #+begin_src elisp
 (setq history-length t
@@ -336,4 +361,106 @@ Write history.
                                                   comint-input-ring))
 
 (savehist-mode 1)
+#+end_src
+
+**** Backups
+
+#+begin_src elisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
+      auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))
+      delete-old-versions t
+      version-control t
+      vc-make-backup-files t
+      backup-by-copying t
+      kept-new-versions 2
+      kept-old-versions 2)
+#+end_src
+
+**** Completion
+
+***** IDO
+
+I'm use =ido= everywhere.
+
+#+begin_src elisp
+(use-package ido-hacks
+  :config
+  (use-package flx-ido
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (flx-ido-mode 1)
+    (setq ido-enable-flex-matching t
+          ido-use-faces t
+          ido-virtual-buffers t
+          ido-auto-merge-delay-time 99999999))
+  (use-package ido-completing-read+ :pin melpa-stable
+    :config (ido-ubiquitous-mode 1)))
+#+end_src
+
+***** Company
+
+Use modern autocomplete.
+
+#+begin_src elisp
+(use-package company :defer 30
+  :init (global-company-mode t)
+  :config
+  (defvar company-mode/enable-yas t
+    "Enable yasnippet for all backends.")
+
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas)
+            (and (listp backend)
+                 (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends
+        (mapcar #'company-mode/backend-with-yas
+                '((company-capf company-shell company-dabbrev company-abbrev
+                                company-files company-gtags company-etags
+                                company-keywords)))
+        company-idle-delay 1.0
+        company-tooltip-flip-when-above t)
+  (use-package company-flx :defer t
+    :config (with-eval-after-load 'company
+              (company-flx-mode +1)))
+  (use-package company-ycmd :defer t
+    :config (company-ycmd-setup))
+  (use-package company-shell :defer t)
+  (use-package company-statistics :defer t
+    :init (company-statistics-mode)))
+#+end_src
+
+**** Recent files
+
+#+begin_src elisp
+(use-package recentf
+  :init (recentf-mode 1)
+  :config
+  (setq recentf-max-saved-items 30
+        recentf-keep '(file-remote-p file-readable-p))
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to find a recent file."
+    (interactive)
+    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
+
+  (global-set-key (kbd "C-c f") 'ido-recentf-open))
+#+end_src
+
+**** Bookmarks
+
+#+begin_src elisp
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag t)
+  (global-set-key (kbd "C-x r b")
+                  (lambda ()
+                    (interactive)
+                    (bookmark-jump
+                     (ido-completing-read "jump to bookmark: "
+                                          (bookmark-all-names))))))
 #+end_src
