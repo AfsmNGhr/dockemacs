@@ -85,6 +85,16 @@ ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
 $ dockemacs
   #+end_src
 
+*** Themes
+
+- Spolsky
+
+[[file:images/spolsky-theme.png]]
+
+- Spolsky Term
+
+[[file:images/spolsky-term-theme.png]]
+
 *** Ecosystem
 
 [[https://i.imgur.com/wmDvJbq.png?1]]
