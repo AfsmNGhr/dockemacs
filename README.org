@@ -26,14 +26,23 @@
   - [[#pylint][Pylint]]
 + [[#configurations][Configurations]]
   - [[#initialize][Initialize]]
-  + [[#package-management][Package Management]]
+  - [[#package-management][Package Management]]
     - use-package
   - [[#encoding][Encoding]]
   - [[#indentation][Indentation]]
-  + [[#interface][Interface]]
+  - [[#autopair][Autopair]]
+  - [[#whitespace][Whitespace]]
+  - [[#interface][Interface]]
     + [[#themes][Themes]]
       - [[#spolsky][Spolsky]]
       - [[#spolsky-term][Spolsky Term]]
+  - [[#history][History]]
+  - [[#backups][Backups]]
+  - [[#completion][Completion]]
+    - [[#ido][IDO]]
+    - [[#company][Company]]
+  - [[#recent-files][Recent files]]
+  - [[#bookmarks][Bookmarks]]
 
 *** Installation
 
@@ -407,8 +416,6 @@ Load my themes. Enable theme on the frame type.
 
 ***** IDO
 
-I'm use =ido= everywhere.
-
 #+begin_src elisp
 (use-package ido-hacks
   :config
@@ -426,8 +433,6 @@ I'm use =ido= everywhere.
 #+end_src
 
 ***** Company
-
-Use modern autocomplete.
 
 #+begin_src elisp
 (use-package company :defer 30
@@ -475,7 +480,7 @@ Use modern autocomplete.
     (interactive)
     (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
 
-  (global-set-key (kbd "C-c f") 'ido-recentf-open))
+  (global-set-key (kbd "C-c r") 'ido-recentf-open))
 #+end_src
 
 **** Bookmarks
