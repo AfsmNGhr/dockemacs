@@ -1,53 +1,65 @@
+;;; init.el - Initialize Emacs
+
+;;; Commentary:
+
+;; This file uses org-babel to load my literate configuration.
+
+(require 'ob-tangle)
+
+(org-babel-load-file
+ (expand-file-name "README.org" (file-name-directory
+                                 (or (buffer-file-name) load-file-name))))
+
 ;; ============================== Package ======================================
 
-(defconst my/emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
+;; (defconst my/emacs-dir (concat (getenv "HOME") "/.emacs.d/"))
 
-(require 'package)
-(package-initialize)
+;; (require 'package)
+;; (package-initialize)
 
-(setq package-enable-at-startup nil
-      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
-(unless (version< emacs-version "25.1")
-  (setq package-archive-priorities '(("melpa-stable" . 10)
-                                     ("gnu" . 10)
-                                     ("melpa" . 20))))
-(unless package-archive-contents
-  (package-refresh-contents))
+;; (setq package-enable-at-startup nil
+;;       package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+;;                          ("org" . "http://orgmode.org/elpa/")
+;;                          ("melpa" . "https://melpa.org/packages/")
+;;                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
+;; (unless (version< emacs-version "25.1")
+;;   (setq package-archive-priorities '(("melpa-stable" . 10)
+;;                                      ("gnu" . 10)
+;;                                      ("melpa" . 20))))
+;; (unless package-archive-contents
+;;   (package-refresh-contents))
 
-;; ============================== Use-package ==================================
+;; ;; ============================== Use-package ==================================
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;; (unless (package-installed-p 'use-package)
+;;   (package-install 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+;; (eval-when-compile
+;;   (require 'use-package))
+;; (require 'diminish)
+;; (require 'bind-key)
 
-;; =============================== Benchmark ===================================
+;; ;; =============================== Benchmark ===================================
 
-(use-package benchmark-init
-  :ensure t
-  :init (benchmark-init/activate))
+;; (use-package benchmark-init
+;;   :ensure t
+;;   :init (benchmark-init/activate))
 
-;; ================================== init =====================================
+;; ;; ================================== init =====================================
 
-(defun my/initialize ()
-  "Initialize all my configs files. \n
-   p.s. equal `load-file' init.el \n
-   without `package' and `use-package'"
-  (interactive)
-  (let ((conf.d (concat my/emacs-dir "/conf.d/")))
-    (setq custom-file (concat conf.d "custom.el"))
-    (dolist (config-files
-             (directory-files conf.d t "\.el$" nil))
-      (load (file-name-sans-extension config-files) 'noerror))))
+;; (defun my/initialize ()
+;;   "Initialize all my configs files. \n
+;;    p.s. equal `load-file' init.el \n
+;;    without `package' and `use-package'"
+;;   (interactive)
+;;   (let ((conf.d (concat my/emacs-dir "/conf.d/")))
+;;     (setq custom-file (concat conf.d "custom.el"))
+;;     (dolist (config-files
+;;              (directory-files conf.d t "\.el$" nil))
+;;       (load (file-name-sans-extension config-files) 'noerror))))
 
-(my/initialize)
+;; (my/initialize)
 
-(provide 'init.el)
+;; (provide 'init.el)
 
 ;; ========================= To be continued... ================================
