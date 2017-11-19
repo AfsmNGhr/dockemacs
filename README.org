@@ -8,6 +8,27 @@
 
 [[https://i.imgur.com/LZxhWdm.png]]
 
+*** Table of Contents                                                 :TOC:
+- [[#installation][Installation]]
+  - [[#install-docker-engine][Install Docker Engine]]
+  - [[#add-alias][Add alias]]
+  - [[#prepare-homedockemacs-check-your-env][Prepare variables]]
+  - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
+  - [[#add-ssh-keys-to-authorized_keys][Add SSH Keys]]
+  - [[#run-and-wait-until-the-boot][Run]]
+- [[#themes][Themes]]
+  - [[#spolsky][Spolsky]]
+  - [[#spolsky-term][Spolsky Term]]
+- [[#ecosystem][Ecosystem]]
+- [[#wrappers-for-container-workflow][Wrappers]]
+  - Web browser
+  - Docker
+  - [[#bundle][Bundle]]
+  - [[#rubocop][Rubocop]]
+  - [[#node][node]]
+  - [[#tslint][tslint]]
+  - [[#pylint][Pylint]]
+
 *** Installation
 
 **** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
@@ -89,13 +110,13 @@ $ dockemacs
 
 **** Spolsky
 
-Dark color theme ...
+Dark color theme
 
 [[file:images/spolsky-theme.png]]
 
 **** Spolsky Term
 
-Dark color theme for terminal ...
+Dark color theme for terminal
 
 [[file:images/spolsky-term-theme.png]]
 
