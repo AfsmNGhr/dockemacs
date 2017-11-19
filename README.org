@@ -1,11 +1,11 @@
 * Dockemacs - the minimal emacs noX
-<a href='https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master'><img src='https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master' alt='Coverage Status' /></a>
-<a href="https://travis-ci.org/AfsmNGhr/dockemacs"><img src="https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master" alt="Build Status"></a>
-<a href="https://microbadger.com/images/afsmnghr/dockemacs" title="Latest version"><img src="https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg"></a>
-<a href="https://microbadger.com/images/afsmnghr/dockemacs" title="Image size / layers"><img src="https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg"></a>
-<a href="https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square" title="Docker Pulls"><img src="https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square"></a>
-<a href="[[https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]" title="Docker Stars"><img src="[[https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]"></a>
+[[https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
+[[https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
+[[https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
+[[https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
+[[https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
+[[https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
-<a href="https://imgur.com/LZxhWdm"><img src="https://i.imgur.com/LZxhWdm.png" title="Dockemacs" /></a>
+[[https://i.imgur.com/LZxhWdm.png]]
 
-** Installation
+** Installing
