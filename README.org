@@ -1,4 +1,5 @@
 #+OPTIONS: toc:2
+#+HTML_HEAD_EXTRA: <style type="text/css">.markdown-body h4 {font-weight: 400;}</style>
 
 ** Dockemacs - the minimal emacs noX
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
