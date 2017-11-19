@@ -6,20 +6,19 @@
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
-[[https://i.imgur.com/LZxhWdm.png]]
+[[https://i.imgur.com/wmDvJbq.png?1]]
 
 *** Table of Contents                                                 :TOC:
 - [[#installation][Installation]]
   - [[#install-docker-engine][Install Docker Engine]]
-  - [[#add-alias][Add alias]]
+  - [[#add-alias][Alias]]
   - [[#prepare-homedockemacs-check-your-env][Prepare variables]]
   - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
-  - [[#add-ssh-keys-to-authorized_keys][Add SSH Keys]]
+  - [[#add-ssh-keys-to-authorized_keys][SSH Keys]]
   - [[#run-and-wait-until-the-boot][Run]]
 - [[#themes][Themes]]
   - [[#spolsky][Spolsky]]
   - [[#spolsky-term][Spolsky Term]]
-- [[#ecosystem][Ecosystem]]
 - [[#wrappers-for-container-workflow][Wrappers]]
   - Web browser
   - Docker
@@ -28,6 +27,7 @@
   - [[#node][node]]
   - [[#tslint][tslint]]
   - [[#pylint][Pylint]]
+- [[#configurations][Configurations]]
 
 *** Installation
 
@@ -120,10 +120,6 @@ Dark color theme for terminal
 
 [[file:images/spolsky-term-theme.png]]
 
-*** Ecosystem
-
-[[https://i.imgur.com/wmDvJbq.png?1]]
-
 *** Wrappers for container workflow
 
 - =WEB_BROWSER= from =env= with =DISPLAY=
@@ -202,3 +198,5 @@ Dark color theme for terminal
                  ;; remote path in project container
                  (setenv "PROJECT_PYLINT_CMD" "docker exec -it PROJECT_CONTAINER pylint"))))))
   #+end_src
+
+*** Configurations
