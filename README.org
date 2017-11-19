@@ -12,18 +12,13 @@
 - [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 - Create emacs data volume:
 
-  #+BEGIN_SRC sh :tangle no :exports both
+  #+BEGIN_SRC sh :tangle no
   docker volume create emacs_data
   #+END_SRC
 
- * Result:
-
-  #+RESULTS:
-  : emacs_data
-
 - Add alias:
 
-  #+BEGIN_SRC sh :tangle no :exports code
+  #+BEGIN_SRC sh :tangle no
   echo "alias dockemacs=\"
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
@@ -37,7 +32,7 @@
 
 - Prepare =$HOME/.dockemacs=, check your =env=:
 
-  #+BEGIN_SRC sh :tangle no :exports code
+  #+BEGIN_SRC sh :tangle no
   echo "UID=$(id -u)" >> $HOME/.dockemacs
   echo "GID=$(id -g)" >> $HOME/.dockemacs
   echo "UNAME=emacser" >> $HOME/.dockemacs
