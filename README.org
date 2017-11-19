@@ -20,15 +20,17 @@ docker volume create emacs_data
 **** Add alias:
 
   #+begin_src sh :tangle no
-echo "alias dockemacs=\"
+# ~/.bash_aliases or etc ...
+
+alias dockemacs='
   docker run -it --rm --net=host \
        --env-file $HOME/.dockemacs \
-       --entrypoint initialize \"$@\" \
+       --entrypoint initialize "$@" \
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
        afsmnghr/dockemacs:1.7.0 startup
-  \"" "$HOME/.bash_aliases"
+'
   #+end_src
 
 **** Prepare =$HOME/.dockemacs=, check your =env=:
