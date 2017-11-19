@@ -11,14 +11,14 @@
 [[https://i.imgur.com/LZxhWdm.png]]
 
 *** Installing
-- [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
-- Create emacs data volume:
+**** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+**** Create emacs data volume:
 
   #+begin_src sh :tangle no
 docker volume create emacs_data
   #+end_src
 
-- Add alias:
+**** Add alias:
 
   #+begin_src sh :tangle no
 echo "alias dockemacs=\"
@@ -32,7 +32,7 @@ echo "alias dockemacs=\"
   \"" "$HOME/.bash_aliases"
   #+end_src
 
-- Prepare =$HOME/.dockemacs=, check your =env=:
+**** Prepare =$HOME/.dockemacs=, check your =env=:
 
   #+begin_src sh :tangle no
   echo "UID=$(id -u)" >> $HOME/.dockemacs
@@ -64,7 +64,7 @@ echo "alias dockemacs=\"
     * =WEB_BROWSER= - setup browser for emacs
     * =REPOSITORY= - our repository dotemacs (first clone)
 
-- Setup ssh daemon and restart:
+**** Setup ssh daemon and restart:
 
   #+begin_src sh :tangle no
 # /etc/ssh/sshd_config
@@ -72,13 +72,13 @@ echo "alias dockemacs=\"
 ListenAddress 127.1
   #+end_src
 
-- Add SSH Keys to authorized_keys:
+**** Add SSH Keys to authorized_keys:
 
   #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
   #+end_src
 
-- Run and wait until the boot:
+**** Run and wait until the boot:
 
   #+begin_src sh :tangle no
 $ dockemacs
