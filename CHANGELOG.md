@@ -1,3 +1,7 @@
+## 1.8.0
+
+* Literate configuration with `init.org`
+
 ## 1.7.0
 
 * Remove `global`
