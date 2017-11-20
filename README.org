@@ -300,7 +300,7 @@ Set custom file and few variables.
  '(org-confirm-babel-evaluate nil))
 #+end_src
 
-Answering yes or no short.
+Short, answering yes or no.
 
 #+begin_src elisp
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -416,6 +416,8 @@ Load my themes. Enable theme on the frame type.
 
 ***** IDO
 
+Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Interactively DO things”) everywhere.
+
 #+begin_src elisp
 (use-package ido-hacks
   :config
@@ -433,6 +435,8 @@ Load my themes. Enable theme on the frame type.
 #+end_src
 
 ***** Company
+
+Use [[http://company-mode.github.io/][modern completion framework]].
 
 #+begin_src elisp
 (use-package company :defer 30
