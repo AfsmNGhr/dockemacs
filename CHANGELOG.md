@@ -1,6 +1,7 @@
 ## 1.8.0
 
 * Literate configuration with `init.org`
+* Add `BRANCH` and `HEAD_FORCE` variables
 
 ## 1.7.0
 

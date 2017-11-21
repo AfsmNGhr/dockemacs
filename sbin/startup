@@ -11,8 +11,11 @@ if [ ! -d "$HOME/.emacs.d/.git" ]; then
    git remote add origin "$REPOSITORY"
 fi
 
-(git fetch origin master || true)
-# git reset --hard origin/master
+(git fetch origin "$BRANCH" || true)
+
+if [ -n "$HEAD_FORCE" ]; then
+    git reset --hard origin/"$BRANCH"
+fi
 
 if [ -f "$HOME/.emacs.d/init.org" ]; then
     literate

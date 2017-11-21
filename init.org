@@ -113,6 +113,8 @@ alias dockemacs='
   echo "DISPLAY=:0.0" >> $HOME/.dockemacs
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+  echo "BRANCH=master" >> $HOME/.dockemacs
+  echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
 #+end_src
 
     * =UID= and =GID= - transparent permissions

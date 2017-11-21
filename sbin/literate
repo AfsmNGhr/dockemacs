@@ -1,4 +1,5 @@
-#!/usr/bin/env emacs --script
+#!/usr/bin/env sh
+":"; exec emacs --quick --script "$0" "$@" # -*-emacs-lisp-*-
 
 (require 'org)
 (find-file (concat user-emacs-directory "init.org"))
