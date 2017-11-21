@@ -356,9 +356,11 @@ Clear UI.
 Time in the modeline.
 
 #+begin_src elisp
-(display-time-mode)
 (setq display-time-interval 1
-      display-time-format "%H:%M")
+      display-time-format "%H:%M"
+      display-time-default-load-average nil)
+
+(display-time-mode)
 #+end_src
 
 Dialogs stay in emacs.
@@ -404,7 +406,7 @@ Unsorted settings.
       x-select-enable-clipboard t
       echo-keystrokes 0.1
       enable-local-eval t
-      garbage-lection-colmessages t)
+      garbage-collection-messages t)
 #+end_src
 
 ***** Themes
