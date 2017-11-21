@@ -1,14 +1,5 @@
 #!/usr/bin/env sh
 
-initialize=$(cat <<EOF
-(require 'org)
-(find-file (concat user-emacs-directory "init.org"))
-(org-babel-tangle)
-(load-file (concat user-emacs-directory "init.el"))
-(byte-compile-file (concat user-emacs-directory "init.el"))
-EOF
-)
-
 ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig"
 ln -s "$WORKSPACE/.ssh" "$HOME/.ssh"
 ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg"
@@ -21,11 +12,10 @@ if [ ! -d "$HOME/.emacs.d/.git" ]; then
 fi
 
 (git fetch origin master || true)
-git reset --hard origin/master
+# git reset --hard origin/master
 
-# first run literal configuration ...
 if [ -f "$HOME/.emacs.d/init.org" ]; then
-    emacs --batch --eval="$initialize"
+    literate
 fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
