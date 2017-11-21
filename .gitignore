@@ -26,3 +26,4 @@ history
 *.lock
 /*bundle
 custom.el
+init.el

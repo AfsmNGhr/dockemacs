@@ -319,7 +319,7 @@ Prefer space indentation.
 
 #+begin_src elisp
 (custom-set-variables
- '(whitespace-style '(face lines-tail))
+ '(whitespace-style '(face lines-tail)))
 
 (global-whitespace-mode t)
 #+end_src
@@ -329,7 +329,7 @@ Prefer space indentation.
 Set custom file and few variables.
 
 #+begin_src elisp
-(setq custom-file (concat user-emacs-directory "custom.el")
+(setq custom-file (concat user-emacs-directory "custom.el"))
 
 (custom-set-variables
  '(org-babel-load-languages
@@ -349,8 +349,6 @@ Clear UI.
 (menu-bar-mode -1)
 (if tool-bar-mode
     (tool-bar-mode -1))
-(if scroll-bar-mode
-    (scroll-bar-mode -1))
 (column-number-mode -1)
 (blink-cursor-mode -1)
 (line-number-mode -1)
@@ -524,6 +522,14 @@ tangled, and the tangled file is compiled."
       (org-babel-tangle)
       (byte-compile-file (concat user-emacs-directory "init.el")))))
 
+(defun my/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun my/minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000))
+
+(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 (add-hook 'after-save-hook 'tangle-init)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+end_src
@@ -937,14 +943,14 @@ Major mode for =Dockerfile=.
        (org-todo "CANCELLED")
        (org-clock-out-if-current)))
 
-  (use-package org-faces
+  (use-package org-faces :ensure f
     :init
     (setq org-todo-keyword-faces
           '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
             ("HOLD" :foreground "firebrick2" :weight bold)
             ("NEXT" :foreground "OrangeRed2" :weight bold))))
 
-  (use-package org-src
+  (use-package org-src :ensure f
     :init
     (setq org-src-fontify-natively t
           org-edit-src-content-indentation 2
@@ -952,7 +958,7 @@ Major mode for =Dockerfile=.
           org-src-preserve-indentation t
           org-src-ask-before-returning-to-edit-buffer nil))
 
-  (use-package org-agenda
+  (use-package org-agenda :ensure f
     :init
     (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
           org-agenda-clockreport-parameter-plist
@@ -960,7 +966,7 @@ Major mode for =Dockerfile=.
     :bind
     (:map global-map ("C-c a" . org-agenda)))
 
-  (use-package org-protocol
+  (use-package org-protocol :ensure f
     :init
     (setq org-protocol-default-template-key "L"))
 
