@@ -1,4 +1,7 @@
+#+PROPERTY: header-args :tangle init.el :comments org
+
 ** Dockemacs - the minimal emacs noX
+
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
 [[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
