@@ -419,9 +419,8 @@ Unsorted settings.
 (setq show-paren-style 'mixed
       word-wrap t
       search-highlight t
-      redisplay-dont-pause t
       query-replace-highlight t
-      x-select-enable-clipboard t
+      select-enable-clipboard t
       echo-keystrokes 0.1
       enable-local-eval t
       garbage-collection-messages t)
@@ -490,7 +489,7 @@ Add comment fn.
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)
-    (next-line)))
+    (forward-line)))
 #+end_src
 
 My keybindings almost defaulted.
@@ -695,7 +694,7 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 #+begin_src elisp
 (use-package projectile :defer 30
-  :init (projectile-global-mode)
+  :init (projectile-mode)
   :diminish projectile-mode
   :config
   (setq projectile-enable-caching t
@@ -723,9 +722,7 @@ No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
 
 #+begin_src elisp
 (use-package yasnippet :defer 30
-  :init (yas-global-mode t)
-  :config
-  (setq yas-fallback-behavior 'indent-line))
+  :init (yas-global-mode t))
 #+end_src
 
 **** Search
@@ -974,7 +971,7 @@ Major mode for =Dockerfile=.
           org-src-ask-before-returning-to-edit-buffer nil))
 
   (use-package org-agenda :ensure f
-    :init
+    :config
     (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
           org-agenda-clockreport-parameter-plist
           (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
@@ -985,7 +982,7 @@ Major mode for =Dockerfile=.
     :init
     (setq org-protocol-default-template-key "L"))
 
-  (use-package org-capture
+  (use-package org-capture :ensure f
     :init
     (defconst my/org-capture-templates
       '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
@@ -1004,7 +1001,7 @@ Major mode for =Dockerfile=.
     :bind
     (:map global-map ("C-c c" . org-capture)))
 
-  (use-package org-clock
+  (use-package org-clock :ensure f
     :init
     (setq org-clock-history-length 23
           org-clock-continuously t
