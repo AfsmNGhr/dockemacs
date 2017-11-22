@@ -131,6 +131,8 @@ alias dockemacs='
     * =DISPLAY= - for GUI application
     * =WEB_BROWSER= - setup browser for emacs
     * =REPOSITORY= - our repository dotemacs (first clone)
+    * =BRANCH= - our active branch
+    * =HEAD_FORCE= - force update our branch
 
 **** Setup ssh daemon and restart:
 
