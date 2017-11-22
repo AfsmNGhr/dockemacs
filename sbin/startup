@@ -17,8 +17,8 @@ if [ -n "$HEAD_FORCE" ]; then
     git reset --hard origin/"$BRANCH"
 fi
 
-if [ -f "$HOME/.emacs.d/init.org" ]; then
-    literate
+if [ -f "$HOME/.emacs.d/init.org" ] && [ ! -f "$HOME/.emacs.d/init.el" ]; then
+    tangle
 fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
