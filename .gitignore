@@ -13,8 +13,6 @@ projectile*
 eshell/
 /.mc-lists.el
 /url
-G*
-!Gemfile
 history
 /company-statistics-cache.el
 /org-clock-save.el
@@ -23,8 +21,9 @@ history
 *.data
 *.snip#
 /node_modules/
-development.env
 *~
 /.#company-statistics-cache.el
 *.lock
 /*bundle
+custom.el
+init.el

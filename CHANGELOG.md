@@ -1,3 +1,9 @@
+## 1.8.0
+
+* Literate configuration with `init.org`
+* Add `BRANCH` and `HEAD_FORCE` variables
+* Remove `--repository` edge
+
 ## 1.7.0
 
 * Remove `global`

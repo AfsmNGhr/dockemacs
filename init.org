@@ -1,0 +1,1027 @@
+#+PROPERTY: header-args :tangle init.el :comments org
+
+** Dockemacs - the minimal emacs noX
+
+[[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
+[[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
+[[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
+[[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
+
+[[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
+
+*** Table of Contents                                                 :TOC:
++ [[#installation][Installation]]
+  - [[#install-docker-engine][Install Docker Engine]]
+  - [[#add-alias][Alias]]
+  - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
+  - [[#setup-ssh-daemon-and-restart][Setup ssh Daemon]]
+  - [[#add-ssh-key-to-authorized_keys][Ssh Key]]
+  - [[#run-and-wait-until-the-boot][Run]]
++ [[#wrappers-for-container-workflow][Wrappers]]
+  - Web browser
+  - Docker
+  - [[#bundle][Bundle]]
+  - [[#rubocop][Rubocop]]
+  - [[#node][node]]
+  - [[#tslint][tslint]]
+  - [[#pylint][Pylint]]
++ [[#configurations][Configurations]]
+  - [[#initialize][Initialize]]
+  - [[#package-management][Package Management]]
+    - use-package
+  - [[#encoding][Encoding]]
+  - [[#indentation][Indentation]]
+  - [[#autopair][Autopair]]
+  - [[#whitespace][Whitespace]]
+  + [[#interface][Interface]]
+    + [[#themes][Themes]]
+      - [[#spolsky][Spolsky]]
+      - [[#spolsky-term][Spolsky Term]]
+  - [[#window-management][Window Management]]
+    - ace-window
+  - [[#keyboard][Keyboard]]
+  - [[#hooks][Hooks]]
+  - [[#history][History]]
+  - [[#backups][Backups]]
+  + [[#completion][Completion]]
+    - [[#ido][IDO]]
+    - [[#company][Company]]
+  - [[#recent-files][Recent files]]
+  - [[#bookmarks][Bookmarks]]
+  + [[#vcs][VCS]]
+    - [[#magit][Magit]]
+    - [[#git-time-machine][Git time machine]]
+  - [[#project-management][Project Management]]
+    - projectile
+  - [[#linters][Linters]]
+    - flycheck
+  - [[#snippets][Snippets]]
+    - yasnippet
+  + [[#search][Search]]
+    - [[#ag][Ag]]
+    - [[#keyword-search][Keyword search]]
+  - [[#tags][Tags]]
+    - dumb-jump
+  + [[#devops][DevOps]]
+    - [[#docker][Docker]]
+  - [[#remote-management][Remote Management]]
+  + [[#languages][Languages]]
+    - [[#ruby][Ruby]]
+    - [[#javascript][Javascript]]
+  - [[#templates][Templates]]
+  - [[#org][Org]]
+
+*** Installation
+
+**** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+**** Create emacs data volume:
+
+#+begin_src sh :tangle no
+docker volume create emacs_data
+#+end_src
+
+**** Add alias:
+
+#+begin_src sh :tangle no
+# ~/.bash_aliases or etc ...
+
+alias dockemacs='
+  docker run -it --rm --net=host \
+       --env-file $HOME/.dockemacs \
+       --entrypoint initialize "$@" \
+       -v $HOME:/mnt/workspace \
+       -v emacs_data:/home/emacser/.emacs.d \
+       -v /etc/localtime:/etc/localtime:ro \
+       afsmnghr/dockemacs:1.8.0 startup
+'
+#+end_src
+
+**** Prepare =$HOME/.dockemacs=, check your =env=:
+
+#+begin_src sh :tangle no
+  echo "UID=$(id -u)" >> $HOME/.dockemacs
+  echo "GID=$(id -g)" >> $HOME/.dockemacs
+  echo "UNAME=emacser" >> $HOME/.dockemacs
+  echo "GNAME=emacs" >> $HOME/.dockemacs
+  echo "HOME=/home/emacser" >> $HOME/.dockemacs
+  echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
+  echo "SHELL=/bin/bash" >> $HOME/.dockemacs
+  echo "TERM=xterm-256color" >> $HOME/.dockemacs
+  echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
+  echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
+  echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
+  echo "HOST_PORT=22" >> $HOME/.dockemacs
+  echo "DISPLAY=:0.0" >> $HOME/.dockemacs
+  echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
+  echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+  echo "BRANCH=master" >> $HOME/.dockemacs
+  echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
+#+end_src
+
+    * =UID= and =GID= - transparent permissions
+    * =UNAME= and =GNAME= - user & group name in container
+    * =HOME= - rewrite home path for new user
+    * =WORKSPACE= - mount path from host
+    * =SHELL= - default shell
+    * =TERM= - set terminal env
+    * =ORG_FILES= - only relative path
+    * =HOST_USER=, =HOST_IP=, =HOST_PORT= - remote management through ssh
+    * =DISPLAY= - for GUI application
+    * =WEB_BROWSER= - setup browser for emacs
+    * =REPOSITORY= - our repository dotemacs (first clone)
+    * =BRANCH= - our active branch
+    * =HEAD_FORCE= - force update our branch
+
+**** Setup ssh daemon and restart:
+
+#+begin_src sh :tangle no
+# /etc/ssh/sshd_config
+
+ListenAddress 127.1
+#+end_src
+
+**** Add ssh key to authorized_keys:
+
+#+begin_src sh :tangle no
+ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+#+end_src
+
+**** Run and wait until the boot:
+
+#+begin_src sh :tangle no
+$ dockemacs
+#+end_src
+
+*** Wrappers for container workflow
+
+[[https://i.imgur.com/wmDvJbq.png?1]]
+
+- =WEB_BROWSER= from =env= with =DISPLAY=
+- [[https://docs.docker.com/][Docker]]
+
+**** [[http://bundler.io/][Bundle]]
+
+#+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_BUNDLE_CMD" "docker exec -it PROJECT_CONTAINER bundle"))))))
+#+end_src
+
+**** [[https://github.com/bbatsov/rubocop][Rubocop]]
+
+#+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it PROJECT_CONTAINER rubocop"))))))
+#+end_src
+
+**** [[https://nodejs.org/][node]]
+
+#+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_NODE_CMD" "docker exec -it PROJECT_CONTAINER node"))))))
+#+end_src
+
+**** [[https://www.npmjs.com/package/tslint][tslint]]
+
+#+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER tslint")
+                 ;; container workflow
+                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint")
+                 ;; host application
+)))))
+#+end_src
+
+**** [[https://www.pylint.org/][Pylint]]
+
+#+begin_src elisp :tangle no
+;; .dir-locals.el in root project
+
+((nil . ((eval .
+               (progn
+                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
+                 ;; local path in dockemacs container
+                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
+                 ;; remote path in project container
+                 (setenv "PROJECT_PYLINT_CMD" "docker exec -it PROJECT_CONTAINER pylint"))))))
+#+end_src
+
+*** Configurations
+
+**** Initialize
+
+Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-pitfalls][emacs script pitfalls]].
+
+#+begin_src sh :tangle no
+#!/usr/bin/env sh
+":"; exec emacs --quick --script "$0" "$@" # -*-emacs-lisp-*-
+
+(require 'org)
+(setq gc-cons-threshold most-positive-fixnum)
+(find-file (concat user-emacs-directory "init.org"))
+(org-babel-tangle)
+(load-file (concat user-emacs-directory "init.el"))
+(byte-compile-file (concat user-emacs-directory "init.el"))
+(setq gc-cons-threshold 800000)
+#+end_src
+
+Set lexical scoping for the init file.
+
+#+begin_src elisp
+;;; -*- lexical-binding: t -*-
+#+end_src
+
+**** Package Management
+
+The =use-package= declarative and performance-oriented.
+
+#+begin_src elisp
+(require 'package)
+(package-initialize)
+
+(setq package-enable-at-startup nil
+      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+
+(unless (version< emacs-version "25.1")
+  (setq package-archive-priorities '(("melpa-stable" . 10)
+                                     ("gnu" . 10)
+                                     ("melpa" . 20))))
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
+
+(setq use-package-always-ensure t)
+#+end_src
+
+Benchmarking =init.el=.
+
+#+begin_src elisp
+(use-package benchmark-init
+  :init (benchmark-init/activate))
+#+end_src
+
+**** Encoding
+
+Set utf-8 everywhere.
+
+#+begin_src elisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8
+      file-name-coding-system 'utf-8
+      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+end_src
+
+**** Indentation
+
+Prefer space indentation.
+
+#+begin_src elisp
+(setq tab-width 2
+      tab-always-indent 'complete
+      indent-tabs-mode nil)
+#+end_src
+
+**** Autopair
+
+#+begin_src elisp
+(setq electric-pair-pairs '((?\" . ?\")
+                            (?\` . ?\`)
+                            (?\( . ?\))
+                            (?\{ . ?\})))
+
+(electric-pair-mode 1)
+#+end_src
+
+**** Whitespace
+
+#+begin_src elisp
+(custom-set-variables
+ '(whitespace-style '(face lines-tail)))
+
+(global-whitespace-mode t)
+#+end_src
+
+**** Interface
+
+Set custom file and few variables.
+
+#+begin_src elisp
+(setq custom-file (concat user-emacs-directory "custom.el"))
+
+(custom-set-variables
+ '(org-babel-load-languages
+   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+ '(org-confirm-babel-evaluate nil))
+#+end_src
+
+Short, answering yes or no.
+
+#+begin_src elisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+Clear UI.
+
+#+begin_src elisp
+(menu-bar-mode -1)
+(if tool-bar-mode
+    (tool-bar-mode -1))
+(column-number-mode -1)
+(blink-cursor-mode -1)
+(line-number-mode -1)
+(size-indication-mode -1)
+(setq ring-bell-function 'ignore)
+#+end_src
+
+Time in the modeline.
+
+#+begin_src elisp
+(setq display-time-interval 1
+      display-time-format "%H:%M"
+      display-time-default-load-average nil)
+
+(display-time-mode)
+#+end_src
+
+Dialogs stay in emacs.
+
+#+begin_src elisp
+(setq use-dialog-box nil
+      use-file-dialog nil
+      epa-pinentry-mode 'loopback)
+#+end_src
+
+Enable built-in modes.
+
+#+begin_src elisp
+(global-visual-line-mode t)
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(delete-selection-mode t)
+(global-linum-mode t)
+(auto-fill-mode 1)
+#+end_src
+
+Set external browser.
+
+#+begin_src elisp
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "/usr/local/sbin/browser-remote")
+#+end_src
+
+Dired listing settings.
+
+#+begin_src elisp
+(setq dired-listing-switches "-lhvA")
+#+end_src
+
+Unsorted settings.
+
+#+begin_src elisp
+(setq show-paren-style 'mixed
+      word-wrap t
+      search-highlight t
+      query-replace-highlight t
+      select-enable-clipboard t
+      echo-keystrokes 0.1
+      enable-local-eval t
+      garbage-collection-messages t)
+#+end_src
+
+***** Themes
+
+Load my themes. Enable theme on the frame type.
+
+#+begin_src elisp
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
+(defun my/load-theme ()
+  "load my theme"
+  (if (display-graphic-p)
+      (load-theme 'spolsky t)
+    (load-theme 'spolsky-term t)))
+
+(defun my/enable-theme (frame)
+  "enable theme the current frame depending on the frame type"
+  (with-selected-frame frame
+    (if (window-system)
+        (progn
+          (unless (custom-theme-enabled-p 'spolsky)
+            (if (custom-theme-enabled-p 'spolsky-term)
+                (disable-theme 'spolsky-term))
+            (enable-theme 'spolsky)))
+      (progn
+        (unless (custom-theme-enabled-p 'spolsky-term)
+          (if (custom-theme-enabled-p 'spolsky)
+              (disable-theme 'spolsky))
+          (enable-theme 'spolsky-term))))))
+
+(add-hook 'after-init-hook 'my/load-theme)
+(add-hook 'after-make-frame-functions 'my/enable-theme)
+#+end_src
+
+****** Spolsky
+
+[[file:images/spolsky-theme.png]]
+
+****** Spolsky Term
+
+[[file:images/spolsky-term-theme.png]]
+
+**** Window management
+
+Named buffers.
+
+#+begin_src elisp
+(use-package ace-window :defer t
+  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+                aw-background nil))
+#+end_src
+
+**** Keyboard
+
+Add comment fn.
+
+#+begin_src elisp
+(defun comment-or-uncomment-region-or-line ()
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)
+    (forward-line)))
+#+end_src
+
+My keybindings almost defaulted.
+
+#+begin_src elisp
+(global-set-key (kbd "C-v") 'end-of-buffer)
+(global-set-key (kbd "M-v") 'beginning-of-buffer)
+
+(global-set-key (kbd "C-b") 'backward-char)
+(global-set-key (kbd "C-f") 'forward-char)
+(global-set-key (kbd "C-p") 'previous-line)
+(global-set-key (kbd "C-M-b") 'backward-paragraph)
+(global-set-key (kbd "C-M-f") 'forward-paragraph)
+
+(global-set-key (kbd "C-x w") 'kill-buffer-and-window)
+(global-set-key (kbd "C-z") 'undo)
+
+(global-set-key (kbd "C-x o") 'ace-window)
+
+(global-set-key (kbd "C-w") 'clipboard-kill-region)
+(global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
+
+(global-set-key (kbd "C-y") 'clipboard-yank)
+(global-set-key (kbd "M-q") 'query-replace-regexp)
+
+(global-set-key [remap comment-dwim] 'comment-or-uncomment-region-or-line)
+#+end_src
+
+**** Hooks
+
+#+begin_src elisp
+(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+  "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+  (cl-letf (((symbol-function #'process-list) (lambda ())))
+    ad-do-it))
+
+(defun tangle-init ()
+  "If the current buffer is 'init.org' the code-blocks are
+tangled, and the tangled file is compiled."
+  (when (equal (buffer-file-name)
+               (expand-file-name (concat user-emacs-directory "init.org")))
+    ;; Avoid running hooks when tangling.
+    (let ((prog-mode-hook nil))
+      (org-babel-tangle)
+      (byte-compile-file (concat user-emacs-directory "init.el")))))
+
+(defun my/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun my/minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000))
+
+(add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
+(add-hook 'after-save-hook 'tangle-init)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
+
+**** History
+
+#+begin_src elisp
+(setq history-length t
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-autosave-interval 60
+      savehist-additional-variables '(search-ring regexp-search-ring
+                                                  comint-input-ring))
+
+(savehist-mode 1)
+#+end_src
+
+**** Backups
+
+#+begin_src elisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
+      auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))
+      delete-old-versions t
+      version-control t
+      vc-make-backup-files t
+      backup-by-copying t
+      kept-new-versions 2
+      kept-old-versions 2)
+#+end_src
+
+**** Completion
+
+***** IDO
+
+Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Interactively DO things”) everywhere.
+
+#+begin_src elisp
+(use-package ido-hacks
+  :config
+  (use-package flx-ido
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (flx-ido-mode 1)
+    (setq ido-enable-flex-matching t
+          ido-use-faces t
+          ido-virtual-buffers t
+          ido-auto-merge-delay-time 99999999))
+  (use-package ido-completing-read+ :pin melpa-stable
+    :config (ido-ubiquitous-mode 1)))
+#+end_src
+
+***** Company
+
+Use [[http://company-mode.github.io/][modern completion framework]].
+
+#+begin_src elisp
+(use-package company :defer 30
+  :init (global-company-mode t)
+  :config
+  (defvar company-mode/enable-yas t
+    "Enable yasnippet for all backends.")
+
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas)
+            (and (listp backend)
+                 (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends
+        (mapcar #'company-mode/backend-with-yas
+                '((company-capf company-shell company-dabbrev company-abbrev
+                                company-files company-gtags company-etags
+                                company-keywords)))
+        company-idle-delay 1.0
+        company-tooltip-flip-when-above t)
+  (use-package company-flx :defer t
+    :config (with-eval-after-load 'company
+              (company-flx-mode +1)))
+  (use-package company-ycmd :defer t
+    :config (company-ycmd-setup))
+  (use-package company-shell :defer t)
+  (use-package company-statistics :defer t
+    :init (company-statistics-mode)))
+#+end_src
+
+**** Recent files
+
+#+begin_src elisp
+(use-package recentf
+  :init (recentf-mode 1)
+  :config
+  (setq recentf-max-saved-items 30
+        recentf-keep '(file-remote-p file-readable-p))
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to find a recent file."
+    (interactive)
+    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
+
+  (global-set-key (kbd "C-c r") 'ido-recentf-open))
+#+end_src
+
+**** Bookmarks
+
+#+begin_src elisp
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag t)
+  (global-set-key (kbd "C-x r b")
+                  (lambda ()
+                    (interactive)
+                    (bookmark-jump
+                     (ido-completing-read "jump to bookmark: "
+                                          (bookmark-all-names))))))
+#+end_src
+
+**** VCS
+
+***** Magit
+
+It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
+
+#+begin_src elisp
+(unless (version< emacs-version "24.4")
+  (use-package magit :defer t
+    :config
+    (setq magit-completing-read-function 'magit-ido-completing-read
+          magit-set-upstream-on-push t
+          magit-push-always-verify nil
+          vc-handled-backends nil)))
+#+end_src
+
+***** Git time machine
+
+Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][Git time machine]].
+
+#+begin_src elisp
+(unless (version< emacs-version "24.4")
+  (use-package git-timemachine :defer t))
+#+end_src
+
+**** Project management
+
+Setup [[https://github.com/bbatsov/projectile][projectile]].
+
+#+begin_src elisp
+(use-package projectile :defer 30
+  :init (projectile-mode)
+  :diminish projectile-mode
+  :config
+  (setq projectile-enable-caching t
+        projectile-use-git-grep t
+        projectile-indexing-method 'default
+        projectile-switch-project-action 'projectile-dired
+        projectile-file-exists-remote-cache-expire (* 10 60)
+        projectile-file-exists-local-cache-expire (* 5 60)
+        projectile-require-project-root nil
+        projectile-idle-timer-seconds 60
+        projectile-completion-system 'ido))
+#+end_src
+
+**** Linters
+
+Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
+
+#+begin_src elisp
+(use-package flycheck :defer t)
+#+end_src
+
+**** Snippets
+
+No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
+
+#+begin_src elisp
+(use-package yasnippet :defer 30
+  :init (yas-global-mode t))
+#+end_src
+
+**** Search
+
+***** Ag
+
+Use it for projectile and dumb-jump.
+
+#+begin_src elisp
+(use-package ag :defer t)
+#+end_src
+
+***** Keyword search
+
+Browser style [[https://github.com/keyword-search/keyword-search][keyword search]].
+
+#+begin_src elisp
+(use-package keyword-search :defer t
+  :bind ("C-c s" . keyword-search)
+  :config
+  (setq my/search-alist
+        '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
+          (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
+          (reddit . "https://www.reddit.com/search?q=%s"))
+        keyword-search-alist (append keyword-search-alist my/search-alist)))
+#+end_src
+
+**** Tags
+
+Grepping tags.
+
+#+begin_src elisp
+(use-package dumb-jump :defer t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :config (setq dumb-jump-selector 'ido
+                dumb-jump-prefer-searcher 'git-grep
+                dumb-jump-force-searcher 'ag))
+#+end_src
+
+**** DevOps
+
+***** Docker
+
+Simple management docker containers.
+
+#+begin_src elisp
+(unless (version< emacs-version "24.4")
+  (use-package docker :defer t))
+#+end_src
+
+Major mode for =Dockerfile=.
+
+#+begin_src elisp
+(use-package dockerfile-mode :defer t)
+#+end_src
+
+**** Remote management
+
+#+begin_src elisp
+(use-package tramp
+  :config
+  (setq auto-revert-remote-files t
+        shell-file-name "/bin/sh")) ;; alpine based
+
+(use-package exec-path-from-shell :ensure t)
+
+(defun sudo-edit-current-file ()
+  (interactive)
+  (let ((my-file-name) ; fill this with the file to open
+        (position))    ; if the file is already open save position
+    (if (equal major-mode 'dired-mode) ; test if we are in dired-mode
+        (progn
+          (setq my-file-name (dired-get-file-for-visit))
+          (find-alternate-file (prepare-tramp-sudo-string my-file-name)))
+      (setq my-file-name (buffer-file-name)
+            position (point))
+      (find-alternate-file (prepare-tramp-sudo-string my-file-name))
+      (goto-char position))))
+
+(defun prepare-tramp-sudo-string (tempfile)
+  (if (file-remote-p tempfile)
+      (let ((vec (tramp-dissect-file-name tempfile)))
+
+        (tramp-make-tramp-file-name
+         "sudo"
+         (tramp-file-name-user nil)
+         (tramp-file-name-host vec)
+         (tramp-file-name-localname vec)
+         (format "ssh:%s@%s|"
+                 (tramp-file-name-user vec)
+                 (tramp-file-name-host vec))))
+    (concat "/sudo:root@localhost:" tempfile)))
+#+end_src
+
+**** Languages
+
+***** Ruby
+
+#+begin_src elisp
+(use-package ruby-mode :defer t
+  :mode (("\\.cr\\'" . ruby-mode)
+         (".irbrc" . ruby-mode)))
+
+(use-package bundler :defer t)
+(use-package rvm :defer t
+  :init (rvm-use-default)
+  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+    (rvm-activate-corresponding-ruby)))
+
+(use-package company-inf-ruby :defer t)
+(use-package rubocop :defer t
+  :init (add-hook 'ruby-mode-hook 'rubocop-mode)
+  (add-to-list 'ruby-mode-hook 'flycheck-mode)
+  (if (version< emacs-version "24.4")
+      (eval-after-load 'flycheck-mode
+        '(progn (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
+    (with-eval-after-load 'flycheck-mode
+      (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
+#+end_src
+
+***** Javascript
+
+#+begin_src elisp
+(use-package coffee-mode :defer t
+  :config (setq-default coffee-js-mode 'js2-mode coffee-tab-width 2))
+
+(use-package typescript-mode :defer t
+  :config
+  (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  (setq typescript-indent-level 2))
+
+(use-package json :config (setq js-indent-level 2))
+
+(use-package js2-mode :ensure t :defer t
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.json\\'" . javascript-mode))
+  :commands js2-mode
+  :config (setq-default js2-basic-offset 2
+                        js2-indent-switch-body t
+                        js2-auto-indent-p t
+                        js2-highlight-level 3
+                        js2-global-externs '("angular")
+                        js2-indent-on-enter-key t)
+  (setq flycheck-disabled-checkers '(javascript-jshint))
+  (add-to-list 'js2-mode-hook 'flycheck-mode))
+#+end_src
+
+**** Templates
+
+#+begin_src elisp
+(use-package markdown-mode :defer t)
+(use-package css-mode :defer t)
+(use-package sass-mode :defer 60
+  :mode (("\\.scss" . sass-mode)))
+(use-package haml-mode :defer t)
+(use-package slim-mode :defer t)
+(use-package csv-mode :defer t)
+(use-package yaml-mode :defer t)
+(use-package company-web :defer 30)
+(use-package web-mode :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (setq web-mode-markup-indent-offset 2
+        web-mode-enable-auto-pairing t
+        web-mode-enable-current-element-highlight t
+        web-mode-enable-block-face t
+        web-mode-enable-part-face t))
+#+end_src
+
+**** Org
+
+#+begin_src elisp
+(use-package org :defer 30 :pin melpa
+  :init
+  (defconst my/org-dir (getenv "ORG_PATH"))
+
+  (add-hook 'kill-emacs-hook (lambda () (org-save-all-org-buffers)))
+
+  (defun my/current-task-change-status (status)
+    "Change status for current task and stop."
+    (interactive)
+    (when (org-clocking-p)
+      (org-clock-goto)
+      (org-todo status)
+      (org-clock-out)
+      (save-buffer)
+      (switch-to-prev-buffer)))
+
+  (setq org-log-done t
+        org-startup-indented t
+        org-todo-keywords
+        '((sequence "TODO" "NEXT" "INPROGRESS" "HOLD" "DONE" "CANCELLED")))
+
+  (define-prefix-command 'org-todo-keys)
+
+  (define-key org-todo-keys "t"
+    '(lambda ()
+       (interactive)
+       (org-todo "TODO")
+       (org-clock-out-if-current)))
+  (define-key org-todo-keys "n"
+    '(lambda ()
+       (interactive)
+       (org-todo "NEXT")
+       (org-clock-out-if-current)))
+  (define-key org-todo-keys "h"
+    '(lambda ()
+       (interactive)
+       (org-todo "HOLD")
+       (org-clock-out-if-current)))
+  (define-key org-todo-keys "d"
+    '(lambda ()
+       (interactive)
+       (org-todo "DONE")
+       (org-clock-out-if-current)))
+  (define-key org-todo-keys "i"
+    '(lambda ()
+       (interactive)
+       (org-todo "INPROGRESS")
+       (my/current-task-change-status "HOLD")
+       (org-clock-in)))
+  (define-key org-todo-keys "c"
+    '(lambda ()
+       (interactive)
+       (org-todo "CANCELLED")
+       (org-clock-out-if-current)))
+
+  (use-package org-faces :ensure f
+    :init
+    (setq org-todo-keyword-faces
+          '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
+            ("HOLD" :foreground "firebrick2" :weight bold)
+            ("NEXT" :foreground "OrangeRed2" :weight bold))))
+
+  (use-package org-src :ensure f
+    :init
+    (setq org-src-fontify-natively t
+          org-edit-src-content-indentation 2
+          org-src-tab-acts-natively t
+          org-src-preserve-indentation t
+          org-src-ask-before-returning-to-edit-buffer nil))
+
+  (use-package org-agenda :ensure f
+    :config
+    (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
+          org-agenda-clockreport-parameter-plist
+          (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
+    :bind
+    (:map global-map ("C-c a" . org-agenda)))
+
+  (use-package org-protocol :ensure f
+    :init
+    (setq org-protocol-default-template-key "L"))
+
+  (use-package org-capture :ensure f
+    :init
+    (defconst my/org-capture-templates
+      '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
+         "* %c :LINK:\n%U %?%:initial")
+        ("d" "Diary" entry (file+datetree (concat my/org-dir "diary.org"))
+         "* %?\n%U\n" :clock-in t :clock-resume t)
+        ("w" "Work" entry (file+datetree (concat my/org-dir "work.org"))
+         "* TODO %? :WORK:\n%U\n" :clock-in t :clock-resume t)
+        ("f" "Freelance" entry (file+datetree
+                                (concat my/org-dir "freelance.org"))
+         "* TODO %? :FREELANCE:\n%U\n" :clock-in t :clock-resume t)
+        ("e" "Education" entry (file
+                                (concat my/org-dir "education.org"))
+         "* TODO %?\n%U\n" :clock-in t :clock-resume t)))
+    (setq org-capture-templates my/org-capture-templates)
+    :bind
+    (:map global-map ("C-c c" . org-capture)))
+
+  (use-package org-clock :ensure f
+    :init
+    (setq org-clock-history-length 23
+          org-clock-continuously t
+          org-clock-in-resume t
+          org-clock-into-drawer t
+          org-clock-out-remove-zero-time-clocks t
+          org-clock-out-when-done t
+          org-clock-persist 'history
+          org-clock-clocked-in-display 'mode-line
+          org-clock-persist-query-resume nil
+          org-clock-report-include-clocking-task t)
+    (org-clock-persistence-insinuate))
+
+  :bind
+  (:map org-mode-map
+   ("C-c x" . org-todo-keys)
+   :map global-map
+   ("C-c l" . org-store-link)))
+#+end_src
