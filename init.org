@@ -9,6 +9,8 @@
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
+[[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
+
 [[https://i.imgur.com/wmDvJbq.png?1]]
 
 *** Table of Contents                                                 :TOC:
