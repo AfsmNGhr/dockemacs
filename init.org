@@ -9,7 +9,7 @@
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
-[[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
+[[https://asciinema.org/a/149637][https://asciinema.org/a/149637.png]]
 
 *** Table of Contents                                                 :TOC:
 + [[#installation][Installation]]
@@ -153,6 +153,8 @@ ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
 #+begin_src sh :tangle no
 $ dockemacs
 #+end_src
+
+[[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
 
 *** Wrappers for container workflow
 
