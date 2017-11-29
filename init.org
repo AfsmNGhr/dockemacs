@@ -679,6 +679,40 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 (unless (version< emacs-version "24.4")
   (use-package magit :defer t
     :config
+
+    (global-set-key (kbd "C-c j") #'my/visit-pull-request-url)
+
+    (defun my/visit-pull-request-url ()
+      "Visit the current branch's PR."
+      (interactive)
+      (let ((repo (magit-get "remote" (magit-get-remote) "url")))
+	(if (not repo)
+	    (setq repo (magit-get "remote" (magit-get-push-remote) "url")))
+	(if (string-match "github\\.com" repo)
+	    (visit-gh-pull-request repo)
+	  (visit-bb-pull-request repo))))
+
+    (defun visit-gh-pull-request (repo)
+      "Visit the current branch's PR on Github."
+      (interactive)
+      (message repo)
+      (browse-url
+       (format "https://github.com/%s/compare/%s?expand=1"
+	       (replace-regexp-in-string
+		"\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+		repo)
+	       (magit-get-current-branch))))
+
+    (defun visit-bb-pull-request (repo)
+      "Visit the current branch's PR on BitBucket."
+      (message repo)
+      (browse-url
+       (format "https://bitbucket.org/%s/pull-request/new?source=%s&t=1"
+	       (replace-regexp-in-string
+		"\\`.+bitbucket\\.org:\\(.+\\)\\.git\\'" "\\1"
+		repo)
+	       (magit-get-current-branch))))
+
     (setq magit-completing-read-function 'magit-ido-completing-read
           magit-set-upstream-on-push t
           magit-push-always-verify nil
