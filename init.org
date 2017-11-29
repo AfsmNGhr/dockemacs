@@ -697,9 +697,9 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
       (interactive)
       (message repo)
       (browse-url
-       (format "https://github.com/%s/pull/new/%s"
+       (format "https://github.com/%s/compare/%s?expand=1"
 	       (replace-regexp-in-string
-		"\\`.+github\\.com:\\(.+\\)\\(\\.git\\)?\\'" "\\1"
+		"\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
 		repo)
 	       (magit-get-current-branch))))
 
