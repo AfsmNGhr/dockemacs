@@ -820,7 +820,8 @@ Simple management docker containers.
 Major mode for =Dockerfile=.
 
 #+begin_src elisp
-(use-package dockerfile-mode :defer t)
+(use-package dockerfile-mode :defer t
+  :mode (("Dockerfile.*" . dockerfile-mode)))
 #+end_src
 
 **** Remote management
