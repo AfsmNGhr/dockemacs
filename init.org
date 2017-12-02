@@ -147,6 +147,8 @@ ListenAddress 127.1
 Speedup local connection.
 
 #+begin_src sh :tangle no
+# ~/.ssh/config
+
 Host 127.1
      Hostname 127.1
      User $HOST_USER
