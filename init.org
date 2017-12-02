@@ -16,7 +16,7 @@
   - [[#install-docker-engine][Install Docker Engine]]
   - [[#add-alias][Alias]]
   - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
-  - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
+  - [[#setup-ssh-server-and-restart][Setup ssh server]]
   - [[#setup-ssh-client][Setup ssh client]]
   - [[#run-and-wait-until-the-boot][Run]]
 + [[#wrappers-for-container-workflow][Wrappers]]
@@ -134,7 +134,7 @@ alias dockemacs='
     * =BRANCH= - our active branch
     * =HEAD_FORCE= - force update our branch
 
-**** Setup ssh daemon and restart:
+**** Setup ssh server and restart:
 
 #+begin_src sh :tangle no
 # /etc/ssh/sshd_config
@@ -144,10 +144,22 @@ ListenAddress 127.1
 
 **** Setup ssh client:
 
+Create sockets path.
+
+#+begin_src sh :tangle no
+mkdir ~/.ssh/sockets
+#+end_src
+
 Speedup local connection.
 
 #+begin_src sh :tangle no
 # ~/.ssh/config
+
+Host *
+     ControlMaster auto
+     ControlPath ~/.ssh/sockets/%r@%h:%p
+     ControlPersist 4h
+     PreferredAuthentications publickey
 
 Host 127.1
      Hostname 127.1
