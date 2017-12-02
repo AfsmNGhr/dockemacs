@@ -780,7 +780,23 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
 #+begin_src elisp
-(use-package flycheck :defer t)
+(use-package flycheck :defer t
+  :config
+  (flycheck-def-config-file-var flycheck-typescript-tsconfig
+      typescript-tslint "tslint.json"
+    :safe #'stringp
+    :package-version '(flycheck . "27"))
+
+(flycheck-define-checker typescript-tslint
+  "TypeScript style checker using TSLint."
+  :command ("tslint" "--format" "json"
+	    (config-file "--config" flycheck-typescript-tslint-config)
+	    (config-file "--project" flycheck-typescript-tsconfig)
+	    (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
+	    (eval flycheck-tslint-args)
+	    source-inplace)
+  :error-parser flycheck-parse-tslint
+  :modes (web-mode typescript-mode)))
 #+end_src
 
 **** Snippets
