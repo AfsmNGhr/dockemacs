@@ -1,6 +1,7 @@
 ## 1.8.1
 
 * Refactor `pylint` wrapper
+* Turn off pseudo-tty for `docker` wrapper
 
 ## 1.8.0
 
