@@ -16,8 +16,8 @@
   - [[#install-docker-engine][Install Docker Engine]]
   - [[#add-alias][Alias]]
   - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
-  - [[#setup-ssh-daemon-and-restart][Setup ssh Daemon]]
-  - [[#add-ssh-key-to-authorized_keys][Ssh Key]]
+  - [[#setup-ssh-daemon-and-restart][Setup ssh daemon]]
+  - [[#setup-ssh-client][Setup ssh client]]
   - [[#run-and-wait-until-the-boot][Run]]
 + [[#wrappers-for-container-workflow][Wrappers]]
   - Web browser
@@ -142,7 +142,20 @@ alias dockemacs='
 ListenAddress 127.1
 #+end_src
 
-**** Add ssh key to authorized_keys:
+**** Setup ssh client:
+
+Speedup local connection.
+
+#+begin_src sh :tangle no
+Host 127.1
+     Hostname 127.1
+     User $HOST_USER
+     Compression no
+     Ciphers aes128-gcm@openssh.com
+     ForwardX11 no
+#+end_src
+
+Add our ssh pub key to authorized_keys.
 
 #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
@@ -721,7 +734,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
 ***** Git time machine
 
-Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][Git time machine]].
+Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][git time machine]].
 
 #+begin_src elisp
 (unless (version< emacs-version "24.4")
