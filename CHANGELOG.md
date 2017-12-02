@@ -1,3 +1,7 @@
+## 1.8.1
+
+* Refactor `pylint` wrapper
+
 ## 1.8.0
 
 * Literate configuration with `init.org`

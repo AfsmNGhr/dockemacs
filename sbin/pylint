@@ -2,14 +2,16 @@
 
 cat /dev/null > /tmp/pylint.out
 args=$(printf "%q\t" "$@")
-args=${args//--stdin/}
+
+# args :
+#
+#   -r n --output-format text \
+#   --msg-template \{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
+#   --rcfile /local/path/.pylintrc /local/path/*.py
+
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_PYLINT_CMD" \
     "${args//$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH}" >> /tmp/pylint.out
-result=$(grep "$PROJECT_REMOTE_PATH" /tmp/pylint.out)
-if [ ! -z "$result" ]; then
-    echo "${result//$PROJECT_REMOTE_PATH/$PROJECT_LOCAL_PATH}"
-    exit 0
-else
-    cat /tmp/pylint.out
-    exit 1
-fi
+
+code="$?"
+cat /tmp/pylint.out
+exit "$code"
