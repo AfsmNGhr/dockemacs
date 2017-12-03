@@ -69,6 +69,7 @@
   - [[#remote-management][Remote Management]]
   + [[#languages][Languages]]
     - [[#ruby][Ruby]]
+    - [[#python][Python]]
     - [[#javascript][Javascript]]
   - [[#templates][Templates]]
   - [[#org][Org]]
@@ -929,6 +930,13 @@ Major mode for =Dockerfile=.
         '(progn (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
     (with-eval-after-load 'flycheck-mode
       (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
+#+end_src
+
+***** Python
+
+#+begin_src elisp
+(use-package python :defer t
+  :config (add-to-list 'python-mode-hook 'flycheck-mode))
 #+end_src
 
 ***** Javascript
