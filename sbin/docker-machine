@@ -2,6 +2,6 @@
 
 cat /dev/null > /tmp/docker-machine.out
 args=$(printf "%q\t" "$@")
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" docker-machine \
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T docker-machine \
     "$args" >> /tmp/docker-machine.out
 cat /tmp/docker-machine.out

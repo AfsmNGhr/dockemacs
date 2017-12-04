@@ -1,3 +1,8 @@
+## 1.8.1
+
+* Refactor `pylint`, `tslint` wrappers
+* Turn off pseudo-tty for `docker`, `docker-machine`, `browser-remote` wrappers
+
 ## 1.8.0
 
 * Literate configuration with `init.org`

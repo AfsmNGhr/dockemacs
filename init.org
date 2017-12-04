@@ -16,8 +16,8 @@
   - [[#install-docker-engine][Install Docker Engine]]
   - [[#add-alias][Alias]]
   - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
-  - [[#setup-ssh-daemon-and-restart][Setup ssh Daemon]]
-  - [[#add-ssh-key-to-authorized_keys][Ssh Key]]
+  - [[#setup-ssh-server-and-restart][Setup ssh server]]
+  - [[#setup-ssh-client][Setup ssh client]]
   - [[#run-and-wait-until-the-boot][Run]]
 + [[#wrappers-for-container-workflow][Wrappers]]
   - Web browser
@@ -69,6 +69,7 @@
   - [[#remote-management][Remote Management]]
   + [[#languages][Languages]]
     - [[#ruby][Ruby]]
+    - [[#python][Python]]
     - [[#javascript][Javascript]]
   - [[#templates][Templates]]
   - [[#org][Org]]
@@ -94,7 +95,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.8.0 startup
+       afsmnghr/dockemacs:1.8.1 startup
 '
 #+end_src
 
@@ -134,7 +135,7 @@ alias dockemacs='
     * =BRANCH= - our active branch
     * =HEAD_FORCE= - force update our branch
 
-**** Setup ssh daemon and restart:
+**** Setup ssh server and restart:
 
 #+begin_src sh :tangle no
 # /etc/ssh/sshd_config
@@ -142,10 +143,54 @@ alias dockemacs='
 ListenAddress 127.1
 #+end_src
 
-**** Add ssh key to authorized_keys:
+**** Setup ssh client:
+
+Create sockets path.
+
+#+begin_src sh :tangle no
+mkdir ~/.ssh/sockets
+#+end_src
+
+Speedup local connection.
+
+#+begin_src sh :tangle no
+# ~/.ssh/config
+
+Host *
+     ControlMaster auto
+     ControlPath ~/.ssh/sockets/%r@%h:%p
+     ControlPersist 4h
+     PreferredAuthentications publickey
+
+Host 127.1
+     Hostname 127.1
+     User $HOST_USER
+     Port $HOST_PORT
+     Compression no
+     Ciphers aes128-gcm@openssh.com
+     ForwardX11 no
+#+end_src
+
+Add our ssh pub key to authorized_keys.
 
 #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+#+end_src
+
+For =SSH_CONNECTION= set =TERM=. Fixed tramp issues.
+
+#+begin_src sh :tangle no
+# ~/.bashrc
+
+if [ "$SSH_CONNECTION" ]; then
+    TERM='dumb'
+fi
+
+case "$TERM" in
+    *)
+	PS1='> '
+	;;
+esac
 #+end_src
 
 **** Run and wait until the boot:
@@ -721,7 +766,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
 ***** Git time machine
 
-Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][Git time machine]].
+Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][git time machine]].
 
 #+begin_src elisp
 (unless (version< emacs-version "24.4")
@@ -753,7 +798,46 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
 #+begin_src elisp
-(use-package flycheck :defer t)
+(use-package flycheck :defer t
+  :config
+  (flycheck-def-config-file-var flycheck-typescript-tsconfig
+      typescript-tslint "tslint.json"
+    :safe #'stringp
+    :package-version '(flycheck . "27"))
+
+  (defun flycheck-parse-tslint (output checker buffer)
+    "Parse TSLint errors from JSON OUTPUT.
+
+CHECKER and BUFFER denoted the CHECKER that returned OUTPUT and
+the BUFFER that was checked respectively.
+
+See URL `https://palantir.github.io/tslint/' for more information
+about TSLint."
+    (let ((json-array-type 'list))
+      (seq-map (lambda (message)
+		 (let-alist message
+		   (flycheck-error-new-at
+		    (+ 1 .startPosition.line)
+		    (+ 1 .startPosition.character)
+		    'warning .failure
+		    :id .ruleName
+		    :checker checker
+		    :buffer buffer
+		    :filename .name)))
+	       ;; Don't try to parse empty output as JSON
+	       (and (not (string-empty-p output))
+		    (car (flycheck-parse-json output)))))
+
+(flycheck-define-checker typescript-tslint
+  "TypeScript style checker using TSLint."
+  :command ("tslint" "--format" "json"
+	    (config-file "--config" flycheck-typescript-tslint-config)
+	    (config-file "--project" flycheck-typescript-tsconfig)
+	    (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
+	    (eval flycheck-tslint-args)
+	    source-inplace)
+  :error-parser flycheck-parse-tslint
+  :modes (web-mode typescript-mode)))
 #+end_src
 
 **** Snippets
@@ -886,6 +970,13 @@ Major mode for =Dockerfile=.
         '(progn (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
     (with-eval-after-load 'flycheck-mode
       (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
+#+end_src
+
+***** Python
+
+#+begin_src elisp
+(use-package python :defer t
+  :config (add-to-list 'python-mode-hook 'flycheck-mode))
 #+end_src
 
 ***** Javascript
