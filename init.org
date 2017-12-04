@@ -165,6 +165,7 @@ Host *
 Host 127.1
      Hostname 127.1
      User $HOST_USER
+     Port $HOST_PORT
      Compression no
      Ciphers aes128-gcm@openssh.com
      ForwardX11 no
@@ -174,6 +175,22 @@ Add our ssh pub key to authorized_keys.
 
 #+begin_src sh :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+#+end_src
+
+For =SSH_CONNECTION= set =TERM=. Fixed tramp issues.
+
+#+begin_src sh :tangle no
+# ~/.bashrc
+
+if [ "$SSH_CONNECTION" ]; then
+    TERM='dumb'
+fi
+
+case "$TERM" in
+    *)
+	PS1='> '
+	;;
+esac
 #+end_src
 
 **** Run and wait until the boot:
@@ -787,6 +804,29 @@ Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
       typescript-tslint "tslint.json"
     :safe #'stringp
     :package-version '(flycheck . "27"))
+
+  (defun flycheck-parse-tslint (output checker buffer)
+    "Parse TSLint errors from JSON OUTPUT.
+
+CHECKER and BUFFER denoted the CHECKER that returned OUTPUT and
+the BUFFER that was checked respectively.
+
+See URL `https://palantir.github.io/tslint/' for more information
+about TSLint."
+    (let ((json-array-type 'list))
+      (seq-map (lambda (message)
+		 (let-alist message
+		   (flycheck-error-new-at
+		    (+ 1 .startPosition.line)
+		    (+ 1 .startPosition.character)
+		    'warning .failure
+		    :id .ruleName
+		    :checker checker
+		    :buffer buffer
+		    :filename .name)))
+	       ;; Don't try to parse empty output as JSON
+	       (and (not (string-empty-p output))
+		    (car (flycheck-parse-json output)))))
 
 (flycheck-define-checker typescript-tslint
   "TypeScript style checker using TSLint."

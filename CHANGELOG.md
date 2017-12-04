@@ -1,7 +1,7 @@
 ## 1.8.1
 
-* Refactor `pylint` wrapper
-* Turn off pseudo-tty for `docker` wrapper
+* Refactor `pylint`, `tslint` wrappers
+* Turn off pseudo-tty for `docker`, `docker-machine`, `browser-remote` wrappers
 
 ## 1.8.0
 
