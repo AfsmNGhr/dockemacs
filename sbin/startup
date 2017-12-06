@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-export "$(cat "$WORKSPACE"/dockemacs)"
+export "$(cat "$WORKSPACE"/.dockemacs)"
 
 ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig"
 ln -s "$WORKSPACE/.ssh" "$HOME/.ssh"

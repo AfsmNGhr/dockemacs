@@ -10,5 +10,7 @@ services:
       - $HOME:/mnt/workspace
       - data:/home/emacser/.emacs.d
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      BRANCH: "${TRAVIS_BRANCH}"
 volumes:
   data:

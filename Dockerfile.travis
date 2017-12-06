@@ -24,7 +24,7 @@ RUN apk update && \
     apk del cask-install-deps && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
-    chmod +x /usr/local/sbin/browser-remote && \
+    chmod +x /usr/local/sbin/* && \
     chmod 700 /usr/local/sbin/initialize && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
@@ -34,8 +34,7 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    (git fetch origin master || true) && \
-    git reset --hard origin/master && \
+    git checkout --track "origin/$BRANCH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
     env && tangle && cask install && cask exec buttercup -L . -L tests
