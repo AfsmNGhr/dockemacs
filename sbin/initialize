@@ -5,11 +5,6 @@ if ! id "${UNAME}" >/dev/null 2>&1; then
   echo "${UNAME}::17032:0:99999:7:::" >> /etc/shadow
 fi
 
-if [ ! -f "/etc/sudoers.d/${UNAME}" ]; then
-  echo "${UNAME} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${UNAME}"
-  chmod 0440 "/etc/sudoers.d/${UNAME}"
-fi
-
 egrep -i "^${GNAME}" /etc/group;
 if [ $? -ne 0 ]; then
   echo "${GNAME}:x:${GID}:${UNAME}" >> /etc/group
@@ -28,6 +23,9 @@ fi
 mkdir -p "${WORKSPACE}"
 chown "${UID}":"${GID}" "${WORKSPACE}"
 
-cd "${WORKSPACE}"
+VARS="HOME=$HOME TERM=$TERM WORKSPACE=$WORKSPACE ORG_FILES=$ORG_FILES"
+VARS+=" REPOSITORY=$REPOSITORY BRANCH=$BRANCH HEAD_FORCE=$HEAD_FORCE"
+VARS+=" HOST_USER=$HOST_USER HOST_IP=$HOST_IP HOST_PORT=$HOST_PORT"
+VARS+=" DISPLAY=$DISPLAY WEB_BROWSER=$WEB_BROWSER"
 
-su -c "$@" -m $UNAME
+su-exec "$UNAME" "$VARS $*"
