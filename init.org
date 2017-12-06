@@ -187,9 +187,9 @@ if [ "$SSH_CONNECTION" ]; then
 fi
 
 case "$TERM" in
-    *)
-	PS1='> '
-	;;
+    ,*)
+        PS1='> '
+        ;;
 esac
 #+end_src
 
@@ -365,9 +365,9 @@ Set utf-8 everywhere.
 Prefer space indentation.
 
 #+begin_src elisp
-(setq tab-width 2
-      tab-always-indent 'complete
-      indent-tabs-mode nil)
+(setq-default tab-width 2
+              tab-always-indent 'complete
+              indent-tabs-mode nil)
 #+end_src
 
 **** Autopair
@@ -731,11 +731,11 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
       "Visit the current branch's PR."
       (interactive)
       (let ((repo (magit-get "remote" (magit-get-remote) "url")))
-	(if (not repo)
-	    (setq repo (magit-get "remote" (magit-get-push-remote) "url")))
-	(if (string-match "github\\.com" repo)
-	    (visit-gh-pull-request repo)
-	  (visit-bb-pull-request repo))))
+        (if (not repo)
+            (setq repo (magit-get "remote" (magit-get-push-remote) "url")))
+        (if (string-match "github\\.com" repo)
+            (visit-gh-pull-request repo)
+          (visit-bb-pull-request repo))))
 
     (defun visit-gh-pull-request (repo)
       "Visit the current branch's PR on Github."
@@ -743,20 +743,20 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
       (message repo)
       (browse-url
        (format "https://github.com/%s/compare/%s?expand=1"
-	       (replace-regexp-in-string
-		"\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
-		repo)
-	       (magit-get-current-branch))))
+               (replace-regexp-in-string
+                "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+                repo)
+               (magit-get-current-branch))))
 
     (defun visit-bb-pull-request (repo)
       "Visit the current branch's PR on BitBucket."
       (message repo)
       (browse-url
        (format "https://bitbucket.org/%s/pull-request/new?source=%s&t=1"
-	       (replace-regexp-in-string
-		"\\`.+bitbucket\\.org:\\(.+\\)\\.git\\'" "\\1"
-		repo)
-	       (magit-get-current-branch))))
+               (replace-regexp-in-string
+                "\\`.+bitbucket\\.org:\\(.+\\)\\.git\\'" "\\1"
+                repo)
+               (magit-get-current-branch))))
 
     (setq magit-completing-read-function 'magit-ido-completing-read
           magit-set-upstream-on-push t
@@ -815,29 +815,29 @@ See URL `https://palantir.github.io/tslint/' for more information
 about TSLint."
     (let ((json-array-type 'list))
       (seq-map (lambda (message)
-		 (let-alist message
-		   (flycheck-error-new-at
-		    (+ 1 .startPosition.line)
-		    (+ 1 .startPosition.character)
-		    'warning .failure
-		    :id .ruleName
-		    :checker checker
-		    :buffer buffer
-		    :filename .name)))
-	       ;; Don't try to parse empty output as JSON
-	       (and (not (string-empty-p output))
-		    (car (flycheck-parse-json output)))))
+                 (let-alist message
+                   (flycheck-error-new-at
+                    (+ 1 .startPosition.line)
+                    (+ 1 .startPosition.character)
+                    'warning .failure
+                    :id .ruleName
+                    :checker checker
+                    :buffer buffer
+                    :filename .name)))
+               ;; Don't try to parse empty output as JSON
+               (and (not (string-empty-p output))
+                    (car (flycheck-parse-json output))))))
 
-(flycheck-define-checker typescript-tslint
-  "TypeScript style checker using TSLint."
-  :command ("tslint" "--format" "json"
-	    (config-file "--config" flycheck-typescript-tslint-config)
-	    (config-file "--project" flycheck-typescript-tsconfig)
-	    (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
-	    (eval flycheck-tslint-args)
-	    source-inplace)
-  :error-parser flycheck-parse-tslint
-  :modes (web-mode typescript-mode)))
+    (flycheck-define-checker typescript-tslint
+      "TypeScript style checker using TSLint."
+      :command ("tslint" "--format" "json"
+                (config-file "--config" flycheck-typescript-tslint-config)
+                (config-file "--project" flycheck-typescript-tsconfig)
+                (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
+                (eval flycheck-tslint-args)
+                source-inplace)
+      :error-parser flycheck-parse-tslint
+      :modes (web-mode typescript-mode)))
 #+end_src
 
 **** Snippets
