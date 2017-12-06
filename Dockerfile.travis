@@ -38,4 +38,4 @@ CMD cd "$HOME/.emacs.d" && \
     git reset --hard origin/master && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
-    env && cask install && cask exec buttercup -L . -L tests
+    env && tangle && cask install && cask exec buttercup -L . -L tests
