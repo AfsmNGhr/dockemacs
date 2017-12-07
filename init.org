@@ -101,10 +101,9 @@ alias dockemacs='
 
 **** Prepare =$HOME/.dockemacs=, check your =env=:
 
-Important, put =.dockemacs= in =$WORKSPACE= or bind =$HOME= to =$WORKSPACE=.
-
 #+begin_src sh :tangle no
   # default by
+
   echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
   echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
   echo "UNAME=emacser" >> $HOME/.dockemacs
@@ -113,6 +112,7 @@ Important, put =.dockemacs= in =$WORKSPACE= or bind =$HOME= to =$WORKSPACE=.
   echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
 
   # required
+
   echo "TERM=xterm-256color" >> $HOME/.dockemacs
   echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
@@ -124,6 +124,7 @@ Important, put =.dockemacs= in =$WORKSPACE= or bind =$HOME= to =$WORKSPACE=.
   echo "BRANCH=master" >> $HOME/.dockemacs
 
   # optional
+
   echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
 #+end_src
 
