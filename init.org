@@ -723,6 +723,12 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 #+begin_src elisp
 (unless (version< emacs-version "24.4")
   (use-package magit :defer t
+    :init
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+    :bind ("C-c g" . magit-status)
     :config
 
     (global-set-key (kbd "C-c j") #'my/visit-pull-request-url)
@@ -759,8 +765,11 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
                (magit-get-current-branch))))
 
     (setq magit-completing-read-function 'magit-ido-completing-read
+          magit-branch-arguments nil
+          magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
           magit-set-upstream-on-push t
           magit-push-always-verify nil
+          magit-restore-window-configuration t
           vc-handled-backends nil)))
 #+end_src
 
