@@ -1,19 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-if ! id "${UNAME}" >/dev/null 2>&1; then
+UID="${UID:-1000}"
+GID="${GID:-100}"
+HOME="${HOME:-/home/emacser}"
+UNAME="${UNAME:-emacser}"
+GNAME="${GNAME:-emacs}"
+SHELL=/bin/ash
+WORKSPACE="${WORKSPACE:-/mnt/workspace}"
+
+if ! id "${UNAME}" > /dev/null 2>&1; then
   echo "${UNAME}:x:${UID}:${GID}:${UNAME},,,:${HOME}:${SHELL}" >> /etc/passwd
   echo "${UNAME}::17032:0:99999:7:::" >> /etc/shadow
 fi
 
-egrep -i "^${GNAME}" /etc/group;
-if [ $? -ne 0 ]; then
+group="$(grep -E "^${GNAME}" /etc/group)"
+if [ ! "$group" ]; then
   echo "${GNAME}:x:${GID}:${UNAME}" >> /etc/group
 fi
 
 if [ -d "${HOME}" ]; then
   home_owner="$(stat -c '%U' ${HOME})"
-  if [ $(id -u ${UNAME}) -ne $(id -u ${home_owner}) ]; then
-    chown "${UID}":"${GID}" -R ${HOME}
+  if [ "$(id -u "${UNAME}")" -ne "$(id -u "${home_owner}")" ]; then
+    chown "${UID}":"${GID}" -R "${HOME}"
   fi
 else
   mkdir -p "${HOME}"
