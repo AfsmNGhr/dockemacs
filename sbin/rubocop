@@ -2,7 +2,7 @@
 
 cat /dev/null > /tmp/rubocop.out
 
-args=$(printf "%s\t" "$@")
+args="$(printf "%s\t" "$@")"
 args="$(echo "$args" | sed s/--stdin//g)"
 args="$(echo "$args" | sed s/"$PROJECT_LOCAL_PATH"/"$PROJECT_REMOTE_PATH"/g)"
 
