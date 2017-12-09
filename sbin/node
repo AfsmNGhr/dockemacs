@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-args=$(printf "%s\t" "$@")
+args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_NODE_CMD" "$args"

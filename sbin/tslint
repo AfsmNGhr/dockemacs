@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
 cat /dev/null > /tmp/tslint.out
-args="$(printf "%s\t" "$@")"
+args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
 
 # args :
 #
 #   --format json --config /local/path/tslint.json \
 #   --project /local/path/tsconfig.json /local/path/flycheck_*.ts
 
-args=$(echo "$args" | sed -e 's/'flycheck_/'/g' \
-                          -e "s|'$PROJECT_LOCAL_PATH'|'$PROJECT_REMOTE_PATH'|g")
+args="$(echo "$args" | sed -e 's/'flycheck_/'/g' \
+                           -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")"
 echo "$args"
 
 cmd="$(echo "$PROJECT_TSLINT_CMD" | sed -e "s/tslint'''/tslint/g")"

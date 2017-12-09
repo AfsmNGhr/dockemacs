@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cat /dev/null > /tmp/pylint.out
-args=$(printf "%q\t" "$@")
+args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
 
 # args :
 #
@@ -9,8 +9,10 @@ args=$(printf "%q\t" "$@")
 #   --msg-template \{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
 #   --rcfile /local/path/.pylintrc /local/path/*.py
 
+args="$(echo "$args" | sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")"
+
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_PYLINT_CMD" \
-    "${args//$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH}" >> /tmp/pylint.out
+    "$args" >> /tmp/pylint.out
 
 code="$?"
 cat /tmp/pylint.out
