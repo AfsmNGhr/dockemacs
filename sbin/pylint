@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 cat /dev/null > /tmp/pylint.out
 args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
