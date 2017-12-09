@@ -1,13 +1,11 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
-RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' \
-         >> /etc/apk/repositories && \
-    apk update && \
+RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-        su-exec emacs-nox the_silver_searcher@edge git openssh-client openssl \
+        su-exec emacs-nox the_silver_searcher git openssh-client openssl \
         gnupg && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
