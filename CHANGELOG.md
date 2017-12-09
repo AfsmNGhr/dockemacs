@@ -1,3 +1,8 @@
+## 1.9.0
+
+* Remove `bash`, `sudo`
+* Rewrite posix like wrappers
+
 ## 1.8.1
 
 * Refactor `pylint`, `tslint` wrappers
