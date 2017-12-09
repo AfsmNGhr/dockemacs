@@ -17,7 +17,5 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-cmd="$(printf "%s\\n" "'$cmd'")"
-
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" >> /tmp/docker-machine.out
 cat /tmp/docker-machine.out

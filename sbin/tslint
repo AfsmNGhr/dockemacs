@@ -32,10 +32,6 @@ cmd="$(printf "%s\\n" "$cmd" | sed -e "s/tslint'''/tslint/g")"
 
 echo "$cmd"
 
-cmd="$(printf "%s\\n" "'$cmd'")"
-
-echo "$cmd"
-
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/tslint.out
 
 code="$?"

@@ -24,8 +24,6 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-cmd="$(printf "%s\\n" "'$cmd'")"
-
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/pylint.out
 
 code="$?"

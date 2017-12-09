@@ -23,8 +23,6 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-cmd="$(printf "%s\\n" "'$cmd'")"
-
 if [ "$cmd" != *"exec"* ]; then
   ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" >> /tmp/docker.out
   cat /tmp/docker.out
