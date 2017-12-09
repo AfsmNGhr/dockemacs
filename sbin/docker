@@ -1,7 +1,27 @@
 #!/usr/bin/env sh
 
+# args :
+#
+#   ps --format="[{{json .ID}},{{json .Image}},{{json .Command}}, \
+#                 {{json.RunningFor}},{{json .Status}},{{json .Ports}}, \
+#                 {{json .Names}}]" -a
+
 cat /dev/null > /tmp/docker.out
-args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
+
+args=''
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i" | sed "s/'/'\"'\"'/g")
+            ;;
+        *) : ;;
+    esac
+    args="$args '$i'"
+done
+
+echo "$args"
+
 if [ "$args" != *"exec"* ]; then
   ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T docker "$args" >> /tmp/docker.out
   cat /tmp/docker.out

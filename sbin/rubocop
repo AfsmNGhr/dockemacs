@@ -1,7 +1,20 @@
 #!/usr/bin/env sh
 
 cat /dev/null > /tmp/rubocop.out
-args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
+
+args=''
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i" | sed "s/'/'\"'\"'/g")
+            ;;
+        *) : ;;
+    esac
+    args="$args '$i'"
+done
+
+echo "$args"
 
 # args :
 #
