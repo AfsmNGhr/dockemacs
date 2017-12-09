@@ -1,37 +1,39 @@
 #!/usr/bin/env sh
 
-cat /dev/null > /tmp/rubocop.out
-
-args=''
-
-for i in "$@"; do
-    case "$i" in
-        *\'*)
-            i=$(printf "%s" "$i" | sed "s/'/'\"'\"'/g")
-            ;;
-        *) : ;;
-    esac
-    args="$args '$i'"
-done
-
-echo "$args"
-
 # args :
 #
 #   --display-cop-names --force-exclusion --format emacs --cache false \
 #   --config /local/path/.robocop.yml --stdin /local/path/*.rb
 
-args="$(echo "$args" | sed -e 's/--stdin//g' \
-                           -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")"
-echo "$args"
+cat /dev/null > /tmp/rubocop.out
 
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_RUBOCOP_CMD" \
-    "$args" >> /tmp/rubocop.out
+cmd="$PROJECT_RUBOCOP_CMD"
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i")
+            ;;
+        --stdin)
+            i=$(printf "%s" "$i" | sed -e 's/--stdin//g')
+            ;;
+        *$PROJECT_LOCAL_PATH*)
+            i=$(printf "%s" "$i" | \
+                    sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
+            ;;
+        *) : ;;
+    esac
+    cmd="$cmd $i"
+done
+
+cmd="$(printf "%s\\n" "'$cmd'")"
+
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/rubocop.out
 
 result="$(grep "$PROJECT_REMOTE_PATH" /tmp/rubocop.out)"
 
 if [ ! -z "$result" ]; then
-    echo "$args" | sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g"
+    echo "$result" | sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g"
     exit 0
 else
     cat /tmp/rubocop.out

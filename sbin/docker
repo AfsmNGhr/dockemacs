@@ -8,23 +8,26 @@
 
 cat /dev/null > /tmp/docker.out
 
-args=''
+cmd='docker'
 
 for i in "$@"; do
     case "$i" in
         *\'*)
-            i=$(printf "%s" "$i" | sed "s/'/'\"'\"'/g")
+            i=$(printf "%s" "$i")
+            ;;
+        *=*)
+            i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
             ;;
         *) : ;;
     esac
-    args="$args '$i'"
+    cmd="$cmd $i"
 done
 
-echo "$args"
+cmd="$(printf "%s\\n" "'$cmd'")"
 
-if [ "$args" != *"exec"* ]; then
-  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T docker "$args" >> /tmp/docker.out
+if [ "$cmd" != *"exec"* ]; then
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" >> /tmp/docker.out
   cat /tmp/docker.out
 else
-  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt docker "$args"
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd"
 fi

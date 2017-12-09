@@ -1,19 +1,35 @@
 #!/usr/bin/env sh
 
-cat /dev/null > /tmp/pylint.out
-args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
-
 # args :
 #
 #   -r n --output-format text \
 #   --msg-template \{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
 #   --rcfile /local/path/.pylintrc /local/path/*.py
 
-args="$(echo "$args" | sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")"
+cat /dev/null > /tmp/pylint.out
 
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_PYLINT_CMD" \
-    "$args" >> /tmp/pylint.out
+cmd="$PROJECT_PYLINT_CMD"
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i")
+            ;;
+        *$PROJECT_LOCAL_PATH*)
+            i=$(printf "%s" "$i" | \
+                    sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
+            ;;
+        *) : ;;
+    esac
+    cmd="$cmd $i"
+done
+
+cmd="$(printf "%s\\n" "'$cmd'")"
+
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/pylint.out
 
 code="$?"
+
 cat /tmp/pylint.out
+
 exit "$code"

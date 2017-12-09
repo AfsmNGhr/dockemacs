@@ -1,4 +1,17 @@
 #!/usr/bin/env sh
 
-args="$(printf %s\\n "$@" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/")"
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_NODE_CMD" "$args"
+cmd="$PROJECT_NODE_CMD"
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i")
+            ;;
+        *) : ;;
+    esac
+    cmd="$cmd $i"
+done
+
+cmd="$(printf "%s\\n" "'$cmd'")"
+
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd"
