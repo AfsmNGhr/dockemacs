@@ -1,12 +1,16 @@
 #!/usr/bin/env sh
 
 cat /dev/null > /tmp/rubocop.out
-
 args="$(printf "%s\t" "$@")"
+
+args=$(echo "$args" | sed -e 's/--stdin//g' \
+                          -e "s|'$PROJECT_LOCAL_PATH'|'$PROJECT_REMOTE_PATH'|g")
 echo "$args"
-args="$(echo "$args" | sed -e 's/--stdin//g' /
-             -e "s/$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH/g")"
-echo "$args"
+
+# args :
+#
+#   --display-cop-names --force-exclusion --format emacs --cache false \
+#   --config /local/path/.robocop.yml --stdin /local/path/*.rb
 
 # SC2029: $args expands on the client side ...
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_RUBOCOP_CMD" \
@@ -15,7 +19,7 @@ ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$PROJECT_RUBOCOP_CMD" \
 result="$(grep "$PROJECT_REMOTE_PATH" /tmp/rubocop.out)"
 
 if [ ! -z "$result" ]; then
-    echo "$args" | sed -e "s/$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH/g"
+    echo "$args" | sed -e "s|'$PROJECT_LOCAL_PATH'|'$PROJECT_REMOTE_PATH'|g"
     exit 0
 else
     cat /tmp/rubocop.out

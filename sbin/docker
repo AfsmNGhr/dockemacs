@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 cat /dev/null > /tmp/docker.out
-args=$(printf "%q\t" "$@")
+args=$(printf "%s\t" "$@")
 if [ "$args" != *"exec"* ]; then
   ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T docker "$args" >> /tmp/docker.out
   cat /tmp/docker.out

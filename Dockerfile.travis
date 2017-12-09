@@ -18,7 +18,7 @@ COPY sbin/* /usr/local/sbin/
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
-        bash su-exec emacs-nox git openssh-client gnupg python curl && \
+        su-exec emacs-nox git openssh-client gnupg python curl && \
     apk add --no-cache --virtual cask-install-deps gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     apk del cask-install-deps && \

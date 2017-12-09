@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 cat /dev/null > /tmp/docker-machine.out
-args=$(printf "%q\t" "$@")
+args=$(printf "%s\t" "$@")
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T docker-machine \
     "$args" >> /tmp/docker-machine.out
 cat /tmp/docker-machine.out
