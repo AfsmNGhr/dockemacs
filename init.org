@@ -95,7 +95,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.8.1 startup
+       afsmnghr/dockemacs:1.9.0 startup
 '
 #+end_src
 
@@ -675,8 +675,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
   (setq company-backends
         (mapcar #'company-mode/backend-with-yas
                 '((company-capf company-shell company-dabbrev company-abbrev
-                                company-files company-gtags company-etags
-                                company-keywords)))
+                                company-files company-etags company-keywords)))
         company-idle-delay 1.0
         company-tooltip-flip-when-above t)
   (use-package company-flx :defer t
@@ -917,12 +916,10 @@ Major mode for =Dockerfile=.
 **** Remote management
 
 #+begin_src elisp
-(use-package tramp
+(use-package tramp :defer t
   :config
   (setq auto-revert-remote-files t
         shell-file-name "/bin/sh")) ;; alpine based
-
-(use-package exec-path-from-shell :ensure t)
 
 (defun sudo-edit-current-file ()
   (interactive)
@@ -993,7 +990,7 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))
@@ -1017,13 +1014,13 @@ Major mode for =Dockerfile=.
 #+begin_src elisp
 (use-package markdown-mode :defer t)
 (use-package css-mode :defer t)
-(use-package sass-mode :defer 60
+(use-package sass-mode :defer t
   :mode (("\\.scss" . sass-mode)))
 (use-package haml-mode :defer t)
 (use-package slim-mode :defer t)
 (use-package csv-mode :defer t)
 (use-package yaml-mode :defer t)
-(use-package company-web :defer 30)
+(use-package company-web :defer t)
 (use-package web-mode :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -1116,11 +1113,11 @@ Major mode for =Dockerfile=.
     :bind
     (:map global-map ("C-c a" . org-agenda)))
 
-  (use-package org-protocol :ensure f
+  (use-package org-protocol :ensure f :defer t
     :init
     (setq org-protocol-default-template-key "L"))
 
-  (use-package org-capture :ensure f
+  (use-package org-capture :ensure f :defer t
     :init
     (defconst my/org-capture-templates
       '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
@@ -1139,7 +1136,7 @@ Major mode for =Dockerfile=.
     :bind
     (:map global-map ("C-c c" . org-capture)))
 
-  (use-package org-clock :ensure f
+  (use-package org-clock :ensure f :defer t
     :init
     (setq org-clock-history-length 23
           org-clock-continuously t
