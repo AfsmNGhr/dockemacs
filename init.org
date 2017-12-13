@@ -313,6 +313,14 @@ Set lexical scoping for the init file.
 ;;; -*- lexical-binding: t -*-
 #+end_src
 
+This starts the Emacs server.
+
+#+begin_src elisp
+(require 'server)
+(if (not (server-running-p))
+    (server-start))
+#+end_src
+
 **** Package Management
 
 The =use-package= declarative and performance-oriented.
@@ -1082,8 +1090,7 @@ Major mode for =Dockerfile=.
     '(lambda ()
        (interactive)
        (org-todo "INPROGRESS")
-       (my/current-task-change-status "HOLD")
-       (org-clock-in)))
+       (my/current-task-change-status "HOLD")))
   (define-key org-todo-keys "c"
     '(lambda ()
        (interactive)
@@ -1108,6 +1115,7 @@ Major mode for =Dockerfile=.
   (use-package org-agenda :ensure f
     :config
     (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
+          org-agenda-start-on-weekday 1
           org-agenda-clockreport-parameter-plist
           (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
     :bind
@@ -1139,6 +1147,7 @@ Major mode for =Dockerfile=.
   (use-package org-clock :ensure f :defer t
     :init
     (setq org-clock-history-length 23
+          org-clock-in-switch-to-state "INPROGRESS"
           org-clock-continuously t
           org-clock-in-resume t
           org-clock-into-drawer t
