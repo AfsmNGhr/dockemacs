@@ -1,3 +1,9 @@
+## 1.9.0
+
+* Switch to `alpine:3.7`
+* Remove `bash`, `sudo`
+* Rewrite posix like wrappers
+
 ## 1.8.1
 
 * Refactor `pylint`, `tslint` wrappers

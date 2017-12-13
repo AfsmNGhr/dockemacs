@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
+export "$(cat "$WORKSPACE"/.dockemacs)"
+
 ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig"
 ln -s "$WORKSPACE/.ssh" "$HOME/.ssh"
 ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg"
 
-cd "$HOME/.emacs.d"
+cd "$HOME/.emacs.d" || exit
 
 if [ ! -d "$HOME/.emacs.d/.git" ]; then
    git init
@@ -12,7 +14,7 @@ if [ ! -d "$HOME/.emacs.d/.git" ]; then
    git checkout --track "origin/$BRANCH"
 fi
 
-(git fetch origin "$BRANCH" || true)
+git fetch origin "$BRANCH" || true
 
 if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"
@@ -23,5 +25,5 @@ if [ -f "$HOME/.emacs.d/init.org" ] && [ ! -f "$HOME/.emacs.d/init.el" ]; then
 fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
-cd "$WORKSPACE"
+cd "$WORKSPACE" || exit
 emacs

@@ -1,18 +1,38 @@
-#!/usr/bin/env bash
-
-cat /dev/null > /tmp/tslint.out
-args=$(printf "%q\t" "$@")
+#!/usr/bin/env sh
 
 # args :
 #
 #   --format json --config /local/path/tslint.json \
 #   --project /local/path/tsconfig.json /local/path/flycheck_*.ts
 
-args=${args//flycheck_/}
-args=${args//$PROJECT_LOCAL_PATH/$PROJECT_REMOTE_PATH}
+cat /dev/null > /tmp/tslint.out
 
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt \
-    "${PROJECT_TSLINT_CMD//tslint\'/tslint} $args'" >> /tmp/tslint.out
+cmd="$PROJECT_TSLINT_CMD"
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i")
+            ;;
+        *flycheck_*)
+            i=$(printf "%s" "$i" | sed -e 's/flycheck_//g')
+            ;;
+        *$PROJECT_LOCAL_PATH*)
+            i=$(printf "%s" "$i" | \
+                    sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
+            ;;
+        *) : ;;
+    esac
+    cmd="$cmd $i"
+done
+
+echo "$cmd"
+
+cmd="$(printf "%s\\n" "$cmd" | sed -e "s/tslint'''/tslint/g")"
+
+echo "$cmd"
+
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/tslint.out
 
 code="$?"
 

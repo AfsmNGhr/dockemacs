@@ -1,5 +1,4 @@
-FROM alpine:3.6
-MAINTAINER Ermolaev Alexsey <afay.zangetsu@gmail.com>
+FROM alpine:3.7
 
 ENV UNAME=emacser \
     GNAME=emacs \
@@ -18,13 +17,15 @@ COPY sbin/* /usr/local/sbin/
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
-        bash sudo emacs-nox git openssh-client gnupg python curl && \
+            --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+            --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
+        su-exec emacs-nox git openssh-client gnupg python curl && \
     apk add --no-cache --virtual cask-install-deps gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     apk del cask-install-deps && \
     git clone "$REPOSITORY" "$HOME/.emacs.d" && \
     chown root /usr/local/sbin/initialize && \
-    chmod +x /usr/local/sbin/browser-remote && \
+    chmod +x /usr/local/sbin/* && \
     chmod 700 /usr/local/sbin/initialize && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
@@ -34,8 +35,7 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    (git fetch origin master || true) && \
-    git reset --hard origin/master && \
+    git checkout --track "origin/$BRANCH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
-    env && cask install && cask exec buttercup -L . -L tests
+    env && tangle && cask install && cask exec buttercup -L . -L tests

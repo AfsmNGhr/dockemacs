@@ -14,7 +14,8 @@ install:
 
 script:
   - docker-compose -f docker-compose.travis.yml up
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  # - if [ "$?" -ne "0" ]; then exit 1; fi
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH"; fi`
   - export $(cat .env)
   - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
   - export ID=`sudo docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`

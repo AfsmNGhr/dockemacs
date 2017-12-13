@@ -95,29 +95,36 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.8.1 startup
+       afsmnghr/dockemacs:1.9.0 startup
 '
 #+end_src
 
 **** Prepare =$HOME/.dockemacs=, check your =env=:
 
 #+begin_src sh :tangle no
-  echo "UID=$(id -u)" >> $HOME/.dockemacs
-  echo "GID=$(id -g)" >> $HOME/.dockemacs
+  # default by
+
+  echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
+  echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
   echo "UNAME=emacser" >> $HOME/.dockemacs
   echo "GNAME=emacs" >> $HOME/.dockemacs
   echo "HOME=/home/emacser" >> $HOME/.dockemacs
   echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
-  echo "SHELL=/bin/bash" >> $HOME/.dockemacs
+
+  # required
+
   echo "TERM=xterm-256color" >> $HOME/.dockemacs
   echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
   echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
   echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
   echo "HOST_PORT=22" >> $HOME/.dockemacs
-  echo "DISPLAY=:0.0" >> $HOME/.dockemacs
+  echo "DISPLAY=:0.0" >> $HOME/.dockemacs # required for web browser
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
   echo "BRANCH=master" >> $HOME/.dockemacs
+
+  # optional
+
   echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
 #+end_src
 
@@ -125,7 +132,6 @@ alias dockemacs='
     * =UNAME= and =GNAME= - user & group name in container
     * =HOME= - rewrite home path for new user
     * =WORKSPACE= - mount path from host
-    * =SHELL= - default shell
     * =TERM= - set terminal env
     * =ORG_FILES= - only relative path
     * =HOST_USER=, =HOST_IP=, =HOST_PORT= - remote management through ssh
@@ -305,6 +311,14 @@ Set lexical scoping for the init file.
 
 #+begin_src elisp
 ;;; -*- lexical-binding: t -*-
+#+end_src
+
+This starts the Emacs server.
+
+#+begin_src elisp
+(require 'server)
+(if (not (server-running-p))
+    (server-start))
 #+end_src
 
 **** Package Management
@@ -669,8 +683,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
   (setq company-backends
         (mapcar #'company-mode/backend-with-yas
                 '((company-capf company-shell company-dabbrev company-abbrev
-                                company-files company-gtags company-etags
-                                company-keywords)))
+                                company-files company-etags company-keywords)))
         company-idle-delay 1.0
         company-tooltip-flip-when-above t)
   (use-package company-flx :defer t
@@ -920,12 +933,10 @@ Major mode for =Dockerfile=.
 **** Remote management
 
 #+begin_src elisp
-(use-package tramp
+(use-package tramp :defer t
   :config
   (setq auto-revert-remote-files t
         shell-file-name "/bin/sh")) ;; alpine based
-
-(use-package exec-path-from-shell :ensure t)
 
 (defun sudo-edit-current-file ()
   (interactive)
@@ -996,7 +1007,7 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))
@@ -1020,13 +1031,13 @@ Major mode for =Dockerfile=.
 #+begin_src elisp
 (use-package markdown-mode :defer t)
 (use-package css-mode :defer t)
-(use-package sass-mode :defer 60
+(use-package sass-mode :defer t
   :mode (("\\.scss" . sass-mode)))
 (use-package haml-mode :defer t)
 (use-package slim-mode :defer t)
 (use-package csv-mode :defer t)
 (use-package yaml-mode :defer t)
-(use-package company-web :defer 30)
+(use-package company-web :defer t)
 (use-package web-mode :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -1088,8 +1099,7 @@ Major mode for =Dockerfile=.
     '(lambda ()
        (interactive)
        (org-todo "INPROGRESS")
-       (my/current-task-change-status "HOLD")
-       (org-clock-in)))
+       (my/current-task-change-status "HOLD")))
   (define-key org-todo-keys "c"
     '(lambda ()
        (interactive)
@@ -1114,16 +1124,17 @@ Major mode for =Dockerfile=.
   (use-package org-agenda :ensure f
     :config
     (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
+          org-agenda-start-on-weekday 1
           org-agenda-clockreport-parameter-plist
           (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
     :bind
     (:map global-map ("C-c a" . org-agenda)))
 
-  (use-package org-protocol :ensure f
+  (use-package org-protocol :ensure f :defer t
     :init
     (setq org-protocol-default-template-key "L"))
 
-  (use-package org-capture :ensure f
+  (use-package org-capture :ensure f :defer t
     :init
     (defconst my/org-capture-templates
       '(("L" "Links" entry (file+datetree (concat my/org-dir "links.org"))
@@ -1142,9 +1153,10 @@ Major mode for =Dockerfile=.
     :bind
     (:map global-map ("C-c c" . org-capture)))
 
-  (use-package org-clock :ensure f
+  (use-package org-clock :ensure f :defer t
     :init
     (setq org-clock-history-length 23
+          org-clock-in-switch-to-state "INPROGRESS"
           org-clock-continuously t
           org-clock-in-resume t
           org-clock-into-drawer t
