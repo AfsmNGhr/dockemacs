@@ -1123,8 +1123,9 @@ Major mode for =Dockerfile=.
 
   (use-package org-agenda :ensure f
     :config
-    (setq org-agenda-files (directory-files my/org-dir t "\.org$" nil)
+    (setq org-agenda-files (list my/org-dir (concat my/org-dir "orgzly"))
           org-agenda-start-on-weekday 1
+          org-agenda-skip-scheduled-if-done nil
           org-agenda-clockreport-parameter-plist
           (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
     :bind
