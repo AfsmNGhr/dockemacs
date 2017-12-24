@@ -816,6 +816,9 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+end_src
 
 **** Linters
+:PROPERTIES:
+:ORDERED:  t
+:END:
 
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
@@ -848,6 +851,7 @@ about TSLint."
                     :filename .name)))
                ;; Don't try to parse empty output as JSON
                (and (not (string-empty-p output))
+                    (message (car (flycheck-parse-json output)))
                     (car (flycheck-parse-json output))))))
 
     (flycheck-define-checker typescript-tslint
