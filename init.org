@@ -852,7 +852,7 @@ about TSLint."
 
     (flycheck-define-checker typescript-tslint
       "TypeScript style checker using TSLint."
-      :command ("tslint" "--format" "json"
+      :command ("tslint" "--type-check" "--format" "json"
                 (config-file "--config" flycheck-typescript-tslint-config)
                 (config-file "--project" flycheck-typescript-tsconfig)
                 (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
