@@ -95,7 +95,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.0 startup
+       afsmnghr/dockemacs:1.9.1 startup
 '
 #+end_src
 
@@ -851,7 +851,6 @@ about TSLint."
                     :filename .name)))
                ;; Don't try to parse empty output as JSON
                (and (not (string-empty-p output))
-                    (message (car (flycheck-parse-json output)))
                     (car (flycheck-parse-json output))))))
 
     (flycheck-define-checker typescript-tslint
@@ -863,7 +862,7 @@ about TSLint."
                 (eval flycheck-tslint-args)
                 source-original)
       :error-parser flycheck-parse-tslint
-      :modes (web-mode typescript-mode)))
+      :modes (typescript-mode)))
 #+end_src
 
 **** Snippets
