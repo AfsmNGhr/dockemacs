@@ -34,5 +34,5 @@ ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd'" >> /tmp/tslint.out
 
 code="$?"
 
-sed -e "s|$PROJECT_REMOTE_PATH|$PROJECT_LOCAL_PATH|g" /tmp/tslint.out
+cat /tmp/tslint.out
 exit "$code"

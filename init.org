@@ -861,7 +861,7 @@ about TSLint."
                 (config-file "--project" flycheck-typescript-tsconfig)
                 (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
                 (eval flycheck-tslint-args)
-                source-inplace)
+                source-original)
       :error-parser flycheck-parse-tslint
       :modes (web-mode typescript-mode)))
 #+end_src
