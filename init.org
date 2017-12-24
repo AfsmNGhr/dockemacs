@@ -816,9 +816,6 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+end_src
 
 **** Linters
-:PROPERTIES:
-:ORDERED:  t
-:END:
 
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
