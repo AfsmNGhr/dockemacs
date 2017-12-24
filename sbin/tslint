@@ -17,7 +17,7 @@ for i in "$@"; do
         *flycheck_*)
             i=$(printf "%s" "$i" | sed -e 's/flycheck_//g')
             ;;
-        *$PROJECT_LOCAL_PATH*)
+        $PROJECT_LOCAL_PATH*)
             i=$(printf "%s" "$i" | \
                     sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
             ;;
@@ -27,8 +27,6 @@ for i in "$@"; do
 done
 
 cmd="$(printf "%s\\n" "$cmd" | sed -e "s/tslint'/tslint/g")"
-
-echo "$cmd'"
 
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd'" >> /tmp/tslint.out
 
