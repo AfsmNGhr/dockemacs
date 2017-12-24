@@ -26,15 +26,11 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-echo "$cmd"
+cmd="$(printf "%s\\n" "$cmd" | sed -e "s/tslint'/tslint/g")"
 
-cmd="$(printf "%s\\n" "$cmd" | sed -e "s/tslint'''/tslint/g")"
-
-echo "$cmd"
-
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/tslint.out
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd'" >> /tmp/tslint.out
 
 code="$?"
 
-cat /tmp/tslint.out
+sed -e "s|\"$PROJECT_REMOTE_PATH|\"$PROJECT_LOCAL_PATH|g" /tmp/tslint.out
 exit "$code"

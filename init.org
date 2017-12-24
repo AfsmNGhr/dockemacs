@@ -95,7 +95,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.0 startup
+       afsmnghr/dockemacs:1.9.1 startup
 '
 #+end_src
 
@@ -267,9 +267,9 @@ $ dockemacs
                  ;; local path in dockemacs container
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
-                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER tslint")
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER sh -c '\$(npm bin)/tslint'")
                  ;; container workflow
-                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint")
+                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && '\$(npm bin)/tslint'")
                  ;; host application
 )))))
 #+end_src
@@ -852,14 +852,14 @@ about TSLint."
 
     (flycheck-define-checker typescript-tslint
       "TypeScript style checker using TSLint."
-      :command ("tslint" "--format" "json"
+      :command ("tslint" "--type-check" "--format" "json"
                 (config-file "--config" flycheck-typescript-tslint-config)
                 (config-file "--project" flycheck-typescript-tsconfig)
                 (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
                 (eval flycheck-tslint-args)
-                source-inplace)
+                source-original)
       :error-parser flycheck-parse-tslint
-      :modes (web-mode typescript-mode)))
+      :modes (typescript-mode)))
 #+end_src
 
 **** Snippets
@@ -1007,7 +1007,7 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))

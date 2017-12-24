@@ -1,3 +1,7 @@
+## 1.9.1
+
+* Fixed `tslint` with `--type-check`
+
 ## 1.9.0
 
 * Switch to `alpine:3.7`
