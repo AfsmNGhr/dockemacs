@@ -267,9 +267,9 @@ $ dockemacs
                  ;; local path in dockemacs container
                  (setenv "PROJECT_REMOTE_PATH" "/remote/path")
                  ;; remote path in project container
-                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER tslint")
+                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER sh -c '\$(npm bin)/tslint'")
                  ;; container workflow
-                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && /$(npm bin)/tslint")
+                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && '\$(npm bin)/tslint'")
                  ;; host application
 )))))
 #+end_src
@@ -1007,7 +1007,7 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))
