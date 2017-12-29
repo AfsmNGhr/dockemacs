@@ -20,6 +20,10 @@ if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"
 fi
 
+if [ ! -f "$HOME/.emacs.d/.head" ]; then
+    touch .head
+fi
+
 previous_commit="$(cat .head)"
 current_commit="$(git rev-parse HEAD)"
 retangle="$(git status --porcelain | grep init.org)"
