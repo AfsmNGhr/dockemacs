@@ -16,17 +16,25 @@ fi
 
 git fetch origin "$BRANCH" || true
 
+echo 'after fetch'
+
 if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"
 fi
+
+echo 'after reset'
 
 if [ ! -f "$HOME/.emacs.d/.head" ]; then
     touch .head
 fi
 
+echo 'after head'
+
 previous_commit="$(cat "$HOME/.emacs.d/.head")"
 current_commit="$(git rev-parse HEAD)"
 retangle="$(git status --porcelain | grep init.org)"
+
+echo 'before retangle'
 
 if [ -f "$HOME/.emacs.d/init.org" ] && (
        [ ! -f "$HOME/.emacs.d/init.el" ] ||
@@ -35,6 +43,8 @@ if [ -f "$HOME/.emacs.d/init.org" ] && (
     tangle
     echo "$current_commit" > .head
 fi
+
+echo 'after retangle'
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE" || exit
