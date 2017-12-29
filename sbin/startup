@@ -38,7 +38,7 @@ echo 'before retangle'
 
 if [ -f "$HOME/.emacs.d/init.org" ] && (
        [ ! -f "$HOME/.emacs.d/init.el" ] ||
-           ([ "$previous_commit" != "$current_commit" ] &&
+           ([ "$previous_commit" -ne "$current_commit" ] &&
                 [ -n "$retangle" ])); then
     tangle
     echo "$current_commit" > .head
