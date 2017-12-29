@@ -24,7 +24,7 @@ if [ ! -f "$HOME/.emacs.d/.head" ]; then
     touch .head
 fi
 
-previous_commit="$(cat .head)"
+previous_commit="$(cat "$HOME/.emacs.d/.head")"
 current_commit="$(git rev-parse HEAD)"
 retangle="$(git status --porcelain | grep init.org)"
 
