@@ -1,6 +1,4 @@
-#!/usr/bin/env sh
-
-set -x
+#!/usr/bin/env sh -x
 
 export "$(cat "$WORKSPACE"/.dockemacs)"
 
@@ -41,6 +39,6 @@ fi
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE" || exit
 
-exec 3>&2 2> /dev/stdout
+exec 3>&2 2> .log
 emacs
 exec 2>&3
