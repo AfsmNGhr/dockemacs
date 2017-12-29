@@ -28,7 +28,7 @@ fi
 
 previous_commit="$(cat "$HOME/.emacs.d/.head")"
 current_commit="$(git rev-parse HEAD)"
-retangle="$(sh -c 'git status --porcelain | grep init.org')"
+retangle="$(git status --porcelain | grep init.org)"
 
 if [ -f "$HOME/.emacs.d/init.org" ] && (
        [ ! -f "$HOME/.emacs.d/init.el" ] ||
@@ -40,4 +40,6 @@ fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE" || exit
+exec 3>&2 2> /dev/null
 emacs
+exec 2>&3
