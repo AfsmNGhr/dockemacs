@@ -20,10 +20,23 @@ if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"
 fi
 
-if [ -f "$HOME/.emacs.d/init.org" ] && [ ! -f "$HOME/.emacs.d/init.el" ]; then
+if [ ! -f "$HOME/.emacs.d/.head" ]; then
+    touch .head
+fi
+
+previous_commit="$(cat "$HOME/.emacs.d/.head")"
+current_commit="$(git rev-parse HEAD)"
+retangle="$(git status --porcelain | grep init.org)"
+
+if [ -f "$HOME/.emacs.d/init.org" ] && (
+       [ ! -f "$HOME/.emacs.d/init.el" ] ||
+           ([ "$previous_commit" != "$current_commit" ] &&
+                [ -n "$retangle" ])); then
     tangle
+    echo "$current_commit" > .head
 fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE" || exit
+
 emacs

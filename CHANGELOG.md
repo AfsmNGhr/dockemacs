@@ -1,3 +1,7 @@
+## 1.9.2
+
+* Retangle changes `init.org`
+
 ## 1.9.1
 
 * Fixed `tslint` with `--type-check`
