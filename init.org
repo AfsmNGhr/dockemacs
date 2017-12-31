@@ -95,7 +95,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.1 startup
+       afsmnghr/dockemacs:1.9.2 startup
 '
 #+end_src
 
@@ -311,14 +311,6 @@ Set lexical scoping for the init file.
 
 #+begin_src elisp
 ;;; -*- lexical-binding: t -*-
-#+end_src
-
-This starts the Emacs server.
-
-#+begin_src elisp
-(require 'server)
-(if (not (server-running-p))
-    (server-start))
 #+end_src
 
 **** Package Management

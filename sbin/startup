@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-set -x
-
 export "$(cat "$WORKSPACE"/.dockemacs)"
 
 ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig"
@@ -41,6 +39,4 @@ fi
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
 cd "$WORKSPACE" || exit
 
-exec 3>&2 2> .log
 emacs
-exec 2>&3
