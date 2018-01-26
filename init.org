@@ -368,14 +368,6 @@ The =use-package= declarative and performance-oriented.
   (require 'use-package))
 (require 'delight)
 (require 'bind-key)
-
-(defun my/emacs-startup-hook ()
-  "make faster startup"
-  (setq file-name-handler-alist my/file-name-handler-alist
-        gc-cons-threshold 800000
-        gc-cons-percentage 0.1))
-
-(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 #+end_src
 
 Benchmarking =init.el=.
@@ -544,6 +536,13 @@ Load my themes. Enable theme on the frame type.
               (disable-theme 'spolsky))
           (enable-theme 'spolsky-term))))))
 
+(defun my/emacs-startup-hook ()
+  "make faster startup"
+  (setq file-name-handler-alist my/file-name-handler-alist
+        gc-cons-threshold 800000
+        gc-cons-percentage 0.1))
+
+(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 (add-hook 'after-init-hook 'my/load-theme)
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 #+end_src
@@ -724,7 +723,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 **** Recent files
 
 #+begin_src elisp
-(use-package recentf
+(use-package recentf :defer t
   :init (recentf-mode 1)
   :config
   (setq recentf-max-saved-items 30
