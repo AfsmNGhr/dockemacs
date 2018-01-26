@@ -327,7 +327,8 @@ Avoid garbage collection during startup.
 Don't auto-initialize!
 
 #+begin_src elisp
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil
+      package--init-file-ensured t)
 #+end_src
 
 Clear files, temporarily.
@@ -341,8 +342,10 @@ Clear files, temporarily.
 The =use-package= declarative and performance-oriented.
 
 #+begin_src elisp
-(setq package-enable-at-startup nil
-      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+(require 'package)
+(package-initialize)
+
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/"))
@@ -353,28 +356,24 @@ The =use-package= declarative and performance-oriented.
                                      ("gnu" . 10)
                                      ("melpa" . 20))))
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(let ((my/packages '(use-package delight)))
+  (dolist (p my/packages)
+    (unless (package-installed-p p)
+      (package-install p))))
+
+(eval-when-compile
+  (require 'use-package))
+(require 'delight)
+(require 'bind-key)
+
 (defun my/emacs-startup-hook ()
   "make faster startup"
   (setq file-name-handler-alist my/file-name-handler-alist
         gc-cons-threshold 800000
-        gc-cons-percentage 0.1)
-
-  (require 'package)
-  (package-initialize)
-
-  (let ((my/packages '(use-package delight))
-        (my/refreshed? nil))
-    (dolist (p my/packages)
-      (unless (package-installed-p p)
-        (when (null my/refreshed?)
-          (package-refresh-contents)
-          (setq my/refreshed? t))
-        (package-install p))))
-
-(eval-when-compile
-  (require 'use-package)
-  (require 'delight)
-  (require 'bind-key)))
+        gc-cons-percentage 0.1))
 
 (add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 #+end_src
@@ -828,7 +827,7 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+begin_src elisp
 (use-package projectile :defer 30
   :init (projectile-mode)
-  :delight projectile-mode
+  :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :config
   (setq projectile-enable-caching t
         projectile-use-git-grep t
