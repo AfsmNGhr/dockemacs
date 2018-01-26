@@ -299,12 +299,14 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 ":"; exec emacs --quick --script "$0" "$@" # -*-emacs-lisp-*-
 
 (require 'org)
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 (find-file (concat user-emacs-directory "init.org"))
 (org-babel-tangle)
 (load-file (concat user-emacs-directory "init.el"))
 (byte-compile-file (concat user-emacs-directory "init.el"))
-(setq gc-cons-threshold 800000)
+(setq gc-cons-threshold 800000
+      gc-cons-percentage 0.1)
 #+end_src
 
 Set lexical scoping for the init file.
@@ -313,36 +315,68 @@ Set lexical scoping for the init file.
 ;;; -*- lexical-binding: t -*-
 #+end_src
 
+Avoid garbage collection during startup.
+
+#+begin_src elisp
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+#+end_src
+
 **** Package Management
+
+Don't auto-initialize!
+
+#+begin_src elisp
+(setq package-enable-at-startup nil)
+#+end_src
+
+Clear files, temporarily.
+
+#+begin_src elisp
+(defvar my/file-name-handler-alist file-name-handler-alist)
+
+(setq file-name-handler-alist nil)
+#+end_src
 
 The =use-package= declarative and performance-oriented.
 
 #+begin_src elisp
-(require 'package)
-(package-initialize)
-
 (setq package-enable-at-startup nil
       package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+                         ("melpa-stable" . "https://stable.melpa.org/packages/"))
+      use-package-always-ensure t)
 
 (unless (version< emacs-version "25.1")
   (setq package-archive-priorities '(("melpa-stable" . 10)
                                      ("gnu" . 10)
                                      ("melpa" . 20))))
-(unless package-archive-contents
-  (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+(defun my/emacs-startup-hook ()
+  "make faster startup"
+  (setq file-name-handler-alist my/file-name-handler-alist
+        gc-cons-threshold 800000
+        gc-cons-percentage 0.1)
+
+  (require 'package)
+  (package-initialize)
+
+  (let ((my/packages '(use-package delight))
+        (my/refreshed? nil))
+    (dolist (p my/packages)
+      (unless (package-installed-p p)
+        (when (null my/refreshed?)
+          (package-refresh-contents)
+          (setq my/refreshed? t))
+        (package-install p))))
 
 (eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+  (require 'use-package)
+  (require 'delight)
+  (require 'bind-key)))
 
-(setq use-package-always-ensure t)
+(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 #+end_src
 
 Benchmarking =init.el=.
@@ -794,7 +828,7 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+begin_src elisp
 (use-package projectile :defer 30
   :init (projectile-mode)
-  :diminish projectile-mode
+  :delight projectile-mode
   :config
   (setq projectile-enable-caching t
         projectile-use-git-grep t
