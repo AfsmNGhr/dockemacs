@@ -91,12 +91,13 @@ docker volume create emacs_data
 
 alias dockemacs='
   docker run -it --rm --net=host \
+       --cpuset-cpus 0-3 \
        --env-file $HOME/.dockemacs \
        --entrypoint initialize "$@" \
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.2 startup
+       afsmnghr/dockemacs:1.9.3 startup
 '
 #+end_src
 
@@ -123,6 +124,7 @@ alias dockemacs='
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
   echo "BRANCH=master" >> $HOME/.dockemacs
+  echo "CORE_COUNT=4" >> $HOME/.dockemacs # 1
 
   # optional
 
@@ -141,6 +143,7 @@ alias dockemacs='
     * =REPOSITORY= - our repository dotemacs (first clone)
     * =BRANCH= - our active branch
     * =HEAD_FORCE= - force update our branch
+    * =CORE_COUNT= - use multiple cores
 
 **** Setup ssh server and restart:
 

@@ -1,3 +1,8 @@
+## 1.9.3
+
+* Add `CORE_COUNT` for `git fetch`
+* Start with `--cpuset-cpus` parameter
+
 ## 1.9.2
 
 * Retangle changes `init.org`
