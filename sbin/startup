@@ -14,7 +14,7 @@ if [ ! -d "$HOME/.emacs.d/.git" ]; then
    git checkout --track "origin/$BRANCH"
 fi
 
-git fetch origin "$BRANCH" || true
+git fetch origin "$BRANCH" -j "$CORE_COUNT" || true
 
 if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"
