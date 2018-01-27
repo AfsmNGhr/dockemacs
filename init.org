@@ -525,10 +525,10 @@ Unsorted settings.
 Load my themes. Enable theme on the frame type.
 
 #+begin_src elisp
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
 (defun my/load-theme ()
   "load my theme"
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
   (if (display-graphic-p)
       (load-theme 'spolsky t)
     (load-theme 'spolsky-term t)))
