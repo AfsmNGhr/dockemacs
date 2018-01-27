@@ -1,3 +1,4 @@
+#+STARTUP: showall
 #+PROPERTY: header-args :tangle init.el :comments org
 
 ** Dockemacs - the minimal emacs noX
@@ -9,7 +10,7 @@
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
 [[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
 
-[[https://i.imgur.com/ueNJnkS.gif]]
+[[https://i.imgur.com/V6vlv7Q.gif]]
 
 *** Table of Contents                                                 :TOC:
 + [[#installation][Installation]]
@@ -90,12 +91,13 @@ docker volume create emacs_data
 
 alias dockemacs='
   docker run -it --rm --net=host \
+       --cpuset-cpus 0-3 \
        --env-file $HOME/.dockemacs \
        --entrypoint initialize "$@" \
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.2 startup
+       afsmnghr/dockemacs:1.9.3 startup
 '
 #+end_src
 
@@ -122,6 +124,7 @@ alias dockemacs='
   echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
   echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
   echo "BRANCH=master" >> $HOME/.dockemacs
+  echo "CORE_COUNT=4" >> $HOME/.dockemacs # 1
 
   # optional
 
@@ -140,6 +143,7 @@ alias dockemacs='
     * =REPOSITORY= - our repository dotemacs (first clone)
     * =BRANCH= - our active branch
     * =HEAD_FORCE= - force update our branch
+    * =CORE_COUNT= - use multiple cores
 
 **** Setup ssh server and restart:
 
@@ -299,12 +303,14 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 ":"; exec emacs --quick --script "$0" "$@" # -*-emacs-lisp-*-
 
 (require 'org)
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
 (find-file (concat user-emacs-directory "init.org"))
 (org-babel-tangle)
 (load-file (concat user-emacs-directory "init.el"))
 (byte-compile-file (concat user-emacs-directory "init.el"))
-(setq gc-cons-threshold 800000)
+(setq gc-cons-threshold 800000
+      gc-cons-percentage 0.1)
 #+end_src
 
 Set lexical scoping for the init file.
@@ -313,7 +319,40 @@ Set lexical scoping for the init file.
 ;;; -*- lexical-binding: t -*-
 #+end_src
 
+Avoid garbage collection during startup.
+
+#+begin_src elisp
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+#+end_src
+
 **** Package Management
+
+Set custom file and few variables.
+
+#+begin_src elisp
+(setq custom-file (concat user-emacs-directory "custom.el"))
+
+(custom-set-variables
+ '(org-babel-load-languages
+   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+ '(org-confirm-babel-evaluate nil))
+#+end_src
+
+Don't auto-initialize!
+
+#+begin_src elisp
+(setq package-enable-at-startup nil
+      package--init-file-ensured t)
+#+end_src
+
+Clear files, temporarily.
+
+#+begin_src elisp
+(defvar my/file-name-handler-alist file-name-handler-alist)
+
+(setq file-name-handler-alist nil)
+#+end_src
 
 The =use-package= declarative and performance-oriented.
 
@@ -321,28 +360,29 @@ The =use-package= declarative and performance-oriented.
 (require 'package)
 (package-initialize)
 
-(setq package-enable-at-startup nil
-      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+                         ("melpa-stable" . "https://stable.melpa.org/packages/"))
+      use-package-always-ensure t)
 
 (unless (version< emacs-version "25.1")
   (setq package-archive-priorities '(("melpa-stable" . 10)
                                      ("gnu" . 10)
                                      ("melpa" . 20))))
+
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+(let ((my/packages '(use-package delight)))
+  (dolist (p my/packages)
+    (unless (package-installed-p p)
+      (package-install p))))
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
+(require 'delight)
 (require 'bind-key)
-
-(setq use-package-always-ensure t)
 #+end_src
 
 Benchmarking =init.el=.
@@ -488,10 +528,10 @@ Unsorted settings.
 Load my themes. Enable theme on the frame type.
 
 #+begin_src elisp
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
 (defun my/load-theme ()
   "load my theme"
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+
   (if (display-graphic-p)
       (load-theme 'spolsky t)
     (load-theme 'spolsky-term t)))
@@ -594,11 +634,21 @@ tangled, and the tangled file is compiled."
       (byte-compile-file (concat user-emacs-directory "init.el")))))
 
 (defun my/minibuffer-setup-hook ()
-  (setq gc-cons-threshold most-positive-fixnum))
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6))
 
 (defun my/minibuffer-exit-hook ()
-  (setq gc-cons-threshold 800000))
+  (setq gc-cons-threshold 800000
+        gc-cons-percentage 0.1))
 
+(defun my/emacs-startup-hook ()
+  "make faster startup"
+  (benchmark-init/deactivate)
+  (setq file-name-handler-alist my/file-name-handler-alist
+        gc-cons-threshold 800000
+        gc-cons-percentage 0.1))
+
+(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 (add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 (add-hook 'after-save-hook 'tangle-init)
@@ -691,7 +741,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 **** Recent files
 
 #+begin_src elisp
-(use-package recentf
+(use-package recentf :defer t
   :init (recentf-mode 1)
   :config
   (setq recentf-max-saved-items 30
@@ -729,13 +779,6 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 (unless (version< emacs-version "24.4")
   (use-package magit :defer t
     :init
-    (defadvice magit-status (around magit-fullscreen activate)
-      (window-configuration-to-register :magit-fullscreen)
-      ad-do-it
-      (delete-other-windows))
-    :bind ("C-c g" . magit-status)
-    :config
-
     (global-set-key (kbd "C-c j") #'my/visit-pull-request-url)
 
     (defun my/visit-pull-request-url ()
@@ -794,7 +837,9 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+begin_src elisp
 (use-package projectile :defer 30
   :init (projectile-mode)
-  :diminish projectile-mode
+  :delight '(:eval
+             (propertize (concat " " (projectile-project-name))
+                         'face '(:foreground "#FD971F")))
   :config
   (setq projectile-enable-caching t
         projectile-use-git-grep t
@@ -1044,7 +1089,7 @@ Major mode for =Dockerfile=.
 **** Org
 
 #+begin_src elisp
-(use-package org :defer 30 :pin melpa
+(use-package org :defer t :pin melpa
   :init
   (defconst my/org-dir (getenv "ORG_PATH"))
 
@@ -1103,7 +1148,10 @@ Major mode for =Dockerfile=.
     (setq org-todo-keyword-faces
           '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
             ("HOLD" :foreground "firebrick2" :weight bold)
-            ("NEXT" :foreground "OrangeRed2" :weight bold))))
+            ("NEXT" :foreground "OrangeRed2" :weight bold))
+          org-priority-faces '((?A . (:foreground "firebrick2" :weight 'bold))
+                               (?B . (:foreground "OrangeRed2"))
+                               (?C . (:foreground "DodgerBlue2")))))
 
   (use-package org-src :ensure f
     :init
@@ -1161,6 +1209,7 @@ Major mode for =Dockerfile=.
           org-clock-report-include-clocking-task t)
     (org-clock-persistence-insinuate))
 
+  :commands org-agenda
   :bind
   (:map org-mode-map
    ("C-c x" . org-todo-keys)
