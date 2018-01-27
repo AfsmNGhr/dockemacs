@@ -111,10 +111,19 @@
    `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
 
    ;; org
-   `(org-block ((t (:background, *current-line*))))
-   `(org-block-begin-line ((t (:background, *current-line*))))
-   `(org-block-end-line ((t (:background, *current-line*))))
-   ))
+   `(org-link ((t (:foreground "#AEA89E" :underline t))))
+   `(org-level-1 ((t (:foreground, *type-face*))))
+   `(org-level-2 ((t (:foreground, *keywords*))))
+   `(org-level-3 ((t (:foreground, *constant*))))
+   `(org-level-4 ((t (:foreground, *method-declaration*))))
+   `(org-level-5 ((t (:foreground, *string*))))
+   `(org-level-6 ((t (:foreground, *regexp*))))
+   `(org-level-7 ((t (:foreground, *warning*))))
+   `(org-level-8 ((t (:foreground, *variable*))))
+   `(org-block-background ((t (:background "color-234"))))
+   `(org-block-begin-line ((t (:background, *visual-selection* :foreground, *string*))))
+   `(org-block-end-line ((t (:background, *visual-selection* :foreground, *string*))))
+  ))
 
 ;;;###autoload
 (when (and (boundp 'custom-theme-load-path) load-file-name)

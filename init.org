@@ -1,3 +1,4 @@
+#+STARTUP: showall
 #+PROPERTY: header-args :tangle init.el :comments org
 
 ** Dockemacs - the minimal emacs noX
@@ -324,6 +325,17 @@ Avoid garbage collection during startup.
 
 **** Package Management
 
+Set custom file and few variables.
+
+#+begin_src elisp
+(setq custom-file (concat user-emacs-directory "custom.el"))
+
+(custom-set-variables
+ '(org-babel-load-languages
+   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+ '(org-confirm-babel-evaluate nil))
+#+end_src
+
 Don't auto-initialize!
 
 #+begin_src elisp
@@ -536,13 +548,6 @@ Load my themes. Enable theme on the frame type.
               (disable-theme 'spolsky))
           (enable-theme 'spolsky-term))))))
 
-(defun my/emacs-startup-hook ()
-  "make faster startup"
-  (setq file-name-handler-alist my/file-name-handler-alist
-        gc-cons-threshold 800000
-        gc-cons-percentage 0.1))
-
-(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 (add-hook 'after-init-hook 'my/load-theme)
 (add-hook 'after-make-frame-functions 'my/enable-theme)
 #+end_src
@@ -626,11 +631,21 @@ tangled, and the tangled file is compiled."
       (byte-compile-file (concat user-emacs-directory "init.el")))))
 
 (defun my/minibuffer-setup-hook ()
-  (setq gc-cons-threshold most-positive-fixnum))
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6))
 
 (defun my/minibuffer-exit-hook ()
-  (setq gc-cons-threshold 800000))
+  (setq gc-cons-threshold 800000
+        gc-cons-percentage 0.1))
 
+(defun my/emacs-startup-hook ()
+  "make faster startup"
+  (benchmark-init/deactivate)
+  (setq file-name-handler-alist my/file-name-handler-alist
+        gc-cons-threshold 800000
+        gc-cons-percentage 0.1))
+
+(add-hook 'emacs-startup-hook 'my/emacs-startup-hook)
 (add-hook 'minibuffer-setup-hook #'my/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'my/minibuffer-exit-hook)
 (add-hook 'after-save-hook 'tangle-init)
@@ -819,7 +834,9 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 #+begin_src elisp
 (use-package projectile :defer 30
   :init (projectile-mode)
-  :delight '(:eval (concat " [" (projectile-project-name) "]"))
+  :delight '(:eval
+             (propertize (concat " " (projectile-project-name))
+                         'face '(:foreground "#FD971F")))
   :config
   (setq projectile-enable-caching t
         projectile-use-git-grep t
@@ -1069,7 +1086,7 @@ Major mode for =Dockerfile=.
 **** Org
 
 #+begin_src elisp
-(use-package org :defer 30 :pin melpa
+(use-package org :defer t :pin melpa
   :init
   (defconst my/org-dir (getenv "ORG_PATH"))
 
@@ -1128,7 +1145,10 @@ Major mode for =Dockerfile=.
     (setq org-todo-keyword-faces
           '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
             ("HOLD" :foreground "firebrick2" :weight bold)
-            ("NEXT" :foreground "OrangeRed2" :weight bold))))
+            ("NEXT" :foreground "OrangeRed2" :weight bold))
+          org-priority-faces '((?A . (:foreground "firebrick2" :weight 'bold))
+                               (?B . (:foreground "OrangeRed2"))
+                               (?C . (:foreground "DodgerBlue2")))))
 
   (use-package org-src :ensure f
     :init
@@ -1186,6 +1206,7 @@ Major mode for =Dockerfile=.
           org-clock-report-include-clocking-task t)
     (org-clock-persistence-insinuate))
 
+  :commands org-agenda
   :bind
   (:map org-mode-map
    ("C-c x" . org-todo-keys)
