@@ -78,6 +78,17 @@
 *** Installation
 
 **** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+
+Setup =overlay2= storage driver. See [[https://docs.docker.com/engine/userguide/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver][docs]].
+
+#+begin_src js :tangle no
+// /etc/docker/daemon.json
+
+{
+  "storage-driver": "overlay2"
+}
+#+end_src
+
 **** Create emacs data volume:
 
 #+begin_src sh :tangle no
