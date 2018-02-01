@@ -1240,5 +1240,5 @@ Major mode for =Dockerfile=.
 *** Tests
 
 #+begin_src elisp
-(provide afsmnghr/init.el)
+(provide init.el)
 #+end_src
