@@ -74,7 +74,6 @@
     - [[#javascript][Javascript]]
   - [[#templates][Templates]]
   - [[#org][Org]]
-+ [[#tests][Tests]]
 
 *** Installation
 
@@ -1235,10 +1234,4 @@ Major mode for =Dockerfile=.
    ("C-c x" . org-todo-keys)
    :map global-map
    ("C-c l" . org-store-link)))
-#+end_src
-
-*** Tests
-
-#+begin_src elisp
-(provide init.el)
 #+end_src

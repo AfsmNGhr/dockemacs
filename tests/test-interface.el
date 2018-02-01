@@ -1,4 +1,3 @@
-(require 'init.el)
 (require 'undercover-init.el)
 
 (describe "Indentation"
