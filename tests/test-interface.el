@@ -1,4 +1,4 @@
-(require 'init.el)
+(require 'afsmnghr/init.el)
 (require 'undercover-init.el)
 
 (describe "Indentation"
