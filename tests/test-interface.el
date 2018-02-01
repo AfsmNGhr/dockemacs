@@ -8,8 +8,8 @@
           (it "space indentation"
               (expect (princ indent-tabs-mode) :to-be nil)))
 
-(describe "Garbage Collector"
+(describe "Garbage Collector on startup"
           (it "treshold"
-              (expect (princ gc-cons-threshold) :to-be 800000))
+              (expect (princ gc-cons-threshold) :to-be most-positive-fixnum))
           (it "percentage"
-              (except (princ gc-cons-percentage) :to-be 0.1)))
+              (expect (princ gc-cons-percentage) :to-be 0.1)))

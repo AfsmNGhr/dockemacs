@@ -18,6 +18,7 @@ script:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH"; fi`
   - export $(cat .env)
   - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
+  - if [ "$?" -ne 0 ]; then exit 1; fi
 
 after_success:
   - export ID=`sudo docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
