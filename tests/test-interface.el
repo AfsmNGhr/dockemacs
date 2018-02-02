@@ -11,7 +11,7 @@
 (describe "Customize"
           (it "custom file"
               (expect (princ custom-file)
-                      :to-be (concat user-emacs-directory "custom.el"))))
+                      :to-equal (concat user-emacs-directory "custom.el"))))
 
 (describe "UI"
           (it "menu-bar"
@@ -33,7 +33,7 @@
           (it "interval"
               (expect (princ display-time-interval) :to-be 1))
           (it "format"
-              (expect (princ display-time-format) :to-be "%H:%M"))
+              (expect (princ display-time-format) :to-equal "%H:%M"))
           (it "load-average"
               (expect (princ display-time-default-load-average) :to-be nil))
           (it "active?"
