@@ -46,3 +46,47 @@
               (expect (princ use-file-dialog) :to-be nil))
           (it "epa"
               (expect (princ epa-pinentry-mode) :to-be 'loopback)))
+
+(describe "Built-in modes"
+          (it "visual-line"
+              (expect (princ global-visual-line-mode) :to-be t))
+          (it "font-lock"
+              (expet (princ global-font-lock-mode) :to-be t))
+          (it "auto-revert"
+              (expect (princ global-auto-revert-mode) :to-be t))
+          (it "delete-selection"
+              (expect (princ delete-selection-mode) :to-be t))
+          (it "linum-mode"
+              (expect (princ global-linum-mode) :to-be t))
+          (it "auto-fill"
+              (expect (princ auto-fill-mode) :to-be t)))
+
+(describe "External browser"
+          (it "url-browser-function"
+              (expect (princ browse-url-browser-function)
+                      :to-be 'browse-url-generic))
+          (it "url-generic-program"
+              (expect (princ browse-url-generic-program)
+                      :to-equal "/usr/local/sbin/browser-remote")))
+
+(describe "Dired"
+          (it "listing-switches"
+              (expect (princ dired-listing-switches) :to-equal "-lhvA")))
+
+(describe "Unsorted"
+          (it "parent-style"
+              (expect (princ show-paren-style) :to-be 'mixed))
+          (it "word-wrap"
+              (expect (princ word-wrap) :to-be t))
+          (it "search-highlight"
+              (expect (princ search-highlight) :to-be t))
+          (it "query-replace-highlight"
+              (expect (princ query-replace-highlight) :to-be t))
+          (it "select-enable-clipboard"
+              (expect (princ select-enable-clipboard) :to-be t))
+          (it "echo-keystrokes"
+              (expect (princ echo-keystrokes) :to-be 0.1))
+          (it "enable-local-eval"
+              (expect (princ enable-local-eval) :to-be t))
+          (it "garbage-collection-messages"
+              (expect (princ garbage-collection-messages) :to-be t)))

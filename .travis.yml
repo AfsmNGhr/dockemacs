@@ -14,8 +14,8 @@ install:
   - sudo pip install docker-compose
 
 script:
-  - test=$(docker-compose -f docker-compose.travis.yml up)
-  - if [ "$test" -ne 0 ]; then exit 1; else echo "Tests passed"; fi
+  - test=`docker-compose -f docker-compose.travis.yml up`
+  - if [ "$test" -eq 0 ]; then echo 'Tests passed'; else exit 1; fi
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH"; fi`
   - export $(cat .env)
   - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
