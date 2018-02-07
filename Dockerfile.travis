@@ -19,7 +19,7 @@ RUN apk update && \
     apk add --no-cache \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-        su-exec emacs-nox git openssh-client gnupg python curl && \
+        su-exec emacs-nox bash git openssh-client gnupg python curl && \
     apk add --no-cache --virtual cask-install-deps gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     apk del cask-install-deps && \
@@ -38,4 +38,5 @@ CMD cd "$HOME/.emacs.d" && \
     git checkout --track "origin/$BRANCH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
-    env && tangle && cask install && cask exec buttercup -L . -L tests
+    env && set -x && tangle && \
+    cask install && cask exec buttercup -L . -L tests

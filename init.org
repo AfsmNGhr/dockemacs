@@ -337,6 +337,14 @@ Avoid garbage collection during startup.
       gc-cons-percentage 0.6)
 #+end_src
 
+Clear files, temporarily.
+
+#+begin_src elisp
+(defvar afsmnghr/file-name-handler-alist file-name-handler-alist)
+
+(setq file-name-handler-alist nil)
+#+end_src
+
 **** Package Management
 
 Set custom file and few variables.
@@ -355,14 +363,6 @@ Don't auto-initialize!
 #+begin_src elisp
 (setq package-enable-at-startup nil
       package--init-file-ensured t)
-#+end_src
-
-Clear files, temporarily.
-
-#+begin_src elisp
-(defvar afsmnghr/file-name-handler-alist file-name-handler-alist)
-
-(setq file-name-handler-alist nil)
 #+end_src
 
 The =use-package= declarative and performance-oriented.
