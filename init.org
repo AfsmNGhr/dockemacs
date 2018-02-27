@@ -320,7 +320,7 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 (org-babel-tangle)
 (load-file (concat user-emacs-directory "init.el"))
 (byte-compile-file (concat user-emacs-directory "init.el"))
-(setq gc-cons-threshold 800000
+(setq gc-cons-threshold 3000000
       gc-cons-percentage 0.1)
 #+end_src
 
@@ -655,7 +655,7 @@ tangled, and the tangled file is compiled."
         gc-cons-percentage 0.6))
 
 (defun afsmnghr/minibuffer-exit-hook ()
-  (setq gc-cons-threshold 800000
+  (setq gc-cons-threshold 3000000
         gc-cons-percentage 0.1))
 
 (defun afsmnghr/emacs-startup-hook ()
@@ -663,14 +663,15 @@ tangled, and the tangled file is compiled."
   (benchmark-init/deactivate)
   (reverse-im-activate "russian-computer")
   (setq file-name-handler-alist afsmnghr/file-name-handler-alist
-        gc-cons-threshold 800000
+        gc-cons-threshold 3000000
         gc-cons-percentage 0.1))
 
-(add-hook 'emacs-startup-hook 'afsmnghr/emacs-startup-hook)
+(add-hook 'emacs-startup-hook #'afsmnghr/emacs-startup-hook)
 (add-hook 'minibuffer-setup-hook #'afsmnghr/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'afsmnghr/minibuffer-exit-hook)
-(add-hook 'after-save-hook 'tangle-init)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'focus-out-hook #'garbage-collect)
+(add-hook 'after-save-hook #'tangle-init)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 #+end_src
 
 **** History
@@ -1106,60 +1107,43 @@ Major mode for =Dockerfile=.
 
 **** Org
 
+Save =org= buffers.
+
+#+begin_src elisp
+(defun afsmnghr/before-kill-emacs ()
+  (org-save-all-org-buffers))
+#+end_src
+
+Run =org= task.
+
+#+begin_src elisp
+(defun afsmnghr/org-todo-activate ()
+  "Stop the current and activate the selected task."
+  (interactive)
+  (when (org-clocking-p)
+    (org-clock-goto)
+    (org-todo "HOLD")
+    (org-clock-out)
+    (save-buffer)
+    (switch-to-prev-buffer))
+  (org-todo org-clock-in-switch-to-state))
+#+end_src
+
+More =org=.
+
 #+begin_src elisp
 (use-package org :defer t :pin melpa
   :init
   (defconst afsmnghr/org-dir (getenv "ORG_PATH"))
 
-  (add-hook 'kill-emacs-hook (lambda () (org-save-all-org-buffers)))
-
-  (defun afsmnghr/current-task-change-status (status)
-    "Change status for current task and stop."
-    (interactive)
-    (when (org-clocking-p)
-      (org-clock-goto)
-      (org-todo status)
-      (org-clock-out)
-      (save-buffer)
-      (switch-to-prev-buffer)))
+  (add-hook 'kill-emacs-hook #'afsmnghr/before-kill-emacs)
 
   (setq org-log-done t
         org-startup-indented t
+        org-indent-mode-turns-on-hiding-stars nil
         org-todo-keywords
-        '((sequence "TODO" "NEXT" "INPROGRESS" "HOLD" "DONE" "CANCELLED")))
-
-  (define-prefix-command 'org-todo-keys)
-
-  (define-key org-todo-keys "t"
-    '(lambda ()
-       (interactive)
-       (org-todo "TODO")
-       (org-clock-out-if-current)))
-  (define-key org-todo-keys "n"
-    '(lambda ()
-       (interactive)
-       (org-todo "NEXT")
-       (org-clock-out-if-current)))
-  (define-key org-todo-keys "h"
-    '(lambda ()
-       (interactive)
-       (org-todo "HOLD")
-       (org-clock-out-if-current)))
-  (define-key org-todo-keys "d"
-    '(lambda ()
-       (interactive)
-       (org-todo "DONE")
-       (org-clock-out-if-current)))
-  (define-key org-todo-keys "i"
-    '(lambda ()
-       (interactive)
-       (org-todo "INPROGRESS")
-       (afsmnghr/current-task-change-status "HOLD")))
-  (define-key org-todo-keys "c"
-    '(lambda ()
-       (interactive)
-       (org-todo "CANCELLED")
-       (org-clock-out-if-current)))
+        '((sequence "TODO(t!)" "NEXT(n@/!)" "INPROGRESS(i!)" "HOLD(h@/!)"
+                    "DONE(d!)" "CANCELLED(c@/!)")))
 
   (use-package org-faces :ensure f
     :init
@@ -1215,7 +1199,7 @@ Major mode for =Dockerfile=.
 
   (use-package org-clock :ensure f :defer t
     :init
-    (setq org-clock-history-length 23
+    (setq org-clock-history-length 30
           org-clock-in-switch-to-state "INPROGRESS"
           org-clock-continuously t
           org-clock-in-resume t
@@ -1230,8 +1214,6 @@ Major mode for =Dockerfile=.
 
   :commands org-agenda
   :bind
-  (:map org-mode-map
-   ("C-c x" . org-todo-keys)
-   :map global-map
+  (:map global-map
    ("C-c l" . org-store-link)))
 #+end_src
