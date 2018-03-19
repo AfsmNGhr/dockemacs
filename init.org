@@ -1063,7 +1063,7 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  (add-to-list 'typescript-mode-hook 'flycheck-mode)
+  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))
