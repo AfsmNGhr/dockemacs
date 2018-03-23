@@ -54,6 +54,7 @@
   + [[#vcs][VCS]]
     - [[#magit][Magit]]
     - [[#git-time-machine][Git time machine]]
+    - [[#smerge-mode][Smerge-mode]]
   - [[#project-management][Project Management]]
     - projectile
   - [[#linters][Linters]]
@@ -847,6 +848,15 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
 #+begin_src elisp
 (unless (version< emacs-version "24.4")
   (use-package git-timemachine :defer t))
+#+end_src
+
+***** Smerge-mode
+
+Merging conflicts.
+
+#+begin_src elisp
+(use-package smerge-mode :ensure f
+  :config (setq smerge-command-prefix "\C-cv"))
 #+end_src
 
 **** Project management
