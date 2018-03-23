@@ -1052,7 +1052,9 @@ Major mode for =Dockerfile=.
 
 #+begin_src elisp
 (use-package python :defer t
-  :config (add-to-list 'python-mode-hook 'flycheck-mode))
+  :config
+  (add-to-list 'python-mode-hook 'flycheck-mode)
+  (setq flycheck-python-pylint-executable "pylint"))
 #+end_src
 
 ***** Javascript
