@@ -855,7 +855,7 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
 Merging conflicts.
 
 #+begin_src elisp
-(use-package smerge-mode :ensure f
+(use-package smerge-mode :ensure f :defer t
   :config (setq smerge-command-prefix "\C-cv"))
 #+end_src
 
