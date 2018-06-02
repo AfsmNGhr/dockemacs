@@ -715,10 +715,11 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
     (ido-mode 1)
     (ido-everywhere 1)
     (flx-ido-mode 1)
-    (setq ido-enable-flex-matching t
+    (setq flx-ido-threshold 1000
+          ido-enable-flex-matching t
           ido-use-faces t
           ido-virtual-buffers t
-          ido-auto-merge-delay-time 99999999))
+          ido-auto-merge-work-directories-length -1))
   (use-package ido-completing-read+ :pin melpa-stable
     :config (ido-ubiquitous-mode 1)))
 #+end_src
@@ -850,12 +851,12 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
   (use-package git-timemachine :defer t))
 #+end_src
 
-***** Smerge-mode
+***** COMMENT Smerge-mode
 
 Merging conflicts.
 
 #+begin_src elisp
-(use-package smerge-mode :ensure f :defer t
+(use-package smerge-mode :ensure f
   :config (setq smerge-command-prefix "\C-cv"))
 #+end_src
 
