@@ -445,7 +445,7 @@ Prefer space indentation.
 (custom-set-variables
  '(whitespace-style '(face lines-tail)))
 
-(global-whitespace-mode t)
+(add-hook 'prog-mode-hook #'whitespace-mode)
 #+end_src
 
 **** Interface
