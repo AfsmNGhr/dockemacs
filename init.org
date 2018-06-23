@@ -1174,6 +1174,7 @@ More =org=.
           org-edit-src-content-indentation 2
           org-src-tab-acts-natively t
           org-src-preserve-indentation t
+          org-src-window-setup 'current-window
           org-src-ask-before-returning-to-edit-buffer nil))
 
   (use-package org-agenda :ensure f
@@ -1181,6 +1182,8 @@ More =org=.
     (setq org-agenda-files (list afsmnghr/org-dir (concat
                                                    afsmnghr/org-dir "orgzly"))
           org-agenda-start-on-weekday 1
+          org-agenda-dim-blocked-tasks nil
+          org-agenda-compact-blocks t
           org-agenda-skip-scheduled-if-done nil
           org-agenda-clockreport-parameter-plist
           (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
@@ -1220,6 +1223,7 @@ More =org=.
           org-clock-out-remove-zero-time-clocks t
           org-clock-out-when-done t
           org-clock-persist 'history
+          org-clock-auto-clock-resolution (quote when-no-clock-is-running))
           org-clock-clocked-in-display 'mode-line
           org-clock-persist-query-resume nil
           org-clock-report-include-clocking-task t)
