@@ -1202,13 +1202,7 @@ More =org=.
         ("d" "Diary" entry (file+datetree (concat afsmnghr/org-dir "diary.org"))
          "* %?\n%U\n" :clock-in t :clock-resume t)
         ("w" "Work" entry (file+datetree (concat afsmnghr/org-dir "work.org"))
-         "* TODO %? :WORK:\n%U\n" :clock-in t :clock-resume t)
-        ("f" "Freelance" entry (file+datetree
-                                (concat afsmnghr/org-dir "freelance.org"))
-         "* TODO %? :FREELANCE:\n%U\n" :clock-in t :clock-resume t)
-        ("e" "Education" entry (file
-                                (concat afsmnghr/org-dir "education.org"))
-         "* TODO %?\n%U\n" :clock-in t :clock-resume t)))
+         "* TODO %? :WORK:\n%U\n" :clock-in t :clock-resume t)))
     (setq org-capture-templates afsmnghr/org-capture-templates)
     :bind
     (:map global-map ("C-c c" . org-capture)))
