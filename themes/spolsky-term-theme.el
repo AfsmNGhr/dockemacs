@@ -120,9 +120,9 @@
    `(org-level-6 ((t (:foreground, *regexp*))))
    `(org-level-7 ((t (:foreground, *warning*))))
    `(org-level-8 ((t (:foreground, *variable*))))
-   `(org-block-background ((t (:background "color-234"))))
-   `(org-block-begin-line ((t (:background, *visual-selection* :foreground, *string*))))
-   `(org-block-end-line ((t (:background, *visual-selection* :foreground, *string*))))
+   `(org-block-background ((t (:background "color-235"))))
+   `(org-block-begin-line ((t (:background, "color-233" :foreground, *string*))))
+   `(org-block-end-line ((t (:background, "color-233" :foreground, *string*))))
   ))
 
 ;;;###autoload
