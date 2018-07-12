@@ -8,6 +8,6 @@
       (user-emacs-directory default-directory)
       (load-path (delq default-directory load-path)))
   (load-file user-init-file)
-  (unless (ignore-errors (run-hooks 'after-init-hook)))
+  (unless (ignore-errors (run-hooks 'after-init-hook))))
 
 (provide 'undercover-init.el)
