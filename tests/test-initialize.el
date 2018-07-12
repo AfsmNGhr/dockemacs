@@ -4,7 +4,7 @@
           (it "treshold"
               (expect (princ gc-cons-threshold) :to-be most-positive-fixnum))
           (it "percentage"
-              (expect (princ gc-cons-percentage) :to-be 0.6)))
+              (expect (princ gc-cons-percentage) :to-equal 0.6)))
 
 (describe "File name handler"
           (it "alist"

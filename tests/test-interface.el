@@ -2,7 +2,7 @@
 
 (describe "Indentation"
           (it "tab offset"
-              (expect (princ default-tab-width) :to-be 2))
+              (expect (princ tab-width) :to-be 2))
           (it "always indent"
               (expect (princ tab-always-indent) :to-be 'complete))
           (it "space indentation"
