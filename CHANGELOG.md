@@ -1,3 +1,7 @@
+## 1.9.4 (2018-07-12)
+
+* Fix first clone repository
+
 ## 1.9.3 (2018-01-27)
 
 * Add `CORE_COUNT` for `git fetch`

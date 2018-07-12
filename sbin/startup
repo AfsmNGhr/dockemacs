@@ -9,9 +9,9 @@ ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg"
 cd "$HOME/.emacs.d" || exit
 
 if [ ! -d "$HOME/.emacs.d/.git" ]; then
-   git init
-   git remote add origin "$REPOSITORY"
-   git checkout --track "origin/$BRANCH"
+    git clone "$REPOSITORY" "$HOME/emacs"
+    mv "$HOME/emacs/*" "$HOME/.emacs.d"
+    rm -rf "$HOME/emacs"
 fi
 
 git fetch origin "$BRANCH" -j "${CORE_COUNT:-1}" || true
