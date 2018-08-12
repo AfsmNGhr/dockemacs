@@ -1124,7 +1124,8 @@ Save =org= buffers.
 
 #+begin_src elisp
 (defun afsmnghr/before-kill-emacs ()
-  (org-save-all-org-buffers))
+  (if (fboundp 'org-save-all-org-buffers)
+      (org-save-all-org-buffers)))
 #+end_src
 
 Run =org= task.
