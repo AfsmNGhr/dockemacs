@@ -851,7 +851,7 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
   (use-package git-timemachine :defer t))
 #+end_src
 
-***** COMMENT Smerge-mode
+***** Smerge-mode
 
 Merging conflicts.
 
@@ -865,21 +865,23 @@ Merging conflicts.
 Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 #+begin_src elisp
-(use-package projectile :defer 30
-  :init (projectile-mode)
-  :delight '(:eval
-             (propertize (concat " " (projectile-project-name))
-                         'face '(:foreground "#FD971F")))
-  :config
-  (setq projectile-enable-caching t
-        projectile-use-git-grep t
-        projectile-indexing-method 'default
-        projectile-switch-project-action 'projectile-dired
-        projectile-file-exists-remote-cache-expire (* 10 60)
-        projectile-file-exists-local-cache-expire (* 5 60)
-        projectile-require-project-root nil
-        projectile-idle-timer-seconds 60
-        projectile-completion-system 'ido))
+  (use-package projectile :defer 30
+    :init (projectile-mode)
+    :delight '(:eval
+               (propertize (concat " " (projectile-project-name))
+                           'face '(:foreground "#FD971F")))
+    :config
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+    (setq projectile-enable-caching t
+          projectile-use-git-grep t
+          projectile-indexing-method 'default
+          projectile-switch-project-action 'projectile-dired
+          projectile-file-exists-remote-cache-expire (* 10 60)
+          projectile-file-exists-local-cache-expire (* 5 60)
+          projectile-require-project-root nil
+          projectile-idle-timer-seconds 60
+          projectile-completion-system 'ido))
 #+end_src
 
 **** Linters
