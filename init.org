@@ -193,6 +193,12 @@ Host 127.1
      ForwardX11 no
 #+end_src
 
+Check [[https://serverfault.com/questions/253313/ssh-returns-bad-owner-or-permissions-on-ssh-config][permissions]] of config file.
+
+#+begin_src sh :tangle no
+sudo chmod 600 ~/.ssh/config
+#+end_src
+
 Add our ssh pub key to authorized_keys.
 
 #+begin_src sh :tangle no
