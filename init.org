@@ -361,7 +361,7 @@ Set custom file and few variables.
 
 (custom-set-variables
  '(org-babel-load-languages
-   (quote ((emacs-lisp . t) (shell . t) (ruby . t) (js . t))))
+   (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
  '(org-confirm-babel-evaluate nil))
 #+end_src
 
