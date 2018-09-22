@@ -92,13 +92,13 @@ Setup =overlay2= storage driver. See [[https://docs.docker.com/engine/userguide/
 
 **** Create emacs data volume:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 docker volume create emacs_data
 #+end_src
 
 **** Add alias:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 # ~/.bash_aliases or etc ...
 
 alias dockemacs='
@@ -115,7 +115,7 @@ alias dockemacs='
 
 **** Prepare =$HOME/.dockemacs=, check your =env=:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
   # default by
 
   echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
@@ -159,7 +159,7 @@ alias dockemacs='
 
 **** Setup ssh server and restart:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 # /etc/ssh/sshd_config
 
 ListenAddress 127.1
@@ -169,13 +169,13 @@ ListenAddress 127.1
 
 Create sockets path.
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 mkdir ~/.ssh/sockets
 #+end_src
 
 Speedup local connection.
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 # ~/.ssh/config
 
 Host *
@@ -195,19 +195,19 @@ Host 127.1
 
 Check [[https://serverfault.com/questions/253313/ssh-returns-bad-owner-or-permissions-on-ssh-config][permissions]] of config file.
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 sudo chmod 600 ~/.ssh/config
 #+end_src
 
 Add our ssh pub key to authorized_keys.
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
 #+end_src
 
 For =SSH_CONNECTION= set =TERM=. Fixed tramp issues.
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 # ~/.bashrc
 
 if [ "$SSH_CONNECTION" ]; then
@@ -223,7 +223,7 @@ esac
 
 **** Run and wait until the boot:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 $ dockemacs
 #+end_src
 
@@ -316,7 +316,7 @@ $ dockemacs
 
 Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-pitfalls][emacs script pitfalls]].
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 #!/usr/bin/env sh
 ":"; exec emacs --quick --script "$0" "$@" # -*-emacs-lisp-*-
 
@@ -353,17 +353,6 @@ Clear files, temporarily.
 #+end_src
 
 **** Package Management
-
-Set custom file and few variables.
-
-#+begin_src elisp
-(setq custom-file (concat user-emacs-directory "custom.el"))
-
-(custom-set-variables
- '(org-babel-load-languages
-   (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
- '(org-confirm-babel-evaluate nil))
-#+end_src
 
 Don't auto-initialize!
 
@@ -463,7 +452,7 @@ Set custom file and few variables.
 
 (custom-set-variables
  '(org-babel-load-languages
-   (quote ((emacs-lisp . t) (sh . t) (ruby . t) (js . t))))
+   (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
  '(org-confirm-babel-evaluate nil))
 #+end_src
 
@@ -1154,7 +1143,7 @@ Run =org= task.
 Main =org=.
 
 #+begin_src elisp
-(use-package org :defer 30 :pin melpa
+(use-package org :defer 30 :pin gnu
   :init
   (defconst afsmnghr/org-dir (getenv "ORG_PATH"))
 
