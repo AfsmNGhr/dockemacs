@@ -9,7 +9,7 @@ ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg"
 cd "$HOME/.emacs.d" || exit
 
 if [ ! -d "$HOME/.emacs.d/.git" ]; then
-    git clone "$REPOSITORY" .
+    git clone --depth 1 "$REPOSITORY" .
 fi
 
 git fetch origin "$BRANCH" -j "${CORE_COUNT:-1}" || true
