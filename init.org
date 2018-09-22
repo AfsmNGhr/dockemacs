@@ -997,37 +997,10 @@ Major mode for =Dockerfile=.
 **** Remote management
 
 #+begin_src elisp
-(use-package tramp :defer t
+(use-package tramp :defer t :ensure f
   :config
   (setq auto-revert-remote-files t
         shell-file-name "/bin/sh")) ;; alpine based
-
-(defun sudo-edit-current-file ()
-  (interactive)
-  (let ((my-file-name) ; fill this with the file to open
-        (position))    ; if the file is already open save position
-    (if (equal major-mode 'dired-mode) ; test if we are in dired-mode
-        (progn
-          (setq my-file-name (dired-get-file-for-visit))
-          (find-alternate-file (prepare-tramp-sudo-string my-file-name)))
-      (setq my-file-name (buffer-file-name)
-            position (point))
-      (find-alternate-file (prepare-tramp-sudo-string my-file-name))
-      (goto-char position))))
-
-(defun prepare-tramp-sudo-string (tempfile)
-  (if (file-remote-p tempfile)
-      (let ((vec (tramp-dissect-file-name tempfile)))
-
-        (tramp-make-tramp-file-name
-         "sudo"
-         (tramp-file-name-user nil)
-         (tramp-file-name-host vec)
-         (tramp-file-name-localname vec)
-         (format "ssh:%s@%s|"
-                 (tramp-file-name-user vec)
-                 (tramp-file-name-host vec))))
-    (concat "/sudo:root@localhost:" tempfile)))
 #+end_src
 
 **** Languages
@@ -1224,9 +1197,11 @@ Org capture.
     '(("L" "Links" entry (file+datetree afsmnghr/org-links)
        "* %c :LINK:\n%U %?%:initial")
       ("d" "Diary" entry (file+datetree afsmnghr/org-diary)
-       "* %?\n%U\n" :clock-in t :clock-resume t)
+       "* %?\n%U\n"
+       :clock-in t :clock-resume t :jump-to-captured t)
       ("w" "Work" entry (file+datetree afsmnghr/org-work)
-       "* TODO %? :WORK:\n%U\n" :clock-in t :clock-resume t)))
+       "* TODO %? :WORK:\n%U\n"
+       :clock-in t :clock-resume t :jump-to-captured t)))
   (setq org-capture-templates afsmnghr/org-capture-templates)
   :bind
   (:map global-map ("C-c c" . org-capture)))
