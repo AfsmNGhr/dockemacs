@@ -1,6 +1,6 @@
-## 1.9.4 (2018-07-12)
+## 1.9.4 (2018-09-22)
 
-* Fix first clone repository
+* Updated base image with `alpine:3.8`
 
 ## 1.9.3 (2018-01-27)
 

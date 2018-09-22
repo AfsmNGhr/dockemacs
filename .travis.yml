@@ -25,4 +25,5 @@ after_success:
   - sudo docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   - sudo docker tag "$REPO:$COMMIT" "$REPO:$TAG"
   - sudo docker tag "$REPO:$COMMIT" "$REPO:$VERSION"
+  - sudo docker tag "$REPO:$COMMIT" "$REPO:latest"
   - sudo docker push "$REPO"
