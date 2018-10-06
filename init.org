@@ -1096,6 +1096,8 @@ Save =org= buffers.
 (defun afsmnghr/before-kill-emacs ()
   (if (fboundp 'org-save-all-org-buffers)
       (org-save-all-org-buffers)))
+
+(add-hook 'kill-emacs-hook #'afsmnghr/before-kill-emacs)
 #+end_src
 
 Run =org= task.
@@ -1118,8 +1120,6 @@ Main =org=.
 #+begin_src elisp
 (use-package org :defer 30 :ensure f
   :init
-  (add-hook 'kill-emacs-hook #'afsmnghr/before-kill-emacs)
-
   (setq org-log-done t
         org-directory (getenv "ORG_PATH")
         org-startup-indented t
@@ -1167,12 +1167,14 @@ Org agenda.
   :after org
   :config
   (setq org-agenda-files (list org-directory (concat org-directory "orgzly"))
+        org-agenda-custom-commands
+        '(("d" "List of the projects" ((tags "+LEVEL>=2&+project/-DONE-CANCELLED"))))
         org-agenda-start-on-weekday 1
         org-agenda-dim-blocked-tasks nil
         org-agenda-compact-blocks t
         org-agenda-skip-scheduled-if-done nil
         org-agenda-clockreport-parameter-plist
-        (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80))))
+        (quote (:link t :maxlevel 9 :fileskip0 t :compact t :narrow 80))))
 #+end_src
 
 Org protocol.
