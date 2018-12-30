@@ -5,8 +5,8 @@ RUN apk update && \
     apk add --no-cache \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
             --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-        su-exec emacs-nox the_silver_searcher git openssh-client openssl \
-        gnupg && \
+        su-exec emacs-nox the_silver_searcher git openssh-client gnupg \
+        gnutls && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
 COPY sbin/* /usr/local/sbin/
