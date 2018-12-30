@@ -6,8 +6,6 @@
 #                 {{json.RunningFor}},{{json .Status}},{{json .Ports}}, \
 #                 {{json .Names}}]" -a
 
-cat /dev/null > /tmp/docker.out
-
 cmd='docker'
 
 for i in "$@"; do
@@ -24,7 +22,7 @@ for i in "$@"; do
 done
 
 if [ "$cmd" != *"exec"* ]; then
-  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" >> /tmp/docker.out
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" > /tmp/docker.out
   cat /tmp/docker.out
 else
   ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd"
