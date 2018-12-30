@@ -2,9 +2,9 @@
 
 # args :
 #
-#   -r n --output-format text \
-#   --msg-template \{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
-#   --rcfile /local/path/.pylintrc /local/path/*.py
+#   --reports\=n --output-format\=text \
+#   --msg-template\=\{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
+#   --rcfile\=/local/path/.pylintrc /local/path/*.py
 
 cmd="$PROJECT_PYLINT_CMD"
 
@@ -12,6 +12,9 @@ for i in "$@"; do
     case "$i" in
         *\'*)
             i=$(printf "%s" "$i")
+            ;;
+        *=*)
+            i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
             ;;
         *$PROJECT_LOCAL_PATH*)
             i=$(printf "%s" "$i" | \
@@ -24,8 +27,12 @@ done
 
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
-code="$?"
+result="$(grep "$PROJECT_REMOTE_PATH" /tmp/pylint.out)"
 
-cat /tmp/pylint.out
-
-exit "$code"
+if [ ! -z "$result" ]; then
+    echo "$result" | sed -e "s|$PROJECT_REMOTE_PATH|$PROJECT_LOCAL_PATH|g"
+    exit 0
+else
+    cat /tmp/pylint.out
+    exit 1
+fi
