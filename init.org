@@ -141,6 +141,7 @@ alias dockemacs='
   # optional
 
   echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
+  echo "DEBUG=true" >> $HOME/.dockemacs # More additional information
 #+end_src
 
     * =UID= and =GID= - transparent permissions
@@ -870,7 +871,7 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 
     (setq projectile-enable-caching t
           projectile-use-git-grep t
-          projectile-indexing-method 'default
+          projectile-indexing-method 'native
           projectile-switch-project-action 'projectile-dired
           projectile-file-exists-remote-cache-expire (* 10 60)
           projectile-file-exists-local-cache-expire (* 5 60)

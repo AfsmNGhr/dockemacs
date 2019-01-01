@@ -5,6 +5,8 @@
 #   --reports\=n --output-format\=text \
 #   --msg-template\=\{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
 #   --rcfile\=/local/path/.pylintrc /local/path/*.py
+#
+#   Works: with python 3.7 and pylint==1.9.3
 
 cmd="$PROJECT_PYLINT_CMD"
 
@@ -25,12 +27,13 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-echo "$cmd"
-
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
-code="$?"
+if [ -n "$DEBUG" ]; then
+    echo "DEBUG:\n $cmd \n"
+    echo "Exited with code $?"
+fi
 
 cat /tmp/pylint.out
 
-exit "$code"
+exit 0
