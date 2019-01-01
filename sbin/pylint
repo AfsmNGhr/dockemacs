@@ -25,6 +25,8 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
+echo "$cmd"
+
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
 code="$?"
