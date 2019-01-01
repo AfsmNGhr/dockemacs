@@ -10,11 +10,9 @@ env:
 services:
   - docker
 
-install:
-  - sudo pip install docker-compose
-
 script:
-  - docker-compose -f docker-compose.travis.yml up
+  - sudo docker build -t "$REPO:${TRAVIS_BUILD_NUMBER}-test" -f Dockerfile.test $(pwd)
+  - sudo docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "$REPO:${TRAVIS_BUILD_NUMBER}-test"
 
 after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH"; fi`
