@@ -504,7 +504,7 @@ Enable built-in modes.
 (auto-fill-mode 1)
 #+end_src
 
-Set external browser.
+Set external browser with [[file:sbin/browser-remote][wrapper]].
 
 #+begin_src elisp
 (setq browse-url-browser-function 'browse-url-generic
@@ -559,7 +559,10 @@ Load my themes. Enable theme on the frame type.
           (enable-theme 'spolsky-term))))))
 
 (add-hook 'after-init-hook 'afsmnghr/load-theme)
-(add-hook 'after-make-frame-functions 'afsmnghr/enable-theme)
+
+;; don't change theme inside docker container
+(unless (file-exists-p "/.dockerenv")
+  (add-hook 'after-make-frame-functions 'afsmnghr/enable-theme))
 #+end_src
 
 ****** Spolsky
