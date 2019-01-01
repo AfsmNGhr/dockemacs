@@ -17,7 +17,7 @@ for i in "$@"; do
             ;;
         *$PROJECT_LOCAL_PATH*)
             i=$(printf "%s" "$i" | \
-                    sed -e "s|$PROJECT_LOCAL_PATH|\"$PROJECT_REMOTE_PATH\"|g")
+                    sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
             ;;
         *=*)
             i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
@@ -31,7 +31,7 @@ ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
 if [ -n "$DEBUG" ]; then
     printf "DEBUG: You may test it with below command\nCMD: $cmd\n"
-    printf "WRAPPERED CMD: ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd""
+    printf "FULL: ssh \"$HOST_USER@$HOST_IP\" -p \"$HOST_PORT\" -tt %s" "$cmd"
 fi
 
 cat /tmp/pylint.out
