@@ -13,12 +13,12 @@ for i in "$@"; do
         *\'*)
             i=$(printf "%s" "$i")
             ;;
-        *=*)
-            i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
-            ;;
         *$PROJECT_LOCAL_PATH*)
             i=$(printf "%s" "$i" | \
                     sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
+            ;;
+        *=*)
+            i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
             ;;
         *) : ;;
     esac
