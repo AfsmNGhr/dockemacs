@@ -760,7 +760,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 **** Recent files
 
 #+begin_src elisp
-(use-package recentf :defer t
+(use-package recentf :defer t :ensure f
   :init (recentf-mode 1)
   :config
   (setq recentf-max-saved-items 30
@@ -1011,17 +1011,10 @@ Major mode for =Dockerfile=.
 ***** Ruby
 
 #+begin_src elisp
-(use-package ruby-mode :defer t
+(use-package ruby-mode :defer t :ensure f
   :mode (("\\.cr\\'" . ruby-mode)
          (".irbrc" . ruby-mode)))
 
-(use-package bundler :defer t)
-(use-package rvm :defer t
-  :init (rvm-use-default)
-  (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
-    (rvm-activate-corresponding-ruby)))
-
-(use-package company-inf-ruby :defer t)
 (use-package rubocop :defer t
   :init (add-hook 'ruby-mode-hook 'rubocop-mode)
   (add-to-list 'ruby-mode-hook 'flycheck-mode)
@@ -1035,7 +1028,7 @@ Major mode for =Dockerfile=.
 ***** Python
 
 #+begin_src elisp
-(use-package python :defer t
+(use-package python :defer t :ensure f
   :config
   (add-to-list 'python-mode-hook 'flycheck-mode)
   (setq flycheck-python-pylint-executable "pylint"))
@@ -1101,21 +1094,6 @@ Save =org= buffers.
       (org-save-all-org-buffers)))
 
 (add-hook 'kill-emacs-hook #'afsmnghr/before-kill-emacs)
-#+end_src
-
-Run =org= task.
-
-#+begin_src elisp
-(defun afsmnghr/org-todo-activate ()
-  "Stop the current and activate the selected task."
-  (interactive)
-  (when (org-clocking-p)
-    (org-clock-goto)
-    (org-todo "HOLD")
-    (org-clock-out)
-    (save-buffer)
-    (switch-to-prev-buffer))
-  (org-todo org-clock-in-switch-to-state))
 #+end_src
 
 Main =org=.
