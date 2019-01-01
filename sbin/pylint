@@ -25,16 +25,10 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-echo "$cmd"
-
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
-result="$(grep "$PROJECT_REMOTE_PATH" /tmp/pylint.out)"
+code="$?"
 
-if [ ! -z "$result" ]; then
-    echo "$result" | sed -e "s|$PROJECT_REMOTE_PATH|$PROJECT_LOCAL_PATH|g"
-    exit 0
-else
-    cat /tmp/pylint.out
-    exit 1
-fi
+cat /tmp/pylint.out
+
+exit "$code"
