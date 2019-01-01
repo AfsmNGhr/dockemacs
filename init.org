@@ -1167,8 +1167,6 @@ Org agenda.
   :after org
   :config
   (setq org-agenda-files (list org-directory (concat org-directory "orgzly"))
-        org-agenda-custom-commands
-        '(("d" "List of the projects" ((tags "+LEVEL>=2&+project/-DONE-CANCELLED"))))
         org-agenda-start-on-weekday 1
         org-agenda-dim-blocked-tasks nil
         org-agenda-compact-blocks t
