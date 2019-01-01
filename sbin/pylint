@@ -30,8 +30,8 @@ done
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
 if [ -n "$DEBUG" ]; then
-    echo "DEBUG:\t $cmd \t"
-    echo "CODE: $?"
+    printf "DEBUG: You may test it with below command\nCMD: $cmd\n"
+    printf "WRAPPERED CMD: ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd""
 fi
 
 cat /tmp/pylint.out
