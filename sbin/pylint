@@ -10,9 +10,9 @@
 #
 #   server.py:34:12:R:no-else-return:Unnecessary "else" after "return"
 #
-# TESTS:
+# WORKS:
 #   - python 3.7
-#   - pylint==1.9.3
+#   - pylint==2.2.2
 
 cmd="$PROJECT_PYLINT_CMD"
 
