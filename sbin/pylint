@@ -17,7 +17,7 @@ for i in "$@"; do
             ;;
         *$PROJECT_LOCAL_PATH*)
             i=$(printf "%s" "$i" | \
-                    sed -e "s|$PROJECT_LOCAL_PATH|$PROJECT_REMOTE_PATH|g")
+                    sed -e "s|$PROJECT_LOCAL_PATH|\"$PROJECT_REMOTE_PATH\"|g")
             ;;
         *=*)
             i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
@@ -30,8 +30,8 @@ done
 ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
 if [ -n "$DEBUG" ]; then
-    echo "DEBUG:\n $cmd \n"
-    echo "Exited with code $?"
+    echo "DEBUG:\t $cmd \t"
+    echo "CODE: $?"
 fi
 
 cat /tmp/pylint.out
