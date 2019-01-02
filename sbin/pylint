@@ -18,7 +18,7 @@ cmd="$PROJECT_PYLINT_CMD"
 
 for i in "$@"; do
     case "$i" in
-        *\\*)
+        *\'*)
             i=$(printf "%s" "$i")
             ;;
         *$PROJECT_LOCAL_PATH*)
