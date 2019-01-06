@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+# args :
+#
+#   ps --format="[{{json .ID}},{{json .Image}},{{json .Command}}, \
+#                 {{json.RunningFor}},{{json .Status}},{{json .Ports}}, \
+#                 {{json .Names}}]" -a
+
+cmd='docker-compose'
+
+for i in "$@"; do
+    case "$i" in
+        *\'*)
+            i=$(printf "%s" "$i")
+            ;;
+        *=*)
+            i=$(printf "%s" "$i" | sed -e "s/=\(.*\)/=\"\1\"/g")
+            ;;
+        *) : ;;
+    esac
+    cmd="$cmd $i"
+done
+
+if [ "$cmd" != *"exec"* ]; then
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" > /tmp/docker-compose.out
+  cat /tmp/docker-compose.out
+else
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd"
+fi
