@@ -109,7 +109,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.9.4 startup
+       afsmnghr/dockemacs:1.10.0 startup
 '
 #+end_src
 

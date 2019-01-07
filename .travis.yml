@@ -11,17 +11,15 @@ services:
   - docker
 
 script:
-  - sudo docker build -t "$REPO:${TRAVIS_BUILD_NUMBER}-test" -f Dockerfile.test $(pwd)
-  - sudo docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "$REPO:${TRAVIS_BUILD_NUMBER}-test"
+  - sudo docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile.test $(pwd)
+  - sudo docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH"; fi`
   - export $(cat .env)
   - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
   - export ID=`sudo docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
-  - sudo docker export "$ID" | sudo docker import - "$REPO:$COMMIT"
+  - sudo docker export "$ID" | sudo docker import - "$REPO:$VERSION"
   - sudo docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-  - sudo docker tag "$REPO:$COMMIT" "$REPO:$TAG"
-  - sudo docker tag "$REPO:$COMMIT" "$REPO:$VERSION"
-  - sudo docker tag "$REPO:$COMMIT" "$REPO:latest"
+  - sudo docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
+  - sudo docker tag "$REPO:$VERSION" "$REPO:latest"
   - sudo docker push "$REPO"
