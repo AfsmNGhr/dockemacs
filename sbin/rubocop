@@ -5,8 +5,6 @@
 #   --display-cop-names --force-exclusion --format emacs --cache false \
 #   --config /local/path/.robocop.yml --stdin /local/path/*.rb
 
-cat /dev/null > /tmp/rubocop.out
-
 cmd="$PROJECT_RUBOCOP_CMD"
 
 for i in "$@"; do
@@ -26,7 +24,7 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/rubocop.out
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/rubocop.out
 
 result="$(grep "$PROJECT_REMOTE_PATH" /tmp/rubocop.out)"
 

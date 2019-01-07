@@ -6,7 +6,7 @@
 #                 {{json.RunningFor}},{{json .Status}},{{json .Ports}}, \
 #                 {{json .Names}}]" -a
 
-cmd='docker'
+cmd='docker-compose'
 
 for i in "$@"; do
     case "$i" in
@@ -22,8 +22,8 @@ for i in "$@"; do
 done
 
 if [ "$cmd" != *"exec"* ]; then
-  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" > /tmp/docker.out
-  cat /tmp/docker.out
+  ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -T "$cmd" > /tmp/docker-compose.out
+  cat /tmp/docker-compose.out
 else
   ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd"
 fi

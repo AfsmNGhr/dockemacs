@@ -1,3 +1,9 @@
+## 1.10.0 (2019-01-07)
+
+* Switched `openssl` to `libressl`
+* Optimization wrappers and CI / CD
+* Deleted `tslint`, `node`, `bundle`, `docker-machine` wrappers
+
 ## 1.9.4 (2018-09-22)
 
 * Updated base image with `alpine:3.8`

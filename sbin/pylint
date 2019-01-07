@@ -1,12 +1,18 @@
 #!/usr/bin/env sh
 
-# args :
+# INPUT:
 #
-#   -r n --output-format text \
-#   --msg-template \{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
-#   --rcfile /local/path/.pylintrc /local/path/*.py
-
-cat /dev/null > /tmp/pylint.out
+#   --reports\=n --output-format\=text \
+#   --msg-template\=\{path\}:\{line\}:\{column\}:\{C\}:\{symbol\}:\{msg\} \
+#   --rcfile\=/local/path/.pylintrc /local/path/*.py
+#
+# OUTPUT:
+#
+#   server.py:34:12:R:no-else-return:Unnecessary "else" after "return"
+#
+# WORKS:
+#   - python 3.7
+#   - pylint==2.2.2
 
 cmd="$PROJECT_PYLINT_CMD"
 
@@ -24,10 +30,13 @@ for i in "$@"; do
     cmd="$cmd $i"
 done
 
-ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" >> /tmp/pylint.out
+ssh "$HOST_USER@$HOST_IP" -p "$HOST_PORT" -tt "$cmd" > /tmp/pylint.out
 
-code="$?"
+if [ -n "$DEBUG" ]; then
+    printf "DEBUG: You may test it with below command\n"
+    printf "CMD: ssh "$HOST_USER"@"$HOST_IP" -p "$HOST_PORT" -tt %s\n\n" "$cmd"
+fi
 
 cat /tmp/pylint.out
 
-exit "$code"
+exit 0
