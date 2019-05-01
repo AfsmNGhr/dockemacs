@@ -1,25 +1,21 @@
-sudo: required
-dist: trusty
-group: deprecated-2017Q4
+services:
+  - docker
 
 env:
   global:
     - COMMIT="${TRAVIS_COMMIT::8}"
     - REPO=afsmnghr/dockemacs
 
-services:
-  - docker
-
 script:
-  - sudo docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile.test $(pwd)
-  - sudo docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "${TRAVIS_BUILD_NUMBER}"
+  - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile.test $(pwd)
+  - docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
   - export $(cat .env)
-  - sudo docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
-  - export ID=`sudo docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
-  - sudo docker export "$ID" | sudo docker import - "$REPO:$VERSION"
-  - sudo docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-  - sudo docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
-  - sudo docker tag "$REPO:$VERSION" "$REPO:latest"
-  - sudo docker push "$REPO"
+  - docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
+  - export ID=`docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
+  - docker export "$ID" | docker import - "$REPO:$VERSION"
+  - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+  - docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
+  - docker tag "$REPO:$VERSION" "$REPO:latest"
+  - docker push "$REPO"
