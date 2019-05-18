@@ -1,21 +1,35 @@
 services:
   - docker
 
+git:
+  depth: 1
+
 env:
   global:
     - COMMIT="${TRAVIS_COMMIT::8}"
     - REPO=afsmnghr/dockemacs
 
+before_install:
+  - wget https://github.com/knqyf263/trivy/releases/download/v0.0.13/trivy_0.0.13_Linux-64bit.tar.gz
+  - tar zxvf trivy_0.0.13_Linux-64bit.tar.gz
+
 script:
-  - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile.test $(pwd)
-  - docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "${TRAVIS_BUILD_NUMBER}"
+  - docker build --target base -t "$REPO:${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
+  - ./trivy --exit-code 0 --severity HIGH --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - ./trivy --exit-code 1 --severity CRITICAL --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - echo '' > .dockerignore
+  - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
+  - docker run --rm -t "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
   - export $(cat .env)
-  - docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
   - export ID=`docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
   - docker export "$ID" | docker import - "$REPO:$VERSION"
   - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   - docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
   - docker tag "$REPO:$VERSION" "$REPO:latest"
   - docker push "$REPO"
+
+cache:
+  directories:
+    - $HOME/.cache/trivy

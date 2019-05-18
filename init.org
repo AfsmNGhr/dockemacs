@@ -118,7 +118,7 @@ alias dockemacs='
 '
 #+end_src
 
-**** Enviroment variables
+**** Environment variables
 
 Prepare =$HOME/.dockemacs=, check your =env=:
 
