@@ -1,6 +1,9 @@
 services:
   - docker
 
+git:
+  depth: 1
+
 env:
   global:
     - COMMIT="${TRAVIS_COMMIT::8}"
@@ -14,8 +17,9 @@ script:
   - docker build --target base -t "$REPO:${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
   - ./trivy --exit-code 0 --severity HIGH --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
   - ./trivy --exit-code 1 --severity CRITICAL --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - echo '' > .dockerignore
   - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
-  - docker run --rm -t -e BRANCH="$TRAVIS_BRANCH" "${TRAVIS_BUILD_NUMBER}"
+  - docker run --rm -t "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
   - export $(cat .env)

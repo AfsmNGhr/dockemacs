@@ -32,7 +32,7 @@ RUN apk update && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
-COPY . "$HOME/.emacs.d"
+COPY . "$HOME/.emacs.d/"
 
 WORKDIR "${WORKSPACE}"
 ENTRYPOINT ["initialize"]
@@ -40,7 +40,6 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
-    git checkout -B "origin/$BRANCH" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
     env && set -x && tangle && \
