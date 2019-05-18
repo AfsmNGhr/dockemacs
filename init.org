@@ -21,14 +21,6 @@
   - [[#starting][Starting]]
 + [[#perfomance][Performance]]
   - [[#garbage-collector][Garbage Collector]]
-+ [[#wrappers-for-container-workflow][Wrappers]]
-  - Web browser
-  - Docker
-  - [[#bundle][Bundle]]
-  - [[#rubocop][Rubocop]]
-  - [[#node][node]]
-  - [[#tslint][tslint]]
-  - [[#pylint][Pylint]]
 + [[#configurations][Configurations]]
   - [[#initialize][Initialize]]
   - [[#package-management][Package Management]]
@@ -82,8 +74,7 @@
 
 [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 
-Setup =overlay2= storage driver. See [[https://docs.docker.com/engine/userguide/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver][docs]].
-UPD: by default since 18.09 version.
+Setup =overlay2= storage driver (by default since 18.09). See [[https://docs.docker.com/engine/userguide/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver][docs]].
 
 #+begin_src js :tangle no
 // /etc/docker/daemon.json
@@ -259,87 +250,6 @@ $ dockemacs
                          (message "Garbage Collector has run for %.06f sec"
                                   (k-time (garbage-collect))))))
 #+END_SRC
-
-*** Wrappers for container workflow
-
-[[https://i.imgur.com/wmDvJbq.png?1]]
-
-- =WEB_BROWSER= from =env= with =DISPLAY=
-- [[https://docs.docker.com/][Docker]]
-
-**** [[http://bundler.io/][Bundle]]
-
-#+begin_src elisp :tangle no
-;; .dir-locals.el in root project
-
-((nil . ((eval .
-               (progn
-                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                 ;; local path in dockemacs container
-                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 ;; remote path in project container
-                 (setenv "PROJECT_BUNDLE_CMD" "docker exec -it PROJECT_CONTAINER bundle"))))))
-#+end_src
-
-**** [[https://github.com/bbatsov/rubocop][Rubocop]]
-
-#+begin_src elisp :tangle no
-;; .dir-locals.el in root project
-
-((nil . ((eval .
-               (progn
-                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                 ;; local path in dockemacs container
-                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 ;; remote path in project container
-                 (setenv "PROJECT_RUBOCOP_CMD" "docker exec -it PROJECT_CONTAINER rubocop"))))))
-#+end_src
-
-**** [[https://nodejs.org/][node]]
-
-#+begin_src elisp :tangle no
-;; .dir-locals.el in root project
-
-((nil . ((eval .
-               (progn
-                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                 ;; local path in dockemacs container
-                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 ;; remote path in project container
-                 (setenv "PROJECT_NODE_CMD" "docker exec -it PROJECT_CONTAINER node"))))))
-#+end_src
-
-**** [[https://www.npmjs.com/package/tslint][tslint]]
-
-#+begin_src elisp :tangle no
-;; .dir-locals.el in root project
-
-((nil . ((eval .
-               (progn
-                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                 ;; local path in dockemacs container
-                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 ;; remote path in project container
-                 (setenv "PROJECT_TSLINT_CMD" "docker exec -it PROJECT_CONTAINER sh -c '\$(npm bin)/tslint'")
-                 ;; container workflow
-                 (setenv "PROJECT_TSLINT_CMD" "cd /remote/path && '\$(npm bin)/tslint'")
-                 ;; host application
-)))))
-#+end_src
-
-**** [[https://www.pylint.org/][Pylint]]
-
-#+begin_src elisp :tangle no
-;; .dir-locals.el in root project
-
-((nil . ((eval .
-               (progn
-                 (setenv "PROJECT_LOCAL_PATH" "/mnt/workspace/local/path")
-                 ;; local path in dockemacs container
-                 (setenv "PROJECT_REMOTE_PATH" "/remote/path")
-                 ;; remote path in project container
-                 (setenv "PROJECT_PYLINT_CMD" "docker exec -it PROJECT_CONTAINER pylint"))))))
-#+end_src
 
 *** Configurations
 
