@@ -14,12 +14,13 @@
 
 *** Table of Contents                                                 :TOC:
 + [[#installation][Installation]]
-  - [[#install-docker-engine][Install Docker Engine]]
-  - [[#add-alias][Alias]]
-  - [[#prepare-homedockemacs-check-your-env][Prepare Variables]]
-  - [[#setup-ssh-server-and-restart][Setup ssh server]]
-  - [[#setup-ssh-client][Setup ssh client]]
-  - [[#run-and-wait-until-the-boot][Run]]
+  - [[#docker][Docker]]
+  - [[#executable][Executable]]
+  - [[#environment-variables][Environment Variables]]
+  - [[#escape-in-the-box][Escape in the box]]
+  - [[#starting][Starting]]
++ [[#perfomance][Performance]]
+  - [[#garbage-collector][Garbage Collector]]
 + [[#wrappers-for-container-workflow][Wrappers]]
   - Web browser
   - Docker
@@ -77,10 +78,12 @@
   - [[#org][Org]]
 
 *** Installation
+**** Docker
 
-**** [[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+[[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
 
 Setup =overlay2= storage driver. See [[https://docs.docker.com/engine/userguide/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver][docs]].
+UPD: by default since 18.09 version.
 
 #+begin_src js :tangle no
 // /etc/docker/daemon.json
@@ -90,13 +93,15 @@ Setup =overlay2= storage driver. See [[https://docs.docker.com/engine/userguide/
 }
 #+end_src
 
-**** Create emacs data volume:
+Create emacs data volume:
 
 #+begin_src shell :tangle no
 docker volume create emacs_data
 #+end_src
 
-**** Add alias:
+**** Executable
+
+Add alias:
 
 #+begin_src shell :tangle no
 # ~/.bash_aliases or etc ...
@@ -113,7 +118,9 @@ alias dockemacs='
 '
 #+end_src
 
-**** Prepare =$HOME/.dockemacs=, check your =env=:
+**** Enviroment variables
+
+Prepare =$HOME/.dockemacs=, check your =env=:
 
 #+begin_src shell :tangle no
   # default by
@@ -141,7 +148,6 @@ alias dockemacs='
   # optional
 
   echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
-  echo "DEBUG=true" >> $HOME/.dockemacs # More additional information
 #+end_src
 
     * =UID= and =GID= - transparent permissions
@@ -158,7 +164,9 @@ alias dockemacs='
     * =HEAD_FORCE= - force update our branch
     * =CORE_COUNT= - use multiple cores
 
-**** Setup ssh server and restart:
+**** Escape in the box
+
+Setup ssh server and restart:
 
 #+begin_src shell :tangle no
 # /etc/ssh/sshd_config
@@ -166,7 +174,7 @@ alias dockemacs='
 ListenAddress 127.1
 #+end_src
 
-**** Setup ssh client:
+Setup ssh client:
 
 Create sockets path.
 
@@ -222,13 +230,35 @@ case "$TERM" in
 esac
 #+end_src
 
-**** Run and wait until the boot:
+**** Starting
+
+Run and wait until the boot:
 
 #+begin_src shell :tangle no
 $ dockemacs
 #+end_src
 
 [[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
+
+*** Perfomance
+**** Garbage Collector
+
+[[http://akrl.sdf.org/][Use garbage collection hack]].
+
+#+BEGIN_SRC elisp
+(defmacro k-time (&rest body)
+  "Measure and return the time it takes evaluating BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+;; When idle for 15sec run the GC no matter what.
+(defvar k-gc-timer
+  (run-with-idle-timer 15 t
+                       (lambda ()
+                         (message "Garbage Collector has run for %.06f sec"
+                                  (k-time (garbage-collect))))))
+#+END_SRC
 
 *** Wrappers for container workflow
 
@@ -328,7 +358,7 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 (org-babel-tangle)
 (load-file (concat user-emacs-directory "init.el"))
 (byte-compile-file (concat user-emacs-directory "init.el"))
-(setq gc-cons-threshold 3000000
+(setq gc-cons-threshold 5000000
       gc-cons-percentage 0.1)
 #+end_src
 
@@ -655,7 +685,7 @@ tangled, and the tangled file is compiled."
         gc-cons-percentage 0.6))
 
 (defun afsmnghr/minibuffer-exit-hook ()
-  (setq gc-cons-threshold 3000000
+  (setq gc-cons-threshold 5000000
         gc-cons-percentage 0.1))
 
 (defun afsmnghr/emacs-startup-hook ()
@@ -663,7 +693,7 @@ tangled, and the tangled file is compiled."
   (benchmark-init/deactivate)
   (reverse-im-activate "russian-computer")
   (setq file-name-handler-alist afsmnghr/file-name-handler-alist
-        gc-cons-threshold 3000000
+        gc-cons-threshold 5000000
         gc-cons-percentage 0.1))
 
 (add-hook 'emacs-startup-hook #'afsmnghr/emacs-startup-hook)
@@ -834,6 +864,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
     (setq magit-completing-read-function 'magit-ido-completing-read
           magit-branch-arguments nil
+          magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)
           magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
           magit-set-upstream-on-push t
           magit-push-always-verify nil
