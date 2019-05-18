@@ -609,7 +609,6 @@ tangled, and the tangled file is compiled."
 (add-hook 'emacs-startup-hook #'afsmnghr/emacs-startup-hook)
 (add-hook 'minibuffer-setup-hook #'afsmnghr/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'afsmnghr/minibuffer-exit-hook)
-(add-hook 'focus-out-hook #'garbage-collect)
 (add-hook 'after-save-hook #'tangle-init)
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 #+end_src
