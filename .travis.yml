@@ -1,3 +1,5 @@
+language: go
+
 services:
   - docker
 
@@ -5,6 +7,9 @@ env:
   global:
     - COMMIT="${TRAVIS_COMMIT::8}"
     - REPO=afsmnghr/dockemacs
+
+before_install:
+  - go get -u github.com/knqyf263/trivy
 
 script:
   - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile.test $(pwd)
@@ -15,7 +20,12 @@ after_success:
   - docker build -t "$REPO:$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
   - export ID=`docker run --rm -dt "$REPO:$TRAVIS_BUILD_NUMBER" emacs`
   - docker export "$ID" | docker import - "$REPO:$VERSION"
+  - trivy "$REPO:$VERSION"
   - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   - docker tag "$REPO:$VERSION" "$REPO:$COMMIT"
   - docker tag "$REPO:$VERSION" "$REPO:latest"
   - docker push "$REPO"
+
+cache:
+  directories:
+    - $HOME/.cache/trivy
