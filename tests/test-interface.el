@@ -87,6 +87,4 @@
           (it "echo-keystrokes"
               (expect (princ echo-keystrokes) :to-equal 0.1))
           (it "enable-local-eval"
-              (expect (princ enable-local-eval) :to-be t))
-          (it "garbage-collection-messages"
-              (expect (princ garbage-collection-messages) :to-be t)))
+              (expect (princ enable-local-eval) :to-be t)))
