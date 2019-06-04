@@ -16,14 +16,14 @@
 + [[#installation][Installation]]
   - [[#docker][Docker]]
   - [[#executable][Executable]]
-  - [[#environment-variables][Environment Variables]]
+  - [[#environment-variables][Environment variables]]
   - [[#escape-in-the-box][Escape in the box]]
   - [[#starting][Starting]]
 + [[#perfomance][Performance]]
-  - [[#garbage-collector][Garbage Collector]]
-+ [[#configurations][Configurations]]
-  - [[#initialize][Initialize]]
-  - [[#package-management][Package Management]]
+  - [[#garbage-collector][Garbage collector]]
++ [[#configuration][Configuration]]
+  - [[#initialization][Initialization]]
+  - [[#package-management][Package management]]
     - use-package
   - [[#encoding][Encoding]]
   - [[#indentation][Indentation]]
@@ -33,7 +33,7 @@
     + [[#themes][Themes]]
       - [[#spolsky][Spolsky]]
       - [[#spolsky-term][Spolsky Term]]
-  - [[#window-management][Window Management]]
+  - [[#window-management][Window management]]
     - ace-window
   - [[#keyboard][Keyboard]]
   - [[#hooks][Hooks]]
@@ -48,7 +48,7 @@
     - [[#magit][Magit]]
     - [[#git-time-machine][Git time machine]]
     - [[#smerge-mode][Smerge-mode]]
-  - [[#project-management][Project Management]]
+  - [[#project-management][Project management]]
     - projectile
   - [[#linters][Linters]]
     - flycheck
@@ -61,7 +61,7 @@
     - dumb-jump
   + [[#devops][DevOps]]
     - [[#docker][Docker]]
-  - [[#remote-management][Remote Management]]
+  - [[#remote-management][Remote management]]
   + [[#languages][Languages]]
     - [[#ruby][Ruby]]
     - [[#python][Python]]
@@ -229,10 +229,8 @@ Run and wait until the boot:
 $ dockemacs
 #+end_src
 
-[[https://asciinema.org/a/148959][https://asciinema.org/a/148959.png]]
-
 *** Perfomance
-**** Garbage Collector
+**** Garbage collector
 
 [[http://akrl.sdf.org/][Use garbage collection hack]].
 
@@ -247,13 +245,13 @@ $ dockemacs
 (defvar k-gc-timer
   (run-with-idle-timer 15 t
                        (lambda ()
-                         (message "Garbage Collector has run for %.06f sec"
+                         (message "Garbage collector has run for %.06f sec"
                                   (k-time (garbage-collect))))))
 #+END_SRC
 
-*** Configurations
+*** Configuration
 
-**** Initialize
+**** Initialization
 
 Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-pitfalls][emacs script pitfalls]].
 
@@ -467,8 +465,7 @@ Unsorted settings.
       query-replace-highlight t
       select-enable-clipboard t
       echo-keystrokes 0.1
-      enable-local-eval t
-      garbage-collection-messages t)
+      enable-local-eval t)
 #+end_src
 
 ***** Themes
