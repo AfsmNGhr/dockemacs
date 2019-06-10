@@ -19,55 +19,52 @@
   - [[#environment-variables][Environment variables]]
   - [[#escape-in-the-box][Escape in the box]]
   - [[#starting][Starting]]
++ [[#initialization][Initialization]]
 + [[#perfomance][Performance]]
+  - [[#rapid-startup][Rapid startup]]
   - [[#garbage-collector][Garbage collector]]
-+ [[#configuration][Configuration]]
-  - [[#initialization][Initialization]]
-  - [[#package-management][Package management]]
-    - use-package
++ [[#package-management][Package management]]
++ [[#interface][Interface]]
+  - [[#themes][Themes]]
++ [[#built-in][Built-in]]
   - [[#encoding][Encoding]]
   - [[#indentation][Indentation]]
   - [[#autopair][Autopair]]
   - [[#whitespace][Whitespace]]
-  + [[#interface][Interface]]
-    + [[#themes][Themes]]
-      - [[#spolsky][Spolsky]]
-      - [[#spolsky-term][Spolsky Term]]
-  - [[#window-management][Window management]]
-    - ace-window
-  - [[#keyboard][Keyboard]]
-  - [[#hooks][Hooks]]
+  - [[#keybindings][Keybindings]]
   - [[#history][History]]
   - [[#backups][Backups]]
-  + [[#completion][Completion]]
-    - [[#ido][IDO]]
-    - [[#company][Company]]
   - [[#recent-files][Recent files]]
   - [[#bookmarks][Bookmarks]]
-  + [[#vcs][VCS]]
-    - [[#magit][Magit]]
-    - [[#git-time-machine][Git time machine]]
-    - [[#smerge-mode][Smerge-mode]]
-  - [[#project-management][Project management]]
-    - projectile
-  - [[#linters][Linters]]
-    - flycheck
-  - [[#snippets][Snippets]]
-    - yasnippet
-  + [[#search][Search]]
-    - [[#ag][Ag]]
-    - [[#keyword-search][Keyword search]]
-  - [[#tags][Tags]]
-    - dumb-jump
-  + [[#devops][DevOps]]
-    - [[#docker][Docker]]
++ [[#hooks][Hooks]]
++ [[#window-management][Window management]]
++ [[#completion][Completion]]
+  - [[#ido][IDO]]
+  - [[#company][Company]]
++ [[#vcs][VCS]]
+  - [[#magit][Magit]]
+  - [[#git-time-machine][Git time machine]]
+  - [[#smerge-mode][Smerge-mode]]
++ [[#project-management][Project management]]
+  - projectile
++ [[#linters][Linters]]
+  - flycheck
++ [[#snippets][Snippets]]
+  - yasnippet
++ [[#search][Search]]
+  - [[#ag][Ag]]
+  - [[#keyword-search][Keyword search]]
++ [[#tags][Tags]]
+  - dumb-jump
++ [[#devops][DevOps]]
+  - [[#docker][Docker]]
   - [[#remote-management][Remote management]]
-  + [[#languages][Languages]]
-    - [[#ruby][Ruby]]
-    - [[#python][Python]]
-    - [[#javascript][Javascript]]
-  - [[#templates][Templates]]
-  - [[#org][Org]]
++ [[#languages][Languages]]
+  - [[#ruby][Ruby]]
+  - [[#python][Python]]
+  - [[#javascript][Javascript]]
++ [[#templates][Templates]]
++ [[#org][Org]]
 
 *** Installation
 **** Docker
@@ -114,46 +111,52 @@ alias dockemacs='
 Prepare =$HOME/.dockemacs=, check your =env=:
 
 #+begin_src shell :tangle no
-  # default by
+# default by
 
-  echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
-  echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
-  echo "UNAME=emacser" >> $HOME/.dockemacs
-  echo "GNAME=emacs" >> $HOME/.dockemacs
-  echo "HOME=/home/emacser" >> $HOME/.dockemacs
-  echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
+## transparent permissions
+echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
+echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
 
-  # required
+## user & group name in container
+echo "UNAME=emacser" >> $HOME/.dockemacs
+echo "GNAME=emacs" >> $HOME/.dockemacs
 
-  echo "TERM=xterm-256color" >> $HOME/.dockemacs
-  echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
-  echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
-  echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
-  echo "HOST_PORT=22" >> $HOME/.dockemacs
-  echo "DISPLAY=:0.0" >> $HOME/.dockemacs # required for web browser
-  echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
-  echo "REPOSITORY=git@github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
-  echo "BRANCH=master" >> $HOME/.dockemacs
-  echo "CORE_COUNT=4" >> $HOME/.dockemacs # 1
+## rewrite home path for new user
+echo "HOME=/home/emacser" >> $HOME/.dockemacs
 
-  # optional
+## mount path from host
+echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
 
-  echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
+# required
+
+## set terminal env
+echo "TERM=xterm-256color" >> $HOME/.dockemacs
+
+## only relative path from workspace path
+echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
+
+## remote management through ssh
+echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
+echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
+echo "HOST_PORT=22" >> $HOME/.dockemacs
+
+## required for GUI application
+echo "DISPLAY=:0.0" >> $HOME/.dockemacs
+## setup browser for emacs
+echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
+
+## our repository dotemacs (first clone)
+echo "REPOSITORY=https://github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+## our active branch
+echo "BRANCH=master" >> $HOME/.dockemacs # our active branch
+## use multiple cores (only use for git)
+echo "CORE_COUNT=4" >> $HOME/.dockemacs # by default 1
+
+# optional
+
+## force update our branch
+echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
 #+end_src
-
-    * =UID= and =GID= - transparent permissions
-    * =UNAME= and =GNAME= - user & group name in container
-    * =HOME= - rewrite home path for new user
-    * =WORKSPACE= - mount path from host
-    * =TERM= - set terminal env
-    * =ORG_FILES= - only relative path
-    * =HOST_USER=, =HOST_IP=, =HOST_PORT= - remote management through ssh
-    * =DISPLAY= - for GUI application
-    * =WEB_BROWSER= - setup browser for emacs
-    * =REPOSITORY= - our repository dotemacs (first clone)
-    * =BRANCH= - our active branch
-    * =HEAD_FORCE= - force update our branch
-    * =CORE_COUNT= - use multiple cores
 
 **** Escape in the box
 
@@ -229,29 +232,7 @@ Run and wait until the boot:
 $ dockemacs
 #+end_src
 
-*** Perfomance
-**** Garbage collector
-
-[[http://akrl.sdf.org/][Use garbage collection hack]].
-
-#+BEGIN_SRC elisp
-(defmacro k-time (&rest body)
-  "Measure and return the time it takes evaluating BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (float-time (time-since time))))
-
-;; When idle for 15sec run the GC no matter what.
-(defvar k-gc-timer
-  (run-with-idle-timer 15 t
-                       (lambda ()
-                         (message "Garbage collector has run for %.06f sec"
-                                  (k-time (garbage-collect))))))
-#+END_SRC
-
-*** Configuration
-
-**** Initialization
+*** Initialization
 
 Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-pitfalls][emacs script pitfalls]].
 
@@ -269,6 +250,10 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 (setq gc-cons-threshold 5000000
       gc-cons-percentage 0.1)
 #+end_src
+
+*** Perfomance
+
+**** Rapid startup
 
 Set lexical scoping for the init file.
 
@@ -291,7 +276,26 @@ Clear files, temporarily.
 (setq file-name-handler-alist nil)
 #+end_src
 
-**** Package Management
+**** Garbage collector
+
+[[http://akrl.sdf.org/][Use garbage collection hack]].
+
+#+BEGIN_SRC elisp
+(defmacro k-time (&rest body)
+  "Measure and return the time it takes evaluating BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (float-time (time-since time))))
+
+;; When idle for 15sec run the GC no matter what.
+(defvar k-gc-timer
+  (run-with-idle-timer 15 t
+                       (lambda ()
+                         (message "Garbage collector has run for %.06f sec"
+                                  (k-time (garbage-collect))))))
+#+END_SRC
+
+*** Package Management
 
 Don't auto-initialize!
 
@@ -338,51 +342,7 @@ Benchmarking =init.el=.
   :init (benchmark-init/activate))
 #+end_src
 
-**** Encoding
-
-Set utf-8 everywhere.
-
-#+begin_src elisp
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq buffer-file-coding-system 'utf-8
-      file-name-coding-system 'utf-8
-      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-#+end_src
-
-**** Indentation
-
-Prefer space indentation.
-
-#+begin_src elisp
-(setq-default tab-width 2
-              tab-always-indent 'complete
-              indent-tabs-mode nil)
-#+end_src
-
-**** Autopair
-
-#+begin_src elisp
-(setq electric-pair-pairs '((?\" . ?\")
-                            (?\` . ?\`)
-                            (?\( . ?\))
-                            (?\{ . ?\})))
-
-(electric-pair-mode 1)
-#+end_src
-
-**** Whitespace
-
-#+begin_src elisp
-(custom-set-variables
- '(whitespace-style '(face lines-tail)))
-
-(add-hook 'prog-mode-hook #'whitespace-mode)
-#+end_src
-
-**** Interface
+*** Interface
 
 Set custom file and few variables.
 
@@ -432,30 +392,6 @@ Dialogs stay in emacs.
       epa-pinentry-mode 'loopback)
 #+end_src
 
-Enable built-in modes.
-
-#+begin_src elisp
-(global-visual-line-mode t)
-(global-font-lock-mode t)
-(global-auto-revert-mode t)
-(delete-selection-mode t)
-(global-linum-mode t)
-(auto-fill-mode 1)
-#+end_src
-
-Set external browser with [[file:sbin/browser-remote][wrapper]].
-
-#+begin_src elisp
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "/usr/local/sbin/browser-remote")
-#+end_src
-
-Dired listing settings.
-
-#+begin_src elisp
-(setq dired-listing-switches "-lhvA")
-#+end_src
-
 Unsorted settings.
 
 #+begin_src elisp
@@ -468,7 +404,7 @@ Unsorted settings.
       enable-local-eval t)
 #+end_src
 
-***** Themes
+**** Themes
 
 Load my themes. Enable theme on the frame type.
 
@@ -503,25 +439,85 @@ Load my themes. Enable theme on the frame type.
   (add-hook 'after-make-frame-functions 'afsmnghr/enable-theme))
 #+end_src
 
-****** Spolsky
+***** Spolsky
 
 [[file:images/spolsky-theme.png]]
 
-****** Spolsky Term
+***** Spolsky Term
 
 [[file:images/spolsky-term-theme.png]]
 
-**** Window management
+*** Built-in
 
-Named buffers.
+Enable built-in modes.
 
 #+begin_src elisp
-(use-package ace-window :defer t
-  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-                aw-background nil))
+(global-visual-line-mode t)
+(global-font-lock-mode t)
+(global-auto-revert-mode t)
+(delete-selection-mode t)
+(global-linum-mode t)
+(auto-fill-mode 1)
 #+end_src
 
-**** Keyboard
+Set external browser with [[file:sbin/browser-remote][wrapper]].
+
+#+begin_src elisp
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "/usr/local/sbin/browser-remote")
+#+end_src
+
+Dired listing settings.
+
+#+begin_src elisp
+(setq dired-listing-switches "-lhvA")
+#+end_src
+
+**** Encoding
+
+Set utf-8 everywhere.
+
+#+begin_src elisp
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8
+      file-name-coding-system 'utf-8
+      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+end_src
+
+**** Indentation
+
+Prefer space indentation.
+
+#+begin_src elisp
+(setq-default tab-width 2
+              tab-always-indent 'complete
+              indent-tabs-mode nil)
+#+end_src
+
+**** Autopair
+
+#+begin_src elisp
+(setq electric-pair-pairs '((?\" . ?\")
+                            (?\` . ?\`)
+                            (?\( . ?\))
+                            (?\{ . ?\})))
+
+(electric-pair-mode 1)
+#+end_src
+
+**** Whitespace
+
+#+begin_src elisp
+(custom-set-variables
+ '(whitespace-style '(face lines-tail)))
+
+(add-hook 'prog-mode-hook #'whitespace-mode)
+#+end_src
+
+**** Keybindings
 
 Add comment fn.
 
@@ -569,7 +565,64 @@ Reverse input.
 (use-package reverse-im :defer t :commands reverse-im-activate)
 #+end_src
 
-**** Hooks
+**** History
+
+#+begin_src elisp
+(setq history-length t
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-autosave-interval 60
+      savehist-additional-variables '(search-ring regexp-search-ring
+                                                  comint-input-ring))
+
+(savehist-mode 1)
+#+end_src
+
+**** Backups
+
+#+begin_src elisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
+      auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))
+      delete-old-versions t
+      version-control t
+      vc-make-backup-files t
+      backup-by-copying t
+      kept-new-versions 2
+      kept-old-versions 2)
+#+end_src
+
+**** Recent files
+
+#+begin_src elisp
+(use-package recentf :defer t :ensure f
+  :init (recentf-mode 1)
+  :config
+  (setq recentf-max-saved-items 30
+        recentf-keep '(file-remote-p file-readable-p))
+
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to find a recent file."
+    (interactive)
+    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
+
+  (global-set-key (kbd "C-c r") 'ido-recentf-open))
+#+end_src
+
+**** Bookmarks
+
+#+begin_src elisp
+(use-package bookmark
+  :config
+  (setq bookmark-save-flag t)
+  (global-set-key (kbd "C-x r b")
+                  (lambda ()
+                    (interactive)
+                    (bookmark-jump
+                     (ido-completing-read "jump to bookmark: "
+                                          (bookmark-all-names))))))
+#+end_src
+
+*** Hooks
 
 #+begin_src elisp
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
@@ -610,35 +663,19 @@ tangled, and the tangled file is compiled."
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 #+end_src
 
-**** History
+*** Window management
+
+Named buffers.
 
 #+begin_src elisp
-(setq history-length t
-      history-delete-duplicates t
-      savehist-save-minibuffer-history 1
-      savehist-autosave-interval 60
-      savehist-additional-variables '(search-ring regexp-search-ring
-                                                  comint-input-ring))
-
-(savehist-mode 1)
+(use-package ace-window :defer t
+  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+                aw-background nil))
 #+end_src
 
-**** Backups
+*** Completion
 
-#+begin_src elisp
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
-      auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t))
-      delete-old-versions t
-      version-control t
-      vc-make-backup-files t
-      backup-by-copying t
-      kept-new-versions 2
-      kept-old-versions 2)
-#+end_src
-
-**** Completion
-
-***** IDO
+**** IDO
 
 Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Interactively DO things”) everywhere.
 
@@ -659,7 +696,7 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
     :config (ido-ubiquitous-mode 1)))
 #+end_src
 
-***** Company
+**** Company
 
 Use [[http://company-mode.github.io/][modern completion framework]].
 
@@ -694,40 +731,9 @@ Use [[http://company-mode.github.io/][modern completion framework]].
     :init (company-statistics-mode)))
 #+end_src
 
-**** Recent files
+*** VCS
 
-#+begin_src elisp
-(use-package recentf :defer t :ensure f
-  :init (recentf-mode 1)
-  :config
-  (setq recentf-max-saved-items 30
-        recentf-keep '(file-remote-p file-readable-p))
-
-  (defun ido-recentf-open ()
-    "Use `ido-completing-read' to find a recent file."
-    (interactive)
-    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
-
-  (global-set-key (kbd "C-c r") 'ido-recentf-open))
-#+end_src
-
-**** Bookmarks
-
-#+begin_src elisp
-(use-package bookmark
-  :config
-  (setq bookmark-save-flag t)
-  (global-set-key (kbd "C-x r b")
-                  (lambda ()
-                    (interactive)
-                    (bookmark-jump
-                     (ido-completing-read "jump to bookmark: "
-                                          (bookmark-all-names))))))
-#+end_src
-
-**** VCS
-
-***** Magit
+**** Magit
 
 It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
@@ -778,7 +784,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
           vc-handled-backends nil)))
 #+end_src
 
-***** Git time machine
+**** Git time machine
 
 Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][git time machine]].
 
@@ -787,7 +793,7 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
   (use-package git-timemachine :defer t))
 #+end_src
 
-***** Smerge-mode
+**** Smerge-mode
 
 Merging conflicts.
 
@@ -796,7 +802,7 @@ Merging conflicts.
   :config (setq smerge-command-prefix "\C-cv"))
 #+end_src
 
-**** Project management
+*** Project management
 
 Setup [[https://github.com/bbatsov/projectile][projectile]].
 
@@ -820,54 +826,15 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
           projectile-completion-system 'ido))
 #+end_src
 
-**** Linters
+*** Linters
 
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
 #+begin_src elisp
-(use-package flycheck :defer t
-  :config
-  (flycheck-def-config-file-var flycheck-typescript-tsconfig
-      typescript-tslint "tslint.json"
-    :safe #'stringp
-    :package-version '(flycheck . "27"))
-
-  (defun flycheck-parse-tslint (output checker buffer)
-    "Parse TSLint errors from JSON OUTPUT.
-
-CHECKER and BUFFER denoted the CHECKER that returned OUTPUT and
-the BUFFER that was checked respectively.
-
-See URL `https://palantir.github.io/tslint/' for more information
-about TSLint."
-    (let ((json-array-type 'list))
-      (seq-map (lambda (message)
-                 (let-alist message
-                   (flycheck-error-new-at
-                    (+ 1 .startPosition.line)
-                    (+ 1 .startPosition.character)
-                    'warning .failure
-                    :id .ruleName
-                    :checker checker
-                    :buffer buffer
-                    :filename .name)))
-               ;; Don't try to parse empty output as JSON
-               (and (not (string-empty-p output))
-                    (car (flycheck-parse-json output))))))
-
-    (flycheck-define-checker typescript-tslint
-      "TypeScript style checker using TSLint."
-      :command ("tslint" "--type-check" "--format" "json"
-                (config-file "--config" flycheck-typescript-tslint-config)
-                (config-file "--project" flycheck-typescript-tsconfig)
-                (option "--rules-dir" flycheck-typescript-tslint-rulesdir)
-                (eval flycheck-tslint-args)
-                source-original)
-      :error-parser flycheck-parse-tslint
-      :modes (typescript-mode)))
+(use-package flycheck :defer t)
 #+end_src
 
-**** Snippets
+*** Snippets
 
 No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
 
@@ -876,9 +843,9 @@ No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
   :init (yas-global-mode t))
 #+end_src
 
-**** Search
+*** Search
 
-***** Ag
+**** Ag
 
 Use it for projectile and dumb-jump.
 
@@ -886,7 +853,7 @@ Use it for projectile and dumb-jump.
 (use-package ag :defer t)
 #+end_src
 
-***** Keyword search
+**** Keyword search
 
 Browser style [[https://github.com/keyword-search/keyword-search][keyword search]].
 
@@ -901,7 +868,7 @@ Browser style [[https://github.com/keyword-search/keyword-search][keyword search
         keyword-search-alist (append keyword-search-alist afsmnghr/search-alist)))
 #+end_src
 
-**** Tags
+*** Tags
 
 Grepping tags.
 
@@ -917,9 +884,9 @@ Grepping tags.
                 dumb-jump-force-searcher 'ag))
 #+end_src
 
-**** DevOps
+*** DevOps
 
-***** Docker
+**** Docker
 
 Simple management docker containers.
 
@@ -944,35 +911,23 @@ Major mode for =Dockerfile=.
         shell-file-name "/bin/sh")) ;; alpine based
 #+end_src
 
-**** Languages
+*** Languages
 
-***** Ruby
+**** Ruby
 
 #+begin_src elisp
 (use-package ruby-mode :defer t :ensure f
   :mode (("\\.cr\\'" . ruby-mode)
          (".irbrc" . ruby-mode)))
-
-(use-package rubocop :defer t
-  :init (add-hook 'ruby-mode-hook 'rubocop-mode)
-  (add-to-list 'ruby-mode-hook 'flycheck-mode)
-  (if (version< emacs-version "24.4")
-      (eval-after-load 'flycheck-mode
-        '(progn (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
-    (with-eval-after-load 'flycheck-mode
-      (flycheck-add-mode 'ruby-rubocop 'ruby-mode))))
 #+end_src
 
-***** Python
+**** Python
 
 #+begin_src elisp
-(use-package python :defer t :ensure f
-  :config
-  (add-to-list 'python-mode-hook 'flycheck-mode)
-  (setq flycheck-python-pylint-executable "pylint"))
+(use-package python :defer t :ensure f)
 #+end_src
 
-***** Javascript
+**** Javascript
 
 #+begin_src elisp
 (use-package coffee-mode :defer t
@@ -980,7 +935,6 @@ Major mode for =Dockerfile=.
 
 (use-package typescript-mode :defer t
   :config
-  ;; (add-to-list 'typescript-mode-hook 'flycheck-mode)
   (setq typescript-indent-level 2))
 
 (use-package json :config (setq js-indent-level 2))
@@ -993,13 +947,9 @@ Major mode for =Dockerfile=.
                         js2-indent-switch-body t
                         js2-auto-indent-p t
                         js2-highlight-level 3
-                        js2-global-externs '("angular")
-                        js2-indent-on-enter-key t)
-  (setq flycheck-disabled-checkers '(javascript-jshint))
-  (add-to-list 'js2-mode-hook 'flycheck-mode))
+                        js2-indent-on-enter-key t))
 #+end_src
-
-**** Templates
+*** Templates
 
 #+begin_src elisp
 (use-package markdown-mode :defer t)
@@ -1022,7 +972,7 @@ Major mode for =Dockerfile=.
         web-mode-enable-part-face t))
 #+end_src
 
-**** Org
+*** Org
 
 Save =org= buffers.
 
