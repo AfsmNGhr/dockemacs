@@ -339,20 +339,15 @@ Benchmarking =init.el=.
 
 #+begin_src elisp
 (use-package benchmark-init
-  :init (benchmark-init/activate))
+  :config (benchmark-init/activate))
 #+end_src
 
 *** Interface
 
-Set custom file and few variables.
+Set custom file.
 
 #+begin_src elisp
 (setq custom-file (concat user-emacs-directory "custom.el"))
-
-(custom-set-variables
- '(org-babel-load-languages
-   (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
- '(org-confirm-babel-evaluate nil))
 #+end_src
 
 Short, answering yes or no.
@@ -410,7 +405,7 @@ Load my themes. Enable theme on the frame type.
 
 #+begin_src elisp
 (defun afsmnghr/load-theme ()
-  "load my theme"
+  "Load a theme"
   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
   (if (display-graphic-p)
@@ -418,7 +413,7 @@ Load my themes. Enable theme on the frame type.
     (load-theme 'spolsky-term t)))
 
 (defun afsmnghr/enable-theme (frame)
-  "enable theme the current frame depending on the frame type"
+  "Enable theme the current frame depending on the frame type"
   (with-selected-frame frame
     (if (window-system)
         (progn
@@ -595,8 +590,10 @@ Reverse input.
 
 #+begin_src elisp
 (use-package recentf :defer t :ensure f
-  :init (recentf-mode 1)
+  :after ido
   :config
+  (recentf-mode 1)
+
   (setq recentf-max-saved-items 30
         recentf-keep '(file-remote-p file-readable-p))
 
@@ -604,22 +601,25 @@ Reverse input.
     "Use `ido-completing-read' to find a recent file."
     (interactive)
     (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
-
-  (global-set-key (kbd "C-c r") 'ido-recentf-open))
+  :bind
+  (:map global-map ("C-c r" . ido-recentf-open)))
 #+end_src
 
 **** Bookmarks
 
 #+begin_src elisp
-(use-package bookmark
+(use-package bookmark :defer t :ensure f
+  :after ido
   :config
   (setq bookmark-save-flag t)
-  (global-set-key (kbd "C-x r b")
-                  (lambda ()
-                    (interactive)
-                    (bookmark-jump
-                     (ido-completing-read "jump to bookmark: "
-                                          (bookmark-all-names))))))
+
+  (defun jump-to-bookmark ()
+    (interactive)
+    (bookmark-jump
+     (ido-completing-read "Jump to bookmark: "
+                          (bookmark-all-names))))
+  :bind
+  (:map global-map ("C-x r b" . jump-to-bookmark)))
 #+end_src
 
 *** Hooks
@@ -680,20 +680,23 @@ Named buffers.
 Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Interactively DO things”) everywhere.
 
 #+begin_src elisp
-(use-package ido-hacks
+(use-package ido-hacks :defer 1)
+
+(use-package flx-ido
+  :after ido
   :config
-  (use-package flx-ido
-    :config
-    (ido-mode 1)
-    (ido-everywhere 1)
-    (flx-ido-mode 1)
-    (setq flx-ido-threshold 1000
-          ido-enable-flex-matching t
-          ido-use-faces t
-          ido-virtual-buffers t
-          ido-auto-merge-work-directories-length -1))
-  (use-package ido-completing-read+ :pin melpa-stable
-    :config (ido-ubiquitous-mode 1)))
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  (setq flx-ido-threshold 1000
+        ido-enable-flex-matching t
+        ido-use-faces t
+        ido-virtual-buffers t
+        ido-auto-merge-work-directories-length -1))
+
+(use-package ido-completing-read+ :pin melpa-stable
+  :after ido
+  :config (ido-ubiquitous-mode 1))
 #+end_src
 
 **** Company
@@ -702,8 +705,9 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 
 #+begin_src elisp
 (use-package company :defer 30
-  :init (global-company-mode t)
   :config
+  (global-company-mode t)
+
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
 
@@ -721,14 +725,21 @@ Use [[http://company-mode.github.io/][modern completion framework]].
                                 company-files company-etags company-keywords)))
         company-idle-delay 1.0
         company-tooltip-flip-when-above t)
+
   (use-package company-flx :defer t
+    :after company
     :config (with-eval-after-load 'company
               (company-flx-mode +1)))
+
   (use-package company-ycmd :defer t
+    :after company
     :config (company-ycmd-setup))
-  (use-package company-shell :defer t)
+
+  (use-package company-shell :defer t :after company)
+
   (use-package company-statistics :defer t
-    :init (company-statistics-mode)))
+    :after company
+    :config (company-statistics-mode)))
 #+end_src
 
 *** VCS
@@ -739,8 +750,8 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
 #+begin_src elisp
 (unless (version< emacs-version "24.4")
-  (use-package magit :defer t
-    :init
+  (use-package magit :defer 1
+    :config
     (global-set-key (kbd "C-c j") #'afsmnghr/visit-pull-request-url)
 
     (defun afsmnghr/visit-pull-request-url ()
@@ -798,8 +809,8 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
 Merging conflicts.
 
 #+begin_src elisp
-(use-package smerge-mode :ensure f
-  :config (setq smerge-command-prefix "\C-cv"))
+(use-package smerge-mode :ensure f :defer t
+  :config (setq smerge-command-prefix "C-c v"))
 #+end_src
 
 *** Project management
@@ -807,12 +818,13 @@ Merging conflicts.
 Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 #+begin_src elisp
-  (use-package projectile :defer 30
-    :init (projectile-mode)
+  (use-package projectile :defer 1
     :delight '(:eval
                (propertize (concat " " (projectile-project-name))
                            'face '(:foreground "#FD971F")))
     :config
+    (projectile-mode)
+
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
     (setq projectile-enable-caching t
@@ -839,8 +851,8 @@ Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
 
 #+begin_src elisp
-(use-package yasnippet :defer 30
-  :init (yas-global-mode t))
+(use-package yasnippet :defer 15
+  :config (yas-global-mode t))
 #+end_src
 
 *** Search
@@ -939,7 +951,7 @@ Major mode for =Dockerfile=.
 
 (use-package json :config (setq js-indent-level 2))
 
-(use-package js2-mode :ensure t :defer t
+(use-package js2-mode :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
@@ -987,8 +999,8 @@ Save =org= buffers.
 Main =org=.
 
 #+begin_src elisp
-(use-package org :defer 30 :ensure f
-  :init
+(use-package org :defer 5 :ensure f
+  :config
   (setq org-log-done t
         org-directory (getenv "ORG_PATH")
         org-startup-indented t
@@ -996,6 +1008,10 @@ Main =org=.
         org-todo-keywords
         '((sequence "TODO(t!)" "NEXT(n@/!)" "INPROGRESS(i!)" "HOLD(h@/!)"
                     "DONE(d!)" "CANCELLED(c@/!)")))
+  (custom-set-variables
+   '(org-babel-load-languages
+     (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
+   '(org-confirm-babel-evaluate nil))
   :bind
   (:map global-map ("C-c a" . org-agenda)))
 #+end_src
@@ -1005,7 +1021,7 @@ Org colors.
 #+begin_src elisp
 (use-package org-faces :ensure f
   :after org
-  :init
+  :config
   (setq org-todo-keyword-faces
         '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
           ("HOLD" :foreground "firebrick2" :weight bold)
@@ -1020,7 +1036,7 @@ Org blocks.
 #+begin_src elisp
 (use-package org-src :ensure f
   :after org
-  :init
+  :config
   (setq org-src-fontify-natively t
         org-edit-src-content-indentation 2
         org-src-tab-acts-natively t
@@ -1049,7 +1065,7 @@ Org protocol.
 #+begin_src elisp
 (use-package org-protocol :ensure f :defer t
   :after org
-  :init
+  :config
   (setq org-protocol-default-template-key "L"))
 #+end_src
 
@@ -1058,7 +1074,7 @@ Org capture.
 #+begin_src elisp
 (use-package org-capture :ensure f :defer t
   :after org
-  :init
+  :config
   (setq afsmnghr/org-diary (concat org-directory "diary.org")
         afsmnghr/org-links (concat org-directory "links.org")
         afsmnghr/org-work (concat org-directory "work.org"))
@@ -1081,7 +1097,7 @@ Org clock.
 #+begin_src elisp
 (use-package org-clock :ensure f :defer t
   :after org
-  :init
+  :config
   (setq org-clock-history-length 30
         org-clock-in-switch-to-state "INPROGRESS"
         org-clock-continuously t
