@@ -877,7 +877,7 @@ Browser style [[https://github.com/keyword-search/keyword-search][keyword search
         '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
           (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
           (reddit . "https://www.reddit.com/search?q=%s")
-          (m/youtube . "https://www.youtube.com/results?search_query=%s+-live+-playlist,+long,+week"))
+          (mix/youtube . "https://www.youtube.com/results?search_query=%s+music+mix+-live+-playlist,+long,+week"))
         keyword-search-alist (append keyword-search-alist afsmnghr/search-alist)))
 #+end_src
 
