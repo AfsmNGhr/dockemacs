@@ -531,15 +531,6 @@ Add comment fn.
 My keybindings almost defaulted.
 
 #+begin_src elisp
-(global-set-key (kbd "C-v") 'end-of-buffer)
-(global-set-key (kbd "M-v") 'beginning-of-buffer)
-
-(global-set-key (kbd "C-b") 'backward-char)
-(global-set-key (kbd "C-f") 'forward-char)
-(global-set-key (kbd "C-p") 'previous-line)
-(global-set-key (kbd "C-M-b") 'backward-paragraph)
-(global-set-key (kbd "C-M-f") 'forward-paragraph)
-
 (global-set-key (kbd "C-x w") 'kill-buffer-and-window)
 (global-set-key (kbd "C-z") 'undo)
 
