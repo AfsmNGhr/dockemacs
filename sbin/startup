@@ -12,7 +12,7 @@ if [ ! -d "$HOME/.emacs.d/.git" ]; then
     git clone --depth 1 "$REPOSITORY" .
 fi
 
-git fetch origin "$BRANCH" -j "${CORE_COUNT:-1}" || true
+git fetch origin "$BRANCH" -j "$(nproc)" || true
 
 if [ -n "$HEAD_FORCE" ]; then
     git reset --hard "origin/$BRANCH"

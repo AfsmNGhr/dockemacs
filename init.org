@@ -102,7 +102,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.10.0 startup
+       afsmnghr/dockemacs:1.11.0 startup
 '
 #+end_src
 
@@ -149,8 +149,6 @@ echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
 echo "REPOSITORY=https://github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
 ## our active branch
 echo "BRANCH=master" >> $HOME/.dockemacs # our active branch
-## use multiple cores (only use for git)
-echo "CORE_COUNT=4" >> $HOME/.dockemacs # by default 1
 
 # optional
 
@@ -231,6 +229,8 @@ Run and wait until the boot:
 #+begin_src shell :tangle no
 $ dockemacs
 #+end_src
+
+WARNING: If failed startup, try with version =1.9.3= (seen on ubuntu).
 
 *** Initialization
 

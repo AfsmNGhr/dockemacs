@@ -1,5 +1,12 @@
+## 1.11.0
+
+* Emacs version is `26.2-r1`
+* Update base image to `alpine:3.10.2`
+* Use `nproc` instead `CORE_COUNT` variable
+
 ## 1.10.0 (2019-01-07)
 
+* Emacs version is `26.1-r0`
 * Switched `openssl` to `libressl`
 * Optimization wrappers and CI / CD
 * Deleted `tslint`, `node`, `bundle`, `docker-machine` wrappers
