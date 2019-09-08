@@ -301,7 +301,8 @@ Don't auto-initialize!
 
 #+begin_src elisp
 (setq package-enable-at-startup nil
-      package--init-file-ensured t)
+      package--init-file-ensured t
+      gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+end_src
 
 The =use-package= declarative and performance-oriented.
