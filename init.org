@@ -146,9 +146,9 @@ echo "DISPLAY=:0.0" >> $HOME/.dockemacs
 echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
 
 ## our repository dotemacs (first clone)
-echo "REPOSITORY=https://github.com:AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+echo "REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
 ## our active branch
-echo "BRANCH=master" >> $HOME/.dockemacs # our active branch
+echo "BRANCH=master" >> $HOME/.dockemacs
 
 # optional
 
@@ -229,8 +229,6 @@ Run and wait until the boot:
 #+begin_src shell :tangle no
 $ dockemacs
 #+end_src
-
-WARNING: If failed startup, try with version =1.9.3= (seen on ubuntu).
 
 *** Initialization
 
