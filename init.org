@@ -3,7 +3,7 @@
 
 ** Dockemacs - the minimal emacs noX
 
-[[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
+[[https://coveralls.io/github/AfsmNGhr/dockemacs][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
 [[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
 [[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
