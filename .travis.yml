@@ -1,9 +1,6 @@
 services:
   - docker
 
-git:
-  depth: 1
-
 env:
   global:
     - COMMIT="${TRAVIS_COMMIT::8}"
