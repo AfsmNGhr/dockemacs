@@ -43,4 +43,5 @@ CMD cd "$HOME/.emacs.d" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
     env && set -x && tangle && \
+    rm "$HOME/.emacs.d/*.elc" && \
     cask install && cask exec buttercup -L . -L tests

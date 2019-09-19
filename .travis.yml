@@ -10,13 +10,14 @@ env:
     - REPO=afsmnghr/dockemacs
 
 before_install:
-  - wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.tar.gz
-  - tar zxvf trivy_0.1.6_Linux-64bit.tar.gz
+  - export VERSION=$(curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+  - wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+  - tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
 
 script:
   - docker build --target base -t "$REPO:${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
-  - ./trivy --exit-code 0 --severity HIGH --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
-  - ./trivy --exit-code 1 --severity CRITICAL --quiet "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - ./trivy --exit-code 0 --severity MEDIUM,HIGH --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - ./trivy --exit-code 1 --severity CRITICAL --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
   - echo '' > .dockerignore
   - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
   - docker run --rm -t -e "COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN}" "${TRAVIS_BUILD_NUMBER}"

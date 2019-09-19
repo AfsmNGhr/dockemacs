@@ -1,3 +1,6 @@
+(when (require 'undercover nil t)
+  (undercover "*.el"))
+
 (message "Running tests on Emacs %s" emacs-version)
 
 (let ((debug-on-error t)
@@ -6,8 +9,6 @@
       (load-path (delq default-directory load-path)))
   (unless (ignore-errors
             (load-file user-init-file)
-            (run-hooks 'after-init-hook)
-            (when (require 'undercover nil t)
-              (undercover "*.el")))))
+            (run-hooks 'after-init-hook))))
 
 (provide 'undercover-init.el)
