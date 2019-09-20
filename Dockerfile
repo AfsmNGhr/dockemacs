@@ -42,6 +42,6 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
-    env && set -x && tangle && rm *.elc && \
+    env && tangle && rm *.elc && \
     cask install && cask exec buttercup -L . -L tests && \
     sh -c "$(curl -s https://codecov.io/bash)"

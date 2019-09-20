@@ -20,7 +20,7 @@ script:
   - ./trivy --exit-code 1 --severity CRITICAL --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
   - echo '' > .dockerignore
   - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
-  - docker run --rm -t -e "TRAVIS=${TRAVIS}" -e "TRAVIS_JOB_ID=${TRAVIS_JOB_ID}" "${TRAVIS_BUILD_NUMBER}"
+  - docker run --rm -t -e "CODECOV_TOKEN=${CODECOV_TOKEN}" -e "TRAVIS=${TRAVIS}" -e "TRAVIS_JOB_ID=${TRAVIS_JOB_ID}" "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
   - export $(cat .env)
