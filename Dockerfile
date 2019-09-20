@@ -44,4 +44,4 @@ CMD cd "$HOME/.emacs.d" && \
     export PATH="$CASK_BIN:$PATH" && \
     env && tangle && rm *.elc && \
     cask install && cask exec buttercup -L . -L tests && \
-    sh -c "$(curl -s https://codecov.io/bash)"
+    bash -c "$(curl -s https://codecov.io/bash)"
