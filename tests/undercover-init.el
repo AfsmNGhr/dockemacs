@@ -1,5 +1,5 @@
 (when (require 'undercover nil t)
-  (undercover "*.el" (:report-type :codecov)))
+  (undercover "*.el"))
 
 (message "Running tests on Emacs %s" emacs-version)
 

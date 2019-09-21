@@ -28,7 +28,7 @@ ENV UNAME=emacser \
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash python curl gnutls-utils findutils && \
+    apk add --no-cache bash python curl gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
@@ -44,4 +44,4 @@ CMD cd "$HOME/.emacs.d" && \
     export PATH="$CASK_BIN:$PATH" && \
     env && tangle && rm *.elc && \
     cask install && cask exec buttercup -L . -L tests && \
-    bash -c "$(curl -s https://codecov.io/bash)"
+    cat *.json
