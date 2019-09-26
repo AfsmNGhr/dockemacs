@@ -321,7 +321,7 @@ The =use-package= declarative and performance-oriented.
       use-package-always-ensure t)
 
 (unless (version< emacs-version "25.1")
-  (setq package-archive-priorities '(("melpa-stable" . 10)
+  (setq package-archive-priorities '(("melpa-stable" . 30)
                                      ("gnu" . 10)
                                      ("melpa" . 20))))
 
