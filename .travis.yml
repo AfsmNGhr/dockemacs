@@ -16,11 +16,12 @@ before_install:
 
 script:
   - docker build --target base -t "$REPO:${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
-  - ./trivy --exit-code 0 --severity MEDIUM,HIGH --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
+  - ./trivy --exit-code 0 --severity HIGH --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
   - ./trivy --exit-code 1 --severity CRITICAL --no-progress --auto-refresh "$REPO:${TRAVIS_BUILD_NUMBER}"
   - echo '' > .dockerignore
   - docker build -t "${TRAVIS_BUILD_NUMBER}" -f Dockerfile $(pwd)
-  - docker run --rm -t -e "TRAVIS=${TRAVIS}" -e "TRAVIS_JOB_ID=${TRAVIS_JOB_ID}" "${TRAVIS_BUILD_NUMBER}"
+  - env | grep 'TRAVIS_*' > travis.env
+  - docker run --rm -t --env-file travis.env "${TRAVIS_BUILD_NUMBER}"
 
 after_success:
   - export $(cat .env)

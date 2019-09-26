@@ -1,6 +1,6 @@
 (require 'undercover-init.el)
 
-(describe "Garbage Collector on startup"
+(describe "Garbage collector on startup"
           (it "treshold"
               (expect (princ gc-cons-threshold) :to-be most-positive-fixnum))
           (it "percentage"

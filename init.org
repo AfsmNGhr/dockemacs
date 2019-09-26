@@ -57,8 +57,8 @@
 + [[#tags][Tags]]
   - dumb-jump
 + [[#devops][DevOps]]
-  - [[#docker][Docker]]
-  - [[#remote-management][Remote management]]
+  - Docker
+  - Tramp
 + [[#languages][Languages]]
   - [[#ruby][Ruby]]
   - [[#python][Python]]
@@ -335,15 +335,27 @@ The =use-package= declarative and performance-oriented.
 
 (eval-when-compile
   (require 'use-package))
-(require 'delight)
-(require 'bind-key)
 #+end_src
+
+Diminished modes.
+
+#+BEGIN_SRC elisp
+(use-package delight :ensure f)
+#+END_SRC
+
+Key-bindings.
+
+#+BEGIN_SRC elisp
+(use-package bind-key :ensure f)
+#+END_SRC
 
 Benchmarking =init.el=.
 
 #+begin_src elisp
 (use-package benchmark-init
-  :config (benchmark-init/activate))
+  :init (benchmark-init/activate)
+  :commands (benchmark-init/activate)
+  :hook (emacs-startup . benchmark-init/deactivate))
 #+end_src
 
 *** Interface
@@ -499,21 +511,19 @@ Prefer space indentation.
 **** Autopair
 
 #+begin_src elisp
-(setq electric-pair-pairs '((?\" . ?\")
-                            (?\` . ?\`)
-                            (?\( . ?\))
-                            (?\{ . ?\})))
-
-(electric-pair-mode 1)
+(use-package elec-pair :ensure f
+  :commands electric-pair-mode
+  :config (electric-pair-mode 1))
 #+end_src
 
 **** Whitespace
 
 #+begin_src elisp
-(custom-set-variables
- '(whitespace-style '(face lines-tail)))
-
-(add-hook 'prog-mode-hook #'whitespace-mode)
+(use-package whitespace :ensure f
+  :hook (prog-mode . whitespace-mode)
+  :custom
+  ((whitespace-line-column 120)
+   (whitespace-style '(face lines-tail))))
 #+end_src
 
 **** Keybindings
@@ -586,12 +596,11 @@ Reverse input.
 #+begin_src elisp
 (use-package recentf :defer t :ensure f
   :after ido
-  :config
-  (recentf-mode 1)
-
-  (setq recentf-max-saved-items 30
-        recentf-keep '(file-remote-p file-readable-p))
-
+  :init (recentf-mode 1)
+  :commands recentf-mode
+  :custom ((recentf-max-saved-items 30)
+           (recentf-keep '(file-remote-p file-readable-p)))
+  :preface
   (defun ido-recentf-open ()
     "Use `ido-completing-read' to find a recent file."
     (interactive)
@@ -605,9 +614,9 @@ Reverse input.
 #+begin_src elisp
 (use-package bookmark :defer t :ensure f
   :after ido
-  :config
-  (setq bookmark-save-flag t)
-
+  :custom (bookmark-save-flag t)
+  :commands (bookmark-jump bookmark-all-names)
+  :preface
   (defun jump-to-bookmark ()
     (interactive)
     (bookmark-jump
@@ -645,7 +654,6 @@ tangled, and the tangled file is compiled."
 
 (defun afsmnghr/emacs-startup-hook ()
   "make faster startup"
-  (benchmark-init/deactivate)
   (reverse-im-activate "russian-computer")
   (setq file-name-handler-alist afsmnghr/file-name-handler-alist
         gc-cons-threshold 5000000
@@ -664,8 +672,8 @@ Named buffers.
 
 #+begin_src elisp
 (use-package ace-window :defer t
-  :config (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-                aw-background nil))
+  :custom ((aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+           (aw-background nil)))
 #+end_src
 
 *** Completion
@@ -679,19 +687,21 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
 
 (use-package flx-ido
   :after ido
-  :config
+  :commands flx-ido-mode
+  :init
   (ido-mode 1)
   (ido-everywhere 1)
   (flx-ido-mode 1)
-  (setq flx-ido-threshold 1000
-        ido-enable-flex-matching t
-        ido-use-faces t
-        ido-virtual-buffers t
-        ido-auto-merge-work-directories-length -1))
+  :custom ((flx-ido-threshold 1000)
+           (ido-enable-flex-matching t)
+           (ido-use-faces t)
+           (ido-virtual-buffers t)
+           (ido-auto-merge-work-directories-length -1)))
 
 (use-package ido-completing-read+ :pin melpa-stable
   :after ido
-  :config (ido-ubiquitous-mode 1))
+  :commands ido-ubiquitous-mode
+  :init (ido-ubiquitous-mode 1))
 #+end_src
 
 **** Company
@@ -700,9 +710,9 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 
 #+begin_src elisp
 (use-package company :defer 30
-  :config
-  (global-company-mode t)
-
+  :init (global-company-mode t)
+  :commands global-company-mode
+  :preface
   (defvar company-mode/enable-yas t
     "Enable yasnippet for all backends.")
 
@@ -713,28 +723,30 @@ Use [[http://company-mode.github.io/][modern completion framework]].
         backend
       (append (if (consp backend) backend (list backend))
               '(:with company-yasnippet))))
+  :custom ((company-backends
+            (mapcar #'company-mode/backend-with-yas
+                    '((company-capf company-shell company-dabbrev company-abbrev
+                       company-files company-etags company-keywords))))
+           (company-idle-delay 1.0)
+           (company-tooltip-flip-when-above t)))
 
-  (setq company-backends
-        (mapcar #'company-mode/backend-with-yas
-                '((company-capf company-shell company-dabbrev company-abbrev
-                                company-files company-etags company-keywords)))
-        company-idle-delay 1.0
-        company-tooltip-flip-when-above t)
+(use-package company-flx :defer t
+  :after company
+  :commands company-flx-mode
+  :init (with-eval-after-load 'company
+          (company-flx-mode +1)))
 
-  (use-package company-flx :defer t
-    :after company
-    :config (with-eval-after-load 'company
-              (company-flx-mode +1)))
+(use-package company-ycmd :defer t
+  :after company
+  :commands company-ycmd-setup
+  :init (company-ycmd-setup))
 
-  (use-package company-ycmd :defer t
-    :after company
-    :config (company-ycmd-setup))
+(use-package company-shell :defer t :after company)
 
-  (use-package company-shell :defer t :after company)
-
-  (use-package company-statistics :defer t
-    :after company
-    :config (company-statistics-mode)))
+(use-package company-statistics :defer t
+  :after company
+  :commands company-statistics-mode
+  :init (company-statistics-mode))
 #+end_src
 
 *** VCS
@@ -744,50 +756,17 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
 #+begin_src elisp
-(unless (version< emacs-version "24.4")
-  (use-package magit :defer 1
-    :config
-    (global-set-key (kbd "C-c j") #'afsmnghr/visit-pull-request-url)
-
-    (defun afsmnghr/visit-pull-request-url ()
-      "Visit the current branch's PR."
-      (interactive)
-      (let ((repo (magit-get "remote" (magit-get-remote) "url")))
-        (if (not repo)
-            (setq repo (magit-get "remote" (magit-get-push-remote) "url")))
-        (if (string-match "github\\.com" repo)
-            (visit-gh-pull-request repo)
-          (visit-bb-pull-request repo))))
-
-    (defun visit-gh-pull-request (repo)
-      "Visit the current branch's PR on Github."
-      (interactive)
-      (message repo)
-      (browse-url
-       (format "https://github.com/%s/compare/%s?expand=1"
-               (replace-regexp-in-string
-                "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
-                repo)
-               (magit-get-current-branch))))
-
-    (defun visit-bb-pull-request (repo)
-      "Visit the current branch's PR on BitBucket."
-      (message repo)
-      (browse-url
-       (format "https://bitbucket.org/%s/pull-request/new?source=%s&t=1"
-               (replace-regexp-in-string
-                "\\`.+bitbucket\\.org:\\(.+\\)\\.git\\'" "\\1"
-                repo)
-               (magit-get-current-branch))))
-
-    (setq magit-completing-read-function 'magit-ido-completing-read
-          magit-branch-arguments nil
-          magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)
-          magit-default-tracking-name-function 'magit-default-tracking-name-branch-only
-          magit-set-upstream-on-push t
-          magit-push-always-verify nil
-          magit-restore-window-configuration t
-          vc-handled-backends nil)))
+(use-package magit :defer 1
+  :unless (version< emacs-version "24.4")
+  :custom
+  ((magit-completing-read-function 'magit-ido-completing-read)
+   (magit-branch-arguments nil)
+   (magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
+   (magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
+   (magit-set-upstream-on-push t)
+   (magit-push-always-verify nil)
+   (magit-restore-window-configuration t)
+   (vc-handled-backends nil)))
 #+end_src
 
 **** Git time machine
@@ -795,8 +774,8 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][git time machine]].
 
 #+begin_src elisp
-(unless (version< emacs-version "24.4")
-  (use-package git-timemachine :defer t))
+(use-package git-timemachine :defer t
+  :unless (version< emacs-version "24.4"))
 #+end_src
 
 **** Smerge-mode
@@ -804,8 +783,7 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
 Merging conflicts.
 
 #+begin_src elisp
-(use-package smerge-mode :ensure f :defer t
-  :config (setq smerge-command-prefix "C-c v"))
+(use-package smerge-mode :ensure f :defer t)
 #+end_src
 
 *** Project management
@@ -817,20 +795,20 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
     :delight '(:eval
                (propertize (concat " " (projectile-project-name))
                            'face '(:foreground "#FD971F")))
+    :commands projectile-mode
     :config
     (projectile-mode)
-
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-    (setq projectile-enable-caching t
-          projectile-use-git-grep t
-          projectile-indexing-method 'native
-          projectile-switch-project-action 'projectile-dired
-          projectile-file-exists-remote-cache-expire (* 10 60)
-          projectile-file-exists-local-cache-expire (* 5 60)
-          projectile-require-project-root nil
-          projectile-idle-timer-seconds 60
-          projectile-completion-system 'ido))
+    :custom
+    ((projectile-enable-caching t)
+     (projectile-use-git-grep t)
+     (projectile-indexing-method 'native)
+     (projectile-switch-project-action 'projectile-dired)
+     (projectile-file-exists-remote-cache-expire (* 10 60))
+     (projectile-file-exists-local-cache-expire (* 5 60))
+     (projectile-require-project-root nil)
+     (projectile-idle-timer-seconds 60)
+     (projectile-completion-system 'ido)))
 #+end_src
 
 *** Linters
@@ -847,6 +825,7 @@ No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
 
 #+begin_src elisp
 (use-package yasnippet :defer 15
+  :commands yas-global-mode
   :config (yas-global-mode t))
 #+end_src
 
@@ -867,13 +846,12 @@ Browser style [[https://github.com/keyword-search/keyword-search][keyword search
 #+begin_src elisp
 (use-package keyword-search :defer t
   :bind ("C-c s" . keyword-search)
-  :config
-  (setq afsmnghr/search-alist
-        '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
-          (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
-          (reddit . "https://www.reddit.com/search?q=%s")
-          (mix/youtube . "https://www.youtube.com/results?search_query=%s+music+mix+-live+-playlist,+long,+week"))
-        keyword-search-alist (append keyword-search-alist afsmnghr/search-alist)))
+  :custom ((afsmnghr/search-alist
+            '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
+             (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
+             (reddit . "https://www.reddit.com/search?q=%s")
+             (mix/youtube . "https://www.youtube.com/results?search_query=%s+music+mix+-live+-playlist,+long,+week")))
+           (keyword-search-alist (append keyword-search-alist afsmnghr/search-alist))))
 #+end_src
 
 *** Tags
@@ -887,20 +865,18 @@ Grepping tags.
          ("M-g i" . dumb-jump-go-prompt)
          ("M-g x" . dumb-jump-go-prefer-external)
          ("M-g z" . dumb-jump-go-prefer-external-other-window))
-  :config (setq dumb-jump-selector 'ido
-                dumb-jump-prefer-searcher 'git-grep
-                dumb-jump-force-searcher 'ag))
+  :custom ((dumb-jump-selector 'ido)
+           (dumb-jump-prefer-searcher 'git-grep)
+           (dumb-jump-force-searcher 'ag)))
 #+end_src
 
 *** DevOps
 
-**** Docker
-
 Simple management docker containers.
 
 #+begin_src elisp
-(unless (version< emacs-version "24.4")
-  (use-package docker :defer t))
+(use-package docker :defer t
+  :unless (version< emacs-version "24.4"))
 #+end_src
 
 Major mode for =Dockerfile=.
@@ -910,13 +886,13 @@ Major mode for =Dockerfile=.
   :mode (("Dockerfile.*" . dockerfile-mode)))
 #+end_src
 
-**** Remote management
+Remote management with tramp
 
 #+begin_src elisp
 (use-package tramp :defer t :ensure f
-  :config
-  (setq auto-revert-remote-files t
-        shell-file-name "/bin/sh")) ;; alpine based
+  :custom
+  ((auto-revert-remote-files t)
+   (shell-file-name "/bin/sh" "alpine based")))
 #+end_src
 
 *** Languages
@@ -942,20 +918,20 @@ Major mode for =Dockerfile=.
   :config (setq-default coffee-js-mode 'js2-mode coffee-tab-width 2))
 
 (use-package typescript-mode :defer t
-  :config
-  (setq typescript-indent-level 2))
+  :custom (typescript-indent-level 2))
 
-(use-package json :config (setq js-indent-level 2))
+(use-package json :custom (js-indent-level 2))
 
 (use-package js2-mode :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
-  :config (setq-default js2-basic-offset 2
-                        js2-indent-switch-body t
-                        js2-auto-indent-p t
-                        js2-highlight-level 3
-                        js2-indent-on-enter-key t))
+  :custom
+  ((js2-basic-offset 2)
+   (js2-indent-switch-body t)
+   (js2-auto-indent-p t)
+   (js2-highlight-level 3)
+   (js2-indent-on-enter-key t)))
 #+end_src
 *** Templates
 
@@ -970,14 +946,15 @@ Major mode for =Dockerfile=.
 (use-package yaml-mode :defer t)
 (use-package company-web :defer t)
 (use-package web-mode :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (setq web-mode-markup-indent-offset 2
-        web-mode-enable-auto-pairing t
-        web-mode-enable-current-element-highlight t
-        web-mode-enable-block-face t
-        web-mode-enable-part-face t))
+  :commands web-mode
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.erb\\'" . web-mode)
+         ("\\.vue" . web-mode))
+  :custom ((web-mode-markup-indent-offset 2)
+           (web-mode-enable-auto-pairing t)
+           (web-mode-enable-current-element-highlight t)
+           (web-mode-enable-block-face t)
+           (web-mode-enable-part-face t)))
 #+end_src
 
 *** Org
@@ -997,17 +974,18 @@ Main =org=.
 #+begin_src elisp
 (use-package org :defer 5 :ensure f
   :config
-  (setq org-log-done t
-        org-directory (getenv "ORG_PATH")
-        org-startup-indented t
-        org-indent-mode-turns-on-hiding-stars nil
-        org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n@/!)" "INPROGRESS(i!)" "HOLD(h@/!)"
-                    "DONE(d!)" "CANCELLED(c@/!)")))
   (custom-set-variables
    '(org-babel-load-languages
      (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
    '(org-confirm-babel-evaluate nil))
+  :custom
+  ((org-log-done t)
+   (org-directory (getenv "ORG_PATH"))
+   (org-startup-indented t)
+   (org-indent-mode-turns-on-hiding-stars nil)
+   (org-todo-keywords
+    '((sequence "TODO(t!)" "NEXT(n@/!)" "INPROGRESS(i!)" "HOLD(h@/!)"
+                "DONE(d!)" "CANCELLED(c@/!)"))))
   :bind
   (:map global-map ("C-c a" . org-agenda)))
 #+end_src
@@ -1017,14 +995,14 @@ Org colors.
 #+begin_src elisp
 (use-package org-faces :ensure f
   :after org
-  :config
-  (setq org-todo-keyword-faces
-        '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
-          ("HOLD" :foreground "firebrick2" :weight bold)
-          ("NEXT" :foreground "OrangeRed2" :weight bold))
-        org-priority-faces '((?A . (:foreground "firebrick2" :weight 'bold))
-                             (?B . (:foreground "OrangeRed2"))
-                             (?C . (:foreground "DodgerBlue2")))))
+  :custom
+  ((org-todo-keyword-faces
+    '(("INPROGRESS" :foreground "DodgerBlue2" :weight bold)
+      ("HOLD" :foreground "firebrick2" :weight bold)
+      ("NEXT" :foreground "OrangeRed2" :weight bold)))
+   (org-priority-faces '((?A . (:foreground "firebrick2" :weight 'bold))
+                         (?B . (:foreground "OrangeRed2"))
+                         (?C . (:foreground "DodgerBlue2"))))))
 #+end_src
 
 Org blocks.
@@ -1032,13 +1010,13 @@ Org blocks.
 #+begin_src elisp
 (use-package org-src :ensure f
   :after org
-  :config
-  (setq org-src-fontify-natively t
-        org-edit-src-content-indentation 2
-        org-src-tab-acts-natively t
-        org-src-preserve-indentation t
-        org-src-window-setup 'current-window
-        org-src-ask-before-returning-to-edit-buffer nil))
+  :custom
+  ((org-src-fontify-natively t)
+   (org-edit-src-content-indentation 2)
+   (org-src-tab-acts-natively t)
+   (org-src-preserve-indentation t)
+   (org-src-window-setup 'current-window)
+   (org-src-ask-before-returning-to-edit-buffer nil)))
 #+end_src
 
 Org agenda.
@@ -1046,14 +1024,14 @@ Org agenda.
 #+begin_src elisp
 (use-package org-agenda :ensure f
   :after org
-  :config
-  (setq org-agenda-files (list org-directory (concat org-directory "orgzly"))
-        org-agenda-start-on-weekday 1
-        org-agenda-dim-blocked-tasks nil
-        org-agenda-compact-blocks t
-        org-agenda-skip-scheduled-if-done nil
-        org-agenda-clockreport-parameter-plist
-        (quote (:link t :maxlevel 9 :fileskip0 t :compact t :narrow 80))))
+  :custom
+  ((org-agenda-files (list org-directory (concat org-directory "orgzly")))
+   (org-agenda-start-on-weekday 1)
+   (org-agenda-dim-blocked-tasks nil)
+   (org-agenda-compact-blocks t)
+   (org-agenda-skip-scheduled-if-done nil)
+   (org-agenda-clockreport-parameter-plist
+    (quote (:link t :maxlevel 9 :fileskip0 t :compact t :narrow 80)))))
 #+end_src
 
 Org protocol.
@@ -1061,8 +1039,7 @@ Org protocol.
 #+begin_src elisp
 (use-package org-protocol :ensure f :defer t
   :after org
-  :config
-  (setq org-protocol-default-template-key "L"))
+  :custom (org-protocol-default-template-key "L"))
 #+end_src
 
 Org capture.
@@ -1070,10 +1047,7 @@ Org capture.
 #+begin_src elisp
 (use-package org-capture :ensure f :defer t
   :after org
-  :config
-  (setq afsmnghr/org-diary (concat org-directory "diary.org")
-        afsmnghr/org-links (concat org-directory "links.org")
-        afsmnghr/org-work (concat org-directory "work.org"))
+  :preface
   (defconst afsmnghr/org-capture-templates
     '(("L" "Links" entry (file+datetree afsmnghr/org-links)
        "* %c :LINK:\n%U %?%:initial")
@@ -1081,9 +1055,13 @@ Org capture.
        "* %?\n%U\n"
        :clock-in t :clock-resume t :jump-to-captured t)
       ("w" "Work" entry (file+datetree afsmnghr/org-work)
-       "* TODO %? :WORK:\n%U\n"
+       "* TODO %?\n%U\n"
        :clock-in t :clock-resume t :jump-to-captured t)))
-  (setq org-capture-templates afsmnghr/org-capture-templates)
+  :custom
+  ((afsmnghr/org-diary (concat org-directory "diary.org"))
+   (afsmnghr/org-links (concat org-directory "links.org"))
+   (afsmnghr/org-work (concat org-directory "work.org"))
+   (org-capture-templates afsmnghr/org-capture-templates))
   :bind
   (:map global-map ("C-c c" . org-capture)))
 #+end_src
@@ -1093,17 +1071,19 @@ Org clock.
 #+begin_src elisp
 (use-package org-clock :ensure f :defer t
   :after org
+  :commands org-clock-persistence-insinuate
+  :custom
+  ((org-clock-history-length 30)
+   (org-clock-in-switch-to-state "INPROGRESS")
+   (org-clock-continuously t)
+   (org-clock-in-resume t)
+   (org-clock-into-drawer t)
+   (org-clock-out-remove-zero-time-clocks t)
+   (org-clock-out-when-done t)
+   (org-clock-persist 'history)
+   (org-clock-clocked-in-display 'mode-line)
+   (org-clock-persist-query-resume nil)
+   (org-clock-report-include-clocking-task t))
   :config
-  (setq org-clock-history-length 30
-        org-clock-in-switch-to-state "INPROGRESS"
-        org-clock-continuously t
-        org-clock-in-resume t
-        org-clock-into-drawer t
-        org-clock-out-remove-zero-time-clocks t
-        org-clock-out-when-done t
-        org-clock-persist 'history
-        org-clock-clocked-in-display 'mode-line
-        org-clock-persist-query-resume nil
-        org-clock-report-include-clocking-task t)
   (org-clock-persistence-insinuate))
 #+end_src
