@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# contributor: Alexey Ermolaev
+# name: wrapper-rubocop
+# key: wrapper-rubocop
+# key: wrub
+# --
+((nil . ((eval .
+               (progn
+                 ;; Local path in dockemacs container
+                 (setenv "PROJECT_LOCAL_PATH" (locate-dominating-file default-directory (buffer-name)))
+                 ;; Remote path in project container or host
+                 (setenv "PROJECT_REMOTE_PATH"
+                         (concat "/home/" (getenv "HOST_USER")
+                                 (car (last (split-string
+                                             (locate-dominating-file default-directory (buffer-name))
+                                             (getenv "WORKSPACE"))))))
+                 ;; Pylint cmd as example `docker exec -it PROJECT_CONTAINER rubocop'
+                 (setenv "PROJECT_RUBOCOP_CMD" "rubocop")))))))

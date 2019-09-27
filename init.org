@@ -912,13 +912,15 @@ Remote management with tramp
 #+begin_src elisp
 (use-package ruby-mode :defer t :ensure f
   :mode (("\\.cr\\'" . ruby-mode)
-         (".irbrc" . ruby-mode)))
+         (".irbrc" . ruby-mode))
+  :hook (ruby-mode . flycheck-mode))
 #+end_src
 
 **** Python
 
 #+begin_src elisp
-(use-package python :defer t :ensure f)
+(use-package python :defer t :ensure f
+  :hook (python-mode . flycheck-mode))
 #+end_src
 
 **** Javascript
