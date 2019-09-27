@@ -347,13 +347,13 @@ The =use-package= declarative and performance-oriented.
 Diminished modes.
 
 #+BEGIN_SRC elisp
-(use-package delight :defer t)
+(use-package delight)
 #+END_SRC
 
 Key-bindings.
 
 #+BEGIN_SRC elisp
-(use-package bind-key :defer t)
+(use-package bind-key)
 #+END_SRC
 
 Benchmarking =init.el=.
