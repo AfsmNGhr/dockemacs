@@ -308,6 +308,13 @@ Don't auto-initialize!
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 #+END_SRC
 
+Disable check signature for Travis.
+
+#+BEGIN_SRC elisp
+(if (getenv "TRAVIS")
+    (setq package-check-signature nil))
+#+END_SRC
+
 The =use-package= declarative and performance-oriented.
 
 #+begin_src elisp
@@ -328,7 +335,7 @@ The =use-package= declarative and performance-oriented.
 (unless package-archive-contents
   (package-refresh-contents))
 
-(let ((afsmnghr/packages '(use-package gnu-elpa-keyring-update)))
+(let ((afsmnghr/packages '(use-package)))
   (dolist (p afsmnghr/packages)
     (unless (package-installed-p p)
       (package-install p))))
