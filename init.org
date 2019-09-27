@@ -328,7 +328,7 @@ The =use-package= declarative and performance-oriented.
 (unless package-archive-contents
   (package-refresh-contents))
 
-(let ((afsmnghr/packages '(use-package delight)))
+(let ((afsmnghr/packages '(use-package)))
   (dolist (p afsmnghr/packages)
     (unless (package-installed-p p)
       (package-install p))))
@@ -340,13 +340,13 @@ The =use-package= declarative and performance-oriented.
 Diminished modes.
 
 #+BEGIN_SRC elisp
-(use-package delight :ensure f)
+(use-package delight :defer t)
 #+END_SRC
 
 Key-bindings.
 
 #+BEGIN_SRC elisp
-(use-package bind-key :ensure f)
+(use-package bind-key :defer t)
 #+END_SRC
 
 Benchmarking =init.el=.
@@ -796,13 +796,14 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
                (propertize (concat " " (projectile-project-name))
                            'face '(:foreground "#FD971F")))
     :commands projectile-mode
-    :config
+    :init
     (projectile-mode)
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     :custom
     ((projectile-enable-caching t)
      (projectile-use-git-grep t)
      (projectile-indexing-method 'native)
+     (projectile-sort-order 'recentf)
      (projectile-switch-project-action 'projectile-dired)
      (projectile-file-exists-remote-cache-expire (* 10 60))
      (projectile-file-exists-local-cache-expire (* 5 60))
