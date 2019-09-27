@@ -42,5 +42,6 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
     export ORG_PATH="$WORKSPACE/$ORG_FILES" && \
     export PATH="$CASK_BIN:$PATH" && \
+    gpg --homedir elpa/gnupg --receive-keys 066DAFCB81E42C40 && \
     env && tangle && rm *.elc && \
     cask install && cask exec buttercup -L . -L tests
