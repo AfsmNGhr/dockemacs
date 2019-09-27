@@ -328,7 +328,7 @@ The =use-package= declarative and performance-oriented.
 (unless package-archive-contents
   (package-refresh-contents))
 
-(let ((afsmnghr/packages '(use-package)))
+(let ((afsmnghr/packages '(use-package gnu-elpa-keyring-update)))
   (dolist (p afsmnghr/packages)
     (unless (package-installed-p p)
       (package-install p))))
