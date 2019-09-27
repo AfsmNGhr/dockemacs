@@ -9,12 +9,12 @@
                  ;; Flycheck use wrappered executable
                  (setq flycheck-python-pylint-executable "pylint")
                  ;; Local path in dockemacs container
-                 (setenv "PROJECT_LOCAL_PATH" (locate-dominating-file default-directory (buffer-name)))
+                 (setenv "PROJECT_LOCAL_PATH" (vc-git-root (buffer-name)))
                  ;; Remote path in project container or host
                  (setenv "PROJECT_REMOTE_PATH"
                          (concat "/home/" (getenv "HOST_USER")
                                  (car (last (split-string
-                                             (locate-dominating-file default-directory (buffer-name))
+                                             (vc-git-root (buffer-name))
                                              (getenv "WORKSPACE"))))))
                  ;; Pylint cmd as example `docker exec -it PROJECT_CONTAINER pylint'
                  (setenv "PROJECT_PYLINT_CMD" "pylint")))))))
