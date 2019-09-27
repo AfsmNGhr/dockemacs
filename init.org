@@ -569,7 +569,9 @@ My keybindings almost defaulted.
 Reverse input.
 
 #+begin_src elisp
-(use-package reverse-im :defer t :commands reverse-im-activate)
+(use-package reverse-im :defer t
+  :commands reverse-im-activate
+  :config (reverse-im-activate "russian-computer"))
 #+end_src
 
 **** History
@@ -660,8 +662,7 @@ tangled, and the tangled file is compiled."
         gc-cons-percentage 0.1))
 
 (defun afsmnghr/emacs-startup-hook ()
-  "make faster startup"
-  (reverse-im-activate "russian-computer")
+  "Make faster startup"
   (setq file-name-handler-alist afsmnghr/file-name-handler-alist
         gc-cons-threshold 5000000
         gc-cons-percentage 0.1))
@@ -694,16 +695,17 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
 
 (use-package flx-ido
   :after ido
-  :commands flx-ido-mode
+  :commands (flx-ido-mode ido-everywhere flx-ido-mode)
   :init
   (ido-mode 1)
   (ido-everywhere 1)
   (flx-ido-mode 1)
-  :custom ((flx-ido-threshold 1000)
-           (ido-enable-flex-matching t)
-           (ido-use-faces t)
-           (ido-virtual-buffers t)
-           (ido-auto-merge-work-directories-length -1)))
+  :custom
+  ((flx-ido-threshold 1000)
+   (ido-enable-flex-matching t)
+   (ido-use-faces t)
+   (ido-virtual-buffers t)
+   (ido-auto-merge-work-directories-length -1)))
 
 (use-package ido-completing-read+ :pin melpa-stable
   :after ido
