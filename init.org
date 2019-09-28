@@ -569,7 +569,7 @@ My keybindings almost defaulted.
 Reverse input.
 
 #+begin_src elisp
-(use-package reverse-im :defer t
+(use-package reverse-im :defer 1
   :commands reverse-im-activate
   :config (reverse-im-activate "russian-computer"))
 #+end_src
@@ -826,7 +826,10 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
 
 #+begin_src elisp
-(use-package flycheck :defer t)
+(use-package flycheck :defer t
+  :custom
+  ((flycheck-check-syntax-automatically '(save mode-enabled))
+   (flycheck-display-errors-delay .3)))
 #+end_src
 
 *** Snippets
@@ -893,7 +896,7 @@ Major mode for =Dockerfile=.
 
 #+begin_src elisp
 (use-package dockerfile-mode :defer t
-  :mode (("Dockerfile.*" . dockerfile-mode)))
+  :mode (("Dockerfile\\'" . dockerfile-mode)))
 #+end_src
 
 Remote management with tramp
@@ -945,6 +948,7 @@ Remote management with tramp
    (js2-highlight-level 3)
    (js2-indent-on-enter-key t)))
 #+end_src
+
 *** Templates
 
 #+begin_src elisp

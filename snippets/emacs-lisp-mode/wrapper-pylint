@@ -7,7 +7,7 @@
 ((nil . ((eval .
                (progn
                  ;; Flycheck use wrappered executable
-                 (setq flycheck-python-pylint-executable "pylint")
+                 (setq-local flycheck-python-pylint-executable "pylint")
                  ;; Local path in dockemacs container
                  (setenv "PROJECT_LOCAL_PATH" (vc-git-root (buffer-name)))
                  ;; Remote path in project container or host
