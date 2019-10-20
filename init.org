@@ -176,7 +176,7 @@ mkdir ~/.ssh/sockets
 
 Speedup local connection.
 
-#+begin_src shell :tangle no
+#+begin_src conf :tangle no
 # ~/.ssh/config
 
 Host *
@@ -188,8 +188,8 @@ Host *
 
 Host 127.1
      Hostname 127.1
-     User $HOST_USER
-     Port $HOST_PORT
+     User "$HOST_USER"
+     Port "$HOST_PORT"
      Compression no
      Ciphers chacha20-poly1305@openssh.com
      ForwardX11 no
