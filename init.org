@@ -180,6 +180,7 @@ Speedup local connection.
 # ~/.ssh/config
 
 Host *
+     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
      ControlMaster auto
      ControlPath ~/.ssh/sockets/%r@%h:%p
      ControlPersist 4h
@@ -190,7 +191,7 @@ Host 127.1
      User $HOST_USER
      Port $HOST_PORT
      Compression no
-     Ciphers aes128-gcm@openssh.com
+     Ciphers chacha20-poly1305@openssh.com
      ForwardX11 no
 #+end_src
 
