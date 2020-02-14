@@ -1,4 +1,10 @@
-## 1.11.0
+## 1.12.0 (2020-02-14)
+
+* Emacs version is `26.3-r2`
+* Update base image to `alpine:3.11.3`
+* Solved troubles with gnutls
+
+## 1.11.0 (2019-10-20)
 
 * Emacs version is `26.2-r1`
 * Update base image to `alpine:3.10.2`

@@ -102,7 +102,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.11.0 startup
+       afsmnghr/dockemacs:1.12.0 startup
 '
 #+end_src
 
@@ -306,7 +306,8 @@ Don't auto-initialize!
 [[https://github.com/bbatsov/prelude/issues/1225#issuecomment-511266025][Temporary fix issue of tls.]]
 
 #+BEGIN_SRC elisp
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(unless (version< emacs-version "26.3")
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 #+END_SRC
 
 Disable check signature for Travis.
