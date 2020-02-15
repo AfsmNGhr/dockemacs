@@ -306,7 +306,7 @@ Don't auto-initialize!
 [[https://github.com/bbatsov/prelude/issues/1225#issuecomment-511266025][Temporary fix issue of tls.]]
 
 #+BEGIN_SRC elisp
-(unless (version< emacs-version "26.3")
+(if (version< emacs-version "26.3")
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 #+END_SRC
 
@@ -917,15 +917,13 @@ Remote management with tramp
 #+begin_src elisp
 (use-package ruby-mode :defer t :ensure f
   :mode (("\\.cr\\'" . ruby-mode)
-         (".irbrc" . ruby-mode))
-  :hook (ruby-mode . flycheck-mode))
+         (".irbrc" . ruby-mode)))
 #+end_src
 
 **** Python
 
 #+begin_src elisp
-(use-package python :defer t :ensure f
-  :hook (python-mode . flycheck-mode))
+(use-package python :defer t :ensure f)
 #+end_src
 
 **** Javascript
@@ -994,7 +992,7 @@ Main =org=.
   :config
   (custom-set-variables
    '(org-babel-load-languages
-     (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t))))
+     (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t) (sql . t))))
    '(org-confirm-babel-evaluate nil))
   :custom
   ((org-log-done t)
