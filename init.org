@@ -61,6 +61,7 @@
   - Tramp
 + [[#languages][Languages]]
   - [[#ruby][Ruby]]
+  - [[#elixir][Elixir]]
   - [[#python][Python]]
   - [[#javascript][Javascript]]
 + [[#templates][Templates]]
@@ -69,19 +70,9 @@
 *** Installation
 **** Docker
 
-[[https://docs.docker.com/engine/installation/][Install Docker Engine]]:
+[[https://docs.docker.com/engine/installation/][Install Docker Engine]]
 
-Setup =overlay2= storage driver (by default since 18.09). See [[https://docs.docker.com/engine/userguide/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver][docs]].
-
-#+begin_src js :tangle no
-// /etc/docker/daemon.json
-
-{
-  "storage-driver": "overlay2"
-}
-#+end_src
-
-Create emacs data volume:
+Create emacs data volume.
 
 #+begin_src shell :tangle no
 docker volume create emacs_data
@@ -96,7 +87,7 @@ Add alias:
 
 alias dockemacs='
   docker run -it --rm --net=host \
-       --cpuset-cpus 0-3 \
+       --cpuset-cpus 0-1 \
        --env-file $HOME/.dockemacs \
        --entrypoint initialize "$@" \
        -v $HOME:/mnt/workspace \
@@ -108,7 +99,7 @@ alias dockemacs='
 
 **** Environment variables
 
-Prepare =$HOME/.dockemacs=, check your =env=:
+Prepare =$HOME/.dockemacs=, check your =env=.
 
 #+begin_src shell :tangle no
 # default by
@@ -158,7 +149,7 @@ echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
 
 **** Escape in the box
 
-Setup ssh server and restart:
+Setup ssh server and restart.
 
 #+begin_src shell :tangle no
 # /etc/ssh/sshd_config
@@ -166,9 +157,7 @@ Setup ssh server and restart:
 ListenAddress 127.1
 #+end_src
 
-Setup ssh client:
-
-Create sockets path.
+Setup ssh client. Create sockets path.
 
 #+begin_src shell :tangle no
 mkdir ~/.ssh/sockets
@@ -180,7 +169,6 @@ Speedup local connection.
 # ~/.ssh/config
 
 Host *
-     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
      ControlMaster auto
      ControlPath ~/.ssh/sockets/%r@%h:%p
      ControlPersist 4h
@@ -225,7 +213,7 @@ esac
 
 **** Starting
 
-Run and wait until the boot:
+Run and wait until the boot.
 
 #+begin_src shell :tangle no
 $ dockemacs
@@ -610,14 +598,7 @@ Reverse input.
   :init (recentf-mode 1)
   :commands recentf-mode
   :custom ((recentf-max-saved-items 30)
-           (recentf-keep '(file-remote-p file-readable-p)))
-  :preface
-  (defun ido-recentf-open ()
-    "Use `ido-completing-read' to find a recent file."
-    (interactive)
-    (find-file (ido-completing-read "Open recent file: " recentf-list nil t)))
-  :bind
-  (:map global-map ("C-c r" . ido-recentf-open)))
+           (recentf-keep '(file-remote-p file-readable-p))))
 #+end_src
 
 **** Bookmarks
@@ -920,6 +901,12 @@ Remote management with tramp
          (".irbrc" . ruby-mode)))
 #+end_src
 
+**** Elixir
+
+#+BEGIN_SRC elisp
+(use-package elixir-mode :defer t)
+#+END_SRC
+
 **** Python
 
 #+begin_src elisp
@@ -929,9 +916,6 @@ Remote management with tramp
 **** Javascript
 
 #+begin_src elisp
-(use-package coffee-mode :defer t
-  :config (setq-default coffee-js-mode 'js2-mode coffee-tab-width 2))
-
 (use-package typescript-mode :defer t
   :custom (typescript-indent-level 2))
 
@@ -956,8 +940,6 @@ Remote management with tramp
 (use-package css-mode :defer t)
 (use-package sass-mode :defer t
   :mode (("\\.scss" . sass-mode)))
-(use-package haml-mode :defer t)
-(use-package slim-mode :defer t)
 (use-package csv-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package company-web :defer t)
@@ -1006,7 +988,7 @@ Main =org=.
   (:map global-map ("C-c a" . org-agenda)))
 #+end_src
 
-Org colors.
+Org faces. Prepare colors for to do list.
 
 #+begin_src elisp
 (use-package org-faces :ensure f
@@ -1021,7 +1003,7 @@ Org colors.
                          (?C . (:foreground "DodgerBlue2"))))))
 #+end_src
 
-Org blocks.
+Org blocks of sources.
 
 #+begin_src elisp
 (use-package org-src :ensure f
@@ -1035,7 +1017,7 @@ Org blocks.
    (org-src-ask-before-returning-to-edit-buffer nil)))
 #+end_src
 
-Org agenda.
+Org agenda settings.
 
 #+begin_src elisp
 (use-package org-agenda :ensure f
@@ -1058,7 +1040,7 @@ Org protocol.
   :custom (org-protocol-default-template-key "L"))
 #+end_src
 
-Org capture.
+Org capturing.
 
 #+begin_src elisp
 (use-package org-capture :ensure f :defer t
@@ -1069,20 +1051,16 @@ Org capture.
        "* %c :LINK:\n%U %?%:initial")
       ("d" "Diary" entry (file+datetree afsmnghr/org-diary)
        "* %?\n%U\n"
-       :clock-in t :clock-resume t :jump-to-captured t)
-      ("w" "Work" entry (file+datetree afsmnghr/org-work)
-       "* TODO %?\n%U\n"
        :clock-in t :clock-resume t :jump-to-captured t)))
   :custom
   ((afsmnghr/org-diary (concat org-directory "diary.org"))
    (afsmnghr/org-links (concat org-directory "links.org"))
-   (afsmnghr/org-work (concat org-directory "work.org"))
    (org-capture-templates afsmnghr/org-capture-templates))
   :bind
   (:map global-map ("C-c c" . org-capture)))
 #+end_src
 
-Org clock.
+Timetracking.
 
 #+begin_src elisp
 (use-package org-clock :ensure f :defer t
