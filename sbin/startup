@@ -35,6 +35,7 @@ if [ -f "$HOME/.emacs.d/init.org" ] && (
 fi
 
 export ORG_PATH="$WORKSPACE/$ORG_FILES"
+export GPG_TTY="$(tty)"
 cd "$WORKSPACE" || exit
 
 emacs
