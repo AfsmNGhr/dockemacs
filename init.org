@@ -940,7 +940,6 @@ Remote management with tramp
 (use-package css-mode :defer t)
 (use-package sass-mode :defer t
   :mode (("\\.scss" . sass-mode)))
-(use-package csv-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package company-web :defer t)
 (use-package web-mode :defer t
