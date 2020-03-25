@@ -1,3 +1,9 @@
+## 1.12.1 (2020-03-25)
+
+* Emacs version is `26.3-r2`
+* Update base image to `alpine:3.11.5`
+* Add `GPG_TTY`with `$(tty)`
+
 ## 1.12.0 (2020-02-14)
 
 * Emacs version is `26.3-r2`

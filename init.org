@@ -93,7 +93,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.12.0 startup
+       afsmnghr/dockemacs:1.12.1 startup
 '
 #+end_src
 
@@ -210,6 +210,15 @@ case "$TERM" in
         ;;
 esac
 #+end_src
+
+Prepare gpg settings.
+
+#+BEGIN_SRC conf :tangle no
+# ~/.gnupg/gpg.conf
+
+use-agent
+pinentry-mode loopback
+#+END_SRC
 
 **** Starting
 
@@ -940,7 +949,6 @@ Remote management with tramp
 (use-package css-mode :defer t)
 (use-package sass-mode :defer t
   :mode (("\\.scss" . sass-mode)))
-(use-package csv-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package company-web :defer t)
 (use-package web-mode :defer t
