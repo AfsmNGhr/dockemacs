@@ -5,10 +5,10 @@
 
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.org/AfsmNGhr/dockemacs][https://travis-ci.org/AfsmNGhr/dockemacs.svg?branch=master]]
-[[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/version/afsmnghr/dockemacs.svg]]
-[[https://microbadger.com/images/afsmnghr/dockemacs][https://images.microbadger.com/badges/image/afsmnghr/dockemacs.svg]]
-[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat-square]]
-[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat-square]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/v/afsmnghr/dockemacs?style=flat]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/image-size/afsmnghr/dockemacs]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/pulls/afsmnghr/dockemacs.svg?style=flat]]
+[[https://hub.docker.com/r/afsmnghr/dockemacs/][https://img.shields.io/docker/stars/afsmnghr/dockemacs.svg?style=flat]]
 
 [[https://i.imgur.com/V6vlv7Q.gif]]
 
@@ -852,10 +852,10 @@ Browser style [[https://github.com/keyword-search/keyword-search][keyword search
 (use-package keyword-search :defer t
   :bind ("C-c s" . keyword-search)
   :custom ((afsmnghr/search-alist
-            '((t/ya-en-ru . "https://translate.yandex.ru/m/translate?text=%s&lang=en-ru")
-             (t/ya-ru-en . "https://translate.yandex.ru/m/translate?text=%s&lang=ru-en")
-             (reddit . "https://www.reddit.com/search?q=%s")
-             (mix/youtube . "https://www.youtube.com/results?search_query=%s+music+mix+-live+-playlist,+long,+week")))
+            '((t/ya-en-ru . "https://translate.yandex.ru/?text=%s&lang=en-ru")
+             (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en")
+             (alpine/pkgs . "https://pkgs.alpinelinux.org/packages?name=%s")
+             (reddit . "https://www.reddit.com/search?q=%s")))
            (keyword-search-alist (append keyword-search-alist afsmnghr/search-alist))))
 #+end_src
 
