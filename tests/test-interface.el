@@ -11,7 +11,7 @@
 (describe "Customize"
           (it "custom file"
               (expect (princ custom-file)
-                      :to-equal (concat user-emacs-directory "custom.el"))))
+                      :to-equal null-device)))
 
 (describe "UI"
           (it "menu-bar"

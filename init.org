@@ -366,10 +366,12 @@ Benchmarking =init.el=.
 
 *** Interface
 
-Set custom file.
+Don't store customizations.
 
 #+begin_src elisp
-(setq custom-file (concat user-emacs-directory "custom.el"))
+(use-package cus-edit :defer t :ensure f
+  :commands (customize-set-variable)
+  :custom (custom-file null-device))
 #+end_src
 
 Short, answering yes or no.
