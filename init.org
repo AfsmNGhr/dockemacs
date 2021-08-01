@@ -21,7 +21,6 @@
   - [[#starting][Starting]]
 + [[#initialization][Initialization]]
 + [[#perfomance][Performance]]
-  - [[#rapid-startup][Rapid startup]]
   - [[#garbage-collector][Garbage collector]]
 + [[#package-management][Package management]]
 + [[#interface][Interface]]
@@ -249,32 +248,7 @@ Tangling with emacs script. See [[https://www.lunaryorn.com/posts/emacs-script-p
 
 *** Perfomance
 
-**** Rapid startup
-
-Set lexical scoping for the init file.
-
-#+begin_src elisp
-;;; -*- lexical-binding: t -*-
-#+end_src
-
-Avoid garbage collection during startup.
-
-#+begin_src elisp
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
-#+end_src
-
-Clear files, temporarily.
-
-#+begin_src elisp
-(defvar afsmnghr/file-name-handler-alist file-name-handler-alist)
-
-(setq file-name-handler-alist nil)
-#+end_src
-
 **** Garbage collector
-
-[[http://akrl.sdf.org/][Use garbage collection hack]].
 
 #+BEGIN_SRC elisp
 (defmacro k-time (&rest body)
@@ -475,8 +449,6 @@ Enable built-in modes.
 (global-font-lock-mode t)
 (global-auto-revert-mode t)
 (delete-selection-mode t)
-(global-linum-mode t)
-(auto-fill-mode 1)
 #+end_src
 
 Set external browser with [[file:sbin/browser-remote][wrapper]].
@@ -502,8 +474,7 @@ Set utf-8 everywhere.
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (setq buffer-file-coding-system 'utf-8
-      file-name-coding-system 'utf-8
-      x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+      file-name-coding-system 'utf-8)
 #+end_src
 
 **** Indentation
@@ -609,7 +580,8 @@ Reverse input.
   :init (recentf-mode 1)
   :commands recentf-mode
   :custom ((recentf-max-saved-items 30)
-           (recentf-keep '(file-remote-p file-readable-p))))
+           (recentf-keep '(file-remote-p file-readable-p)))
+  :config (run-with-idle-timer 10 t 'recentf-save-list))
 #+end_src
 
 **** Bookmarks
@@ -655,13 +627,6 @@ tangled, and the tangled file is compiled."
   (setq gc-cons-threshold 5000000
         gc-cons-percentage 0.1))
 
-(defun afsmnghr/emacs-startup-hook ()
-  "Make faster startup"
-  (setq file-name-handler-alist afsmnghr/file-name-handler-alist
-        gc-cons-threshold 5000000
-        gc-cons-percentage 0.1))
-
-(add-hook 'emacs-startup-hook #'afsmnghr/emacs-startup-hook)
 (add-hook 'minibuffer-setup-hook #'afsmnghr/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'afsmnghr/minibuffer-exit-hook)
 (add-hook 'after-save-hook #'tangle-init)

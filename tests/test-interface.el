@@ -55,11 +55,7 @@
           (it "auto-revert"
               (expect (princ global-auto-revert-mode) :to-be t))
           (it "delete-selection"
-              (expect (princ delete-selection-mode) :to-be t))
-          (it "linum-mode"
-              (expect (princ global-linum-mode) :to-be t))
-          (xit "auto-fill"
-              (expect (princ auto-fill-mode) :to-be t)))
+              (expect (princ delete-selection-mode) :to-be t)))
 
 (describe "External browser"
           (it "url-browser-function"

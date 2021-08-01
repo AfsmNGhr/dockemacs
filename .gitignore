@@ -13,3 +13,4 @@
 !themes/*
 !snippets/
 !default.json
+!early-init.el
