@@ -3,8 +3,6 @@ language: minimal
 services:
   - docker
 
-sudo: required
-
 git:
   depth: 1
 
@@ -18,7 +16,7 @@ script:
   - echo '' > .dockerignore
   - docker build -t "$TRAVIS_BUILD_NUMBER" -f Dockerfile $(pwd)
   - env | grep 'TRAVIS_*' > travis.env
-  - docker run --rm -t --env-file travis.env "$TRAVIS_BUILD_NUMBER"
+  - docker run --rm -t --env-file travis.env --security-opt=seccomp=default.json "$TRAVIS_BUILD_NUMBER"
 
 after_success:
   - export $(cat .env)
