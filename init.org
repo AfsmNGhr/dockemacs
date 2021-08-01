@@ -710,11 +710,6 @@ Use [[http://company-mode.github.io/][modern completion framework]].
   :init (company-ycmd-setup))
 
 (use-package company-shell :defer t :after company)
-
-(use-package company-statistics :defer t
-  :after company
-  :commands company-statistics-mode
-  :init (company-statistics-mode))
 #+end_src
 
 *** VCS
