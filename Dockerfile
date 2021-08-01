@@ -28,7 +28,7 @@ ENV UNAME=emacser \
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash python curl gnutls-utils && \
+    apk add --no-cache bash python3 curl gnutls-utils && \
     git clone --depth 1 https://github.com/cask/cask.git "$CASK" && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
