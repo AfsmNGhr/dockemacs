@@ -20,6 +20,7 @@ script:
 
 after_success:
   - export $(cat .env)
+  - docker run --rm -it "$REPO:$COMMIT" emacs
   - export ID=`docker run --rm -dt "$REPO:$COMMIT" emacs`
   - docker ps
   - docker export "$ID" | docker import - "$REPO:$VERSION"
