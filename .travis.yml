@@ -20,9 +20,7 @@ script:
 
 after_success:
   - export $(cat .env)
-  - docker run --rm -it "$REPO:$COMMIT" emacs
-  - export ID=`docker run --rm -dt "$REPO:$COMMIT" emacs`
-  - docker ps
+  - export ID=`docker run --rm -dt --security-opt=seccomp=default.json "$REPO:$COMMIT" emacs`
   - docker export "$ID" | docker import - "$REPO:$VERSION"
   - docker stop "$ID"
   - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
