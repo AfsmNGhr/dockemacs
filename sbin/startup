@@ -6,11 +6,12 @@ ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig"
 ln -s "$WORKSPACE/.ssh" "$HOME/.ssh"
 ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg"
 
-cd "$HOME/.emacs.d" || exit
-
-if [ ! -d "$HOME/.emacs.d/.git" ]; then
-    git clone --depth 1 "$REPOSITORY" .
+if [ ! -d "$HOME/.emacs.d" ]; then
+    cd "$HOME"
+    git clone --depth 1 "$REPOSITORY" .emacs.d
 fi
+
+cd "$HOME/.emacs.d"
 
 git fetch origin "$BRANCH" -j "$(nproc)" || true
 
