@@ -7,4 +7,6 @@
 (org-babel-tangle)
 (load-file (concat user-emacs-directory "init.el"))
 (byte-compile-file (concat user-emacs-directory "init.el"))
+(if (file-exists-p (concat user-emacs-directory "early-init.el"))
+  (byte-compile-file (concat user-emacs-directory "early-init.el")))
 (setq gc-cons-threshold 800000)
