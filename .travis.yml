@@ -21,7 +21,9 @@ script:
 after_success:
   - export $(cat .env)
   - export ID=`docker run --rm -dt "$REPO:$COMMIT" emacs`
+  - docker ps
   - docker export "$ID" | docker import - "$REPO:$VERSION"
+  - docker stop "$ID"
   - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
   - docker tag "$REPO:$VERSION" "$REPO:latest"
   - docker push "$REPO"
