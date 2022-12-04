@@ -25,5 +25,6 @@ after_success:
   - docker stop "$ID"
   - echo "$DOCKER_PASS" | docker login -u="$DOCKER_USER" --password-stdin
   - docker tag "$REPO:$VERSION" "$REPO:latest"
+  - docker push "$REPO:$VERSION"
   - docker push "$REPO"
   - docker logout
