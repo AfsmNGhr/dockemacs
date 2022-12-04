@@ -329,15 +329,6 @@ Key-bindings.
 (use-package bind-key)
 #+END_SRC
 
-Benchmarking =init.el=.
-
-#+begin_src elisp
-;; (use-package benchmark-init
-;;   :init (benchmark-init/activate)
-;;   :commands (benchmark-init/activate)
-;;   :hook (emacs-startup . benchmark-init/deactivate))
-#+end_src
-
 *** Interface
 
 Don't store customizations.
