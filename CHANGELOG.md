@@ -1,3 +1,8 @@
+## 1.14.0 (2022-12-04)
+
+* Emacs version is `28.2-r0`
+* Update base image to `alpine:3.17.0`
+
 ## 1.13.0 (2021-10-09)
 
 * Emacs version is `27.2-r0`
