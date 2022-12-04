@@ -332,10 +332,10 @@ Key-bindings.
 Benchmarking =init.el=.
 
 #+begin_src elisp
-(use-package benchmark-init
-  :init (benchmark-init/activate)
-  :commands (benchmark-init/activate)
-  :hook (emacs-startup . benchmark-init/deactivate))
+;; (use-package benchmark-init
+;;   :init (benchmark-init/activate)
+;;   :commands (benchmark-init/activate)
+;;   :hook (emacs-startup . benchmark-init/deactivate))
 #+end_src
 
 *** Interface
