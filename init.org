@@ -92,7 +92,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.13.0 startup
+       afsmnghr/dockemacs:1.14.0 startup
 '
 #+end_src
 
@@ -328,15 +328,6 @@ Key-bindings.
 #+BEGIN_SRC elisp
 (use-package bind-key)
 #+END_SRC
-
-Benchmarking =init.el=.
-
-#+begin_src elisp
-(use-package benchmark-init
-  :init (benchmark-init/activate)
-  :commands (benchmark-init/activate)
-  :hook (emacs-startup . benchmark-init/deactivate))
-#+end_src
 
 *** Interface
 
