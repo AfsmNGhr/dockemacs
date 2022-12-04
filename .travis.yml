@@ -23,7 +23,7 @@ after_success:
   - export ID=`docker run --rm -dt --security-opt=seccomp=default.json "$REPO:$COMMIT" emacs`
   - docker export "$ID" | docker import - "$REPO:$VERSION"
   - docker stop "$ID"
-  - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+  - echo "$DOCKER_PASS" | docker login -u="$DOCKER_USER" --password-stdin
   - docker tag "$REPO:$VERSION" "$REPO:latest"
   - docker push "$REPO"
   - docker logout
