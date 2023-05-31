@@ -1,7 +1,7 @@
 #+STARTUP: showall
 #+PROPERTY: header-args :tangle init.el :comments org
 
-** Dockemacs - the minimal emacs noX
+** The minimal emacs noX ([[https://github.com/AfsmNGhr/dockemacs/tree/dockemacs][Dockerized version]])
 
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.com/AfsmNGhr/dockemacs][https://travis-ci.com/AfsmNGhr/dockemacs.svg?branch=master]]
@@ -14,11 +14,6 @@
 
 *** Table of Contents                                                 :TOC:
 + [[#installation][Installation]]
-  - [[#docker][Docker]]
-  - [[#executable][Executable]]
-  - [[#environment-variables][Environment variables]]
-  - [[#escape-in-the-box][Escape in the box]]
-  - [[#starting][Starting]]
 + [[#initialization][Initialization]]
 + [[#perfomance][Performance]]
   - [[#garbage-collector][Garbage collector]]
@@ -67,164 +62,13 @@
 + [[#org][Org]]
 
 *** Installation
-**** Docker
 
-[[https://docs.docker.com/engine/installation/][Install Docker Engine]]
-
-Create emacs data volume.
+Download and run literate emacs configuration.
 
 #+begin_src shell :tangle no
-docker volume create emacs_data
-#+end_src
-
-**** Executable
-
-Add alias:
-
-#+begin_src shell :tangle no
-# ~/.bash_aliases or etc ...
-
-alias dockemacs='
-  docker run -it --rm --net=host \
-       --cpuset-cpus 0-1 \
-       --env-file $HOME/.dockemacs \
-       --entrypoint initialize "$@" \
-       -v $HOME:/mnt/workspace \
-       -v emacs_data:/home/emacser/.emacs.d \
-       -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.14.0 startup
-'
-#+end_src
-
-**** Environment variables
-
-Prepare =$HOME/.dockemacs=, check your =env=.
-
-#+begin_src shell :tangle no
-# default by
-
-## transparent permissions
-echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
-echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
-
-## user & group name in container
-echo "UNAME=emacser" >> $HOME/.dockemacs
-echo "GNAME=emacs" >> $HOME/.dockemacs
-
-## rewrite home path for new user
-echo "HOME=/home/emacser" >> $HOME/.dockemacs
-
-## mount path from host
-echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
-
-# required
-
-## set terminal env
-echo "TERM=xterm-256color" >> $HOME/.dockemacs
-
-## only relative path from workspace path
-echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
-
-## remote management through ssh
-echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
-echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
-echo "HOST_PORT=22" >> $HOME/.dockemacs
-
-## required for GUI application
-echo "DISPLAY=:0.0" >> $HOME/.dockemacs
-## setup browser for emacs
-echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
-
-## our repository dotemacs (first clone)
-echo "REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
-## our active branch
-echo "BRANCH=master" >> $HOME/.dockemacs
-
-# optional
-
-## force update our branch
-echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
-#+end_src
-
-**** Escape in the box
-
-Setup ssh server and restart.
-
-#+begin_src shell :tangle no
-# /etc/ssh/sshd_config
-
-ListenAddress 127.1
-#+end_src
-
-Setup ssh client. Create sockets path.
-
-#+begin_src shell :tangle no
-mkdir ~/.ssh/sockets
-#+end_src
-
-Speedup local connection.
-
-#+begin_src conf :tangle no
-# ~/.ssh/config
-
-Host *
-     ControlMaster auto
-     ControlPath ~/.ssh/sockets/%r@%h:%p
-     ControlPersist 4h
-     PreferredAuthentications publickey
-
-Host 127.1
-     Hostname 127.1
-     User "$HOST_USER"
-     Port "$HOST_PORT"
-     Compression no
-     Ciphers chacha20-poly1305@openssh.com
-     ForwardX11 no
-#+end_src
-
-Check [[https://serverfault.com/questions/253313/ssh-returns-bad-owner-or-permissions-on-ssh-config][permissions]] of config file.
-
-#+begin_src shell :tangle no
-sudo chmod 600 ~/.ssh/config
-#+end_src
-
-Add our ssh pub key to authorized_keys.
-
-#+begin_src shell :tangle no
-ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
-#+end_src
-
-For =SSH_CONNECTION= set =TERM=. Fixed tramp issues.
-
-#+begin_src shell :tangle no
-# ~/.bashrc
-
-if [ "$SSH_CONNECTION" ]; then
-    TERM='dumb'
-fi
-
-case "$TERM" in
-    ,*)
-        PS1='> '
-        ;;
-esac
-#+end_src
-
-Prepare gpg settings.
-
-#+BEGIN_SRC conf :tangle no
-# ~/.gnupg/gpg.conf
-
-use-agent
-pinentry-mode loopback
-#+END_SRC
-
-**** Starting
-
-Run and wait until the boot.
-
-#+begin_src shell :tangle no
-$ dockemacs
+$ git clone https://github.com/AfsmNGhr/dockemacs.git ~/.emacd.d
+$ ~/.emacs.d/sbin/tangle
+$ emacs
 #+end_src
 
 *** Initialization
@@ -273,20 +117,6 @@ Don't auto-initialize!
 (setq package-enable-at-startup nil
       package--init-file-ensured t)
 #+end_src
-
-[[https://github.com/bbatsov/prelude/issues/1225#issuecomment-511266025][Temporary fix issue of tls.]]
-
-#+BEGIN_SRC elisp
-(if (version< emacs-version "26.3")
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-#+END_SRC
-
-Disable check signature for Travis.
-
-#+BEGIN_SRC elisp
-(if (getenv "TRAVIS")
-    (setq package-check-signature nil))
-#+END_SRC
 
 The =use-package= declarative and performance-oriented.
 
@@ -440,13 +270,6 @@ Enable built-in modes.
 (global-font-lock-mode t)
 (global-auto-revert-mode t)
 (delete-selection-mode t)
-#+end_src
-
-Set external browser with [[file:sbin/browser-remote][wrapper]].
-
-#+begin_src elisp
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "/usr/local/sbin/browser-remote")
 #+end_src
 
 Dired listing settings.
