@@ -66,9 +66,9 @@
 Download and run literate emacs configuration.
 
 #+begin_src shell :tangle no
-$ git clone https://github.com/AfsmNGhr/dockemacs.git ~/.emacd.d
-$ ~/.emacs.d/sbin/tangle
-$ emacs
+git clone https://github.com/AfsmNGhr/dockemacs.git ~/.emacd.d
+~/.emacs.d/sbin/tangle
+emacs
 #+end_src
 
 *** Initialization
