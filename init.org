@@ -42,7 +42,7 @@
 + [[#project-management][Project management]]
   - projectile
 + [[#search][Search]]
-  - [[#ag][Ag]]
+  - [[#ripgrep][Ripgrep]]
 + [[#tags][Tags]]
   - dumb-jump
 + [[#devops][DevOps]]
@@ -199,7 +199,7 @@ Dialogs stay in emacs.
 #+begin_src elisp
 (setq use-dialog-box nil
       use-file-dialog nil
-      epa-pinentry-mode 'loopback)
+      epg-pinentry-mode 'loopback)
 #+end_src
 
 Unsorted settings.
@@ -321,7 +321,7 @@ Add comment fn.
 
 #+begin_src elisp
 (defun comment-or-uncomment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no active region."
+  "Un / Comments the region or the current line if there's no active region."
   (interactive)
   (let (beg end)
     (if (region-active-p)
@@ -490,17 +490,6 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 (use-package company :ensure t :defer 30
   :init (global-company-mode t)
   :commands global-company-mode
-  :preface
-  (defvar company-mode/enable-yas t
-    "Enable yasnippet for all backends.")
-
-  (defun company-mode/backend-with-yas (backend)
-    (if (or (not company-mode/enable-yas)
-            (and (listp backend)
-                 (member 'company-yasnippet backend)))
-        backend
-      (append (if (consp backend) backend (list backend))
-              '(:with company-yasnippet))))
   :custom ((company-backends
             (mapcar #'company-mode/backend-with-yas
                     '((company-capf company-shell company-dabbrev company-abbrev
@@ -588,12 +577,12 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 *** Search
 
-**** Ag
+**** Ripgrep
 
 Use it for projectile and dumb-jump.
 
 #+begin_src elisp
-(use-package ag :ensure t :defer t)
+(use-package ripgrep :ensure t :defer t)
 #+end_src
 
 *** Tags
@@ -602,14 +591,9 @@ Grepping tags.
 
 #+begin_src elisp
 (use-package dumb-jump :ensure t :defer t
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g i" . dumb-jump-go-prompt)
-         ("M-g x" . dumb-jump-go-prefer-external)
-         ("M-g z" . dumb-jump-go-prefer-external-other-window))
   :custom ((dumb-jump-selector 'ido)
            (dumb-jump-prefer-searcher 'git-grep)
-           (dumb-jump-force-searcher 'ag)))
+           (dumb-jump-force-searcher 'rg)))
 #+end_src
 
 *** DevOps
