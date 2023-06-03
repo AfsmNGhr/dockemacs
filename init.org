@@ -490,11 +490,8 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 (use-package company :ensure t :defer 30
   :init (global-company-mode t)
   :commands global-company-mode
-  :custom ((company-backends
-            (mapcar #'company-mode/backend-with-yas
-                    '((company-capf company-shell company-dabbrev company-abbrev
-                       company-files company-etags company-keywords))))
-           (company-idle-delay 1.0)
+  :custom ((company-backends '((company-files company-keywords company-capf company-dabbrev-code)))
+           (company-idle-delay 0.5)
            (company-tooltip-flip-when-above t)))
 
 (use-package company-flx :ensure t :defer t
@@ -502,14 +499,6 @@ Use [[http://company-mode.github.io/][modern completion framework]].
   :commands company-flx-mode
   :init (with-eval-after-load 'company
           (company-flx-mode +1)))
-
-(use-package company-ycmd :ensure t :defer t
-  :after company
-  :commands company-ycmd-setup
-  :init (company-ycmd-setup))
-
-(use-package company-shell :ensure t :defer t
-  :after company)
 #+end_src
 
 *** VCS
@@ -663,7 +652,6 @@ Major mode for =Dockerfile=.
 (use-package sass-mode :ensure t :defer t
   :mode (("\\.scss" . sass-mode)))
 (use-package yaml-mode :ensure t :defer t)
-(use-package company-web :ensure t :defer t)
 (use-package web-mode :ensure t :defer t
   :commands web-mode
   :mode (("\\.html?\\'" . web-mode)
