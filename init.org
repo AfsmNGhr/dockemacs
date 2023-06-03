@@ -41,13 +41,8 @@
   - [[#smerge-mode][Smerge-mode]]
 + [[#project-management][Project management]]
   - projectile
-+ [[#linters][Linters]]
-  - flycheck
-+ [[#snippets][Snippets]]
-  - yasnippet
 + [[#search][Search]]
   - [[#ag][Ag]]
-  - [[#keyword-search][Keyword search]]
 + [[#tags][Tags]]
   - dumb-jump
 + [[#devops][DevOps]]
@@ -127,8 +122,7 @@ The =use-package= declarative and performance-oriented.
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/"))
-      use-package-always-ensure t)
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (unless (version< emacs-version "25.1")
   (setq package-archive-priorities '(("melpa-stable" . 30)
@@ -150,13 +144,13 @@ The =use-package= declarative and performance-oriented.
 Diminished modes.
 
 #+BEGIN_SRC elisp
-(use-package delight)
+(use-package delight :ensure t)
 #+END_SRC
 
 Key-bindings.
 
 #+BEGIN_SRC elisp
-(use-package bind-key)
+(use-package bind-key :ensure t)
 #+END_SRC
 
 *** Interface
@@ -164,7 +158,7 @@ Key-bindings.
 Don't store customizations.
 
 #+begin_src elisp
-(use-package cus-edit :defer t :ensure f
+(use-package cus-edit :defer t
   :commands (customize-set-variable)
   :custom (custom-file null-device))
 #+end_src
@@ -181,6 +175,8 @@ Clear UI.
 (menu-bar-mode -1)
 (if tool-bar-mode
     (tool-bar-mode -1))
+(if scroll-bar-mode
+    (scroll-bar-mode -1))
 (column-number-mode -1)
 (blink-cursor-mode -1)
 (line-number-mode -1)
@@ -304,7 +300,7 @@ Prefer space indentation.
 **** Autopair
 
 #+begin_src elisp
-(use-package elec-pair :ensure f
+(use-package elec-pair
   :commands electric-pair-mode
   :config (electric-pair-mode 1))
 #+end_src
@@ -312,7 +308,7 @@ Prefer space indentation.
 **** Whitespace
 
 #+begin_src elisp
-(use-package whitespace :ensure f
+(use-package whitespace
   :hook (prog-mode . whitespace-mode)
   :custom
   ((whitespace-line-column 120)
@@ -355,7 +351,7 @@ My keybindings almost defaulted.
 Reverse input.
 
 #+begin_src elisp
-(use-package reverse-im :defer 1
+(use-package reverse-im :ensure t :defer 1
   :commands reverse-im-activate
   :config (reverse-im-activate "russian-computer"))
 #+end_src
@@ -389,7 +385,7 @@ Reverse input.
 **** Recent files
 
 #+begin_src elisp
-(use-package recentf :defer t :ensure f
+(use-package recentf :defer t
   :after ido
   :init (recentf-mode 1)
   :commands recentf-mode
@@ -401,7 +397,7 @@ Reverse input.
 **** Bookmarks
 
 #+begin_src elisp
-(use-package bookmark :defer t :ensure f
+(use-package bookmark :defer t
   :after ido
   :custom (bookmark-save-flag t)
   :commands (bookmark-jump bookmark-all-names)
@@ -452,7 +448,7 @@ tangled, and the tangled file is compiled."
 Named buffers.
 
 #+begin_src elisp
-(use-package ace-window :defer t
+(use-package ace-window :ensure t :defer t
   :custom ((aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
            (aw-background nil)))
 #+end_src
@@ -464,9 +460,9 @@ Named buffers.
 Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Interactively DO things”) everywhere.
 
 #+begin_src elisp
-(use-package ido-hacks :defer 1)
+(use-package ido-hacks :ensure t :defer 1)
 
-(use-package flx-ido
+(use-package flx-ido :ensure t
   :after ido
   :commands (flx-ido-mode ido-everywhere flx-ido-mode)
   :init
@@ -480,7 +476,7 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
    (ido-virtual-buffers t)
    (ido-auto-merge-work-directories-length -1)))
 
-(use-package ido-completing-read+ :pin melpa-stable
+(use-package ido-completing-read+ :ensure t :pin melpa-stable
   :after ido
   :commands ido-ubiquitous-mode
   :init (ido-ubiquitous-mode 1))
@@ -491,7 +487,7 @@ Enable [[https://www.emacswiki.org/emacs/InteractivelyDoThings][ido]] (or “Int
 Use [[http://company-mode.github.io/][modern completion framework]].
 
 #+begin_src elisp
-(use-package company :defer 30
+(use-package company :ensure t :defer 30
   :init (global-company-mode t)
   :commands global-company-mode
   :preface
@@ -512,18 +508,19 @@ Use [[http://company-mode.github.io/][modern completion framework]].
            (company-idle-delay 1.0)
            (company-tooltip-flip-when-above t)))
 
-(use-package company-flx :defer t
+(use-package company-flx :ensure t :defer t
   :after company
   :commands company-flx-mode
   :init (with-eval-after-load 'company
           (company-flx-mode +1)))
 
-(use-package company-ycmd :defer t
+(use-package company-ycmd :ensure t :defer t
   :after company
   :commands company-ycmd-setup
   :init (company-ycmd-setup))
 
-(use-package company-shell :defer t :after company)
+(use-package company-shell :ensure t :defer t
+  :after company)
 #+end_src
 
 *** VCS
@@ -533,7 +530,7 @@ Use [[http://company-mode.github.io/][modern completion framework]].
 It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 
 #+begin_src elisp
-(use-package magit :defer 1
+(use-package magit :ensure t :defer 1
   :unless (version< emacs-version "24.4")
   :custom
   ((magit-completing-read-function 'magit-ido-completing-read)
@@ -551,7 +548,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 Travel back and forward in git history with [[https://github.com/pidu/git-timemachine][git time machine]].
 
 #+begin_src elisp
-(use-package git-timemachine :defer t
+(use-package git-timemachine :ensure t :defer t
   :unless (version< emacs-version "24.4"))
 #+end_src
 
@@ -560,7 +557,7 @@ Travel back and forward in git history with [[https://github.com/pidu/git-timema
 Merging conflicts.
 
 #+begin_src elisp
-(use-package smerge-mode :ensure f :defer t)
+(use-package smerge-mode :defer t)
 #+end_src
 
 *** Project management
@@ -568,7 +565,7 @@ Merging conflicts.
 Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 #+begin_src elisp
-  (use-package projectile :defer 1
+  (use-package projectile :ensure t :defer 1
     :delight '(:eval
                (propertize (concat " " (projectile-project-name))
                            'face '(:foreground "#FD971F")))
@@ -589,27 +586,6 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
      (projectile-completion-system 'ido)))
 #+end_src
 
-*** Linters
-
-Use modern [[http://www.flycheck.org/en/latest/][flycheck]].
-
-#+begin_src elisp
-(use-package flycheck :defer t
-  :custom
-  ((flycheck-check-syntax-automatically '(save mode-enabled))
-   (flycheck-display-errors-delay .3)))
-#+end_src
-
-*** Snippets
-
-No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
-
-#+begin_src elisp
-(use-package yasnippet :defer 15
-  :commands yas-global-mode
-  :config (yas-global-mode t))
-#+end_src
-
 *** Search
 
 **** Ag
@@ -617,22 +593,7 @@ No comments. [[https://www.emacswiki.org/emacs/Yasnippet][Yasnippet]].
 Use it for projectile and dumb-jump.
 
 #+begin_src elisp
-(use-package ag :defer t)
-#+end_src
-
-**** Keyword search
-
-Browser style [[https://github.com/keyword-search/keyword-search][keyword search]].
-
-#+begin_src elisp
-(use-package keyword-search :defer t
-  :bind ("C-c s" . keyword-search)
-  :custom ((afsmnghr/search-alist
-            '((t/ya-en-ru . "https://translate.yandex.ru/?text=%s&lang=en-ru")
-             (t/ya-ru-en . "https://translate.yandex.ru/?text=%s&lang=ru-en")
-             (alpine/pkgs . "https://pkgs.alpinelinux.org/packages?name=%s")
-             (reddit . "https://www.reddit.com/search?q=%s")))
-           (keyword-search-alist (append keyword-search-alist afsmnghr/search-alist))))
+(use-package ag :ensure t :defer t)
 #+end_src
 
 *** Tags
@@ -640,7 +601,7 @@ Browser style [[https://github.com/keyword-search/keyword-search][keyword search
 Grepping tags.
 
 #+begin_src elisp
-(use-package dumb-jump :defer t
+(use-package dumb-jump :ensure t :defer t
   :bind (("M-g o" . dumb-jump-go-other-window)
          ("M-g j" . dumb-jump-go)
          ("M-g i" . dumb-jump-go-prompt)
@@ -656,24 +617,15 @@ Grepping tags.
 Simple management docker containers.
 
 #+begin_src elisp
-(use-package docker :defer t
+(use-package docker :ensure t :defer t
   :unless (version< emacs-version "24.4"))
 #+end_src
 
 Major mode for =Dockerfile=.
 
 #+begin_src elisp
-(use-package dockerfile-mode :defer t
+(use-package dockerfile-mode :ensure t :defer t
   :mode (("Dockerfile\\'" . dockerfile-mode)))
-#+end_src
-
-Remote management with tramp
-
-#+begin_src elisp
-(use-package tramp :defer t :ensure f
-  :custom
-  ((auto-revert-remote-files t)
-   (shell-file-name "/bin/sh" "alpine based")))
 #+end_src
 
 *** Languages
@@ -681,7 +633,7 @@ Remote management with tramp
 **** Ruby
 
 #+begin_src elisp
-(use-package ruby-mode :defer t :ensure f
+(use-package ruby-mode :defer t
   :mode (("\\.cr\\'" . ruby-mode)
          (".irbrc" . ruby-mode)))
 #+end_src
@@ -689,24 +641,25 @@ Remote management with tramp
 **** Elixir
 
 #+BEGIN_SRC elisp
-(use-package elixir-mode :defer t)
+(use-package elixir-mode :ensure t :defer t)
 #+END_SRC
 
 **** Python
 
 #+begin_src elisp
-(use-package python :defer t :ensure f)
+(use-package python :defer t)
 #+end_src
 
 **** Javascript
 
 #+begin_src elisp
-(use-package typescript-mode :defer t
+(use-package typescript-mode :ensure t :defer t
   :custom (typescript-indent-level 2))
 
-(use-package json :custom (js-indent-level 2))
+(use-package json :ensure t :defer t
+  :custom (js-indent-level 2))
 
-(use-package js2-mode :defer t
+(use-package js2-mode :ensure t :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.json\\'" . javascript-mode))
   :commands js2-mode
@@ -721,13 +674,13 @@ Remote management with tramp
 *** Templates
 
 #+begin_src elisp
-(use-package markdown-mode :defer t)
-(use-package css-mode :defer t)
-(use-package sass-mode :defer t
+(use-package markdown-mode :ensure t :defer t)
+(use-package css-mode :ensure t :defer t)
+(use-package sass-mode :ensure t :defer t
   :mode (("\\.scss" . sass-mode)))
-(use-package yaml-mode :defer t)
-(use-package company-web :defer t)
-(use-package web-mode :defer t
+(use-package yaml-mode :ensure t :defer t)
+(use-package company-web :ensure t :defer t)
+(use-package web-mode :ensure t :defer t
   :commands web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.erb\\'" . web-mode)
@@ -754,7 +707,7 @@ Save =org= buffers.
 Main =org=.
 
 #+begin_src elisp
-(use-package org :defer 5 :ensure f
+(use-package org :defer 3
   :config
   (custom-set-variables
    '(org-babel-load-languages
@@ -775,7 +728,7 @@ Main =org=.
 Org faces. Prepare colors for to do list.
 
 #+begin_src elisp
-(use-package org-faces :ensure f
+(use-package org-faces
   :after org
   :custom
   ((org-todo-keyword-faces
@@ -790,7 +743,7 @@ Org faces. Prepare colors for to do list.
 Org blocks of sources.
 
 #+begin_src elisp
-(use-package org-src :ensure f
+(use-package org-src
   :after org
   :custom
   ((org-src-fontify-natively t)
@@ -804,7 +757,7 @@ Org blocks of sources.
 Org agenda settings.
 
 #+begin_src elisp
-(use-package org-agenda :ensure f
+(use-package org-agenda
   :after org
   :custom
   ((org-agenda-files (list org-directory (concat org-directory "orgzly")))
@@ -821,7 +774,7 @@ Org agenda settings.
 Org protocol.
 
 #+begin_src elisp
-(use-package org-protocol :ensure f :defer t
+(use-package org-protocol :defer t
   :after org
   :custom (org-protocol-default-template-key "L"))
 #+end_src
@@ -829,7 +782,7 @@ Org protocol.
 Org capturing.
 
 #+begin_src elisp
-(use-package org-capture :ensure f :defer t
+(use-package org-capture :defer t
   :after org
   :preface
   (defconst afsmnghr/org-capture-templates
@@ -849,7 +802,7 @@ Org capturing.
 Timetracking.
 
 #+begin_src elisp
-(use-package org-clock :ensure f :defer t
+(use-package org-clock :defer t
   :after org
   :commands org-clock-persistence-insinuate
   :custom
@@ -872,14 +825,14 @@ Timetracking.
 Notes.
 
 #+BEGIN_SRC elisp
-(use-package deft
+(use-package deft :ensure t :defer t
   :commands deft
-  :after org
   :bind
   (:map global-map ("C-c d" . deft)
    :map deft-mode-map ("C-c d f" . deft-find-file))
   :custom
-  ((deft-default-extension "org")
+  ((deft-extensions '("md" "org"))
+   (deft-default-extension "md")
    (deft-recursive t)
    (deft-directory (concat org-directory "notes"))
    (deft-use-filename-as-title nil)
