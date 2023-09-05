@@ -175,8 +175,6 @@ Clear UI.
 (menu-bar-mode -1)
 (if tool-bar-mode
     (tool-bar-mode -1))
-(if scroll-bar-mode
-    (scroll-bar-mode -1))
 (column-number-mode -1)
 (blink-cursor-mode -1)
 (line-number-mode -1)
