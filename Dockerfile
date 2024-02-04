@@ -1,4 +1,4 @@
-FROM alpine:3.17.0 as base
+FROM alpine:3.19.1 AS base
 
 RUN apk update && \
     apk upgrade && \

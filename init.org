@@ -1,7 +1,7 @@
 #+STARTUP: showall
 #+PROPERTY: header-args :tangle init.el :comments org
 
-** The minimal emacs noX ([[https://github.com/AfsmNGhr/dockemacs/tree/dockemacs][Dockerized version]])
+** Dockemacs - the minimal emacs noX
 
 [[https://coveralls.io/github/AfsmNGhr/dockemacs?branch=master][https://coveralls.io/repos/github/AfsmNGhr/dockemacs/badge.svg?branch=master]]
 [[https://travis-ci.com/AfsmNGhr/dockemacs][https://travis-ci.com/AfsmNGhr/dockemacs.svg?branch=master]]
@@ -42,14 +42,12 @@
 + [[#project-management][Project management]]
   - projectile
 + [[#search][Search]]
-  - [[#ripgrep][Ripgrep]]
+  - [[#ag][Ag]]
 + [[#tags][Tags]]
   - dumb-jump
 + [[#devops][DevOps]]
   - Docker
-  - Tramp
 + [[#languages][Languages]]
-  - [[#ruby][Ruby]]
   - [[#elixir][Elixir]]
   - [[#python][Python]]
   - [[#javascript][Javascript]]
@@ -58,12 +56,164 @@
 
 *** Installation
 
-Download and run literate emacs configuration.
+**** Docker
+
+[[https://docs.docker.com/engine/installation/][Install Docker Engine]]
+
+Create emacs data volume.
 
 #+begin_src shell :tangle no
-git clone https://github.com/AfsmNGhr/dockemacs.git ~/.emacs.d
-~/.emacs.d/sbin/tangle
-emacs
+docker volume create emacs_data
+#+end_src
+
+**** Executable
+
+Add alias:
+
+#+begin_src shell :tangle no
+# ~/.bash_aliases or etc ...
+
+alias dockemacs='
+  docker run -it --rm --net=host \
+       --cpuset-cpus 0-1 \
+       --env-file $HOME/.dockemacs \
+       --entrypoint initialize "$@" \
+       -v $HOME:/mnt/workspace \
+       -v emacs_data:/home/emacser/.emacs.d \
+       -v /etc/localtime:/etc/localtime:ro \
+       afsmnghr/dockemacs:1.14.0 startup
+'
+#+end_src
+
+**** Environment variables
+
+Prepare =$HOME/.dockemacs=, check your =env=.
+
+#+begin_src shell :tangle no
+# default by
+
+## transparent permissions
+echo "UID=$(id -u)" >> $HOME/.dockemacs # 1000
+echo "GID=$(id -g)" >> $HOME/.dockemacs # 100
+
+## user & group name in container
+echo "UNAME=emacser" >> $HOME/.dockemacs
+echo "GNAME=emacs" >> $HOME/.dockemacs
+
+## rewrite home path for new user
+echo "HOME=/home/emacser" >> $HOME/.dockemacs
+
+## mount path from host
+echo "WORKSPACE=/mnt/workspace" >> $HOME/.dockemacs
+
+# required
+
+## set terminal env
+echo "TERM=xterm-256color" >> $HOME/.dockemacs
+
+## only relative path from workspace path
+echo "ORG_FILES=Documents/org/" >> $HOME/.dockemacs
+
+## remote management through ssh
+echo "HOST_USER=afsmnghr" >> $HOME/.dockemacs
+echo "HOST_IP=127.1" >> $HOME/.dockemacs # only work with --net=host
+echo "HOST_PORT=22" >> $HOME/.dockemacs
+
+## required for GUI application
+echo "DISPLAY=:0.0" >> $HOME/.dockemacs
+## setup browser for emacs
+echo "WEB_BROWSER=chromium" >> $HOME/.dockemacs
+
+## our repository dotemacs (first clone)
+echo "REPOSITORY=https://github.com/AfsmNGhr/dockemacs.git" >> $HOME/.dockemacs
+## our active branch
+echo "BRANCH=master" >> $HOME/.dockemacs
+
+# optional
+
+## force update our branch
+echo "HEAD_FORCE=true" >> $HOME/.dockemacs # git reset --hard
+#+end_src
+
+**** Escape in the box
+
+Setup ssh server and restart.
+
+#+begin_src shell :tangle no
+# /etc/ssh/sshd_config
+
+ListenAddress 127.1
+#+end_src
+
+Setup ssh client. Create sockets path.
+
+#+begin_src shell :tangle no
+mkdir ~/.ssh/sockets
+#+end_src
+
+Speedup local connection.
+
+#+begin_src conf :tangle no
+# ~/.ssh/config
+
+Host *
+     ControlMaster auto
+     ControlPath ~/.ssh/sockets/%r@%h:%p
+     ControlPersist 4h
+     PreferredAuthentications publickey
+
+Host 127.1
+     Hostname 127.1
+     User "$HOST_USER"
+     Port "$HOST_PORT"
+     Compression no
+     Ciphers chacha20-poly1305@openssh.com
+     ForwardX11 no
+#+end_src
+
+Check [[https://serverfault.com/questions/253313/ssh-returns-bad-owner-or-permissions-on-ssh-config][permissions]] of config file.
+
+#+begin_src shell :tangle no
+sudo chmod 600 ~/.ssh/config
+#+end_src
+
+Add our ssh pub key to authorized_keys.
+
+#+begin_src shell :tangle no
+ssh-copy-id "$HOST_USER@$HOST_IP" -p "$HOST_PORT"
+#+end_src
+
+For =SSH_CONNECTION= set =TERM=. Fixed tramp issues.
+
+#+begin_src shell :tangle no
+# ~/.bashrc
+
+if [ "$SSH_CONNECTION" ]; then
+    TERM='dumb'
+fi
+
+case "$TERM" in
+    ,*)
+        PS1='> '
+        ;;
+esac
+#+end_src
+
+Prepare gpg settings.
+
+#+BEGIN_SRC conf :tangle no
+# ~/.gnupg/gpg.conf
+
+use-agent
+pinentry-mode loopback
+#+END_SRC
+
+**** Starting
+
+Run and wait until the boot.
+
+#+begin_src shell :tangle no
+$ dockemacs
 #+end_src
 
 *** Initialization
@@ -361,8 +511,7 @@ Reverse input.
       history-delete-duplicates t
       savehist-save-minibuffer-history 1
       savehist-autosave-interval 60
-      savehist-additional-variables '(search-ring regexp-search-ring
-                                                  comint-input-ring))
+      savehist-additional-variables '(search-ring regexp-search-ring comint-input-ring))
 
 (savehist-mode 1)
 #+end_src
@@ -490,7 +639,8 @@ Use [[http://company-mode.github.io/][modern completion framework]].
   :commands global-company-mode
   :custom ((company-backends '((company-files company-keywords company-capf company-dabbrev-code)))
            (company-idle-delay 0.5)
-           (company-tooltip-flip-when-above t)))
+           (company-tooltip-flip-when-above t)
+           (company-dabbrev-downcase nil)))
 
 (use-package company-flx :ensure t :defer t
   :after company
@@ -564,12 +714,12 @@ Setup [[https://github.com/bbatsov/projectile][projectile]].
 
 *** Search
 
-**** Ripgrep
+**** Ag
 
 Use it for projectile and dumb-jump.
 
 #+begin_src elisp
-(use-package ripgrep :ensure t :defer t)
+(use-package ag :ensure t :defer t)
 #+end_src
 
 *** Tags
@@ -578,9 +728,14 @@ Grepping tags.
 
 #+begin_src elisp
 (use-package dumb-jump :ensure t :defer t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
   :custom ((dumb-jump-selector 'ido)
            (dumb-jump-prefer-searcher 'git-grep)
-           (dumb-jump-force-searcher 'rg)))
+           (dumb-jump-force-searcher 'ag)))
 #+end_src
 
 *** DevOps
@@ -600,14 +755,6 @@ Major mode for =Dockerfile=.
 #+end_src
 
 *** Languages
-
-**** Ruby
-
-#+begin_src elisp
-(use-package ruby-mode :defer t
-  :mode (("\\.cr\\'" . ruby-mode)
-         (".irbrc" . ruby-mode)))
-#+end_src
 
 **** Elixir
 
@@ -654,7 +801,9 @@ Major mode for =Dockerfile=.
   :commands web-mode
   :mode (("\\.html?\\'" . web-mode)
          ("\\.erb\\'" . web-mode)
-         ("\\.vue" . web-mode))
+         ("\\.vue" . web-mode)
+         ("\\.jsx" . web-mode)
+         ("\\.tsx" . web-mode))
   :custom ((web-mode-markup-indent-offset 2)
            (web-mode-enable-auto-pairing t)
            (web-mode-enable-current-element-highlight t)
@@ -681,7 +830,7 @@ Main =org=.
   :config
   (custom-set-variables
    '(org-babel-load-languages
-     (quote ((emacs-lisp . t) (python . t) (shell . t) (ruby . t) (js . t) (sql . t))))
+     (quote ((emacs-lisp . t) (python . t) (shell . t) (js . t) (sql . t))))
    '(org-confirm-babel-evaluate nil))
   :custom
   ((org-log-done t)
