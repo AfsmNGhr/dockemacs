@@ -80,7 +80,7 @@ alias dockemacs='
        -v $HOME:/mnt/workspace \
        -v emacs_data:/home/emacser/.emacs.d \
        -v /etc/localtime:/etc/localtime:ro \
-       afsmnghr/dockemacs:1.15.0 startup
+       afsmnghr/dockemacs startup
 '
 #+end_src
 
