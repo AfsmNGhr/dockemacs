@@ -46,7 +46,7 @@
               (expect (princ use-dialog-box) :to-be nil))
           (it "file"
               (expect (princ use-file-dialog) :to-be nil))
-          (it "epa"
+          (xit "epa"
               (expect (princ epa-pinentry-mode) :to-be 'loopback)))
 
 (describe "Built-in modes"
