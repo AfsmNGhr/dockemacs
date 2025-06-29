@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'undercover-init.el)
 
 (describe "Indentation"
