@@ -344,7 +344,7 @@ Time in the modeline.
 Use external browser.
 
 #+begin_src elisp
-(setq browse-url-browser-function 'browse-url-generic-program
+(setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "/usr/local/sbin/browser-remote")
 #+end_src
 
