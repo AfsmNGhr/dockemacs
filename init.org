@@ -341,6 +341,13 @@ Time in the modeline.
 (display-time-mode)
 #+end_src
 
+Use external browser.
+
+#+begin_src elisp
+(setq browse-url-browser-function 'browse-url-generic-program
+      browse-url-generic-program "/usr/local/sbin/browser-remote")
+#+end_src
+
 Dialogs stay in emacs.
 
 #+begin_src elisp

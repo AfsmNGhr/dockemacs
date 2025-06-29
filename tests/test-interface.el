@@ -60,10 +60,10 @@
               (expect (princ delete-selection-mode) :to-be t)))
 
 (describe "External browser"
-          (xit "url-browser-function"
+          (it "url-browser-function"
               (expect (princ browse-url-browser-function)
                       :to-be 'browse-url-generic))
-          (xit "url-generic-program"
+          (it "url-generic-program"
               (expect (princ browse-url-generic-program)
                       :to-equal "/usr/local/sbin/browser-remote")))
 
