@@ -1,0 +1,52 @@
+name: Build and push dockemacs
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  REPO: afsmnghr/dockemacs
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build base image
+        run: docker build --target base -t "$REPO:$GITHUB_SHA" -f Dockerfile .
+
+      - name: Build final image
+        run: |
+          echo '' > .dockerignore
+          docker build -t "$REPO:$GITHUB_RUN_ID" -f Dockerfile .
+
+      - name: Test the image
+        run: docker run --rm -t "$REPO:$GITHUB_RUN_ID"
+
+      - name: Export and re-import image
+        run: |
+          ID=$(docker run --rm -dt "$REPO:$GITHUB_SHA" emacs)
+          docker export "$ID" | docker import - "$REPO:$VERSION"
+          docker stop "$ID"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Push versioned image
+        run: |
+          docker tag "$REPO:$VERSION" "$REPO:latest"
+          docker push "$REPO:$VERSION"
+          docker push "$REPO:latest"
