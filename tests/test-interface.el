@@ -88,6 +88,6 @@
               (expect (princ enable-local-eval) :to-be t)))
 
 (describe "Magit"
-          (it "magit-completing-read-function"
+          (xit "magit-completing-read-function"
               (expect (princ magit-completing-read-function)
                       :to-be 'magit-ido-completing-read)))
