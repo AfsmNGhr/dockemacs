@@ -668,7 +668,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 (use-package magit :ensure t :defer 1
   :unless (version< emacs-version "24.4")
   :custom
-  ((magit-completing-read-function 'magit-completing-read)
+  ((magit-completing-read-function 'magit-ido-completing-read)
    (magit-branch-arguments nil)
    (magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
    (magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
@@ -676,6 +676,8 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
    (magit-push-always-verify nil)
    (magit-restore-window-configuration t)
    (vc-handled-backends nil)))
+
+(use-package magit-ido :ensure t :defer 1 :after magit)
 #+end_src
 
 **** Git time machine
