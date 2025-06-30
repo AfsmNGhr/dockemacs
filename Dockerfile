@@ -4,7 +4,7 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
         su-exec emacs-nox the_silver_searcher git openssh-client libressl \
-        gnupg xdg-utils && \
+        gnupg && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /var/log/* ~/.cache
 
 COPY sbin/* /usr/local/sbin/
