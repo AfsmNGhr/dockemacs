@@ -40,6 +40,7 @@ CMD cd "$HOME/.emacs.d" && \
     ln -s "$WORKSPACE/.gitconfig" "$HOME/.gitconfig" && \
     ln -s "$WORKSPACE/.ssh" "$HOME/.ssh" && \
     ln -s "$WORKSPACE/.gnupg" "$HOME/.gnupg" && \
+    ln -s "$WORKSPACE/.mu" "$HOME/.mu" && \
     ln -s "$WORKSPACE/.mail" "$HOME/.mail" && \
     ln -s "$WORKSPACE/.mbsyncrc" "$HOME/.mbsyncrc" && \
     ln -s "$WORKSPACE/.msmtprc" "$HOME/.msmtprc" && \

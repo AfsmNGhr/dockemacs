@@ -710,6 +710,8 @@ Merging conflicts.
    (mu4e-update-interval (* 10 60))
    (mu4e-get-mail-command "mbsync -a")
    (mu4e-maildir "~/.mail")
+   (mu4e-modeline-prefix "📧 ")
+   (mu4e-modeline-mode t)
    (mu4e-compose-format-flowed t)
    (message-send-mail-function 'smtpmail-send-it)
    (mu4e-maildir-shortcuts
