@@ -38,6 +38,8 @@
   - [[#magit][Magit]]
   - [[#git-time-machine][Git time machine]]
   - [[#smerge-mode][Smerge-mode]]
++ [[#email][Email]]
+  - mu4e
 + [[#project-management][Project management]]
   - projectile
 + [[#search][Search]]
@@ -695,6 +697,23 @@ Merging conflicts.
 
 #+begin_src elisp
 (use-package smerge-mode :defer t)
+#+end_src
+
+*** Email
+
+[[https://www.djcbsoftware.nl/code/mu/mu4e/index.html][mu4e]] (mu-for-emacs) is an e-mail client for GNU Emacs.
+
+#+begin_src elisp
+(use-package mu4e :ensure nil :defer 5
+  :custom
+  ((mu4e-change-filenames-when-moving t)
+   (mu4e-get-mail-command "mbsync -a")
+   (mu4e-update-interval 300)
+   (mu4e-maildir "~/.mail")
+   (mu4e-modeline-prefix "")
+   (mu4e-modeline-mode t)
+   (mu4e-compose-format-flowed t)
+   (message-send-mail-function 'smtpmail-send-it)))
 #+end_src
 
 *** Project management
