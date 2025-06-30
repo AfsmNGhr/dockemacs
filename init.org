@@ -576,7 +576,7 @@ Reverse input.
     ad-do-it))
 
 (defun tangle-init ()
-  "If the current buffer is 'init.org' the code-blocks are
+  "If the current buffer is \='init.org' the code-blocks are
 tangled, and the tangled file is compiled."
   (when (equal (buffer-file-name)
                (expand-file-name (concat user-emacs-directory "init.org")))
@@ -668,7 +668,7 @@ It's [[https://magit.vc/][Magit!]] A Git porcelain inside Emacs.
 (use-package magit :ensure t :defer 1
   :unless (version< emacs-version "24.4")
   :custom
-  ((magit-completing-read-function 'magit-ido-completing-read)
+  ((magit-completing-read-function 'magit-completing-read)
    (magit-branch-arguments nil)
    (magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
    (magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
