@@ -705,21 +705,15 @@ Merging conflicts.
 
 #+begin_src elisp
 (use-package mu4e :ensure nil :defer 5
-  :config
+  :custom
   ((mu4e-change-filenames-when-moving t)
-   (mu4e-update-interval (* 10 60))
    (mu4e-get-mail-command "mbsync -a")
+   (mu4e-update-interval 300)
    (mu4e-maildir "~/.mail")
-   (mu4e-modeline-prefix "📧 ")
+   (mu4e-modeline-prefix "")
    (mu4e-modeline-mode t)
    (mu4e-compose-format-flowed t)
-   (message-send-mail-function 'smtpmail-send-it)
-   (mu4e-maildir-shortcuts
-    '(("/Inbox" . ?i)
-      ("/[ES]/Sent Mail" . ?s)
-      ("/[ES]/Trash" . ?t)
-      ("/[ES]/Drafts" . ?d)
-      ("/[ES]/All Mail" . ?a)))))
+   (message-send-mail-function 'smtpmail-send-it)))
 #+end_src
 
 *** Project management
