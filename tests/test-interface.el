@@ -62,7 +62,7 @@
 (describe "External browser"
           (it "url-browser-function"
               (expect (princ browse-url-browser-function)
-                      :to-be 'browse-url-generic))
+                      :to-be 'browse-url-xdg-open))
           (it "url-generic-program"
               (expect (princ browse-url-generic-program)
                       :to-equal "/usr/local/sbin/browser-remote")))
