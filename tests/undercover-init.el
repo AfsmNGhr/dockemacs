@@ -1,5 +1,6 @@
-(when (require 'undercover nil t)
-  (undercover "*.el"))
+(with-eval-after-load 'magit
+  (when (require 'undercover nil t)
+    (undercover "*.el" (:send-report nil))))
 
 (message "Running tests on Emacs %s" emacs-version)
 
