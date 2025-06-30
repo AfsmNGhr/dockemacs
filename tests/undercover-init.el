@@ -1,5 +1,5 @@
 (when (require 'undercover nil t)
-  (undercover "*.el" (:send-report nil))))
+  (undercover "*.el" (:send-report nil)))
 
 (message "Running tests on Emacs %s" emacs-version)
 
